@@ -732,7 +732,7 @@ function copyOrder(){
   lines.push('');
   lines.push('🚚 การจัดส่ง: '+(shipMethod==='post'?'SPX (+40฿)':'แมสเซ็นเจอร์ (จ่ายปลายทาง)'));
   var delDays=hasPrint&&!hasSlow?2:7;
-  lines.push('📅 จัดส่งงานภายใน: '+addDaysNoSunday(delDays)+' (+'+delDays+' วันทำการ หลังโอน ไม่นับวันอาทิตย์)');
+  lines.push('📅 จัดส่งงานภายใน: '+addDaysNoSunday(delDays));
   lines.push('');
   var sc=shipMethod==='post'?40:0;
   lines.push('💰 ค่าสินค้า: '+sub.toFixed(2)+'฿');
