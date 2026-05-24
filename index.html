@@ -135,9 +135,10 @@ select{flex:1;min-width:100px;font-size:12px;padding:6px 8px;border-radius:8px;b
 <div id="tab-sset" style="display:none;">
   <div class="section">
     <div class="sec-title">Sticker Set (ราคาต่อชิ้น)</div>
-    <div class="info-box">คละขนาดและเคลือบได้ • ยอด/เซ็ต ≥ 5฿ → ถุงฟรี | < 5฿ → +2฿/เซ็ต</div>
-    <div id="bag-sel"></div>
-    <div id="sset-rows"></div>
+    <div class="info-box">⚠️ ขั้นต่ำ 10 เซ็ต/แบบ<br><span style="font-size:11px;color:#aaa;">หมายเหตุ: ถ้ายอดไม่ถึง 5 บาท/เซ็ต จะบวกค่าซอง PVC +2 บาท/เซ็ต</span></div>
+    
+    
+    <div id="sset-qty-row"></div><div id="sset-rows"></div>
     <button class="add-btn" onclick="ssetItems.push({sizeIdx:0,coat:'เคลือบใสเงา',qty:0});renderSset()">+ เพิ่มรายการ</button>
   </div>
   <div class="section">
@@ -158,7 +159,7 @@ select{flex:1;min-width:100px;font-size:12px;padding:6px 8px;border-radius:8px;b
   <div class="sec-title">การจัดส่ง</div>
   <label class="ship-opt sel" id="opt-post" onclick="selShip('post')">
     <input type="radio" name="ship" checked>
-    <div><div class="s-lbl">ไปรษณีย์ <span style="font-weight:400;color:#aaa;">+40 บาท</span></div><div class="s-desc">ค่าจัดส่ง 40 บาท รวมในยอด</div></div>
+    <div><div class="s-lbl">ขนส่ง SPX <span style="font-weight:400;color:#aaa;">+40 บาท</span></div><div class="s-desc">ค่าจัดส่ง 40 บาท รวมในยอด</div></div>
   </label>
   <label class="ship-opt" id="opt-msg" onclick="selShip('msg')">
     <input type="radio" name="ship">
@@ -280,7 +281,7 @@ var kdItems=[{coat:'เคลือบใสเงา',qty:0}];
 var dc50Items=[{sizeIdx:3,coat:'เคลือบใสเงา',sheets:0}];
 var dc100Items=[{coat:'เคลือบใสเงา',sheets:0}];
 var ssetItems=[{sizeIdx:0,coat:'เคลือบใสเงา',qty:0}];
-var ssetQty=1;
+var ssetQty=10;
 var pkgSel=PKG_ITEMS.map(function(){return {include:false};});
 var bagChoice='ซอง PVC ใส';
 var shipMethod='post';
@@ -328,6 +329,16 @@ function calcGiftTotal(g){
 }
 
 // ===== HELPERS =====
+function addDaysNoSunday(days){
+  var d=new Date();
+  var count=0;
+  while(count<days){
+    d.setDate(d.getDate()+1);
+    if(d.getDay()!==0)count++; // ไม่นับวันอาทิตย์
+  }
+  var dd=d.getDate(),mm=d.getMonth()+1,yy=d.getFullYear();
+  return dd+'/'+(mm<10?'0'+mm:mm)+'/'+yy;
+}
 function switchTab(tab){
   ['print','extra','diecut','sset','gift'].forEach(function(x){
     document.getElementById('tab-'+x).style.display=x===tab?'':'none';
@@ -382,8 +393,9 @@ function setSsetSize(i,v){ssetItems[i].sizeIdx=+v;renderSset();}
 function setSsetCoat(i,v){ssetItems[i].coat=v;renderSset();}
 function setSsetQty(i,v){ssetItems[i].qty=+v||0;renderSset();}
 function rmSset(i){ssetItems.splice(i,1);renderSset();}
-function setSsetTotalQty(v){ssetQty=+v||1;renderSset();}
+function setSsetTotalQty(v){ssetQty=Math.max(10,+v||10);renderSset();}
 function setBag(v){bagChoice=v;renderSset();}
+function setBagIdx(k){bagChoice=BAG_OPTS[k];renderSset();}
 function setPkg(i,v){pkgSel[i].include=v;renderSset();}
 function setGiftQty(gi,v){v=+v||1;giftItems[gi].setQty=v;renderGift();}
 function rmGift(gi){giftItems.splice(gi,1);renderGift();}
@@ -531,11 +543,8 @@ function renderDiecut(){
 
 // ===== RENDER SSET =====
 function renderSset(){
-  var bagEl=document.getElementById('bag-sel');
-  var bagHtml='<div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:10px;"><span style="font-size:12px;color:#666;font-weight:600;">Free Bag:</span>';
-  for(var k=0;k<BAG_OPTS.length;k++)bagHtml+='<label class="bag-lbl'+(bagChoice===BAG_OPTS[k]?' sel':'')+'" onclick="setBag(\''+BAG_OPTS[k]+'\')"><input type="radio" name="bag" '+(bagChoice===BAG_OPTS[k]?'checked':'')+' style="margin-right:2px;">'+BAG_OPTS[k]+'</label>';
-  bagHtml+='</div><div class="qty-row" style="margin-bottom:12px;padding:9px 12px;background:#f8f8f8;border-radius:10px;border:1px solid #e8e8e8;"><span class="qty-lbl" style="font-size:13px;font-weight:600;color:#666;">Number of Sets</span><input class="qty-inp" type="number" min="1" max="999" value="'+ssetQty+'" onchange="setSsetTotalQty(this.value)"><span class="qty-lbl">sets</span></div>';
-  bagEl.innerHTML=bagHtml;
+  var qr=document.getElementById('sset-qty-row');
+  if(qr)qr.innerHTML='<div class="qty-row" style="margin-bottom:12px;padding:9px 12px;background:#f8f8f8;border-radius:10px;border:1px solid #e8e8e8;"><span class="qty-lbl" style="font-size:13px;font-weight:600;color:#666;">Number of Sets</span><input class="qty-inp" type="number" min="1" max="999" value="'+ssetQty+'" min="10" onchange="setSsetTotalQty(this.value)"><span class="qty-lbl">sets</span></div>';
   var c=document.getElementById('sset-rows');c.innerHTML='';
   for(var i=0;i<ssetItems.length;i++){
     var s=ssetItems[i],sz=SSET[s.sizeIdx];
@@ -553,11 +562,30 @@ function renderSset(){
     var cOpts='<option value="เคลือบใสเงา"'+(s.coat==='เคลือบใสเงา'?' selected':'')+'>เคลือบใสเงา ('+sz.clear+' ฿/ชิ้น)</option>';
     for(var k=0;k<SPECIAL.length;k++)cOpts+='<option value="'+SPECIAL[k]+'"'+(s.coat===SPECIAL[k]?' selected':'')+'>'+SPECIAL[k]+' ('+sz.special+' ฿/ชิ้น)</option>';
     var row=document.createElement('div');row.className='item-row';
-    row.innerHTML='<span class="i-num">'+(i+1)+'</span><div class="i-inner"><div style="display:flex;justify-content:space-between;"><div class="i-name">ขนาด STICKER '+(i+1)+'</div>'+(ssetItems.length>1?'<button class="rm-btn" onclick="rmSset('+i+')">ลบ</button>':'')+'</div><div class="sel-row"><select onchange="setSsetSize('+i+',this.value)">'+sOpts+'</select><select onchange="setSsetCoat('+i+',this.value)">'+cOpts+'</select></div><div class="qty-row"><span class="qty-lbl">Qty/set</span><input class="qty-inp" type="number" min="0" max="9999" value="'+s.qty+'" onchange="setSsetQty('+i+',this.value)"><span class="qty-lbl">ชิ้น</span></div><div style="font-size:11px;margin-top:4px;color:#aaa;">'+(hasFree?'':'⚠️ ยอด/เซ็ต < 5฿ → +2฿/เซ็ต')+'</div><div style="font-size:11px;color:#aaa;">Total '+ssetQty+' sets = '+total.toFixed(2)+'฿'+(hasFree?'':' (+'+2*ssetQty+'฿ ค่าถุง)')+'</div></div><span class="p-badge'+(total>0?' on':'')+'">'+( total>0?total.toFixed(2)+' ฿':'-')+'</span>';
+    row.innerHTML='<span class="i-num">'+(i+1)+'</span><div class="i-inner"><div style="display:flex;justify-content:space-between;"><div class="i-name">ขนาด STICKER '+(i+1)+'</div>'+(ssetItems.length>1?'<button class="rm-btn" onclick="rmSset('+i+')">ลบ</button>':'')+'</div><div class="sel-row"><select onchange="setSsetSize('+i+',this.value)">'+sOpts+'</select><select onchange="setSsetCoat('+i+',this.value)">'+cOpts+'</select></div><div class="qty-row"><span class="qty-lbl">Qty/set</span><input class="qty-inp" type="number" min="0" max="9999" value="'+s.qty+'" onchange="setSsetQty('+i+',this.value)"><span class="qty-lbl">ชิ้น</span></di</div><span class="p-badge'+(total>0?' on':'')+'">'+( total>0?total.toFixed(2)+' ฿':'-')+'</span>';
     c.appendChild(row);
   }
   var pc=document.getElementById('pkg-rows');
   pc.innerHTML='<div class="info-box" style="margin-bottom:10px;">คิดราคาตามจำนวนเซ็ต ('+ssetQty+' sets)</div>';
+    // Free Bag
+  var bagDiv=document.createElement('div');bagDiv.className='item-row';
+  var bagInner=document.createElement('div');bagInner.className='i-inner';
+  var bagTitle=document.createElement('div');bagTitle.className='i-name';bagTitle.textContent='เลือกประเภทถุง';
+  var bagChoiceRow=document.createElement('div');bagChoiceRow.style.cssText='display:flex;gap:6px;flex-wrap:wrap;margin-top:4px;';
+  bagInner.appendChild(bagTitle);
+  bagInner.appendChild(bagChoiceRow);
+  bagDiv.appendChild(bagInner);
+  pc.appendChild(bagDiv);
+  BAG_OPTS.forEach(function(opt,k){
+    var lbl=document.createElement('label');
+    lbl.className='bag-lbl'+(bagChoice===opt?' sel':'');
+    lbl.style.cursor='pointer';
+    var inp=document.createElement('input');inp.type='radio';inp.name='bag';inp.checked=(bagChoice===opt);inp.style.marginRight='2px';
+    inp.addEventListener('change',function(){setBagIdx(k);});
+    lbl.appendChild(inp);lbl.appendChild(document.createTextNode(opt));
+    lbl.addEventListener('click',function(){setBagIdx(k);});
+    bagChoiceRow.appendChild(lbl);
+  });
   for(var i=0;i<PKG_ITEMS.length;i++){
     var item=PKG_ITEMS[i],p=item.price*ssetQty;
     var row=document.createElement('div');row.className='item-row';
@@ -669,9 +697,9 @@ function recalc(){
   document.getElementById('total-disp').textContent=(sub+sc).toFixed(2)+' บาท';
   var dTxt,dSub;
   if(!hasPrint&&!hasSlow){dTxt='กรุณาเลือกสินค้าก่อน';dSub='ระยะเวลาจะแสดงหลังเลือกรายการ';}
-  else if(hasPrint&&!hasSlow){dTxt='รอบจัดส่ง: 2 วัน หลังโอน';dSub='งานพิมพ์รูปและพวงกุญแจรูป';}
-  else if(!hasPrint&&hasSlow){dTxt='รอบจัดส่ง: 7 วัน หลังโอน';dSub='งานสต๊กเกอร์ การ์ด เมโม พวงกุญแจ Die-cut';}
-  else{dTxt='รอบจัดส่ง: 7 วัน หลังโอน';dSub='มีงานที่ใช้เวลา 7 วันรวมอยู่ด้วย';}
+  else if(hasPrint&&!hasSlow){dTxt='📅 จัดส่งงานภายใน: '+addDaysNoSunday(2);dSub='';}
+  else if(!hasPrint&&hasSlow){dTxt='📅 จัดส่งงานภายใน: '+addDaysNoSunday(7);dSub='';}
+  else{dTxt='📅 จัดส่งงานภายใน: '+addDaysNoSunday(7);dSub='';}
   document.getElementById('del-txt').textContent=dTxt;
   document.getElementById('del-sub').textContent=dSub;
 }
@@ -702,13 +730,20 @@ function copyOrder(){
   if(ssetL.length||pkgL.length){lines.push('');lines.push('🏷 Sticker Set');ssetL.concat(pkgL).forEach(function(l){lines.push(l);});}
   if(giftL.length){lines.push('');lines.push('🎁 กิ๊ฟอะเวย์');giftL.forEach(function(l){lines.push(l);});}
   lines.push('');
-  lines.push('🚚 การจัดส่ง: '+(shipMethod==='post'?'ไปรษณีย์ (+40฿)':'แมสเซ็นเจอร์ (จ่ายปลายทาง)'));
-  lines.push('🗓 รอบจัดส่ง: '+(hasPrint&&!hasSlow?'2 วัน หลังโอน':'7 วัน หลังโอน'));
+  lines.push('🚚 การจัดส่ง: '+(shipMethod==='post'?'SPX (+40฿)':'แมสเซ็นเจอร์ (จ่ายปลายทาง)'));
+  var delDays=hasPrint&&!hasSlow?2:7;
+  lines.push('📅 จัดส่งงานภายใน: '+addDaysNoSunday(delDays)+' (+'+delDays+' วันทำการ หลังโอน ไม่นับวันอาทิตย์)');
   lines.push('');
   var sc=shipMethod==='post'?40:0;
   lines.push('💰 ค่าสินค้า: '+sub.toFixed(2)+'฿');
   lines.push(shipMethod==='post'?'🚚 ค่าจัดส่ง: 40.00฿':'🚚 ค่าจัดส่ง: จ่ายปลายทาง');
   lines.push('✅ รวมทั้งหมด: '+(sub+sc).toFixed(2)+'฿');
+  lines.push('');
+  lines.push('━━━━━━━━━━');
+  lines.push('📌 หลังโอนเงิน รบกวนแจ้งสลิปพร้อมชื่อผู้สั่งซื้อทุกครั้งนะคะ');
+  lines.push('📂 คุณลูกค้าสามารถส่งรูปหรือไฟล์งานเข้ามาได้เลยค่ะ โดยกดที่ "วิธีการส่งรูป / ไฟล์สติ๊กเกอร์" ใน RICH MENU ด้านล่าง 👇🏻');
+  lines.push('');
+  lines.push('⚠ กรุณาตรวจสอบจำนวน, ขนาด และรายละเอียดงานก่อนยืนยันออเดอร์นะคะ');
   navigator.clipboard.writeText(lines.join('\n')).then(function(){
     var msg=document.getElementById('copy-msg');
     msg.textContent='✅ คัดลอกแล้ว! วางใน LINE ได้เลย';
