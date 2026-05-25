@@ -1382,7 +1382,6 @@ function copyOrder(){
   lines.push('');
 
   var delDays=hasPrint&&!hasSlow?2:7;
-  lines.push('📅 จัดส่งงานภายใน: '+addDaysNoSunday(delDays));
   lines.push('');
   var sc=shipMethod==='post'?(sub>=500?0:40):0;
   lines.push('💰 ค่าสินค้า: '+sub.toFixed(2)+'฿');
@@ -1395,7 +1394,9 @@ function copyOrder(){
   lines.push('📌 หลังโอนเงิน รบกวนแจ้งสลิป/ชื่อ/เบอร์โทร/ที่อยู่จัดส่ง/ซื้อทุกครั้งนะคะ');
   lines.push('📂 คุณลูกค้าสามารถส่งรูปหรือไฟล์งานเข้ามาได้เลยค่ะ โดยกดที่ "วิธีการส่งรูป / ไฟล์สติ๊กเกอร์" ใน RICH MENU ด้านล่าง 👇🏻');
   lines.push('');
-  lines.push('⚠ กรุณาตรวจสอบจํานวน, ขนาด และรายละเอียดงานก่อนยืนยันออเดอร์นะคะ');
+  var delDate=addDaysNoSunday(hasPrint&&!hasSlow?2:7);
+  lines.push('📅 รอบจัดส่งของคุณคือ : '+delDate);
+  lines.push('⚠️ กรุณาตรวจสอบจำนวน, ขนาด และรายละเอียดงานก่อนยืนยันออเดอร์นะคะ');
   navigator.clipboard.writeText(lines.join('\n')).then(function(){
     var msg=document.getElementById('copy-msg');
     msg.textContent='✅ คัดลอกแล้ว! วางใน LINE ได้เลย';
