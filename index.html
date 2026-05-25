@@ -1065,13 +1065,15 @@ function renderSset(){
 
     // สรุปเซ็ต
     var setTotal=0;
+    var setPerTotal=0;
     set.items.forEach(function(s){
       var sz=SSET[s.sizeIdx];
       var u=s.coat==='เคลือบใสเงา'?sz.clear:sz.special;
-      var per=u*s.qty;
-      setTotal+=per*set.setQty;
-      if(per>0&&per<5)setTotal+=2*set.setQty;
+      setPerTotal+=u*s.qty;
+      setTotal+=u*s.qty*set.setQty;
     });
+    if(setPerTotal>0&&setPerTotal<5&&!set.bagSelected)setTotal+=2*set.setQty;
+    PKG_ITEMS.forEach(function(item,idx){if(set.pkg&&set.pkg[idx])setTotal+=item.price*set.setQty;});
     var sumRow=document.createElement('div');
     sumRow.style.cssText='display:flex;justify-content:space-between;margin-top:10px;padding-top:8px;border-top:1px solid #e8e8e8;font-size:13px;';
     var sumLbl=document.createElement('span');sumLbl.style.color='#888';sumLbl.textContent='รวมเซ็ตที่ '+(si+1);
@@ -1300,12 +1302,17 @@ function renderSummary(){
   });
   // PKG
   ssetSets.forEach(function(set,si){
+    if(!set.pkg)return;
     PKG_ITEMS.forEach(function(item2,idx2){
-      if(!set.pkg||!set.pkg[idx2])return;
+      if(!set.pkg[idx2])return;
       var p=item2.price*set.setQty;
-      items.push({name:item2.label+' เซ็ตที่'+(si+1),detail:'× '+set.setQty+' เซ็ต',price:p});
+      items.push({name:item2.label+' (เซ็ตที่'+(si+1)+')',detail:'× '+set.setQty+' เซ็ต',price:p});
       sub+=p;
     });
+    // ถุง
+    if(set.bagSelected){
+      items.push({name:'ถุง: '+set.bagChoice+' (เซ็ตที่'+(si+1)+')',detail:'× '+set.setQty+' เซ็ต',price:0});
+    }
   });
   // Gift
   for(var gi=0;gi<giftItems.length;gi++){var res=calcGiftTotal(giftItems[gi]);if(res.t<=0){continue;}var gNames=[];(giftItems[gi].prints||[]).forEach(function(p){if(p.printQty>0&&GIFT_PRINT_ITEMS[p.printIdx])gNames.push(GIFT_PRINT_ITEMS[p.printIdx].label+' x'+p.printQty);});items.push({name:'กิ๊ฟอะเวย์ เซ็ตที่'+(gi+1),detail:(gNames.length?gNames.join(', ')+' ':'')+' × '+giftItems[gi].setQty+' เซ็ต',price:res.t*giftItems[gi].setQty});sub+=res.t*giftItems[gi].setQty;}
