@@ -185,7 +185,7 @@ select{flex:1;min-width:100px;font-size:12px;padding:6px 8px;border-radius:8px;b
     
     
     <div id="sset-rows"></div>
-    <button class="add-btn" onclick="addSset()" style="background:#1a1a1a;color:#fff;border-color:#1a1a1a;font-weight:600;">+ เพิ่มเซ็ต</button>
+    <button class="add-btn" type="button" onclick="addSset()" style="background:#1a1a1a;color:#fff;border-color:#1a1a1a;font-weight:600;">+ เพิ่มเซ็ต</button>
   </div>
   <div class="section">
     <div class="sec-title">Packaging Add-ons</div>
@@ -494,20 +494,40 @@ function rmDc50(i){dc50Items.splice(i,1);renderDiecut();}
 function setDc100Coat(i,v){dc100Items[i].coat=v;renderDiecut();}
 function setDc100Sheets(i,v){dc100Items[i].sheets=+v;renderDiecut();}
 function rmDc100(i){dc100Items.splice(i,1);renderDiecut();}
-function setSsetSize(si,i,v){ssetSets[si].items[i].sizeIdx=+v;renderSset();}
-function setSsetCoat(si,i,v){ssetSets[si].items[i].coat=v;renderSset();}
-function setSsetQty(si,i,v){ssetSets[si].items[i].qty=+v||0;renderSset();}
-function rmSsetItem(si,i){ssetSets[si].items.splice(i,1);renderSset();}
-function rmSset(si){ssetSets.splice(si,1);renderSset();}
-function setSsetSetQty(si,v){ssetSets[si].setQty=Math.max(10,+v||10);renderSset();}
+function setSsetSize(si,i,v){ssetSets[si].items[i].sizeIdx=+v;var sy=window.scrollY;renderSset();window.scrollTo(0,sy);}
+function setSsetCoat(si,i,v){ssetSets[si].items[i].coat=v;var sy=window.scrollY;renderSset();window.scrollTo(0,sy);}
+function setSsetQty(si,i,v){ssetSets[si].items[i].qty=+v||0;var sy=window.scrollY;renderSset();window.scrollTo(0,sy);}
+function rmSsetItem(si,i){
+  var scrollY=window.scrollY;
+  ssetSets[si].items.splice(i,1);
+  renderSset();
+  window.scrollTo(0,scrollY);
+}
+function rmSset(si){
+  var scrollY=window.scrollY;
+  ssetSets.splice(si,1);
+  renderSset();
+  window.scrollTo(0,scrollY);
+}
+function setSsetSetQty(si,v){ssetSets[si].setQty=Math.max(10,+v||10);var sy=window.scrollY;renderSset();window.scrollTo(0,sy);}
 function setBag(v){bagChoice=v;renderSset();}
 function setBagIdx(k){
   if(bagSelected&&bagChoice===BAG_OPTS[k]){bagSelected=false;}
   else{bagChoice=BAG_OPTS[k];bagSelected=true;}
   renderSset();
 }
-function addSset(){ssetSets.push({setQty:10,items:[{sizeIdx:0,coat:'เคลือบใสเงา',qty:0}]});renderSset();}
-function addSsetItem(si){ssetSets[si].items.push({sizeIdx:0,coat:'เคลือบใสเงา',qty:0});renderSset();}
+function addSset(){
+  var scrollY=window.scrollY;
+  ssetSets.push({setQty:10,items:[{sizeIdx:0,coat:'เคลือบใสเงา',qty:0}]});
+  renderSset();
+  window.scrollTo(0,scrollY);
+}
+function addSsetItem(si){
+  var scrollY=window.scrollY;
+  ssetSets[si].items.push({sizeIdx:0,coat:'เคลือบใสเงา',qty:0});
+  renderSset();
+  window.scrollTo(0,scrollY);
+}
 function setPkg(i,v){pkgSel[i].include=v;renderSset();}
 function setGiftQty(gi,v){v=+v||1;giftItems[gi].setQty=v;renderGift();}
 function rmGift(gi){giftItems.splice(gi,1);renderGift();}
@@ -705,65 +725,119 @@ function renderDiecut(){
 
 // ===== RENDER SSET =====
 function renderSset(){
-  // bag-sel removed
-
-  var c=document.getElementById('sset-rows');c.innerHTML='';
+  var scrollY=window.scrollY;
+  var wrap=document.getElementById('sset-rows');
+  if(!wrap)return;
+  wrap.innerHTML='';
 
   ssetSets.forEach(function(set,si){
-    var setDiv=document.createElement('div');
-    setDiv.className='inner-box';
-    setDiv.style.marginBottom='12px';
+    var box=document.createElement('div');
+    box.className='inner-box';
+    box.style.marginBottom='12px';
 
     // header
-    var header='<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">'
-      +'<div class="i-name">เซ็ตที่ '+(si+1)+'</div>'
-      +(ssetSets.length>1?'<button class="rm-btn" onclick="rmSset('+si+')">ลบเซ็ต</button>':'')
-      +'</div>';
+    var topRow=document.createElement('div');
+    topRow.style.cssText='display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;';
+    var titleEl=document.createElement('div');
+    titleEl.className='i-name';
+    titleEl.textContent='เซ็ตที่ '+(si+1);
+    topRow.appendChild(titleEl);
+    if(ssetSets.length>1){
+      var rmBtn=document.createElement('button');
+      rmBtn.type='button';rmBtn.className='rm-btn';rmBtn.textContent='ลบเซ็ต';
+      (function(idx){rmBtn.addEventListener('click',function(){rmSset(idx);});})(si);
+      topRow.appendChild(rmBtn);
+    }
+    box.appendChild(topRow);
 
-    // setQty
-    header+='<div class="qty-row" style="margin-bottom:10px;padding:8px;background:#fff;border-radius:8px;border:1px solid #e8e8e8;">'
-      +'<span class="qty-lbl" style="font-weight:600;color:#666;">จำนวนเซ็ต</span>'
-      +'<input class="qty-inp" type="number" min="10" max="999" value="'+set.setQty+'" onchange="setSsetSetQty('+si+',this.value)">'
-      +'<span class="qty-lbl">เซ็ต (ขั้นต่ำ 10)</span>'
-      +'</div>';
+    // จำนวนเซ็ต
+    var qtyRow=document.createElement('div');
+    qtyRow.style.cssText='display:flex;align-items:center;gap:8px;margin-bottom:10px;padding:8px;background:#fff;border-radius:8px;border:1px solid #e8e8e8;';
+    var qtyLbl=document.createElement('span');qtyLbl.className='qty-lbl';qtyLbl.style.fontWeight='600';qtyLbl.style.color='#666';qtyLbl.textContent='จำนวนเซ็ต';
+    var qtyInp=document.createElement('input');qtyInp.type='number';qtyInp.className='qty-inp';qtyInp.min='10';qtyInp.max='999';qtyInp.value=set.setQty;
+    (function(idx){qtyInp.addEventListener('change',function(){setSsetSetQty(idx,this.value);});})(si);
+    var qtyUnit=document.createElement('span');qtyUnit.className='qty-lbl';qtyUnit.textContent='เซ็ต (ขั้นต่ำ 10)';
+    qtyRow.appendChild(qtyLbl);qtyRow.appendChild(qtyInp);qtyRow.appendChild(qtyUnit);
+    box.appendChild(qtyRow);
 
-    // items
+    // sticker items
     set.items.forEach(function(s,i){
       var sz=SSET[s.sizeIdx];
+      var unitP=s.coat==='เคลือบใสเงา'?sz.clear:sz.special;
+      var total=unitP*s.qty*set.setQty;
+
       // filter used sizes
       var usedSizes=[];
       for(var j=0;j<set.items.length;j++){if(j!==i)usedSizes.push(set.items[j].sizeIdx);}
-      var sOpts='';
-      for(var k=0;k<SSET.length;k++){
-        if(usedSizes.indexOf(k)>=0&&s.sizeIdx!==k)return;
-        sOpts+='<option value="'+k+'"'+(s.sizeIdx===k?' selected':'')+'>'+SSET[k].size+'</option>';
-      }
-      var unitP=s.coat==='เคลือบใสเงา'?sz.clear:sz.special;
-      var total=unitP*s.qty*set.setQty;
-      var hasFree=(unitP*s.qty)>=5;
-      var cOpts='<option value="เคลือบใสเงา"'+(s.coat==='เคลือบใสเงา'?' selected':'')+'>เคลือบใสเงา ('+sz.clear+' ฿/ชิ้น)</option>';
-      for(var k=0;k<SPECIAL.length;k++)cOpts+='<option value="'+SPECIAL[k]+'"'+(s.coat===SPECIAL[k]?' selected':'')+'>'+SPECIAL[k]+' ('+sz.special+' ฿/ชิ้น)</option>';
 
-      header+='<div class="item-row"><span class="i-num">'+(i+1)+'</span>'
-        +'<div class="i-inner">'
-        +'<div style="display:flex;justify-content:space-between;">'
-        +'<div class="i-name">ขนาด STICKER '+(i+1)+'</div>'
-        +(set.items.length>1?'<button class="rm-btn" onclick="rmSsetItem('+si+','+i+')">ลบ</button>':'')
-        +'</div>'
-        +'<div class="sel-row">'
-        +'<select onchange="setSsetSize('+si+','+i+',this.value)">'+sOpts+'</select>'
-        +'<select onchange="setSsetCoat('+si+','+i+',this.value)">'+cOpts+'</select>'
-        +'</div>'
-        +'<div class="qty-row"><span class="qty-lbl">Qty/set</span>'
-        +'<input class="qty-inp" type="number" min="0" max="9999" value="'+s.qty+'" onchange="setSsetQty('+si+','+i+',this.value)">'
-        +'<span class="qty-lbl">ชิ้น</span></div>'
-        +'</div>'
-        +'<span class="p-badge'+(total>0?' on':'')+'">'+( total>0?total.toFixed(2)+' ฿':'-')+'</span>'
-        +'</div>';
+      var itemRow=document.createElement('div');
+      itemRow.className='item-row';
+
+      var numEl=document.createElement('span');numEl.className='i-num';numEl.textContent=i+1;
+
+      var inner=document.createElement('div');inner.className='i-inner';
+
+      var nameRow=document.createElement('div');
+      nameRow.style.cssText='display:flex;justify-content:space-between;';
+      var nameEl=document.createElement('div');nameEl.className='i-name';nameEl.textContent='ขนาด STICKER '+(i+1);
+      nameRow.appendChild(nameEl);
+      if(set.items.length>1){
+        var rmItemBtn=document.createElement('button');
+        rmItemBtn.type='button';rmItemBtn.className='rm-btn';rmItemBtn.textContent='ลบ';
+        (function(si2,ii){rmItemBtn.addEventListener('click',function(){rmSsetItem(si2,ii);});})(si,i);
+        nameRow.appendChild(rmItemBtn);
+      }
+      inner.appendChild(nameRow);
+
+      // select size
+      var selRow=document.createElement('div');selRow.className='sel-row';
+      var sizeSelect=document.createElement('select');
+      SSET.forEach(function(z,k){
+        if(usedSizes.indexOf(k)>=0&&s.sizeIdx!==k)return;
+        var opt=document.createElement('option');
+        opt.value=k;opt.textContent=z.size;if(s.sizeIdx===k)opt.selected=true;
+        sizeSelect.appendChild(opt);
+      });
+      (function(si2,ii){sizeSelect.addEventListener('change',function(){setSsetSize(si2,ii,this.value);});})(si,i);
+
+      var coatSelect=document.createElement('select');
+      var opt0=document.createElement('option');
+      opt0.value='เคลือบใสเงา';opt0.textContent='เคลือบใสเงา ('+sz.clear+' ฿/ชิ้น)';
+      if(s.coat==='เคลือบใสเงา')opt0.selected=true;
+      coatSelect.appendChild(opt0);
+      SPECIAL.forEach(function(cn){
+        var opt=document.createElement('option');
+        opt.value=cn;opt.textContent=cn+' ('+sz.special+' ฿/ชิ้น)';
+        if(s.coat===cn)opt.selected=true;
+        coatSelect.appendChild(opt);
+      });
+      (function(si2,ii){coatSelect.addEventListener('change',function(){setSsetCoat(si2,ii,this.value);});})(si,i);
+
+      selRow.appendChild(sizeSelect);selRow.appendChild(coatSelect);
+      inner.appendChild(selRow);
+
+      // qty
+      var qRow=document.createElement('div');qRow.className='qty-row';
+      var ql=document.createElement('span');ql.className='qty-lbl';ql.textContent='Qty/set';
+      var qi=document.createElement('input');qi.type='number';qi.className='qty-inp';qi.min='0';qi.max='9999';qi.value=s.qty;
+      (function(si2,ii){qi.addEventListener('change',function(){setSsetQty(si2,ii,this.value);});})(si,i);
+      var qu=document.createElement('span');qu.className='qty-lbl';qu.textContent='ชิ้น';
+      qRow.appendChild(ql);qRow.appendChild(qi);qRow.appendChild(qu);
+      inner.appendChild(qRow);
+
+      var badge=document.createElement('span');
+      badge.className='p-badge'+(total>0?' on':'');
+      badge.textContent=total>0?total.toFixed(2)+' ฿':'-';
+
+      itemRow.appendChild(numEl);itemRow.appendChild(inner);itemRow.appendChild(badge);
+      box.appendChild(itemRow);
     });
 
-    // เพิ่ม sticker ในเซ็ต
-    header+='<button class="add-btn" onclick="addSsetItem('+si+')">+ เพิ่ม Sticker ในเซ็ต</button>';
+    // ปุ่มเพิ่ม sticker
+    var addItemBtn=document.createElement('button');
+    addItemBtn.type='button';addItemBtn.className='add-btn';addItemBtn.textContent='+ เพิ่ม Sticker ในเซ็ต';
+    (function(idx){addItemBtn.addEventListener('click',function(){addSsetItem(idx);});})(si);
+    box.appendChild(addItemBtn);
 
     // สรุปเซ็ต
     var setTotal=0;
@@ -774,50 +848,53 @@ function renderSset(){
       setTotal+=per*set.setQty;
       if(per>0&&per<5)setTotal+=2*set.setQty;
     });
-    header+='<div style="display:flex;justify-content:space-between;margin-top:10px;padding-top:8px;border-top:1px solid #e8e8e8;font-size:13px;">'
-      +'<span style="color:#888;">รวมเซ็ตที่ '+(si+1)+'</span>'
-      +'<span style="font-weight:700;">'+setTotal.toFixed(2)+' ฿</span>'
-      +'</div>';
+    var sumRow=document.createElement('div');
+    sumRow.style.cssText='display:flex;justify-content:space-between;margin-top:10px;padding-top:8px;border-top:1px solid #e8e8e8;font-size:13px;';
+    var sumLbl=document.createElement('span');sumLbl.style.color='#888';sumLbl.textContent='รวมเซ็ตที่ '+(si+1);
+    var sumAmt=document.createElement('span');sumAmt.style.fontWeight='700';sumAmt.textContent=setTotal.toFixed(2)+' ฿';
+    sumRow.appendChild(sumLbl);sumRow.appendChild(sumAmt);
+    box.appendChild(sumRow);
 
-    setDiv.innerHTML=header;
-    c.appendChild(setDiv);
+    wrap.appendChild(box);
   });
 
-  // pkg
-  var _allPer=0;
-  var _totalSets=0;
-  ssetSets.forEach(function(set){_totalSets+=set.setQty;set.items.forEach(function(s){var sz=SSET[s.sizeIdx];_allPer+=(s.coat==='เคลือบใสเงา'?sz.clear:sz.special)*s.qty;});});
-
+  // pkg section
   var pc=document.getElementById('pkg-rows');
+  if(!pc){recalc();return;}
+
+  var _ssetPer=0;
+  var _totalSets=0;
+  ssetSets.forEach(function(set){
+    _totalSets+=set.setQty;
+    set.items.forEach(function(s){
+      if(s.qty<=0)return;
+      var sz=SSET[s.sizeIdx];
+      _ssetPer+=(s.coat==='เคลือบใสเงา'?sz.clear:sz.special)*s.qty;
+    });
+  });
+
+  pc.innerHTML='<div class="info-box" style="margin-bottom:10px;">คิดราคาตามจำนวนเซ็ต</div>';
+
   // Free Bag
   var bagDiv=document.createElement('div');bagDiv.className='item-row';
   var bagInner=document.createElement('div');bagInner.className='i-inner';
   var bagTitle=document.createElement('div');bagTitle.className='i-name';bagTitle.textContent='เลือกประเภทถุง';
   var bagNote=document.createElement('div');bagNote.className='i-sub';bagNote.id='bag-note';
+  if(_ssetPer>0&&_ssetPer<5)bagNote.innerHTML='<span style="color:#e65100;font-weight:600;">ยอด/เซ็ต < 5฿ → +2฿/เซ็ต</span>';
+  else if(_ssetPer>=5)bagNote.textContent='ยอด/เซ็ต ≥ 5฿ → ฟรี!';
   var bagChoiceRow=document.createElement('div');bagChoiceRow.style.cssText='display:flex;gap:6px;flex-wrap:wrap;margin-top:4px;';
   bagInner.appendChild(bagTitle);bagInner.appendChild(bagNote);bagInner.appendChild(bagChoiceRow);
   bagDiv.appendChild(bagInner);
-  pc.innerHTML='<div class="info-box" style="margin-bottom:10px;">คิดราคาตามจำนวนเซ็ต</div>';
   pc.appendChild(bagDiv);
-
-  var noteEl=document.getElementById('bag-note');
-  if(noteEl){
-    var _ssetPer=0;
-    ssetSets.forEach(function(set){set.items.forEach(function(s){var sz=SSET[s.sizeIdx];_ssetPer+=(s.coat==='เคลือบใสเงา'?sz.clear:sz.special)*s.qty;});});
-    if(_ssetPer>0&&_ssetPer<5) noteEl.innerHTML='<span style="color:#e65100;font-weight:600;">ยอด/เซ็ต < 5฿ → +2฿/เซ็ต</span>';
-    else if(_ssetPer>=5) noteEl.textContent='ยอด/เซ็ต ≥ 5฿ → ฟรี!';
-    else noteEl.textContent='';
-  }
 
   BAG_OPTS.forEach(function(opt,k){
     var lbl=document.createElement('label');
     lbl.className='bag-lbl'+(bagSelected&&bagChoice===opt?' sel':'');
     lbl.style.cursor='pointer';
     var inp=document.createElement('input');inp.type='checkbox';inp.checked=(bagSelected&&bagChoice===opt);inp.style.marginRight='2px';
-    inp.addEventListener('change',function(){setBagIdx(k);});
-    var _sp=0;ssetSets.forEach(function(set){set.items.forEach(function(s){var sz=SSET[s.sizeIdx];_sp+=(s.coat==='เคลือบใสเงา'?sz.clear:sz.special)*s.qty;});});
+    (function(ki){inp.addEventListener('change',function(){setBagIdx(ki);});})(k);
     var txt=opt;
-    if(k===0&&_sp>0&&_sp<5) txt=opt+' (+2฿/เซ็ต)';
+    if(k===0&&_ssetPer>0&&_ssetPer<5)txt=opt+' (+2฿/เซ็ต)';
     lbl.appendChild(inp);lbl.appendChild(document.createTextNode(txt));
     bagChoiceRow.appendChild(lbl);
   });
@@ -825,23 +902,27 @@ function renderSset(){
   PKG_ITEMS.forEach(function(item,idx){
     var p=item.price*_totalSets;
     var row=document.createElement('div');row.className='item-row';
-    row.innerHTML='<div class="i-inner"><label style="display:flex;align-items:center;gap:8px;cursor:pointer;">'
-      +'<input type="checkbox" '+(pkgSel[idx].include?'checked':'')+' onchange="pkgSel['+idx+'].include=this.checked;renderSset()">'
-      +'<div><div class="i-name">'+item.label+'</div>'
-      +'<div class="i-sub">'+item.price+' ฿/เซ็ต</div></div>'
-      +'</label></div>'
-      +'<span class="p-badge'+(pkgSel[idx].include?' on':'')+'">'+( pkgSel[idx].include?p.toFixed(2)+' ฿':'-')+'</span>';
+    var inner=document.createElement('div');inner.className='i-inner';
+    var lbl=document.createElement('label');lbl.style.cssText='display:flex;align-items:center;gap:8px;cursor:pointer;';
+    var chk=document.createElement('input');chk.type='checkbox';chk.checked=pkgSel[idx].include;
+    (function(ii){chk.addEventListener('change',function(){pkgSel[ii].include=this.checked;renderSset();});})(idx);
+    var lblDiv=document.createElement('div');
+    var n=document.createElement('div');n.className='i-name';n.textContent=item.label;
+    var s=document.createElement('div');s.className='i-sub';s.textContent=item.price+' ฿/เซ็ต';
+    lblDiv.appendChild(n);lblDiv.appendChild(s);
+    lbl.appendChild(chk);lbl.appendChild(lblDiv);
+    inner.appendChild(lbl);
+    var badge=document.createElement('span');badge.className='p-badge'+(pkgSel[idx].include?' on':'');
+    badge.textContent=pkgSel[idx].include?p.toFixed(2)+' ฿':'-';
+    row.appendChild(inner);row.appendChild(badge);
     pc.appendChild(row);
   });
 
-  // ลบ summary bar เก่า
-  var oldBar=document.getElementById('sset-summary-bar');
-  if(oldBar)oldBar.innerHTML='';
-
   recalc();
+  window.scrollTo(0,scrollY);
 }
 
-// ===== RENDER GIFT =====
+
 function renderGift(){
   var c=document.getElementById('gift-rows');c.innerHTML='';
   for(var gi=0;gi<giftItems.length;gi++){
