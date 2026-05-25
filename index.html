@@ -238,6 +238,8 @@ var ID_ITEMS=[
 ];
 
 var STD_ITEMS=[
+  {label:'มินิโฟโต้บูธ (ใส่หลังเคสได้)',base:2,coat:1},
+  {label:'ไอดี 4 ช่อง',base:3,coat:3,proQty:40,proPrice:100},
   {label:'รูปอัด 2x2 นิ้ว',base:1.5,coat:3.5,twoSide:3,twoSideCoat:5.5,hasFrame:true,proQty:60,proPrice:80},
   {label:'รูปอัด 2x3 นิ้ว',base:2,coat:3,twoSide:4,twoSideCoat:8,hasFrame:true,proQty:60,proPrice:100},
   {label:'รูปอัด 2x4 นิ้ว',base:2,coat:5,twoSide:4,twoSideCoat:7},
@@ -712,21 +714,41 @@ function renderSset(){
   var pc=document.getElementById('pkg-rows');
   pc.innerHTML='<div class="info-box" style="margin-bottom:10px;">คิดราคาตามจำนวนเซ็ต ('+ssetQty+' sets)</div>';
     // Free Bag
+  // คำนวณ ssetPer เพื่อแสดงราคา
+  var _ssetPer=0;
+  for(var _k=0;_k<ssetItems.length;_k++){
+    if(ssetItems[_k].qty<=0)continue;
+    var _sz=SSET[ssetItems[_k].sizeIdx];
+    _ssetPer+=(ssetItems[_k].coat==='เคลือบใสเงา'?_sz.clear:_sz.special)*ssetItems[_k].qty;
+  }
   var bagDiv=document.createElement('div');bagDiv.className='item-row';
   var bagInner=document.createElement('div');bagInner.className='i-inner';
   var bagTitle=document.createElement('div');bagTitle.className='i-name';bagTitle.textContent='เลือกประเภทถุง';
   var bagChoiceRow=document.createElement('div');bagChoiceRow.style.cssText='display:flex;gap:6px;flex-wrap:wrap;margin-top:4px;';
+  var bagNote=document.createElement('div');
+  bagNote.className='i-sub';
+  bagNote.id='bag-note';
   bagInner.appendChild(bagTitle);
+  bagInner.appendChild(bagNote);
   bagInner.appendChild(bagChoiceRow);
   bagDiv.appendChild(bagInner);
   pc.appendChild(bagDiv);
+  // แสดง note ราคา
+  var noteEl=document.getElementById('bag-note');
+  if(noteEl){
+    if(_ssetPer>0&&_ssetPer<5) noteEl.innerHTML='<span style="color:#e65100;font-weight:600;">ยอด/เซ็ต < 5฿ → +2฿/เซ็ต (รวม '+(2*ssetQty)+'฿)</span>';
+    else if(_ssetPer>=5) noteEl.textContent='ยอด/เซ็ต ≥ 5฿ → ฟรี!';
+    else noteEl.textContent='';
+  }
   BAG_OPTS.forEach(function(opt,k){
     var lbl=document.createElement('label');
     lbl.className='bag-lbl'+(bagSelected&&bagChoice===opt?' sel':'');
     lbl.style.cursor='pointer';
     var inp=document.createElement('input');inp.type='checkbox';inp.checked=(bagSelected&&bagChoice===opt);inp.style.marginRight='2px';
     inp.addEventListener('change',function(){setBagIdx(k);});
-    lbl.appendChild(inp);lbl.appendChild(document.createTextNode(opt));
+    var txt=opt;
+    if(k===0&&_ssetPer>0&&_ssetPer<5) txt=opt+' (+2฿/เซ็ต)';
+    lbl.appendChild(inp);lbl.appendChild(document.createTextNode(txt));
     bagChoiceRow.appendChild(lbl);
   });
   for(var i=0;i<PKG_ITEMS.length;i++){
@@ -831,7 +853,7 @@ function recalc(){
   for(var i=0;i<dc100Items.length;i++){if(dc100Items[i].sheets>0){sub+=(SPECIAL.indexOf(dc100Items[i].coat)>=0?DC100_SPECIAL:DC100_CLEAR)*dc100Items[i].sheets;hasSlow=true;}}
   var ssetPer=0;
   for(var i=0;i<ssetItems.length;i++){var s=ssetItems[i];if(s.qty>0){var sz=SSET[s.sizeIdx];ssetPer+=(s.coat==='เคลือบใสเงา'?sz.clear:sz.special)*s.qty;hasSlow=true;}}
-  if(ssetPer>0){sub+=ssetPer*ssetQty;if(ssetPer<5&&!bagSelected)sub+=2*ssetQty;}
+  if(ssetPer>0){sub+=ssetPer*ssetQty;if(ssetPer<5)sub+=2*ssetQty;}
   for(var i=0;i<PKG_ITEMS.length;i++){if(pkgSel[i].include)sub+=PKG_ITEMS[i].price*ssetQty;}
   for(var gi=0;gi<giftItems.length;gi++){var res=calcGiftTotal(giftItems[gi]);if(res.t>0){sub+=res.t*giftItems[gi].setQty;hasPrint=true;hasSlow=true;}}
   var sc=shipMethod==='post'?40:0;
@@ -923,8 +945,8 @@ function copyOrder(){
   for(var i=0;i<ssetItems.length;i++){if(ssetItems[i].qty<=0)continue;var sz=SSET[ssetItems[i].sizeIdx];var u=ssetItems[i].coat==='เคลือบใสเงา'?sz.clear:sz.special;ssetPer+=u*ssetItems[i].qty;hasSlow=true;}
   if(ssetPer>0){
     if(bagSelected)ssetL.push('• ถุง: '+bagChoice);
-    else if(ssetPer<5)ssetL.push('• ค่าถุง (ยอด < 5฿/เซ็ต): +'+2*ssetQty+'฿');
-    ssetL.push('• จำนวน '+ssetQty+' sets');for(var i=0;i<ssetItems.length;i++){if(ssetItems[i].qty<=0)continue;var sz=SSET[ssetItems[i].sizeIdx];var u=ssetItems[i].coat==='เคลือบใสเงา'?sz.clear:sz.special;var p=u*ssetItems[i].qty*ssetQty;ssetL.push('  ขนาด STICKER '+(i+1)+': '+sz.size+' '+ssetItems[i].coat+' x'+ssetItems[i].qty+'/set = '+p.toFixed(2)+'฿');sub+=p;}if(ssetPer<5){var bp2=2*ssetQty;ssetL.push('  ค่าถุง: '+bp2.toFixed(2)+'฿');sub+=bp2;}else ssetL.push('  ฟรีถุง: '+bagChoice);}
+    else if(ssetPer>0&&ssetPer<5)ssetL.push('• ค่าซอง PVC: +'+(2*ssetQty)+'฿');sub+=2*ssetQty;
+    ssetL.push('• จำนวน '+ssetQty+' sets');for(var i=0;i<ssetItems.length;i++){if(ssetItems[i].qty<=0)continue;var sz=SSET[ssetItems[i].sizeIdx];var u=ssetItems[i].coat==='เคลือบใสเงา'?sz.clear:sz.special;var p=u*ssetItems[i].qty*ssetQty;ssetL.push('  ขนาด STICKER '+(i+1)+': '+sz.size+' '+ssetItems[i].coat+' x'+ssetItems[i].qty+'/set = '+p.toFixed(2)+'฿');sub+=p;}if(ssetPer<5){var bp2=2*ssetQty;ssetL.push('  ค่าถุง: '+bp2.toFixed(2)+'฿');sub+=bp2;}else if(bagSelected)ssetL.push('  ถุง: '+bagChoice);}
   for(var i=0;i<PKG_ITEMS.length;i++){if(!pkgSel[i].include)continue;var p=PKG_ITEMS[i].price*ssetQty;pkgL.push('• '+PKG_ITEMS[i].label+' x'+ssetQty+'เซ็ต = '+p.toFixed(2)+'฿');sub+=p;}
   for(var gi=0;gi<giftItems.length;gi++){var g=giftItems[gi];var res=calcGiftTotal(g);if(res.t<=0)continue;giftL.push('• เซ็ตที่'+(gi+1)+' ('+g.setQty+'เซ็ต) รวม '+(res.t*g.setQty).toFixed(2)+'฿');for(var pi2=0;pi2<g.prints.length;pi2++){var p=g.prints[pi2];if(p.printQty>0&&GIFT_PRINT_ITEMS[p.printIdx])giftL.push('  - รูป: '+GIFT_PRINT_ITEMS[p.printIdx].label+' '+p.printCoat+' x'+p.printQty);}for(var si2=0;si2<g.stickers.length;si2++){var s2=g.stickers[si2];if(s2.stickerQty>0&&SSET[s2.stickerSizeIdx])giftL.push('  - Sticker: '+SSET[s2.stickerSizeIdx].size+' '+s2.stickerCoat+' x'+s2.stickerQty);}if(g.hasDc50&&GIFT_DC50[g.dc50SizeIdx])giftL.push('  - Die-cut 50% '+GIFT_DC50[g.dc50SizeIdx].size+' x'+g.dc50Qty);if(g.hasPC)giftL.push('  - Photocard: '+PC_TYPES[g.pcTypeIdx].label+' x'+g.pcQty);if(g.hasMemo)giftL.push('  - Memo Pad x'+g.memoQty+'ก้อน');if(g.hasKP)giftL.push('  - พวงกุญแจรูป x'+g.kpQty);if(g.hasKD)giftL.push('  - พวงกุญแจ Die-cut x'+g.kdQty);if(g.pkgHead)giftL.push('  - หัวแพ็ก');if(g.pkgLabel)giftL.push('  - Sticker Label 4×6 cm');sub+=res.t*g.setQty;hasPrint=true;hasSlow=true;}
   if(idL.length||stdL.length||custL.length){lines.push('🖼 งานพิมพ์รูป');idL.concat(stdL).concat(custL).forEach(function(l){lines.push(l);});}
