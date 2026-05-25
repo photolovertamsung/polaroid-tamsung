@@ -1285,10 +1285,28 @@ function renderSummary(){
   for(var i=0;i<dc100Items.length;i++){if(dc100Items[i].sheets>0){var u=SPECIAL.indexOf(dc100Items[i].coat)>=0?DC100_SPECIAL:DC100_CLEAR;var p=u*dc100Items[i].sheets;items.push({name:'Die-cut 100% A4',detail:dc100Items[i].coat+' × '+dc100Items[i].sheets+' แผ่น',price:p});sub+=p;}}
   // Sset
   var ssetPer=0;
-  ssetSets.forEach(function(set){set.items.forEach(function(s){if(s.qty<=0)return;var sz=SSET[s.sizeIdx];var u=s.coat==='เคลือบใสเงา'?sz.clear:sz.special;ssetPer+=u*s.qty;});});
+  ssetSets.forEach(function(set,si){
+    var setPer=0;
+    set.items.forEach(function(s){if(s.qty<=0)return;var sz=SSET[s.sizeIdx];var u=s.coat==='เคลือบใสเงา'?sz.clear:sz.special;setPer+=u*s.qty;ssetPer+=u*s.qty;});
+    if(setPer<=0)return;
+    set.items.forEach(function(s,i){
+      if(s.qty<=0)return;
+      var sz=SSET[s.sizeIdx];var u=s.coat==='เคลือบใสเงา'?sz.clear:sz.special;
+      var p=u*s.qty*set.setQty;
+      items.push({name:'Sticker เซ็ตที่'+(si+1)+' ขนาด '+sz.size,detail:s.coat+' × '+s.qty+'/เซ็ต × '+set.setQty+' เซ็ต',price:p});
+      sub+=p;
+    });
+    if(setPer>0&&setPer<5&&!set.bagSelected){var bagFee=2*set.setQty;items.push({name:'ค่าซอง PVC เซ็ตที่'+(si+1),detail:'× '+set.setQty+' เซ็ต',price:bagFee});sub+=bagFee;}
+  });
   // PKG
-  var _tsq=0;ssetSets.forEach(function(set){_tsq+=set.setQty;});
-  PKG_ITEMS.forEach(function(item2,idx2){if(!pkgSel[idx2].include)return;var p=item2.price*_tsq;items.push({name:item2.label,detail:'× '+_tsq+' เซ็ต',price:p});sub+=p;});
+  ssetSets.forEach(function(set,si){
+    PKG_ITEMS.forEach(function(item2,idx2){
+      if(!set.pkg||!set.pkg[idx2])return;
+      var p=item2.price*set.setQty;
+      items.push({name:item2.label+' เซ็ตที่'+(si+1),detail:'× '+set.setQty+' เซ็ต',price:p});
+      sub+=p;
+    });
+  });
   // Gift
   for(var gi=0;gi<giftItems.length;gi++){var res=calcGiftTotal(giftItems[gi]);if(res.t<=0){continue;}var gNames=[];(giftItems[gi].prints||[]).forEach(function(p){if(p.printQty>0&&GIFT_PRINT_ITEMS[p.printIdx])gNames.push(GIFT_PRINT_ITEMS[p.printIdx].label+' x'+p.printQty);});items.push({name:'กิ๊ฟอะเวย์ เซ็ตที่'+(gi+1),detail:(gNames.length?gNames.join(', ')+' ':'')+' × '+giftItems[gi].setQty+' เซ็ต',price:res.t*giftItems[gi].setQty});sub+=res.t*giftItems[gi].setQty;}
 
