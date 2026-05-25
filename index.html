@@ -85,6 +85,7 @@ select{flex:1;min-width:100px;font-size:12px;padding:6px 8px;border-radius:8px;b
   <button class="tab-btn" onclick="switchTab('diecut')">✂️ สต๊ก Die-cut</button>
   <button class="tab-btn" onclick="switchTab('sset')">🏷 Sticker Set</button>
   <button class="tab-btn" onclick="switchTab('gift')">🎁 กิ๊ฟอะเวย์</button>
+  <button class="tab-btn" onclick="switchTab('info')">📐 ข้อมูล</button>
 </div>
 
 <div id="tab-print">
@@ -201,6 +202,230 @@ select{flex:1;min-width:100px;font-size:12px;padding:6px 8px;border-radius:8px;b
   </div>
 </div>
 
+<div id="tab-info" style="display:none;">
+
+  <!-- Section 1: ขนาดรูปอัด -->
+  <div class="section">
+    <div class="sec-title">📸 ขนาดรูปอัดเปรียบเทียบ</div>
+    <div class="info-box">แสดงตามสัดส่วนจริง เทียบกับ A4 เป็นฐาน</div>
+
+    <div style="font-size:12px;font-weight:600;color:#888;margin-bottom:10px;text-transform:uppercase;letter-spacing:0.5px;">กลุ่ม 1 — รูปติดบัตร / ไอดี</div>
+    <div style="display:flex;align-items:flex-end;gap:12px;flex-wrap:wrap;margin-bottom:20px;">
+      <div style="display:flex;flex-direction:column;align-items:center;gap:4px;"><div style="width:22px;height:31px;background:#CECBF6;border:1px solid #AFA9EC;border-radius:2px;"></div><span style="font-size:10px;color:#888;">1 นิ้ว</span></div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:4px;"><div style="width:28px;height:42px;background:#CECBF6;border:1px solid #AFA9EC;border-radius:2px;"></div><span style="font-size:10px;color:#888;">1.5 นิ้ว</span></div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:4px;"><div style="width:37px;height:52px;background:#CECBF6;border:1px solid #AFA9EC;border-radius:2px;"></div><span style="font-size:10px;color:#888;">2 นิ้ว</span></div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:4px;"><div style="width:55px;height:52px;background:#B5D4F4;border:1px solid #85B7EB;border-radius:2px;display:flex;align-items:center;justify-content:center;"><div style="display:grid;grid-template-columns:1fr 1fr;gap:2px;padding:4px;width:100%;height:100%;box-sizing:border-box;"><div style="background:rgba(255,255,255,0.6);border-radius:1px;"></div><div style="background:rgba(255,255,255,0.6);border-radius:1px;"></div><div style="background:rgba(255,255,255,0.6);border-radius:1px;"></div><div style="background:rgba(255,255,255,0.6);border-radius:1px;"></div></div></div><span style="font-size:10px;color:#888;text-align:center;">ไอดี 4 ช่อง</span></div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:4px;"><div style="width:30px;height:74px;background:#9FE1CB;border:1px solid #5DCAA5;border-radius:2px;display:flex;flex-direction:column;align-items:center;justify-content:space-around;padding:3px;box-sizing:border-box;">
+  <div style="width:100%;flex:1;background:rgba(255,255,255,0.5);border-radius:1px;margin-bottom:2px;"></div>
+  <div style="width:100%;flex:1;background:rgba(255,255,255,0.5);border-radius:1px;"></div>
+</div><span style="font-size:10px;color:#888;text-align:center;">มินิโฟโต้บูธ<br>1.22 in × 3 in<br>(2 ช่อง)</span></div>
+    </div>
+
+    <div style="font-size:12px;font-weight:600;color:#888;margin-bottom:10px;text-transform:uppercase;letter-spacing:0.5px;">กลุ่ม 2 — รูปทั่วไป (พกพา)</div>
+    <div style="display:flex;align-items:flex-end;gap:10px;flex-wrap:wrap;margin-bottom:20px;">
+      <div style="display:flex;flex-direction:column;align-items:center;gap:4px;"><div style="width:37px;height:37px;background:#FAC775;border:1px solid #EF9F27;border-radius:2px;"></div><span style="font-size:10px;color:#888;">2x2</span></div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:4px;"><div style="width:37px;height:55px;background:#FAC775;border:1px solid #EF9F27;border-radius:2px;"></div><span style="font-size:10px;color:#888;">2x3</span></div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:4px;"><div style="width:37px;height:74px;background:#FAC775;border:1px solid #EF9F27;border-radius:2px;"></div><span style="font-size:10px;color:#888;">2x4</span></div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:4px;"><div style="width:37px;height:110px;background:#FAC775;border:1px solid #EF9F27;border-radius:2px;"></div><span style="font-size:10px;color:#888;">2x6</span></div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:4px;"><div style="width:55px;height:55px;background:#FAC775;border:1px solid #EF9F27;border-radius:2px;"></div><span style="font-size:10px;color:#888;">3x3</span></div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:4px;"><div style="width:55px;height:74px;background:#FAC775;border:1px solid #EF9F27;border-radius:2px;"></div><span style="font-size:10px;color:#888;">3x4</span></div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:4px;"><div style="width:46px;height:65px;background:#FAC775;border:1px solid #EF9F27;border-radius:2px;"></div><span style="font-size:10px;color:#888;">2.5x3.5</span></div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:4px;"><div style="width:65px;height:92px;background:#FAC775;border:1px solid #EF9F27;border-radius:2px;"></div><span style="font-size:10px;color:#888;">3.5x5</span></div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:4px;"><div style="width:74px;height:110px;background:#FAC775;border:1px solid #EF9F27;border-radius:2px;"></div><span style="font-size:10px;color:#888;">4x6</span></div>
+    </div>
+
+    <div style="font-size:12px;font-weight:600;color:#888;margin-bottom:10px;text-transform:uppercase;letter-spacing:0.5px;">กลุ่ม 3 — รูปใหญ่</div>
+    <div style="display:flex;align-items:flex-end;gap:10px;flex-wrap:wrap;">
+      <div style="display:flex;flex-direction:column;align-items:center;gap:4px;"><div style="width:92px;height:128px;background:#F5C4B3;border:1px solid #F0997B;border-radius:2px;display:flex;align-items:center;justify-content:center;"><span style="font-size:10px;color:#993C1D;">5x7</span></div><span style="font-size:10px;color:#888;">5x7 นิ้ว</span></div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:4px;"><div style="width:110px;height:147px;background:#F5C4B3;border:1px solid #F0997B;border-radius:2px;display:flex;align-items:center;justify-content:center;"><span style="font-size:10px;color:#993C1D;">6x8</span></div><span style="font-size:10px;color:#888;">6x8 นิ้ว</span></div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:4px;"><div style="width:105px;height:148px;background:#F5C4B3;border:1px solid #F0997B;border-radius:2px;display:flex;align-items:center;justify-content:center;"><span style="font-size:10px;color:#993C1D;">A5</span></div><span style="font-size:10px;color:#888;">A5</span></div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:4px;"><div style="width:148px;height:210px;background:#F5C4B3;border:1px solid #F0997B;border-radius:2px;display:flex;align-items:center;justify-content:center;"><span style="font-size:11px;color:#993C1D;">A4</span></div><span style="font-size:10px;color:#888;">A4</span></div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:4px;"><div style="width:210px;height:297px;background:#F0997B;border:1px solid #D85A30;border-radius:2px;display:flex;align-items:center;justify-content:center;"><span style="font-size:13px;font-weight:500;color:#4A1B0C;">A3</span></div><span style="font-size:10px;color:#888;">A3</span></div>
+    </div>
+  </div>
+
+  <!-- Section: งานอัดรูป -->
+  <div class="section">
+    <div class="sec-title">📸 งานอัดรูป — คุณภาพและวัสดุ</div>
+    <img src="https://i.ibb.co/5XgDNfz8/01.jpg" alt="งานอัดรูป Polaroid Tamsung" style="width:100%;border-radius:12px;" onerror="this.style.display='none'">
+  </div>
+
+  <!-- Section: โพลารอยด์ขนาดรอดย์ -->
+  <div class="section">
+    <div class="sec-title">🖼 โพลารอยด์ — ขนาดและแบบกรอบ</div>
+    <img src="https://i.ibb.co/fYy9Pvxh/1.jpg" alt="โพลารอยด์ขนาดรอดย์" style="width:100%;border-radius:12px;" onerror="this.style.display='none'">
+  </div>
+
+  <!-- Section: How To ส่งงานรูป -->
+  <div class="section">
+    <div class="sec-title">📤 How To ส่งงานรูป</div>
+    <div class="info-box">แจ้งขนาดก่อนค่อยส่งรูปนะคะ</div>
+    <div style="display:flex;flex-direction:column;gap:10px;">
+      <div style="background:#f8f8f8;border:1px solid #e8e8e8;border-radius:12px;padding:14px;display:flex;gap:12px;align-items:flex-start;">
+        <div style="background:#EEEDFE;color:#3C3489;border-radius:50%;width:30px;height:30px;display:flex;align-items:center;justify-content:center;font-weight:600;font-size:13px;flex-shrink:0;">1</div>
+        <div><div style="font-size:13px;font-weight:600;margin-bottom:2px;">ก็อปสรุปออเดอร์ส่งเข้าไลน์ร้าน</div><div style="font-size:12px;color:#888;">กดปุ่มคัดลอกสรุปจากหน้านี้ แล้วส่งมาใน LINE ได้เลยค่ะ</div></div>
+      </div>
+      <div style="background:#f8f8f8;border:1px solid #e8e8e8;border-radius:12px;padding:14px;display:flex;gap:12px;align-items:flex-start;">
+        <div style="background:#E1F5EE;color:#085041;border-radius:50%;width:30px;height:30px;display:flex;align-items:center;justify-content:center;font-weight:600;font-size:13px;flex-shrink:0;">2</div>
+        <div><div style="font-size:13px;font-weight:600;margin-bottom:2px;">แจ้งขนาด</div><div style="font-size:12px;color:#888;">บอกขนาดที่ต้องการให้ร้านก่อนนะคะ เช่น "รูปติดบัตร 1 นิ้ว จำนวน 2 รูป"</div></div>
+      </div>
+      <div style="background:#f8f8f8;border:1px solid #e8e8e8;border-radius:12px;padding:14px;display:flex;gap:12px;align-items:flex-start;">
+        <div style="background:#FAEEDA;color:#633806;border-radius:50%;width:30px;height:30px;display:flex;align-items:center;justify-content:center;font-weight:600;font-size:13px;flex-shrink:0;">3</div>
+        <div><div style="font-size:13px;font-weight:600;margin-bottom:2px;">ส่งรูป</div><div style="font-size:12px;color:#888;">ส่งรูปผ่าน LINE ได้เลยค่ะ</div></div>
+      </div>
+      <div style="background:#f8f8f8;border:1px solid #e8e8e8;border-radius:12px;padding:14px;display:flex;gap:12px;align-items:flex-start;">
+        <div style="background:#FAECE7;color:#993C1D;border-radius:50%;width:30px;height:30px;display:flex;align-items:center;justify-content:center;font-weight:600;font-size:13px;flex-shrink:0;">4</div>
+        <div><div style="font-size:13px;font-weight:600;margin-bottom:2px;">กด "แจ้งโอนเงิน"</div><div style="font-size:12px;color:#888;">หลังบลูคอนเฟิร์มแล้ว กดปุ่มแจ้งโอนใน RICH MENU ได้เลยค่ะ</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 2: Die-cut 100% -->
+  <div class="section">
+    <div class="sec-title">✂️ Die-cut 100% — วิธีสั่งและขนาด</div>
+    <div class="info-box">ผลิตจาก PP Sticker + เคลือบฟิล์ม PVC • ตัดตามรูปทรง • A4 เท่านั้น</div>
+
+    <!-- รูปตัวอย่าง -->
+    <img src="https://i.ibb.co/1YD0yWTq/image.png" alt="วิธีสั่ง Die-cut 100%" style="width:100%;border-radius:10px;margin-bottom:14px;" onerror="this.style.display='none'">
+
+    <!-- ขอบไดคัต -->
+    <div style="font-size:12px;font-weight:600;color:#888;margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px;">แบบขอบไดคัต</div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px;">
+      <div style="background:#f8f8f8;border:1px solid #e8e8e8;border-radius:10px;padding:10px 14px;text-align:center;flex:1;min-width:80px;">
+        <div style="width:40px;height:40px;border-radius:50%;background:#CECBF6;border:3px solid #fff;outline:2px solid #AFA9EC;margin:0 auto 6px;"></div>
+        <div style="font-size:12px;font-weight:500;">ขอบสีขาว</div>
+      </div>
+      <div style="background:#f8f8f8;border:1px solid #e8e8e8;border-radius:10px;padding:10px 14px;text-align:center;flex:1;min-width:80px;">
+        <div style="width:40px;height:40px;border-radius:50%;background:#CECBF6;border:3px solid #9FE1CB;outline:2px solid #5DCAA5;margin:0 auto 6px;"></div>
+        <div style="font-size:12px;font-weight:500;">ขอบสี</div>
+      </div>
+      <div style="background:#f8f8f8;border:1px solid #e8e8e8;border-radius:10px;padding:10px 14px;text-align:center;flex:1;min-width:80px;">
+        <div style="width:40px;height:40px;border-radius:50%;background:#CECBF6;margin:0 auto 6px;"></div>
+        <div style="font-size:12px;font-weight:500;">ติดขอบ</div>
+      </div>
+    </div>
+
+    <!-- เคลือบ -->
+    <div style="font-size:12px;font-weight:600;color:#888;margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px;">แบบเคลือบ</div>
+    <div style="display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;">
+      <div style="background:#EAF3DE;border:1px solid #C0DD97;border-radius:8px;padding:8px 14px;font-size:12px;"><span style="color:#3B6D11;font-weight:600;">เคลือบใสเงา</span> — ฟรี</div>
+      <div style="background:#FAEEDA;border:1px solid #FAC775;border-radius:8px;padding:8px 14px;font-size:12px;"><span style="color:#854F0B;font-weight:600;">เคลือบพิเศษ</span> — +10 ฿/แผ่น</div>
+    </div>
+
+    <!-- คละลาย -->
+    <div style="font-size:12px;font-weight:600;color:#888;margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px;">การคละลาย (ต่อ 1 แผ่น A4)</div>
+    <div style="background:#f8f8f8;border:1px solid #e8e8e8;border-radius:10px;padding:12px;margin-bottom:14px;">
+      <div style="display:flex;flex-direction:column;gap:6px;font-size:12px;color:#1a1a1a;line-height:1.7;margin-bottom:12px;">
+        <div style="background:#1a1a1a;color:#fff;border-radius:8px;padding:8px 12px;font-size:12px;font-weight:600;text-align:center;">⚠️ 1 แผ่น A4 คละได้ 2 ลาย เท่านั้นค่ะ</div>
+        <div style="display:flex;gap:8px;align-items:flex-start;"><span style="color:#3B6D11;font-weight:600;flex-shrink:0;">✓</span><span>ภายใน 1 แผ่น ใส่ได้ 2 ดีไซน์</span></div>
+        <div style="display:flex;gap:8px;align-items:flex-start;"><span style="color:#e65100;font-weight:600;flex-shrink:0;">✕</span><span>ไม่สามารถคละขนาดได้ — ยึดขนาดจาก "ด้านที่ยาวที่สุด" ของไฟล์งานค่ะ</span></div>
+      </div>
+      <!-- ตัวอย่าง -->
+      <div style="background:#fff;border:1px solid #e8e8e8;border-radius:8px;padding:10px 12px;">
+        <div style="font-size:12px;font-weight:600;color:#1a1a1a;margin-bottom:8px;">💖 ตัวอย่าง: สั่งขนาด 4 cm → ได้ประมาณ 30 ชิ้น/แผ่น</div>
+        <div style="display:flex;gap:8px;margin-bottom:6px;">
+          <div style="flex:1;background:#EEEDFE;border-radius:8px;padding:8px;text-align:center;">
+            <div style="font-size:11px;color:#534AB7;font-weight:600;margin-bottom:2px;">ลาย A</div>
+            <div style="font-size:20px;font-weight:500;color:#3C3489;">15</div>
+            <div style="font-size:10px;color:#888;">ชิ้น</div>
+          </div>
+          <div style="display:flex;align-items:center;color:#aaa;font-size:16px;">+</div>
+          <div style="flex:1;background:#E1F5EE;border-radius:8px;padding:8px;text-align:center;">
+            <div style="font-size:11px;color:#0F6E56;font-weight:600;margin-bottom:2px;">ลาย B</div>
+            <div style="font-size:20px;font-weight:500;color:#085041;">15</div>
+            <div style="font-size:10px;color:#888;">ชิ้น</div>
+          </div>
+          <div style="display:flex;align-items:center;color:#aaa;font-size:16px;">=</div>
+          <div style="flex:1;background:#f0f0f0;border-radius:8px;padding:8px;text-align:center;">
+            <div style="font-size:11px;color:#666;font-weight:600;margin-bottom:2px;">รวม</div>
+            <div style="font-size:20px;font-weight:500;color:#1a1a1a;">30</div>
+            <div style="font-size:10px;color:#888;">ชิ้น/แผ่น</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- How To ตั้งชื่อไฟล์ -->
+    <div style="font-size:12px;font-weight:600;color:#888;margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px;">How To ตั้งชื่อไฟล์</div>
+    <div style="background:#f8f8f8;border:1px solid #e8e8e8;border-radius:10px;padding:12px;margin-bottom:14px;font-size:12px;color:#666;line-height:1.8;">
+      <div style="margin-bottom:4px;"><span style="background:#1a1a1a;color:#fff;padding:2px 6px;border-radius:4px;font-size:11px;">แผ่นที่ 1</span> สตก.ขนาด 3cm ไดคัตขอบขาว เคลือบใสเงา จำนวน 1 แผ่น.PNG</div>
+      <div style="margin-bottom:4px;"><span style="background:#1a1a1a;color:#fff;padding:2px 6px;border-radius:4px;font-size:11px;">แผ่นที่ 2</span> สตก.ขนาด 4cm ไดคัตติดขอบ เคลือบประกายดาว จำนวน 2 แผ่น.PNG</div>
+      <div><span style="background:#888;color:#fff;padding:2px 6px;border-radius:4px;font-size:11px;">คละลาย</span> แผ่นที่ 4(คละลายที่ 1) สตก.ขนาด 6cm ไดคัตขอบขาว เคลือบด้าน จำนวน 1 แผ่น.PNG</div><div style="margin-top:2px;padding-left:52px;">แผ่นที่ 4(คละลายที่ 2) สตก.ขนาด 6cm ไดคัตขอบสี เคลือบด้าน จำนวน 1 แผ่น.PNG</div>
+    </div>
+
+    <!-- Note -->
+    <div style="background:#fff3e0;border:1px solid #FAC775;border-radius:10px;padding:10px 14px;font-size:12px;color:#854F0B;line-height:1.7;">
+      <div style="font-weight:600;margin-bottom:4px;">⚠️ หมายเหตุ</div>
+      <div>• ทางร้านไม่รับหารูปให้นะคะ</div>
+      <div>• ไม่รับพิมพ์ซ้ำงานเดิมทุกกรณีค่ะ</div>
+      <div>• ส่งไฟล์ผ่าน Google Drive หรือ Canva (can edit)</div>
+    </div>
+
+    <!-- ขนาดสติ๊กเกอร์ -->
+    <div style="font-size:12px;font-weight:600;color:#888;margin:14px 0 8px;text-transform:uppercase;letter-spacing:0.5px;">ขนาดสติ๊กเกอร์ (หน่วย cm)</div>
+    <div style="display:flex;align-items:flex-end;gap:8px;flex-wrap:wrap;">
+      <div style="display:flex;flex-direction:column;align-items:center;gap:4px;"><div style="width:15px;height:15px;border-radius:50%;background:#CECBF6;border:1.5px solid #AFA9EC;"></div><span style="font-size:10px;color:#888;">1.5</span></div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:4px;"><div style="width:20px;height:20px;border-radius:50%;background:#CECBF6;border:1.5px solid #AFA9EC;"></div><span style="font-size:10px;color:#888;">2</span></div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:4px;"><div style="width:25px;height:25px;border-radius:50%;background:#CECBF6;border:1.5px solid #AFA9EC;"></div><span style="font-size:10px;color:#888;">2.5</span></div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:4px;"><div style="width:30px;height:30px;border-radius:50%;background:#9FE1CB;border:1.5px solid #5DCAA5;"></div><span style="font-size:10px;color:#888;">3</span></div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:4px;"><div style="width:40px;height:40px;border-radius:50%;background:#9FE1CB;border:1.5px solid #5DCAA5;"></div><span style="font-size:10px;color:#888;">4</span></div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:4px;"><div style="width:45px;height:45px;border-radius:50%;background:#9FE1CB;border:1.5px solid #5DCAA5;"></div><span style="font-size:10px;color:#888;">4.5</span></div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:4px;"><div style="width:50px;height:50px;border-radius:50%;background:#FAC775;border:1.5px solid #EF9F27;"></div><span style="font-size:10px;color:#888;">5</span></div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:4px;"><div style="width:55px;height:55px;border-radius:50%;background:#FAC775;border:1.5px solid #EF9F27;"></div><span style="font-size:10px;color:#888;">5.5</span></div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:4px;"><div style="width:60px;height:60px;border-radius:50%;background:#FAC775;border:1.5px solid #EF9F27;"></div><span style="font-size:10px;color:#888;">6</span></div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:4px;"><div style="width:70px;height:70px;border-radius:50%;background:#F5C4B3;border:1.5px solid #F0997B;"></div><span style="font-size:10px;color:#888;">7</span></div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:4px;"><div style="width:80px;height:80px;border-radius:50%;background:#F5C4B3;border:1.5px solid #F0997B;"></div><span style="font-size:10px;color:#888;">8</span></div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:4px;"><div style="width:90px;height:90px;border-radius:50%;background:#F0997B;border:1.5px solid #D85A30;"></div><span style="font-size:10px;color:#888;">9</span></div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:4px;"><div style="width:100px;height:100px;border-radius:50%;background:#F0997B;border:1.5px solid #D85A30;"></div><span style="font-size:10px;color:#888;">10</span></div>
+    </div>
+  </div>
+
+  <!-- Section 3: Die-cut 50% sheet sizes -->
+  <div class="section">
+    <div class="sec-title">🏷 Die-cut 50% — ขนาดแผ่น Sticker Sheet</div>
+    <div class="info-box">Sticker sheet — ไดคัตไม่หลุดจากแผ่นรองหลัง (backing) • ไดคัตได้ไม่จำกัดจุด • ลูกค้าออกแบบไฟล์มาเองแล้วส่งให้ร้านค่ะ</div>
+    <div style="display:flex;align-items:flex-end;gap:16px;flex-wrap:wrap;">
+      <div style="display:flex;flex-direction:column;align-items:center;gap:8px;"><div style="width:52px;height:74px;background:#EEEDFE;border:1.5px solid #AFA9EC;border-radius:3px;display:flex;align-items:center;justify-content:center;"><div style="display:grid;grid-template-columns:1fr 1fr;gap:2px;padding:4px;width:100%;height:100%;box-sizing:border-box;"><div style="background:#AFA9EC;border-radius:2px;"></div><div style="background:#AFA9EC;border-radius:2px;"></div><div style="background:#AFA9EC;border-radius:2px;"></div><div style="background:#AFA9EC;border-radius:2px;"></div></div></div><div style="text-align:center;"><p style="font-size:12px;font-weight:500;margin:0;">A7</p><p style="font-size:10px;color:#888;margin:2px 0 0;">74×105 mm</p><p style="font-size:10px;color:#534AB7;margin:2px 0 0;">10 ฿/แผ่น</p></div></div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:8px;"><div style="width:74px;height:105px;background:#E1F5EE;border:1.5px solid #5DCAA5;border-radius:3px;display:flex;align-items:center;justify-content:center;"><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:2px;padding:6px;width:100%;height:100%;box-sizing:border-box;"><div style="background:#5DCAA5;border-radius:2px;"></div><div style="background:#5DCAA5;border-radius:2px;"></div><div style="background:#5DCAA5;border-radius:2px;"></div><div style="background:#5DCAA5;border-radius:2px;"></div><div style="background:#5DCAA5;border-radius:2px;"></div><div style="background:#5DCAA5;border-radius:2px;"></div></div></div><div style="text-align:center;"><p style="font-size:12px;font-weight:500;margin:0;">A6</p><p style="font-size:10px;color:#888;margin:2px 0 0;">105×148 mm</p><p style="font-size:10px;color:#0F6E56;margin:2px 0 0;">15 ฿/แผ่น</p></div></div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:8px;"><div style="width:105px;height:148px;background:#FAEEDA;border:1.5px solid #EF9F27;border-radius:3px;display:flex;align-items:center;justify-content:center;"><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:3px;padding:8px;width:100%;height:100%;box-sizing:border-box;"><div style="background:#EF9F27;border-radius:2px;"></div><div style="background:#EF9F27;border-radius:2px;"></div><div style="background:#EF9F27;border-radius:2px;"></div><div style="background:#EF9F27;border-radius:2px;"></div><div style="background:#EF9F27;border-radius:2px;"></div><div style="background:#EF9F27;border-radius:2px;"></div><div style="background:#EF9F27;border-radius:2px;"></div><div style="background:#EF9F27;border-radius:2px;"></div><div style="background:#EF9F27;border-radius:2px;"></div></div></div><div style="text-align:center;"><p style="font-size:12px;font-weight:500;margin:0;">A5</p><p style="font-size:10px;color:#888;margin:2px 0 0;">148×210 mm</p><p style="font-size:10px;color:#854F0B;margin:2px 0 0;">25 ฿/แผ่น</p></div></div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:8px;"><div style="width:148px;height:210px;background:#FAECE7;border:1.5px solid #F0997B;border-radius:3px;display:flex;align-items:center;justify-content:center;"><div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:3px;padding:10px;width:100%;height:100%;box-sizing:border-box;"><div style="background:#F0997B;border-radius:2px;"></div><div style="background:#F0997B;border-radius:2px;"></div><div style="background:#F0997B;border-radius:2px;"></div><div style="background:#F0997B;border-radius:2px;"></div><div style="background:#F0997B;border-radius:2px;"></div><div style="background:#F0997B;border-radius:2px;"></div><div style="background:#F0997B;border-radius:2px;"></div><div style="background:#F0997B;border-radius:2px;"></div><div style="background:#F0997B;border-radius:2px;"></div><div style="background:#F0997B;border-radius:2px;"></div><div style="background:#F0997B;border-radius:2px;"></div><div style="background:#F0997B;border-radius:2px;"></div><div style="background:#F0997B;border-radius:2px;"></div><div style="background:#F0997B;border-radius:2px;"></div><div style="background:#F0997B;border-radius:2px;"></div><div style="background:#F0997B;border-radius:2px;"></div></div></div><div style="text-align:center;"><p style="font-size:12px;font-weight:500;margin:0;">A4</p><p style="font-size:10px;color:#888;margin:2px 0 0;">210×297 mm</p><p style="font-size:10px;color:#993C1D;margin:2px 0 0;">40 ฿/แผ่น</p></div></div>
+    </div>
+  </div>
+
+  <!-- Section 4: How To ส่งไฟล์ Die-cut 50% -->
+  <div class="section">
+    <div class="sec-title">📂 How To ตั้งชื่อไฟล์ Die-cut 50%</div>
+    <div class="info-box">ลูกค้าต้องออกแบบและส่งไฟล์มาเองนะคะ • ส่งผ่าน Google Drive หรือ Canva (can edit)</div>
+    <div style="display:flex;flex-direction:column;gap:12px;">
+      <div style="background:#f8f8f8;border:1px solid #e8e8e8;border-radius:12px;padding:14px;">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
+          <div style="background:#EEEDFE;color:#3C3489;border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-weight:600;font-size:13px;flex-shrink:0;">1</div>
+          <div style="font-size:13px;font-weight:600;">ไฟล์ชิ้นงานที่ต้องการไดคัต</div>
+        </div>
+        <div style="font-size:12px;color:#888;margin-left:38px;line-height:1.7;">ตั้งชื่อว่า <span style="background:#1a1a1a;color:#fff;padding:2px 8px;border-radius:4px;font-size:11px;">ชิ้นงานที่ต้องการไดคัตใน...</span><br>เป็นไฟล์ <b>.png</b> พื้นหลังโปร่งใส (transparent)</div>
+      </div>
+      <div style="background:#f8f8f8;border:1px solid #e8e8e8;border-radius:12px;padding:14px;">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
+          <div style="background:#E1F5EE;color:#085041;border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-weight:600;font-size:13px;flex-shrink:0;">2</div>
+          <div style="font-size:13px;font-weight:600;">ไฟล์พื้นหลัง</div>
+        </div>
+        <div style="font-size:12px;color:#888;margin-left:38px;line-height:1.7;">ตั้งชื่อว่า <span style="background:#1a1a1a;color:#fff;padding:2px 8px;border-radius:4px;font-size:11px;">พื้นหลัง.png</span><br>เป็นภาพพื้นหลังของแผ่นสติ๊กเกอร์ค่ะ</div>
+      </div>
+      <div style="background:#f8f8f8;border:1px solid #e8e8e8;border-radius:12px;padding:14px;">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
+          <div style="background:#FAEEDA;color:#633806;border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-weight:600;font-size:13px;flex-shrink:0;">3</div>
+          <div style="font-size:13px;font-weight:600;">วิธีส่งไฟล์</div>
+        </div>
+        <div style="font-size:12px;color:#888;margin-left:38px;line-height:1.7;">
+          📁 ส่งผ่าน <b>Google Drive</b> — แชร์ลิงก์มาได้เลยค่ะ<br>
+          🎨 ออกแบบใน <b>Canva</b> — แชร์ลิงก์งาน ตั้งสิทธิ์เป็น <span style="background:#1a1a1a;color:#fff;padding:2px 8px;border-radius:4px;font-size:11px;">can edit</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
 <div class="section" style="margin-bottom:12px;">
   <div class="sec-title">การจัดส่ง</div>
   <label class="ship-opt sel" id="opt-post" onclick="selShip('post')">
@@ -234,8 +459,9 @@ select{flex:1;min-width:100px;font-size:12px;padding:6px 8px;border-radius:8px;b
   <div style="font-size:12px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:0.8px;margin-bottom:12px;">📋 สรุปรายการ</div>
   <div id="summary-items" style="font-size:13px;color:#1a1a1a;line-height:1.8;"></div>
 </div>
-<button class="copy-btn" onclick="copyOrder()">📋 คัดลอกสรุปออเดอร์ไปวางใน LINE</button>
+<button class="copy-btn" onclick="copyOrder()">📋 คัดลอกสรุปส่งให้ร้าน (ยังไม่ได้สั่งซื้อนะคะ)</button>
 <div class="copy-msg" id="copy-msg"></div>
+<div style="text-align:center;font-size:12px;color:#888;margin-top:8px;padding:10px 16px;background:#f8f8f8;border-radius:10px;line-height:1.6;">💬 ถ้าคุณลูกค้าไม่มั่นใจ สามารถรอบลูเข้ามาคอนเฟิร์มได้เลยนะคะ 😊</div>
 </div>
 
 <script>
@@ -343,7 +569,7 @@ var kpItems=[{coat:'ไม่เคลือบ',qty:0}];
 var kdItems=[{coat:'เคลือบใสเงา',qty:0}];
 var dc50Items=[{sizeIdx:3,coat:'เคลือบใสเงา',sheets:0}];
 var dc100Items=[{coat:'เคลือบใสเงา',sheets:0}];
-var ssetSets=[{setQty:10,items:[{sizeIdx:0,coat:'เคลือบใสเงา',qty:0}]}];
+var ssetSets=[{setQty:10,items:[{sizeIdx:0,coat:'เคลือบใสเงา',qty:0}],bagSelected:false,bagChoice:'ซอง PVC ใส',pkg:[false,false]}];
 var pkgSel=PKG_ITEMS.map(function(){return {include:false};});
 var bagChoice='ซอง PVC ใส';
 var bagSelected=false;
@@ -445,11 +671,11 @@ function calcSheets(){
   res.innerHTML='ต้องการ <span style="color:#c0533a;font-size:16px;">'+sheets+'</span> แผ่น ('+perSheet+' ชิ้น/แผ่น × '+sheets+' แผ่น = '+(perSheet*sheets)+' ชิ้น)';
 }
 function switchTab(tab){
-  ['print','extra','diecut','sset','gift'].forEach(function(x){
+  ['print','extra','diecut','sset','gift','info'].forEach(function(x){
     document.getElementById('tab-'+x).style.display=x===tab?'':'none';
   });
   document.querySelectorAll('.tab-btn').forEach(function(b,i){
-    b.classList.toggle('active',['print','extra','diecut','sset','gift'][i]===tab);
+    b.classList.toggle('active',['print','extra','diecut','sset','gift','info'][i]===tab);
   });
 }
 function selShip(v){
@@ -518,7 +744,7 @@ function setBagIdx(k){
 }
 function addSset(){
   var scrollY=window.scrollY;
-  ssetSets.push({setQty:10,items:[{sizeIdx:0,coat:'เคลือบใสเงา',qty:0}]});
+  ssetSets.push({setQty:10,items:[{sizeIdx:0,coat:'เคลือบใสเงา',qty:0}],bagSelected:false,bagChoice:'ซอง PVC ใส',pkg:[false,false]});
   renderSset();
   window.scrollTo(0,scrollY);
 }
@@ -855,68 +1081,65 @@ function renderSset(){
     sumRow.appendChild(sumLbl);sumRow.appendChild(sumAmt);
     box.appendChild(sumRow);
 
+    // แพ็กเกจจิ้งของเซ็ตนี้
+    var pkgTitle=document.createElement('div');
+    pkgTitle.style.cssText='font-size:12px;font-weight:600;color:#666;margin-top:10px;margin-bottom:6px;';
+    pkgTitle.textContent='📦 แพ็กเกจจิ้ง / ถุง';
+    box.appendChild(pkgTitle);
+
+    // ถุง
+    var bagRow2=document.createElement('div');bagRow2.style.cssText='display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px;';
+    var setPerItem=0;
+    set.items.forEach(function(s){var sz=SSET[s.sizeIdx];setPerItem+=(s.coat==='เคลือบใสเงา'?sz.clear:sz.special)*s.qty;});
+    BAG_OPTS.forEach(function(opt,k){
+      var lbl=document.createElement('label');
+      lbl.className='bag-lbl'+(set.bagSelected&&set.bagChoice===opt?' sel':'');
+      lbl.style.cursor='pointer';
+      var inp=document.createElement('input');inp.type='checkbox';inp.checked=(set.bagSelected&&set.bagChoice===opt);inp.style.marginRight='2px';
+      (function(si2,ki){inp.addEventListener('change',function(){
+        if(ssetSets[si2].bagSelected&&ssetSets[si2].bagChoice===BAG_OPTS[ki]){ssetSets[si2].bagSelected=false;}
+        else{ssetSets[si2].bagChoice=BAG_OPTS[ki];ssetSets[si2].bagSelected=true;}
+        renderSset();
+      });})(si,k);
+      var txt=opt;
+      if(k===0&&setPerItem>0&&setPerItem<5)txt=opt+' (+2฿/เซ็ต)';
+      lbl.appendChild(inp);lbl.appendChild(document.createTextNode(txt));
+      bagRow2.appendChild(lbl);
+    });
+    if(setPerItem>0&&setPerItem<5){
+      var bagWarn=document.createElement('div');bagWarn.className='i-sub';
+      bagWarn.innerHTML='<span style="color:#e65100;">ยอด/เซ็ต < 5฿ → ซอง PVC +2฿/เซ็ต</span>';
+      box.appendChild(bagWarn);
+    }
+    box.appendChild(bagRow2);
+
+    // pkg items
+    PKG_ITEMS.forEach(function(item,idx){
+      var p=item.price*set.setQty;
+      var pkgRow=document.createElement('div');pkgRow.style.cssText='display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;';
+      var lbl=document.createElement('label');lbl.style.cssText='display:flex;align-items:center;gap:6px;cursor:pointer;font-size:13px;';
+      var chk=document.createElement('input');chk.type='checkbox';
+      if(!set.pkg)set.pkg=[false,false];
+      chk.checked=set.pkg[idx]||false;
+      (function(si2,ii){chk.addEventListener('change',function(){
+        if(!ssetSets[si2].pkg)ssetSets[si2].pkg=[false,false];
+        ssetSets[si2].pkg[ii]=this.checked;
+        renderSset();
+      });})(si,idx);
+      lbl.appendChild(chk);lbl.appendChild(document.createTextNode(item.label+' ('+item.price+'฿/เซ็ต)'));
+      var amt=document.createElement('span');amt.style.cssText='font-size:12px;font-weight:600;color:'+(set.pkg&&set.pkg[idx]?'#1a1a1a':'#ccc')+';';
+      amt.textContent=set.pkg&&set.pkg[idx]?p.toFixed(2)+' ฿':'-';
+      pkgRow.appendChild(lbl);pkgRow.appendChild(amt);
+      box.appendChild(pkgRow);
+    });
+
     wrap.appendChild(box);
   });
 
-  // pkg section
+  // pkg section - แสดงใต้ sset-rows
   var pc=document.getElementById('pkg-rows');
   if(!pc){recalc();return;}
-
-  var _ssetPer=0;
-  var _totalSets=0;
-  ssetSets.forEach(function(set){
-    _totalSets+=set.setQty;
-    set.items.forEach(function(s){
-      if(s.qty<=0)return;
-      var sz=SSET[s.sizeIdx];
-      _ssetPer+=(s.coat==='เคลือบใสเงา'?sz.clear:sz.special)*s.qty;
-    });
-  });
-
-  pc.innerHTML='<div class="info-box" style="margin-bottom:10px;">คิดราคาตามจำนวนเซ็ต</div>';
-
-  // Free Bag
-  var bagDiv=document.createElement('div');bagDiv.className='item-row';
-  var bagInner=document.createElement('div');bagInner.className='i-inner';
-  var bagTitle=document.createElement('div');bagTitle.className='i-name';bagTitle.textContent='เลือกประเภทถุง';
-  var bagNote=document.createElement('div');bagNote.className='i-sub';bagNote.id='bag-note';
-  if(_ssetPer>0&&_ssetPer<5)bagNote.innerHTML='<span style="color:#e65100;font-weight:600;">ยอด/เซ็ต < 5฿ → +2฿/เซ็ต</span>';
-  else if(_ssetPer>=5)bagNote.textContent='ยอด/เซ็ต ≥ 5฿ → ฟรี!';
-  var bagChoiceRow=document.createElement('div');bagChoiceRow.style.cssText='display:flex;gap:6px;flex-wrap:wrap;margin-top:4px;';
-  bagInner.appendChild(bagTitle);bagInner.appendChild(bagNote);bagInner.appendChild(bagChoiceRow);
-  bagDiv.appendChild(bagInner);
-  pc.appendChild(bagDiv);
-
-  BAG_OPTS.forEach(function(opt,k){
-    var lbl=document.createElement('label');
-    lbl.className='bag-lbl'+(bagSelected&&bagChoice===opt?' sel':'');
-    lbl.style.cursor='pointer';
-    var inp=document.createElement('input');inp.type='checkbox';inp.checked=(bagSelected&&bagChoice===opt);inp.style.marginRight='2px';
-    (function(ki){inp.addEventListener('change',function(){setBagIdx(ki);});})(k);
-    var txt=opt;
-    if(k===0&&_ssetPer>0&&_ssetPer<5)txt=opt+' (+2฿/เซ็ต)';
-    lbl.appendChild(inp);lbl.appendChild(document.createTextNode(txt));
-    bagChoiceRow.appendChild(lbl);
-  });
-
-  PKG_ITEMS.forEach(function(item,idx){
-    var p=item.price*_totalSets;
-    var row=document.createElement('div');row.className='item-row';
-    var inner=document.createElement('div');inner.className='i-inner';
-    var lbl=document.createElement('label');lbl.style.cssText='display:flex;align-items:center;gap:8px;cursor:pointer;';
-    var chk=document.createElement('input');chk.type='checkbox';chk.checked=pkgSel[idx].include;
-    (function(ii){chk.addEventListener('change',function(){pkgSel[ii].include=this.checked;renderSset();});})(idx);
-    var lblDiv=document.createElement('div');
-    var n=document.createElement('div');n.className='i-name';n.textContent=item.label;
-    var s=document.createElement('div');s.className='i-sub';s.textContent=item.price+' ฿/เซ็ต';
-    lblDiv.appendChild(n);lblDiv.appendChild(s);
-    lbl.appendChild(chk);lbl.appendChild(lblDiv);
-    inner.appendChild(lbl);
-    var badge=document.createElement('span');badge.className='p-badge'+(pkgSel[idx].include?' on':'');
-    badge.textContent=pkgSel[idx].include?p.toFixed(2)+' ฿':'-';
-    row.appendChild(inner);row.appendChild(badge);
-    pc.appendChild(row);
-  });
+  pc.innerHTML='';
 
   recalc();
   window.scrollTo(0,scrollY);
@@ -1018,8 +1241,9 @@ function recalc(){
     set.items.forEach(function(s){if(s.qty>0){var sz=SSET[s.sizeIdx];per+=(s.coat==='เคลือบใสเงา'?sz.clear:sz.special)*s.qty;hasSlow=true;}});
     if(per>0){sub+=per*set.setQty;if(per<5)sub+=2*set.setQty;}
   });
-  var _totalSetsQty=0;ssetSets.forEach(function(set){_totalSetsQty+=set.setQty;});
-  for(var i=0;i<PKG_ITEMS.length;i++){if(pkgSel[i].include)sub+=PKG_ITEMS[i].price*_totalSetsQty;}
+  ssetSets.forEach(function(set){
+    PKG_ITEMS.forEach(function(item,idx){if(set.pkg&&set.pkg[idx])sub+=item.price*set.setQty;});
+  });
   for(var gi=0;gi<giftItems.length;gi++){var res=calcGiftTotal(giftItems[gi]);if(res.t>0){sub+=res.t*giftItems[gi].setQty;hasPrint=true;hasSlow=true;}}
   var freeShip=(shipMethod==='post'&&sub>=500);
   var sc=shipMethod==='post'?(freeShip?0:40):0;
@@ -1116,7 +1340,14 @@ function copyOrder(){
     else if(bagSelected)ssetL.push('  ถุง: '+bagChoice);
   });
   var _tq=0;ssetSets.forEach(function(set){_tq+=set.setQty;});
-  PKG_ITEMS.forEach(function(item,idx){if(!pkgSel[idx].include)return;var p=item.price*_tq;pkgL.push('• '+item.label+' x'+_tq+' เซ็ต = '+p.toFixed(2)+'฿');sub+=p;});
+  ssetSets.forEach(function(set,si){
+    PKG_ITEMS.forEach(function(item,idx){
+      if(!set.pkg||!set.pkg[idx])return;
+      var p=item.price*set.setQty;
+      pkgL.push('• เซ็ตที่'+(si+1)+' '+item.label+' x'+set.setQty+' เซ็ต = '+p.toFixed(2)+'฿');
+      sub+=p;
+    });
+  });
   for(var gi=0;gi<giftItems.length;gi++){var g=giftItems[gi];var res=calcGiftTotal(g);if(res.t<=0)continue;giftL.push('• เซ็ตที่'+(gi+1)+' ('+g.setQty+'เซ็ต) รวม '+(res.t*g.setQty).toFixed(2)+'฿');for(var pi2=0;pi2<g.prints.length;pi2++){var p=g.prints[pi2];if(p.printQty>0&&GIFT_PRINT_ITEMS[p.printIdx])giftL.push('  - รูป: '+GIFT_PRINT_ITEMS[p.printIdx].label+' '+p.printCoat+' x'+p.printQty);}for(var si2=0;si2<g.stickers.length;si2++){var s2=g.stickers[si2];if(s2.stickerQty>0&&SSET[s2.stickerSizeIdx])giftL.push('  - Sticker: '+SSET[s2.stickerSizeIdx].size+' '+s2.stickerCoat+' x'+s2.stickerQty);}if(g.hasDc50&&GIFT_DC50[g.dc50SizeIdx])giftL.push('  - Die-cut 50% '+GIFT_DC50[g.dc50SizeIdx].size+' x'+g.dc50Qty);if(g.hasPC)giftL.push('  - Photocard: '+PC_TYPES[g.pcTypeIdx].label+' x'+g.pcQty);if(g.hasMemo)giftL.push('  - Memo Pad x'+g.memoQty+'ก้อน');if(g.hasKP)giftL.push('  - พวงกุญแจรูป x'+g.kpQty);if(g.hasKD)giftL.push('  - พวงกุญแจ Die-cut x'+g.kdQty);if(g.pkgHead)giftL.push('  - หัวแพ็ก');if(g.pkgLabel)giftL.push('  - Sticker Label 4×6 cm');sub+=res.t*g.setQty;hasPrint=true;hasSlow=true;}
   if(idL.length||stdL.length||custL.length){lines.push('🖼 งานพิมพ์รูป');idL.concat(stdL).concat(custL).forEach(function(l){lines.push(l);});}
   if(pcL.length){lines.push('');lines.push('🃏 Photocard');pcL.forEach(function(l){lines.push(l);});}
@@ -1126,11 +1357,11 @@ function copyOrder(){
   if(ssetL.length||pkgL.length){lines.push('');lines.push('🏷 Sticker Set');ssetL.concat(pkgL).forEach(function(l){lines.push(l);});}
   if(giftL.length){lines.push('');lines.push('🎁 กิ๊ฟอะเวย์');giftL.forEach(function(l){lines.push(l);});}
   lines.push('');
-  lines.push('🚚 การจัดส่ง: '+(shipMethod==='post'?'SPX (+40฿)':'แมสเซ็นเจอร์ (จ่ายปลายทาง)'));
+
   var delDays=hasPrint&&!hasSlow?2:7;
   lines.push('📅 จัดส่งงานภายใน: '+addDaysNoSunday(delDays));
   lines.push('');
-  var sc=shipMethod==='post'?40:0;
+  var sc=shipMethod==='post'?(sub>=500?0:40):0;
   lines.push('💰 ค่าสินค้า: '+sub.toFixed(2)+'฿');
   lines.push(shipMethod==='post'?(sub>=500?'🚚 ค่าจัดส่ง: ฟรี! (ยอดครบ 500฿)':'🚚 ค่าจัดส่ง: 40.00฿'):'🚚 ค่าจัดส่ง: จ่ายปลายทาง');
   lines.push('✅ รวมทั้งหมด: '+(sub+sc).toFixed(2)+'฿');
