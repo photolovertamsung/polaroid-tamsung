@@ -137,7 +137,7 @@ select{flex:1;min-width:100px;font-size:12px;padding:6px 8px;border-radius:8px;b
 <div id="tab-diecut" style="display:none;">
   <div class="section">
     <div class="sec-title">Die-cut 50%</div>
-    <div class="info-box">PP Glossy + เคลือบใสเงาฟรี • คละได้ 2 ลาย/แผ่น</div>
+    
     <div id="dc50-rows"></div>
     <button class="add-btn" onclick="dc50Items.push({sizeIdx:3,coat:'เคลือบใสเงา',sheets:0});renderDiecut()">+ เพิ่มรายการ</button>
   </div>
@@ -146,6 +146,7 @@ select{flex:1;min-width:100px;font-size:12px;padding:6px 8px;border-radius:8px;b
     <div class="info-box">PP Sticker + เคลือบ PVC • คละได้ 2 ลาย/แผ่น</div>
     <div class="section" style="background:#f8f8f8;margin-bottom:10px;">
       <div class="sec-title" style="color:#666;">🧮 คำนวณจำนวนแผ่น</div>
+      <img src="https://i.ibb.co/HTXWtfrW/2.png" alt="ตารางจำนวนชิ้นต่อแผ่น" style="width:100%;border-radius:10px;margin-bottom:10px;">
       <div class="sel-row" style="margin-bottom:8px;">
         <select id="calc-size" onchange="calcSheets()">
           <option value="">-- เลือกขนาด --</option>
@@ -203,7 +204,7 @@ select{flex:1;min-width:100px;font-size:12px;padding:6px 8px;border-radius:8px;b
   <div class="sec-title">การจัดส่ง</div>
   <label class="ship-opt sel" id="opt-post" onclick="selShip('post')">
     <input type="radio" name="ship" checked>
-    <div><div class="s-lbl">ขนส่ง SPX <span style="font-weight:400;color:#aaa;">+40 บาท</span></div><div class="s-desc">ค่าจัดส่ง 40 บาท รวมในยอด</div></div>
+    <div><div class="s-lbl">ขนส่ง SPX <span style="font-weight:400;color:#aaa;">+40 บาท</span></div><div class="s-desc" id="spx-desc">ค่าจัดส่ง 40 บาท (ฟรีเมื่อยอด ≥ 500฿)</div></div>
   </label>
   <label class="ship-opt" id="opt-msg" onclick="selShip('msg')">
     <input type="radio" name="ship">
@@ -868,9 +869,13 @@ function recalc(){
   if(ssetPer>0){sub+=ssetPer*ssetQty;if(ssetPer<5)sub+=2*ssetQty;}
   for(var i=0;i<PKG_ITEMS.length;i++){if(pkgSel[i].include)sub+=PKG_ITEMS[i].price*ssetQty;}
   for(var gi=0;gi<giftItems.length;gi++){var res=calcGiftTotal(giftItems[gi]);if(res.t>0){sub+=res.t*giftItems[gi].setQty;hasPrint=true;hasSlow=true;}}
-  var sc=shipMethod==='post'?40:0;
+  var freeShip=(shipMethod==='post'&&sub>=500);
+  var sc=shipMethod==='post'?(freeShip?0:40):0;
+  var spxEl=document.getElementById('spx-desc');
+  if(spxEl){if(freeShip)spxEl.innerHTML='<span style="color:#3B6D11;font-weight:600;">🎉 ยอดครบ 500฿ — จัดส่งฟรี!</span>';
+  else spxEl.textContent='ค่าจัดส่ง 40 บาท (ฟรีเมื่อยอด ≥ 500฿)';}
   document.getElementById('sub-disp').textContent=sub.toFixed(2)+' บาท';
-  document.getElementById('ship-disp').textContent=shipMethod==='post'?'40.00 บาท':'จ่ายปลายทาง';
+  document.getElementById('ship-disp').textContent=shipMethod==='post'?(freeShip?'ฟรี! 🎉':'40.00 บาท'):'จ่ายปลายทาง';
   document.getElementById('total-disp').textContent=(sub+sc).toFixed(2)+' บาท';
   var dTxt,dSub;
   if(!hasPrint&&!hasSlow){dTxt='กรุณาเลือกสินค้าก่อน';dSub='ระยะเวลาจะแสดงหลังเลือกรายการ';}
@@ -975,7 +980,7 @@ function copyOrder(){
   lines.push('');
   var sc=shipMethod==='post'?40:0;
   lines.push('💰 ค่าสินค้า: '+sub.toFixed(2)+'฿');
-  lines.push(shipMethod==='post'?'🚚 ค่าจัดส่ง: 40.00฿':'🚚 ค่าจัดส่ง: จ่ายปลายทาง');
+  lines.push(shipMethod==='post'?(sub>=500?'🚚 ค่าจัดส่ง: ฟรี! (ยอดครบ 500฿)':'🚚 ค่าจัดส่ง: 40.00฿'):'🚚 ค่าจัดส่ง: จ่ายปลายทาง');
   lines.push('✅ รวมทั้งหมด: '+(sub+sc).toFixed(2)+'฿');
   var noteVal=document.getElementById('order-note')?document.getElementById('order-note').value.trim():'';
   if(noteVal){lines.push('');lines.push('📝 หมายเหตุ: '+noteVal);}
