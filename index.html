@@ -211,6 +211,10 @@ select{flex:1;min-width:100px;font-size:12px;padding:6px 8px;border-radius:8px;b
   <div class="file-row"><div style="font-size:20px;">💬</div><div><div style="font-size:13px;font-weight:600;">LINE</div><div style="font-size:12px;color:#aaa;">ส่งไฟล์รูปทาง LINE หลังยืนยันออเดอร์</div></div></div>
   <div class="file-row"><div style="font-size:20px;">📁</div><div><div style="font-size:13px;font-weight:600;">Google Drive / Google Photos</div><div style="font-size:12px;color:#aaa;">แชร์ลิงก์โฟลเดอร์มาได้เลย</div></div></div>
 </div>
+<div class="section" style="margin-bottom:12px;">
+  <div class="sec-title">📝 หมายเหตุ / รายละเอียดเพิ่มเติม</div>
+  <textarea id="order-note" placeholder="เช่น สีกรอบ, ข้อความบนงาน, รูปแบบพิเศษ หรือข้อความอื่นๆ..." style="width:100%;min-height:80px;font-size:13px;padding:10px;border-radius:10px;border:1px solid #e0e0e0;background:#f8f8f8;color:#1a1a1a;resize:vertical;font-family:inherit;line-height:1.6;" oninput="recalc()"></textarea>
+</div>
 <div class="total-sec">
   <div class="t-row"><span class="tl">ค่าสินค้า</span><span class="ta" id="sub-disp">0.00 บาท</span></div>
   <div class="t-row"><span class="tl">ค่าจัดส่ง</span><span class="ta" id="ship-disp">40.00 บาท</span></div>
@@ -965,6 +969,8 @@ function copyOrder(){
   lines.push('💰 ค่าสินค้า: '+sub.toFixed(2)+'฿');
   lines.push(shipMethod==='post'?'🚚 ค่าจัดส่ง: 40.00฿':'🚚 ค่าจัดส่ง: จ่ายปลายทาง');
   lines.push('✅ รวมทั้งหมด: '+(sub+sc).toFixed(2)+'฿');
+  var noteVal=document.getElementById('order-note')?document.getElementById('order-note').value.trim():'';
+  if(noteVal){lines.push('');lines.push('📝 หมายเหตุ: '+noteVal);}
   lines.push('');
   lines.push('━━━━━━━━━━');
   lines.push('📌 หลังโอนเงิน รบกวนแจ้งสลิป/ชื่อ/เบอร์โทร/ที่อยู่จัดส่ง/ซื้อทุกครั้งนะคะ');
