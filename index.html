@@ -79,13 +79,80 @@ select{flex:1;min-width:100px;font-size:12px;padding:6px 8px;border-radius:8px;b
   <div class="shop-name">📸 Polaroid_tamsung</div>
   <div class="shop-sub">เลือกสินค้าที่ต้องการสั่ง แล้วดูราคารวมได้เลย</div>
 </div>
+
+<!-- Quick Access Buttons -->
+<div style="display:flex;gap:8px;margin-bottom:12px;">
+  <button onclick="switchTab('checkdel')" style="flex:1;padding:12px 8px;border-radius:12px;background:#fff8e1;border:2px solid #ffc107;color:#e65100;font-size:13px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;">
+    🗓 เช็ครอบจัดส่ง
+  </button>
+  <button onclick="switchTab('info')" style="flex:1;padding:12px 8px;border-radius:12px;background:#f0f4ff;border:2px solid #90b0ff;color:#3355cc;font-size:13px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;">
+    📁 วิธีส่งไฟล์
+  </button>
+</div>
+
 <div class="tab-row">
   <button class="tab-btn active" onclick="switchTab('print')">🖼 งานพิมพ์รูป</button>
   <button class="tab-btn" onclick="switchTab('extra')">🃏 การ์ด เมโม & พวงกุญแจ</button>
+
   <button class="tab-btn" onclick="switchTab('diecut')">✂️ สต๊ก Die-cut</button>
   <button class="tab-btn" onclick="switchTab('sset')">🏷 Sticker Set</button>
   <button class="tab-btn" onclick="switchTab('gift')">🎁 กิ๊ฟอะเวย์</button>
-  <button class="tab-btn" onclick="switchTab('info')">📐 ข้อมูล</button>
+
+</div>
+
+<!-- CHECK DELIVERY TAB -->
+<div id="tab-checkdel" style="display:none;">
+  <div class="section">
+    <div class="sec-title">🗓 เช็ครอบจัดส่ง</div>
+    <div class="info-box">⏰ Cut-off time <b>20:00 น.</b> — โอนหลัง 2 ทุ่ม นับเป็นวันถัดไปค่ะ<br>🚚 SPX หยุดส่งวันอาทิตย์</div>
+
+    <div style="margin-bottom:12px;">
+      <div style="font-size:12px;font-weight:700;color:#888;margin-bottom:6px;text-transform:uppercase;letter-spacing:0.8px;">วันที่โอนเงิน / สั่งซื้อ</div>
+      <input type="date" id="cd-date" style="width:100%;font-size:14px;padding:8px 12px;border-radius:10px;border:1px solid #e0e0e0;background:#f8f8f8;color:#1a1a1a;" />
+    </div>
+
+    <div style="margin-bottom:12px;">
+      <div style="font-size:12px;font-weight:700;color:#888;margin-bottom:6px;text-transform:uppercase;letter-spacing:0.8px;">เวลาที่โอน</div>
+      <div style="display:flex;gap:8px;">
+        <label style="flex:1;display:flex;align-items:center;gap:8px;padding:10px 12px;border-radius:10px;border:2px solid #e0e0e0;cursor:pointer;background:#f8f8f8;transition:all 0.15s;" id="cd-before-lbl">
+          <input type="radio" name="cd-time" value="before" onchange="calcDelivery()" style="accent-color:#1a1a1a;width:16px;height:16px;" checked>
+          <span style="font-size:13px;font-weight:600;">ก่อน 20:00 น.</span>
+        </label>
+        <label style="flex:1;display:flex;align-items:center;gap:8px;padding:10px 12px;border-radius:10px;border:2px solid #e0e0e0;cursor:pointer;background:#f8f8f8;transition:all 0.15s;" id="cd-after-lbl">
+          <input type="radio" name="cd-time" value="after" onchange="calcDelivery()" style="accent-color:#1a1a1a;width:16px;height:16px;">
+          <span style="font-size:13px;font-weight:600;">หลัง 20:00 น.</span>
+        </label>
+      </div>
+    </div>
+
+    <div style="margin-bottom:16px;">
+      <div style="font-size:12px;font-weight:700;color:#888;margin-bottom:8px;text-transform:uppercase;letter-spacing:0.8px;">ประเภทงานที่สั่ง</div>
+      <div style="display:flex;flex-direction:column;gap:8px;">
+        <label style="display:flex;align-items:flex-start;gap:10px;padding:12px;border-radius:10px;border:2px solid #e0e0e0;cursor:pointer;background:#f8f8f8;" id="cd-type1-lbl">
+          <input type="radio" name="cd-type" value="print" onchange="calcDelivery()" style="accent-color:#1a1a1a;width:16px;height:16px;margin-top:1px;" checked>
+          <div>
+            <div style="font-size:13px;font-weight:600;">🖼 งานอัดรูปอย่างเดียว</div>
+            <div style="font-size:11px;color:#aaa;margin-top:2px;">รูปติดบัตร / รูปอัดมาตรฐาน / Custom ขนาด</div>
+          </div>
+        </label>
+        <label style="display:flex;align-items:flex-start;gap:10px;padding:12px;border-radius:10px;border:2px solid #e0e0e0;cursor:pointer;background:#f8f8f8;" id="cd-type2-lbl">
+          <input type="radio" name="cd-type" value="slow" onchange="calcDelivery()" style="accent-color:#1a1a1a;width:16px;height:16px;margin-top:1px;">
+          <div>
+            <div style="font-size:13px;font-weight:600;">🃏 โฟโต้การ์ด / เมมโม / ไดคัต / สติ๊กเกอร์</div>
+            <div style="font-size:11px;color:#aaa;margin-top:2px;">Photocard / Memo Pad / Die-cut / Sticker Set / พวงกุญแจ / กิ๊ฟอะเวย์</div>
+          </div>
+        </label>
+      </div>
+    </div>
+
+    <div id="cd-result" style="display:none;background:#f0fdf4;border:2px solid #86efac;border-radius:12px;padding:14px 16px;text-align:center;">
+      <div style="font-size:12px;color:#166534;font-weight:600;margin-bottom:4px;">📦 รอบจัดส่งของคุณ</div>
+      <div id="cd-result-date" style="font-size:22px;font-weight:700;color:#15803d;margin-bottom:4px;"></div>
+      <div id="cd-result-detail" style="font-size:12px;color:#166534;"></div>
+    </div>
+
+    <button onclick="calcDelivery()" style="width:100%;margin-top:12px;padding:12px;border-radius:10px;background:#1a1a1a;border:none;color:#fff;font-size:14px;font-weight:700;cursor:pointer;">คำนวณรอบจัดส่ง 🗓</button>
+  </div>
 </div>
 
 <div id="tab-print">
@@ -672,12 +739,61 @@ function calcSheets(){
   res.innerHTML='ต้องการ <span style="color:#c0533a;font-size:16px;">'+sheets+'</span> แผ่น ('+perSheet+' ชิ้น/แผ่น × '+sheets+' แผ่น = '+(perSheet*sheets)+' ชิ้น)';
 }
 function switchTab(tab){
-  ['print','extra','diecut','sset','gift','info'].forEach(function(x){
+  ['print','extra','diecut','sset','gift','info','checkdel'].forEach(function(x){
     document.getElementById('tab-'+x).style.display=x===tab?'':'none';
   });
   document.querySelectorAll('.tab-btn').forEach(function(b,i){
-    b.classList.toggle('active',['print','extra','diecut','sset','gift','info'][i]===tab);
+    b.classList.toggle('active',['print','extra','diecut','sset','gift','info','checkdel'][i]===tab);
   });
+  if(tab==='checkdel'){
+    var today=new Date();
+    var yyyy=today.getFullYear();
+    var mm=String(today.getMonth()+1).padStart(2,'0');
+    var dd=String(today.getDate()).padStart(2,'0');
+    var el=document.getElementById('cd-date');
+    if(el&&!el.value) el.value=yyyy+'-'+mm+'-'+dd;
+    calcDelivery();
+  }
+}
+function calcDelivery(){
+  var dateEl=document.getElementById('cd-date');
+  var resultEl=document.getElementById('cd-result');
+  var resultDate=document.getElementById('cd-result-date');
+  var resultDetail=document.getElementById('cd-result-detail');
+  if(!dateEl||!dateEl.value){if(resultEl)resultEl.style.display='none';return;}
+
+  var parts=dateEl.value.split('-');
+  var base=new Date(+parts[0],+parts[1]-1,+parts[2]);
+  var timeVal=document.querySelector('input[name="cd-time"]:checked');
+  var typeVal=document.querySelector('input[name="cd-type"]:checked');
+  var isAfter=timeVal&&timeVal.value==='after';
+  var isSlow=typeVal&&typeVal.value==='slow';
+
+  // ถ้าโอนหลัง 20:00 นับวันถัดไป
+  if(isAfter){base.setDate(base.getDate()+1);}
+
+  // วันผลิต
+  var prodDays=isSlow?7:2;
+
+  // นับวันผลิต (ข้ามอาทิตย์)
+  var cur=new Date(base);
+  var counted=0;
+  while(counted<prodDays){
+    cur.setDate(cur.getDate()+1);
+    if(cur.getDay()!==0) counted++; // 0 = อาทิตย์
+  }
+
+  // วันส่งต้องไม่ใช่อาทิตย์
+  while(cur.getDay()===0){cur.setDate(cur.getDate()+1);}
+
+  var days=['อาทิตย์','จันทร์','อังคาร','พุธ','พฤหัสบดี','ศุกร์','เสาร์'];
+  var months=['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'];
+  var dayName=days[cur.getDay()];
+  var dateStr='วัน'+dayName+'ที่ '+cur.getDate()+' '+months[cur.getMonth()]+' '+(cur.getFullYear()+543);
+
+  resultDate.textContent=dateStr;
+  resultDetail.textContent=(isSlow?'งานผลิต 7 วัน':'งานผลิต 2 วัน')+' • จัดส่งผ่าน SPX (ไม่ส่งวันอาทิตย์)';
+  resultEl.style.display='block';
 }
 function selShip(v){
   shipMethod=v;
