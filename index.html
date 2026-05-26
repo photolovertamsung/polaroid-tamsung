@@ -1211,7 +1211,11 @@ function renderSset(){
       var qi=document.createElement('input');qi.type='number';qi.className='qty-inp';qi.min='0';qi.max='9999';qi.value=s.qty;
       (function(si2,ii){qi.addEventListener('change',function(){setSsetQty(si2,ii,this.value);});})(si,i);
       var qu=document.createElement('span');qu.className='qty-lbl';qu.textContent='ชิ้น';
-      qRow.appendChild(ql);qRow.appendChild(qi);qRow.appendChild(qu);
+      var qprice=document.createElement('span');qprice.className='qty-lbl';
+      var perSet=unitP*s.qty;
+      qprice.textContent=s.qty>0?'× '+unitP+' ฿ = '+perSet.toFixed(2)+' ฿':'';
+      qprice.style.cssText='color:#1a1a1a;font-weight:600;font-size:12px;';
+      qRow.appendChild(ql);qRow.appendChild(qi);qRow.appendChild(qu);qRow.appendChild(qprice);
       inner.appendChild(qRow);
 
       var badge=document.createElement('span');
@@ -1237,13 +1241,17 @@ function renderSset(){
       setPerTotal+=u*s.qty;
       setTotal+=u*s.qty*set.setQty;
     });
-    if(setPerTotal>0&&setPerTotal<5&&!set.bagSelected)setTotal+=2*set.setQty;
+    if(setPerTotal>0&&setPerTotal<5&&!set.bagSelected)setTotal+=0;
     PKG_ITEMS.forEach(function(item,idx){if(set.pkg&&set.pkg[idx])setTotal+=item.price*set.setQty;});
     var sumRow=document.createElement('div');
-    sumRow.style.cssText='display:flex;justify-content:space-between;margin-top:10px;padding-top:8px;border-top:1px solid #e8e8e8;font-size:13px;';
+    sumRow.style.cssText='display:flex;justify-content:space-between;align-items:flex-start;margin-top:10px;padding-top:8px;border-top:1px solid #e8e8e8;font-size:13px;';
     var sumLbl=document.createElement('span');sumLbl.style.color='#888';sumLbl.textContent='รวมเซ็ตที่ '+(si+1);
-    var sumAmt=document.createElement('span');sumAmt.style.fontWeight='700';sumAmt.textContent=setTotal.toFixed(2)+' ฿';
-    sumRow.appendChild(sumLbl);sumRow.appendChild(sumAmt);
+    var sumRight=document.createElement('div');sumRight.style.cssText='text-align:right;';
+    var sumAmt=document.createElement('div');sumAmt.style.fontWeight='700';sumAmt.textContent=setTotal.toFixed(2)+' ฿';
+    var sumPer=document.createElement('div');sumPer.style.cssText='font-size:11px;color:#aaa;margin-top:2px;';
+    sumPer.textContent=setPerTotal>0?'('+setPerTotal.toFixed(2)+' ฿/เซ็ต × '+set.setQty+' เซ็ต)':'';
+    sumRight.appendChild(sumAmt);sumRight.appendChild(sumPer);
+    sumRow.appendChild(sumLbl);sumRow.appendChild(sumRight);
     box.appendChild(sumRow);
 
     // แพ็กเกจจิ้งของเซ็ตนี้
@@ -1267,7 +1275,13 @@ function renderSset(){
         renderSset();
       });})(si,k);
       var txt=opt;
-      if(k===0&&setPerItem>0&&setPerItem<5)txt=opt+' (+2฿/เซ็ต)';
+      if(k===0){
+        if(setPerItem<=0) txt=opt;
+        else if(setPerItem<5) txt=opt+' (+2฿/เซ็ต)';
+        else txt=opt+' (ฟรี)';
+      } else {
+        txt=opt+' (ฟรี)';
+      }
       lbl.appendChild(inp);lbl.appendChild(document.createTextNode(txt));
       bagRow2.appendChild(lbl);
     });
@@ -1291,7 +1305,7 @@ function renderSset(){
         ssetSets[si2].pkg[ii]=this.checked;
         renderSset();
       });})(si,idx);
-      lbl.appendChild(chk);lbl.appendChild(document.createTextNode(item.label+' ('+item.price+'฿/เซ็ต)'));
+      lbl.appendChild(chk);lbl.appendChild(document.createTextNode(item.label+' (เซ็ตที่'+(si+1)+') ('+item.price+'฿/เซ็ต)'));
       var amt=document.createElement('span');amt.style.cssText='font-size:12px;font-weight:600;color:'+(set.pkg&&set.pkg[idx]?'#1a1a1a':'#ccc')+';';
       amt.textContent=set.pkg&&set.pkg[idx]?p.toFixed(2)+' ฿':'-';
       pkgRow.appendChild(lbl);pkgRow.appendChild(amt);
@@ -1463,7 +1477,7 @@ function renderSummary(){
       items.push({name:'Sticker เซ็ตที่'+(si+1)+' ขนาด '+sz.size,detail:s.coat+' × '+s.qty+'/เซ็ต × '+set.setQty+' เซ็ต',price:p});
       sub+=p;
     });
-    if(setPer>0&&setPer<5&&!set.bagSelected){var bagFee=2*set.setQty;items.push({name:'ค่าซอง PVC เซ็ตที่'+(si+1),detail:'× '+set.setQty+' เซ็ต',price:bagFee});sub+=bagFee;}
+    if(setPer>0&&setPer<5&&!set.bagSelected){}
   });
   // PKG
   ssetSets.forEach(function(set,si){
@@ -1524,7 +1538,7 @@ function copyOrder(){
     if(per<=0)return;
     ssetL.push('• เซ็ตที่'+(si+1)+' ('+set.setQty+' เซ็ต):');
     set.items.forEach(function(s,i){if(s.qty<=0)return;var sz=SSET[s.sizeIdx];var u=s.coat==='เคลือบใสเงา'?sz.clear:sz.special;var p=u*s.qty*set.setQty;ssetL.push('  ขนาด '+(i+1)+': '+sz.size+' '+s.coat+' x'+s.qty+'/เซ็ต = '+p.toFixed(2)+'฿');sub+=p;hasSlow=true;});
-    if(per<5){ssetL.push('  ค่าซอง PVC: +'+(2*set.setQty)+'฿');sub+=2*set.setQty;}
+    if(per<5){ssetL.push('  ⚠️ ยอด/เซ็ต < 5฿ กรุณาเลือกซอง PVC');}
     else if(bagSelected)ssetL.push('  ถุง: '+bagChoice);
   });
   var _tq=0;ssetSets.forEach(function(set){_tq+=set.setQty;});
