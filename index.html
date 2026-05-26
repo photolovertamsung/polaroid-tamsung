@@ -1,1648 +1,277 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-EBLMPQQ7LW"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-EBLMPQQ7LW');
-</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Polaroid_tamsung</title>
+<title>ตรวจสอบสถานะ — Polaroid_tamsung</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-*{box-sizing:border-box;margin:0;padding:0;}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f5f5f5;color:#1a1a1a;padding:16px;}
-.wrap{max-width:520px;margin:0 auto;}
-.shop-header{text-align:center;padding:18px 16px 14px;background:#fff;border-radius:16px;margin-bottom:12px;border:1px solid #e8e8e8;box-shadow:0 2px 8px rgba(0,0,0,0.06);}
-.shop-name{font-size:22px;font-weight:700;color:#1a1a1a;}
-.shop-sub{font-size:13px;color:#888;margin-top:4px;}
-.tab-row{display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap;}
-.tab-btn{flex:1;min-width:70px;padding:8px 4px;border-radius:10px;border:1px solid #e0e0e0;background:#fff;color:#888;font-size:11px;cursor:pointer;font-weight:600;text-align:center;transition:all 0.15s;}
-.tab-btn.active{background:#1a1a1a;border-color:#1a1a1a;color:#fff;}
-.section{background:#fff;border:1px solid #e8e8e8;border-radius:16px;padding:16px 20px;margin-bottom:12px;}
-.sec-title{font-size:12px;font-weight:700;color:#888;margin-bottom:12px;text-transform:uppercase;letter-spacing:0.8px;}
-.info-box{background:#f8f8f8;border:1px solid #e8e8e8;border-radius:10px;padding:9px 13px;margin-bottom:12px;font-size:12px;color:#666;line-height:1.6;}
-.pro-badge{display:inline-block;font-size:10px;background:#fff3e0;color:#e65100;border-radius:5px;padding:2px 6px;font-weight:700;margin-left:4px;}
-.item-row{display:flex;align-items:flex-start;gap:8px;margin-bottom:10px;padding-bottom:10px;border-bottom:1px solid #f0f0f0;}
-.item-row:last-child{margin-bottom:0;padding-bottom:0;border-bottom:none;}
-.i-num{font-size:12px;color:#ccc;min-width:16px;padding-top:2px;}
-.i-inner{flex:1;display:flex;flex-direction:column;gap:6px;}
-.i-name{font-size:13px;font-weight:600;color:#1a1a1a;}
-.i-sub{font-size:11px;color:#aaa;}
-.sel-row{display:flex;gap:6px;flex-wrap:wrap;}
-select{flex:1;min-width:100px;font-size:12px;padding:6px 8px;border-radius:8px;border:1px solid #e0e0e0;background:#f8f8f8;color:#1a1a1a;cursor:pointer;}
-.qty-row{display:flex;align-items:center;gap:6px;flex-wrap:wrap;}
-.qty-lbl{font-size:12px;color:#aaa;}
-.qty-inp{width:58px;font-size:13px;padding:5px 8px;border-radius:8px;border:1px solid #e0e0e0;background:#f8f8f8;color:#1a1a1a;}
-.p-badge{font-size:12px;font-weight:700;min-width:60px;text-align:right;color:#ccc;padding-top:2px;}
-.p-badge.on{color:#1a1a1a;}
-.warn{font-size:11px;color:#e65100;background:#fff3e0;border-radius:6px;padding:3px 8px;display:inline-block;margin-top:2px;}
-.pro-info{font-size:11px;padding:4px 8px;border-radius:6px;margin-top:3px;display:inline-block;}
-.pro-info.active{background:#fff3e0;color:#e65100;}
-.pro-info.normal{background:#f5f5f5;color:#888;}
-.add-btn{width:100%;padding:8px;border-radius:8px;border:1px dashed #ddd;background:#f8f8f8;color:#666;font-size:13px;cursor:pointer;margin-top:10px;}
-.add-btn:hover{background:#f0f0f0;}
-.rm-btn{font-size:11px;color:#e53935;background:none;border:none;cursor:pointer;}
-.inner-box{background:#f8f8f8;border:1px solid #e8e8e8;border-radius:10px;padding:11px;margin-top:4px;}
-.sub-box{background:#fff;border:1px solid #e8e8e8;border-radius:8px;padding:8px;margin-bottom:6px;}
-.ship-opt{display:flex;align-items:flex-start;gap:10px;padding:11px;border-radius:10px;border:1px solid #e8e8e8;cursor:pointer;margin-bottom:8px;}
-.ship-opt:last-child{margin-bottom:0;}
-.ship-opt.sel{border-color:#1a1a1a;background:#f8f8f8;}
-.s-lbl{font-size:13px;font-weight:600;color:#1a1a1a;}
-.s-desc{font-size:12px;color:#aaa;margin-top:2px;}
-.del-box{background:#f8f8f8;border:1px solid #e8e8e8;border-radius:14px;padding:13px 18px;margin-bottom:12px;display:flex;align-items:center;gap:12px;}
-.del-txt{font-size:13px;font-weight:600;color:#1a1a1a;}
-.del-sub{font-size:12px;color:#aaa;margin-top:2px;}
-.file-sec{background:#fff;border:1px solid #e8e8e8;border-radius:16px;padding:16px 20px;margin-bottom:12px;}
-.file-row{display:flex;align-items:center;gap:12px;padding:9px 11px;border-radius:10px;background:#f8f8f8;border:1px solid #e8e8e8;margin-bottom:8px;}
-.file-row:last-child{margin-bottom:0;}
-.total-sec{background:#fff;border-radius:16px;padding:16px 20px;margin-bottom:12px;border:1px solid #e8e8e8;}
-.t-row{display:flex;justify-content:space-between;font-size:13px;color:#aaa;margin-bottom:8px;}
-.t-row.grand{border-top:1px solid #e8e8e8;padding-top:11px;margin-top:4px;margin-bottom:0;}
-.t-row.grand .tl{font-size:15px;font-weight:700;color:#1a1a1a;}
-.t-row.grand .ta{font-size:22px;font-weight:700;color:#1a1a1a;}
-.t-row .ta{color:#1a1a1a;font-weight:600;}
-.copy-btn{width:100%;padding:13px;border-radius:12px;background:#1a1a1a;border:none;color:#fff;font-size:14px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;}
-.copy-btn:hover{background:#333;}
-.copy-btn:active{transform:scale(0.98);}
-.copy-msg{font-size:12px;color:#3B6D11;text-align:center;margin-top:8px;min-height:18px;}
-.bag-lbl{display:flex;align-items:center;gap:4px;font-size:12px;cursor:pointer;padding:5px 10px;border-radius:8px;border:1px solid #e0e0e0;background:#f8f8f8;transition:all 0.15s;}
-.bag-lbl.sel{border-color:#1a1a1a;background:#f0f0f0;color:#1a1a1a;font-weight:600;}
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --green: #1D9E75; --green-dark: #0F6E56; --green-light: #E8F8F2;
+    --green-border: #B2E8D4; --green-text: #085041;
+    --amber-bg: #FEF3E2; --amber-text: #92600A;
+    --delivered-bg: #EDF7E1; --delivered-text: #3B6D11;
+    --bg: #F2F2F7; --surface: #FFFFFF; --border: rgba(0,0,0,0.08);
+    --text: #000000; --text-muted: #6B6B6B; --text-faint: #AEAEB2;
+    --radius: 16px; --radius-sm: 10px;
+  }
+  body { font-family: -apple-system, 'SF Pro Display', 'Sarabun', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+  .header { background: rgba(255,255,255,0.85); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-bottom: 0.5px solid var(--border); padding: 14px 20px; display: flex; align-items: center; gap: 12px; position: sticky; top: 0; z-index: 10; }
+  .logo { width: 36px; height: 36px; background: var(--green); border-radius: 9px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .logo svg { width: 18px; height: 18px; fill: none; stroke: white; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .header-text h1 { font-size: 16px; font-weight: 700; line-height: 1.2; letter-spacing: -0.3px; }
+  .header-text p { font-size: 12px; color: var(--text-muted); }
+  .main { max-width: 480px; margin: 0 auto; padding: 20px 16px 40px; }
+  .delivery-card { background: var(--green-light); border: 0.5px solid var(--green-border); border-radius: var(--radius); padding: 14px 16px; margin-bottom: 16px; }
+  .delivery-card h2 { font-size: 13px; font-weight: 600; color: var(--green-text); margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
+  .delivery-row { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--green-dark); margin-top: 4px; }
+  .delivery-row span { font-weight: 600; }
+  .search-card { background: var(--surface); border-radius: var(--radius); padding: 16px; margin-bottom: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+  .tabs { display: flex; gap: 6px; margin-bottom: 14px; background: var(--bg); border-radius: 10px; padding: 3px; }
+  .tab { flex: 1; padding: 8px 12px; border-radius: 8px; border: none; background: transparent; font-family: -apple-system, 'Sarabun', sans-serif; font-size: 13px; font-weight: 500; color: var(--text-muted); cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 5px; }
+  .tab.active { background: var(--surface); color: var(--text); font-weight: 600; box-shadow: 0 1px 3px rgba(0,0,0,0.12); }
+  .input-row { display: flex; gap: 8px; }
+  .search-input { flex: 1; padding: 11px 14px; border: 0.5px solid var(--border); border-radius: var(--radius-sm); font-family: -apple-system, 'Sarabun', sans-serif; font-size: 15px; background: var(--bg); color: var(--text); outline: none; }
+  .search-input:focus { border-color: var(--green); background: white; }
+  .search-input::placeholder { color: var(--text-faint); }
+  .search-btn { padding: 11px 18px; background: var(--green); color: white; border: none; border-radius: var(--radius-sm); font-family: -apple-system, 'Sarabun', sans-serif; font-size: 15px; font-weight: 600; cursor: pointer; }
+  .search-btn:hover { background: var(--green-dark); }
+  .hint { font-size: 12px; color: var(--text-faint); margin-top: 8px; }
+  .sync-bar { font-size: 12px; color: var(--text-faint); display: flex; align-items: center; gap: 6px; margin-bottom: 12px; }
+  .sync-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--text-faint); }
+  .sync-dot.ok { background: var(--green); }
+  .sync-dot.err { background: #FF3B30; }
+  .result-count { font-size: 13px; color: var(--text-muted); margin-bottom: 10px; }
+  .result-card { background: var(--surface); border-radius: var(--radius); padding: 16px; margin-bottom: 10px; animation: fadeIn 0.2s ease; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; } }
+  .card-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
+  .card-name { font-size: 16px; font-weight: 700; letter-spacing: -0.3px; }
+  .card-phone { font-size: 13px; color: var(--text-muted); margin-top: 2px; }
+  .card-province { font-size: 12px; color: var(--text-faint); }
+  .badge { font-size: 11px; font-weight: 600; padding: 4px 10px; border-radius: 20px; white-space: nowrap; flex-shrink: 0; margin-left: 8px; }
+  .badge-shipped { background: var(--green-light); color: var(--green-dark); }
+  .badge-transit { background: var(--amber-bg); color: var(--amber-text); }
+  .badge-delivered { background: var(--delivered-bg); color: var(--delivered-text); }
+  .courier-row { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; color: var(--text-muted); background: var(--bg); padding: 4px 10px; border-radius: 20px; margin-bottom: 10px; }
+  .tracking-row { display: flex; align-items: center; gap: 8px; padding-top: 10px; border-top: 0.5px solid var(--border); }
+  .tracking-label { font-size: 12px; color: var(--text-muted); flex-shrink: 0; }
+  .tracking-num { font-family: 'SF Mono', 'IBM Plex Mono', monospace; font-size: 13px; font-weight: 500; flex: 1; word-break: break-all; }
+  .copy-btn { padding: 5px 12px; border: 0.5px solid var(--border); border-radius: 6px; background: var(--bg); font-family: -apple-system, 'Sarabun', sans-serif; font-size: 12px; cursor: pointer; color: var(--green); font-weight: 600; flex-shrink: 0; }
+  .copy-btn.copied { background: var(--green-light); color: var(--green-dark); }
+  .product-img { width: 100%; border-radius: 12px; margin-top: 10px; max-height: 240px; object-fit: cover; display: block; }
+  .no-img { display: none; }
+  .lightbox { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.92); z-index: 99999; align-items: center; justify-content: center; padding: 20px; cursor: pointer; }
+  .lightbox.show { display: flex; }
+  .lightbox-img { max-width: 100%; max-height: 88vh; border-radius: 12px; object-fit: contain; cursor: default; }
+  .lightbox-close { position: fixed; top: 16px; right: 16px; width: 40px; height: 40px; border-radius: 50%; background: rgba(255,255,255,0.2); color: white; border: none; font-size: 20px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+  .empty-state { text-align: center; padding: 32px 16px; color: var(--text-muted); font-size: 14px; }
+  .thank-box { background: var(--surface); border-radius: var(--radius); padding: 16px; margin-top: 12px; text-align: center; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+  .thank-box p { font-size: 13px; color: var(--text-muted); line-height: 1.8; }
+  .secret-btn { margin-left: auto; width: 32px; height: 32px; background: transparent; border: none; cursor: pointer; opacity: 0; }
+  .secret-menu { position: absolute; top: 56px; right: 16px; background: var(--surface); border-radius: var(--radius); box-shadow: 0 4px 20px rgba(0,0,0,0.12); overflow: hidden; display: none; z-index: 100; min-width: 180px; }
+  .secret-menu.show { display: block; }
+  .secret-item { display: block; padding: 14px 16px; font-size: 14px; font-weight: 500; color: var(--text); text-decoration: none; border-bottom: 0.5px solid var(--border); }
+  .secret-item:last-child { border-bottom: none; }
+  .secret-item:hover { background: var(--bg); }
 </style>
 </head>
 <body>
-<div class="wrap">
-<div style="background:linear-gradient(135deg,#fff0f5,#fff8e1);border:1px solid #ffd6e7;border-radius:14px;padding:12px 16px;margin-bottom:12px;text-align:center;font-size:13px;color:#c2185b;line-height:1.6;">
-  ยินดีต้อนรับค่ะ! จิ้มเลือกของที่อยากสั่งด้านล่างเพื่อคำนวณราคาและเช็ครอบส่งได้เลยน้า<br><span style="font-size:12px;color:#e91e8c;">(ใช้ง่ายมาก ไม่ต้องกลัวงงค่ะ) 💖</span>
-</div>
-<div class="shop-header">
-  <div class="shop-name">📸 Polaroid_tamsung</div>
-  <div class="shop-sub">เลือกสินค้าที่ต้องการสั่ง แล้วดูราคารวมได้เลย</div>
-</div>
+<header class="header" style="position:relative;">
+  <div class="logo">
+    <svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="15" rx="2"/><circle cx="12" cy="12" r="4"/><circle cx="17" cy="8" r="1" fill="white" stroke="none"/></svg>
+  </div>
+  <div class="header-text">
+    <h1>Polaroid_tamsung</h1>
+    <p>ตรวจสอบสถานะคิวงานผลิต</p>
+  </div>
+  <button class="secret-btn" onclick="toggleMenu()" aria-label="menu"></button>
+  <div class="secret-menu" id="secretMenu">
+    <a href="admin.html" class="secret-item">📸 อัพรูปสินค้า</a>
+    <a href="parse-order.html" class="secret-item">✨ แยกออเดอร์</a>
+  </div>
+</header>
 
-<!-- Quick Access Buttons -->
-<div style="display:flex;gap:8px;margin-bottom:12px;">
-  <button onclick="switchTab('checkdel')" style="flex:1;padding:12px 8px;border-radius:12px;background:#fff8e1;border:2px solid #ffc107;color:#e65100;font-size:13px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;">
-    🗓 เช็ครอบจัดส่ง
-  </button>
-  <button onclick="switchTab('info')" style="flex:1;padding:12px 8px;border-radius:12px;background:#f0f4ff;border:2px solid #90b0ff;color:#3355cc;font-size:13px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;">
-    📁 วิธีส่งไฟล์
-  </button>
-</div>
+<main class="main">
+  <div class="delivery-card">
+    <h2>⏱ ระยะเวลาจัดส่งโดยประมาณ</h2>
+    <div class="delivery-row">📍 กทม./ปริมณฑล &nbsp;<span>1–2 วัน</span></div>
+    <div class="delivery-row">📍 ต่างจังหวัด &nbsp;<span>3–5 วัน</span></div>
+  </div>
 
-<div class="tab-row">
-  <button class="tab-btn active" onclick="switchTab('print')">🖼 งานพิมพ์รูป</button>
-  <button class="tab-btn" onclick="switchTab('extra')">🃏 การ์ด เมโม & พวงกุญแจ</button>
+  <div class="sync-bar">
+    <div class="sync-dot" id="syncDot"></div>
+    <span id="syncStatus">กำลังโหลดข้อมูล...</span>
+  </div>
 
-  <button class="tab-btn" onclick="switchTab('diecut')">✂️ สต๊ก Die-cut</button>
-  <button class="tab-btn" onclick="switchTab('sset')">🏷 Sticker Set</button>
-  <button class="tab-btn" onclick="switchTab('gift')">🎁 กิ๊ฟอะเวย์</button>
-
-</div>
-<div id="tab-desc" style="font-size:11px;color:#888;text-align:center;padding:6px 12px;margin-bottom:4px;"></div>
-
-<!-- CHECK DELIVERY TAB -->
-<div id="tab-checkdel" style="display:none;">
-  <div class="section">
-    <div class="sec-title">🗓 เช็ครอบจัดส่ง</div>
-    <div class="info-box">⏰ Cut-off time <b>20:00 น.</b> — โอนหลัง 2 ทุ่ม นับเป็นวันถัดไปค่ะ<br>🚚 SPX หยุดส่งวันอาทิตย์</div>
-
-    <div style="margin-bottom:12px;">
-      <div style="font-size:12px;font-weight:700;color:#888;margin-bottom:6px;text-transform:uppercase;letter-spacing:0.8px;">เลือกวันที่โอนเงิน / สั่งซื้อ</div>
-      <input type="date" id="cd-date" onchange="calcDelivery()" placeholder="กดเลือกวันที่" style="width:100%;font-size:14px;padding:8px 12px;border-radius:10px;border:1px solid #e0e0e0;background:#f8f8f8;color:#1a1a1a;" />
-      <div style="font-size:11px;color:#aaa;margin-top:4px;">👆 กดที่ช่องด้านบนเพื่อเลือกวันที่ค่ะ</div>
+  <div class="search-card">
+    <div class="tabs">
+      <button class="tab active" id="tabName" onclick="setTab('name')">👤 ค้นหาด้วยชื่อ</button>
+      <button class="tab" id="tabPhone" onclick="setTab('phone')">📞 เบอร์โทร</button>
     </div>
-
-    <div style="margin-bottom:12px;">
-      <div style="font-size:12px;font-weight:700;color:#888;margin-bottom:6px;text-transform:uppercase;letter-spacing:0.8px;">เวลาที่โอน</div>
-      <div style="display:flex;gap:8px;">
-        <label style="flex:1;display:flex;align-items:center;gap:8px;padding:10px 12px;border-radius:10px;border:2px solid #e0e0e0;cursor:pointer;background:#f8f8f8;transition:all 0.15s;" id="cd-before-lbl">
-          <input type="radio" name="cd-time" value="before" onchange="calcDelivery()" style="accent-color:#1a1a1a;width:16px;height:16px;" checked>
-          <span style="font-size:13px;font-weight:600;">ก่อน 20:00 น.</span>
-        </label>
-        <label style="flex:1;display:flex;align-items:center;gap:8px;padding:10px 12px;border-radius:10px;border:2px solid #e0e0e0;cursor:pointer;background:#f8f8f8;transition:all 0.15s;" id="cd-after-lbl">
-          <input type="radio" name="cd-time" value="after" onchange="calcDelivery()" style="accent-color:#1a1a1a;width:16px;height:16px;">
-          <span style="font-size:13px;font-weight:600;">หลัง 20:00 น.</span>
-        </label>
-      </div>
+    <div class="input-row">
+      <input class="search-input" id="searchInput" placeholder="พิมพ์ชื่อ-นามสกุลให้ครบ..." oninput="doSearch()" autocomplete="off"/>
+      <button class="search-btn" onclick="doSearch()">ค้นหา</button>
     </div>
-
-    <div style="margin-bottom:16px;">
-      <div style="font-size:12px;font-weight:700;color:#888;margin-bottom:8px;text-transform:uppercase;letter-spacing:0.8px;">ประเภทงานที่สั่ง</div>
-      <div style="display:flex;flex-direction:column;gap:8px;">
-        <label style="display:flex;align-items:flex-start;gap:10px;padding:12px;border-radius:10px;border:2px solid #e0e0e0;cursor:pointer;background:#f8f8f8;" id="cd-type1-lbl">
-          <input type="radio" name="cd-type" value="print" onchange="calcDelivery()" style="accent-color:#1a1a1a;width:16px;height:16px;margin-top:1px;" checked>
-          <div>
-            <div style="font-size:13px;font-weight:600;">🖼 งานอัดรูปอย่างเดียว</div>
-            <div style="font-size:11px;color:#aaa;margin-top:2px;">รูปติดบัตร / รูปอัดมาตรฐาน / Custom ขนาด</div>
-          </div>
-        </label>
-        <label style="display:flex;align-items:flex-start;gap:10px;padding:12px;border-radius:10px;border:2px solid #e0e0e0;cursor:pointer;background:#f8f8f8;" id="cd-type2-lbl">
-          <input type="radio" name="cd-type" value="slow" onchange="calcDelivery()" style="accent-color:#1a1a1a;width:16px;height:16px;margin-top:1px;">
-          <div>
-            <div style="font-size:13px;font-weight:600;">🃏 โฟโต้การ์ด / เมมโม / ไดคัต / สติ๊กเกอร์</div>
-            <div style="font-size:11px;color:#aaa;margin-top:2px;">Photocard / Memo Pad / Die-cut / Sticker Set / พวงกุญแจ / กิ๊ฟอะเวย์</div>
-          </div>
-        </label>
-      </div>
-    </div>
-
-    <div id="cd-result" style="display:none;background:#f0fdf4;border:2px solid #86efac;border-radius:12px;padding:14px 16px;text-align:center;">
-      <div style="font-size:12px;color:#166534;font-weight:600;margin-bottom:4px;">📦 รอบจัดส่งของคุณ</div>
-      <div id="cd-result-date" style="font-size:22px;font-weight:700;color:#15803d;margin-bottom:4px;"></div>
-      <div id="cd-result-detail" style="font-size:12px;color:#166534;"></div>
-    </div>
-
-
-  </div>
-</div>
-
-<div id="tab-print">
-  <div class="section"><div class="sec-title">รูปติดบัตร</div><div id="id-rows"></div></div>
-  <div class="section">
-    <div class="sec-title">รูปอัดมาตรฐาน</div>
-    <div class="info-box">👇 เลือกขนาดที่ต้องการ แล้วกด <b>+ เพิ่ม</b> เพื่อเพิ่มสินค้าได้เลยค่ะ (เพิ่มได้หลายขนาด)</div>
-    <div id="std-cards"></div>
-    <div style="display:flex;gap:8px;margin-top:10px;">
-      <select id="std-add-select" style="flex:1;font-size:13px;padding:8px;">
-        <option value="">-- เลือกขนาดที่ต้องการ --</option>
-      </select>
-      <button onclick="addStdItem()" style="padding:8px 14px;border-radius:8px;border:1px solid #1a1a1a;background:#1a1a1a;color:#fff;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;">+ เพิ่ม</button>
-    </div>
-  </div>
-  <div class="section">
-    <div class="sec-title">Custom ขนาด</div>
-    <div class="info-box">กรอกขนาด (cm) • ขั้นต่ำ 1×1 cm • สูงสุด A4 (21×29.7 cm) • เคลือบขั้นต่ำ 10 ใบ/ลาย</div>
-    <div id="custom-rows"></div>
-    <button class="add-btn" onclick="addCustom()">+ เพิ่มขนาด Custom</button>
-  </div>
-</div>
-
-<div id="tab-extra" style="display:none;">
-  <div class="section">
-    <div class="sec-title">Photocard</div>
-    <div class="info-box">เคลือบฟิล์มฟรีทุกแบบ • มีซองใสให้ • คละลายเคลือบขั้นต่ำ 10 ใบ</div>
-    <div id="pc-rows"></div>
-    <button class="add-btn" onclick="pcItems.push({typeIdx:0,coat:'เคลือบใสเงา',qty:0});renderExtra()">+ เพิ่มรายการ</button>
-  </div>
-  <div class="section">
-    <div class="sec-title">Memo Pad <span style="font-size:11px;font-weight:400;color:#aaa;text-transform:none;letter-spacing:0;">8×8 cm • กระดาษการ์ดขาว 150 แกรม</span></div>
-    <div class="info-box">ขั้นต่ำ 6 ก้อน/ลาย</div>
-    <div id="memo-rows"></div>
-    <button class="add-btn" onclick="memoItems.push({optIdx:0,qty:0});renderExtra()">+ เพิ่มรายการ</button>
-  </div>
-  <div class="section">
-    <div class="sec-title">พวงกุญแจรูปภาพ <span style="font-size:11px;font-weight:400;color:#aaa;text-transform:none;letter-spacing:0;">2×2 นิ้ว</span></div>
-    <div class="info-box">3 ฿/ชิ้น • เคลือบ +3 ฿ • เคลือบขั้นต่ำ 10 ชิ้น/ลาย</div>
-    <div id="kp-rows"></div>
-    <button class="add-btn" onclick="kpItems.push({coat:'ไม่เคลือบ',qty:0});renderExtra()">+ เพิ่มรายการ</button>
-  </div>
-  <div class="section">
-    <div class="sec-title">พวงกุญแจ Die-cut</div>
-    <div class="info-box">5 ฿/ชิ้น • เคลือบ 8 แบบ • ขั้นต่ำ 15 ชิ้น/ลาย</div>
-    <div id="kd-rows"></div>
-    <button class="add-btn" onclick="kdItems.push({coat:'เคลือบใสเงา',qty:0});renderExtra()">+ เพิ่มรายการ</button>
-  </div>
-</div>
-
-<div id="tab-diecut" style="display:none;">
-  <div class="section">
-    <div class="sec-title">Die-cut 50% <span style="font-size:11px;font-weight:400;color:#aaa;text-transform:none;letter-spacing:0;">(STICKER SHEET / LABEL)</span></div>
-    <div class="info-box">✂️ ไม่มีขั้นต่ำ • ไม่จำกัดจุดไดคัตค่ะ</div>
-    <div id="dc50-rows"></div>
-    <button class="add-btn" onclick="dc50Items.push({sizeIdx:3,coat:'เคลือบใสเงา',sheets:0});renderDiecut()">+ เพิ่มรายการ</button>
-  </div>
-  <div class="section">
-    <div class="sec-title">Die-cut 100% <span style="font-size:11px;font-weight:400;color:#aaa;text-transform:none;letter-spacing:0;">(ไดคัตเป็นชิ้นๆตามทรงงาน) A4 เท่านั้น</span></div>
-    <div class="info-box">💡 1 แผ่น A4 คละได้ 2 ลาย • ไม่มีขั้นต่ำ • ไม่จำกัดจุดไดคัตค่ะ</div>
-
-    <!-- กล่องตัวอย่างคละลาย -->
-    <div style="background:#f8f8f8;border:1px solid #e8e8e8;border-radius:10px;padding:12px;margin-bottom:12px;">
-      <div style="display:flex;flex-direction:column;gap:6px;font-size:12px;color:#1a1a1a;line-height:1.7;margin-bottom:12px;">
-        <div style="display:flex;gap:8px;align-items:flex-start;"><span style="color:#3B6D11;font-weight:600;flex-shrink:0;">✓</span><span>ภายใน 1 แผ่น ใส่ได้ 2 ดีไซน์</span></div>
-        <div style="display:flex;gap:8px;align-items:flex-start;"><span style="color:#e65100;font-weight:600;flex-shrink:0;">✕</span><span>ไม่สามารถคละขนาดได้ — ยึดขนาดจาก "ด้านที่ยาวที่สุด" ของไฟล์งานค่ะ</span></div>
-      </div>
-      <div style="background:#fff;border:1px solid #e8e8e8;border-radius:8px;padding:10px 12px;">
-        <div style="font-size:12px;font-weight:600;color:#1a1a1a;margin-bottom:8px;">💖 ตัวอย่าง: สั่งขนาด 4 cm → ได้ประมาณ 30 ชิ้น/แผ่น</div>
-        <div style="display:flex;gap:8px;margin-bottom:6px;">
-          <div style="flex:1;background:#EEEDFE;border-radius:8px;padding:8px;text-align:center;">
-            <div style="font-size:11px;color:#534AB7;font-weight:600;margin-bottom:2px;">ลาย A</div>
-            <div style="font-size:20px;font-weight:500;color:#3C3489;">15</div>
-            <div style="font-size:10px;color:#888;">ชิ้น</div>
-          </div>
-          <div style="display:flex;align-items:center;color:#aaa;font-size:16px;">+</div>
-          <div style="flex:1;background:#E1F5EE;border-radius:8px;padding:8px;text-align:center;">
-            <div style="font-size:11px;color:#0F6E56;font-weight:600;margin-bottom:2px;">ลาย B</div>
-            <div style="font-size:20px;font-weight:500;color:#085041;">15</div>
-            <div style="font-size:10px;color:#888;">ชิ้น</div>
-          </div>
-          <div style="display:flex;align-items:center;color:#aaa;font-size:16px;">=</div>
-          <div style="flex:1;background:#f0f0f0;border-radius:8px;padding:8px;text-align:center;">
-            <div style="font-size:11px;color:#666;font-weight:600;margin-bottom:2px;">รวม</div>
-            <div style="font-size:20px;font-weight:500;color:#1a1a1a;">30</div>
-            <div style="font-size:10px;color:#888;">ชิ้น/แผ่น</div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="section" style="background:#f8f8f8;margin-bottom:10px;">
-      <div class="sec-title" style="color:#666;">คำนวณจำนวนแผ่น</div>
-      <div style="font-size:12px;color:#888;margin-bottom:10px;line-height:1.6;">เลือกขนาด → กรอกจำนวนชิ้นที่ต้องการ → ระบบจะคำนวณจำนวนแผ่นที่ใช้ให้อัตโนมัติค่ะ</div>
-      <img src="https://i.ibb.co/HTXWtfrW/2.png" alt="ตารางจำนวนชิ้นต่อแผ่น" style="width:100%;border-radius:10px;margin-bottom:10px;">
-      <div class="sel-row" style="margin-bottom:8px;">
-        <select id="calc-size" onchange="calcSheets()">
-          <option value="">-- เลือกขนาด --</option>
-          <option value="1.5">1.5 cm</option>
-          <option value="2">2 cm</option>
-          <option value="2.5">2.5 cm</option>
-          <option value="3">3 cm</option>
-          <option value="3.5">3.5 cm</option>
-          <option value="4">4 cm</option>
-          <option value="5">5 cm</option>
-          <option value="6">6 cm</option>
-          <option value="7">7 cm</option>
-          <option value="8">8 cm</option>
-          <option value="9">9 cm</option>
-          <option value="10">10 cm</option>
-        </select>
-        <input class="qty-inp" id="calc-qty" type="number" min="1" placeholder="จำนวนชิ้น" onchange="calcSheets()" style="width:100px;">
-      </div>
-      <div id="calc-shape-row" style="display:none;margin-bottom:8px;">
-        <select id="calc-shape" onchange="calcSheets()" style="width:100%;">
-          <option value="">-- เลือกรูปทรง --</option>
-          <option value="square">จัตุรัส / วงกลม / หัวใจ</option>
-          <option value="other">ทรงอื่นๆ (ด้านกว้างน้อยกว่า <span id="shape-hint"></span>)</option>
-        </select>
-      </div>
-      <div id="calc-result" style="font-size:13px;color:#1a1a1a;font-weight:600;min-height:20px;"></div>
-    </div>
-    <div id="dc100-rows"></div>
-    <button class="add-btn" onclick="dc100Items.push({coat:'เคลือบใสเงา',sheets:0});renderDiecut()">+ เพิ่มรายการ</button>
-  </div>
-</div>
-
-<div id="tab-sset" style="display:none;">
-  <div class="section">
-    <div class="sec-title">Sticker Set (ราคาต่อชิ้น)</div>
-    <div class="info-box">⚠️ ขั้นต่ำ 10 เซ็ต/แบบ<br><span style="font-size:11px;color:#aaa;">หมายเหตุ: ถ้ายอดไม่ถึง 5 บาท/เซ็ต จะบวกค่าซอง PVC +2 บาท/เซ็ต</span></div>
-    <div class="info-box" style="background:#f0fdf4;border-color:#86efac;color:#166534;">🎨 ใน 1 เซ็ต คละขนาดและแบบเคลือบได้เลยค่ะ<br><span style="font-size:11px;">ต้องการคละ กด <b>+ เพิ่ม Sticker ในเซ็ต</b> ได้เลยนะคะ</span></div>
-    
-    
-    <div id="sset-rows"></div>
-    <button class="add-btn" type="button" onclick="addSset()" style="background:#1a1a1a;color:#fff;border-color:#1a1a1a;font-weight:600;">+ เพิ่มเซ็ต</button>
-  </div>
-  <div class="section">
-    <div class="sec-title">Packaging Add-ons</div>
-    <div id="pkg-rows"></div>
-  </div>
-</div>
-
-<div id="tab-gift" style="display:none;">
-  <div class="section">
-    <div class="sec-title">เซ็ตกิ๊ฟอะเวย์</div>
-    <div id="gift-rows"></div>
-    <button class="add-btn" onclick="addGift()">+ เพิ่มเซ็ต</button>
-  </div>
-</div>
-
-<div id="tab-info" style="display:none;">
-
-  <!-- Section 1: ขนาดรูปอัด -->
-  <div class="section">
-    <div class="sec-title">📸 ขนาดรูปอัดเปรียบเทียบ</div>
-    <div class="info-box">แสดงตามสัดส่วนจริง เทียบกับ A4 เป็นฐาน</div>
-
-    <div style="font-size:12px;font-weight:600;color:#888;margin-bottom:10px;text-transform:uppercase;letter-spacing:0.5px;">กลุ่ม 1 — รูปติดบัตร / ไอดี</div>
-    <div style="display:flex;align-items:flex-end;gap:12px;flex-wrap:wrap;margin-bottom:20px;">
-      <div style="display:flex;flex-direction:column;align-items:center;gap:4px;"><div style="width:22px;height:31px;background:#CECBF6;border:1px solid #AFA9EC;border-radius:2px;"></div><span style="font-size:10px;color:#888;">1 นิ้ว</span></div>
-      <div style="display:flex;flex-direction:column;align-items:center;gap:4px;"><div style="width:28px;height:42px;background:#CECBF6;border:1px solid #AFA9EC;border-radius:2px;"></div><span style="font-size:10px;color:#888;">1.5 นิ้ว</span></div>
-      <div style="display:flex;flex-direction:column;align-items:center;gap:4px;"><div style="width:37px;height:52px;background:#CECBF6;border:1px solid #AFA9EC;border-radius:2px;"></div><span style="font-size:10px;color:#888;">2 นิ้ว</span></div>
-
-    </div>
-
-    <div style="font-size:12px;font-weight:600;color:#888;margin-bottom:10px;text-transform:uppercase;letter-spacing:0.5px;">กลุ่ม 2 — รูปทั่วไป (พกพา)</div>
-    <div style="display:flex;align-items:flex-end;gap:10px;flex-wrap:wrap;margin-bottom:20px;">
-      <div style="display:flex;flex-direction:column;align-items:center;gap:4px;"><div style="width:55px;height:52px;background:#B5D4F4;border:1px solid #85B7EB;border-radius:2px;display:flex;align-items:center;justify-content:center;"><div style="display:grid;grid-template-columns:1fr 1fr;gap:2px;padding:4px;width:100%;height:100%;box-sizing:border-box;"><div style="background:rgba(255,255,255,0.6);border-radius:1px;"></div><div style="background:rgba(255,255,255,0.6);border-radius:1px;"></div><div style="background:rgba(255,255,255,0.6);border-radius:1px;"></div><div style="background:rgba(255,255,255,0.6);border-radius:1px;"></div></div></div><span style="font-size:10px;color:#888;text-align:center;">ไอดี 4 ช่อง<br>6x8 cm</span></div>
-      <div style="display:flex;flex-direction:column;align-items:center;gap:4px;"><div style="width:30px;height:74px;background:#9FE1CB;border:1px solid #5DCAA5;border-radius:2px;display:flex;flex-direction:column;align-items:center;justify-content:space-around;padding:3px;box-sizing:border-box;"><div style="width:100%;flex:1;background:rgba(255,255,255,0.5);border-radius:1px;margin-bottom:2px;"></div><div style="width:100%;flex:1;background:rgba(255,255,255,0.5);border-radius:1px;"></div></div><span style="font-size:10px;color:#888;text-align:center;">มินิโฟโต้บูธ<br>1.22×3 in<br>(2 ช่อง)</span></div>
-      <div style="display:flex;flex-direction:column;align-items:center;gap:4px;"><div style="width:37px;height:37px;background:#FAC775;border:1px solid #EF9F27;border-radius:2px;"></div><span style="font-size:10px;color:#888;">2x2</span></div>
-      <div style="display:flex;flex-direction:column;align-items:center;gap:4px;"><div style="width:37px;height:55px;background:#FAC775;border:1px solid #EF9F27;border-radius:2px;"></div><span style="font-size:10px;color:#888;">2x3</span></div>
-      <div style="display:flex;flex-direction:column;align-items:center;gap:4px;"><div style="width:37px;height:74px;background:#FAC775;border:1px solid #EF9F27;border-radius:2px;"></div><span style="font-size:10px;color:#888;">2x4</span></div>
-      <div style="display:flex;flex-direction:column;align-items:center;gap:4px;"><div style="width:37px;height:110px;background:#FAC775;border:1px solid #EF9F27;border-radius:2px;"></div><span style="font-size:10px;color:#888;">2x6</span></div>
-      <div style="display:flex;flex-direction:column;align-items:center;gap:4px;"><div style="width:55px;height:55px;background:#FAC775;border:1px solid #EF9F27;border-radius:2px;"></div><span style="font-size:10px;color:#888;">3x3</span></div>
-      <div style="display:flex;flex-direction:column;align-items:center;gap:4px;"><div style="width:55px;height:74px;background:#FAC775;border:1px solid #EF9F27;border-radius:2px;"></div><span style="font-size:10px;color:#888;">3x4</span></div>
-      <div style="display:flex;flex-direction:column;align-items:center;gap:4px;"><div style="width:46px;height:65px;background:#FAC775;border:1px solid #EF9F27;border-radius:2px;"></div><span style="font-size:10px;color:#888;">2.5x3.5</span></div>
-      <div style="display:flex;flex-direction:column;align-items:center;gap:4px;"><div style="width:65px;height:92px;background:#FAC775;border:1px solid #EF9F27;border-radius:2px;"></div><span style="font-size:10px;color:#888;">3.5x5</span></div>
-      <div style="display:flex;flex-direction:column;align-items:center;gap:4px;"><div style="width:74px;height:74px;background:#FAC775;border:1px solid #EF9F27;border-radius:2px;"></div><span style="font-size:10px;color:#888;">4x4</span></div>
-      <div style="display:flex;flex-direction:column;align-items:center;gap:4px;"><div style="width:74px;height:110px;background:#FAC775;border:1px solid #EF9F27;border-radius:2px;"></div><span style="font-size:10px;color:#888;">4x6</span></div>
-    </div>
-
-    <div style="font-size:12px;font-weight:600;color:#888;margin-bottom:10px;text-transform:uppercase;letter-spacing:0.5px;">กลุ่ม 3 — รูปใหญ่</div>
-    <div style="display:flex;align-items:flex-end;gap:10px;flex-wrap:wrap;">
-      <div style="display:flex;flex-direction:column;align-items:center;gap:4px;"><div style="width:92px;height:128px;background:#F5C4B3;border:1px solid #F0997B;border-radius:2px;display:flex;align-items:center;justify-content:center;"><span style="font-size:10px;color:#993C1D;">5x7</span></div><span style="font-size:10px;color:#888;">5x7 นิ้ว</span></div>
-      <div style="display:flex;flex-direction:column;align-items:center;gap:4px;"><div style="width:110px;height:147px;background:#F5C4B3;border:1px solid #F0997B;border-radius:2px;display:flex;align-items:center;justify-content:center;"><span style="font-size:10px;color:#993C1D;">6x8</span></div><span style="font-size:10px;color:#888;">6x8 นิ้ว</span></div>
-      <div style="display:flex;flex-direction:column;align-items:center;gap:4px;"><div style="width:105px;height:148px;background:#F5C4B3;border:1px solid #F0997B;border-radius:2px;display:flex;align-items:center;justify-content:center;"><span style="font-size:10px;color:#993C1D;">A5</span></div><span style="font-size:10px;color:#888;">A5</span></div>
-      <div style="display:flex;flex-direction:column;align-items:center;gap:4px;"><div style="width:148px;height:210px;background:#F5C4B3;border:1px solid #F0997B;border-radius:2px;display:flex;align-items:center;justify-content:center;"><span style="font-size:11px;color:#993C1D;">A4</span></div><span style="font-size:10px;color:#888;">A4</span></div>
-      <div style="display:flex;flex-direction:column;align-items:center;gap:4px;"><div style="width:210px;height:297px;background:#F0997B;border:1px solid #D85A30;border-radius:2px;display:flex;align-items:center;justify-content:center;"><span style="font-size:13px;font-weight:500;color:#4A1B0C;">A3</span></div><span style="font-size:10px;color:#888;">A3</span></div>
-    </div>
+    <p class="hint" id="hintText">พิมพ์ชื่อ-นามสกุลให้ครบ เช่น สมใจ รักดี</p>
   </div>
 
-  <!-- Section: งานอัดรูป -->
-  <div class="section">
-    <div class="sec-title">📸 งานอัดรูป — คุณภาพและวัสดุ</div>
-    <img src="https://i.ibb.co/5XgDNfz8/01.jpg" alt="งานอัดรูป Polaroid Tamsung" style="width:100%;border-radius:12px;" onerror="this.style.display='none'">
+  <div id="results"></div>
+
+  <div class="thank-box">
+    <p>ขอบพระคุณที่อุดหนุนกันน้าค้าบบ 🙏🙇<br>เมื่อได้รับพัสดุแล้ว รบกวนฉีดแอลกอฮอลก่อนเปิดน้า 🥺<br>เพื่อความปลอดภัยงับ</p>
   </div>
-
-  <!-- Section: โพลารอยด์ขนาดรอดย์ -->
-  <div class="section">
-    <div class="sec-title">🖼 โพลารอยด์ — ขนาดและแบบกรอบ</div>
-    <img src="https://i.ibb.co/fYy9Pvxh/1.jpg" alt="โพลารอยด์ขนาดรอดย์" style="width:100%;border-radius:12px;" onerror="this.style.display='none'">
-  </div>
-
-  <!-- Section: How To ส่งงานรูป -->
-  <div class="section">
-    <div class="sec-title">📤 How To ส่งงานรูป</div>
-    <div class="info-box">แจ้งขนาดก่อนค่อยส่งรูปนะคะ</div>
-    <div style="display:flex;flex-direction:column;gap:10px;">
-      <div style="background:#f8f8f8;border:1px solid #e8e8e8;border-radius:12px;padding:14px;display:flex;gap:12px;align-items:flex-start;">
-        <div style="background:#EEEDFE;color:#3C3489;border-radius:50%;width:30px;height:30px;display:flex;align-items:center;justify-content:center;font-weight:600;font-size:13px;flex-shrink:0;">1</div>
-        <div><div style="font-size:13px;font-weight:600;margin-bottom:2px;">📋 คัดลอกสรุปส่งให้ร้าน (ยังไม่ได้สั่งซื้อนะคะ)</div><div style="font-size:12px;color:#888;">กดปุ่มคัดลอกสรุปจากหน้านี้ แล้วส่งมาใน LINE ได้เลยค่ะ</div></div>
-      </div>
-      <div style="background:#f8f8f8;border:1px solid #e8e8e8;border-radius:12px;padding:14px;display:flex;gap:12px;align-items:flex-start;">
-        <div style="background:#E1F5EE;color:#085041;border-radius:50%;width:30px;height:30px;display:flex;align-items:center;justify-content:center;font-weight:600;font-size:13px;flex-shrink:0;">2</div>
-        <div><div style="font-size:13px;font-weight:600;margin-bottom:2px;">แจ้งขนาด</div><div style="font-size:12px;color:#888;">บอกขนาดที่ต้องการให้ร้านก่อนนะคะ เช่น "รูปติดบัตร 1 นิ้ว จำนวน 2 รูป"</div></div>
-      </div>
-      <div style="background:#f8f8f8;border:1px solid #e8e8e8;border-radius:12px;padding:14px;display:flex;gap:12px;align-items:flex-start;">
-        <div style="background:#FAEEDA;color:#633806;border-radius:50%;width:30px;height:30px;display:flex;align-items:center;justify-content:center;font-weight:600;font-size:13px;flex-shrink:0;">3</div>
-        <div><div style="font-size:13px;font-weight:600;margin-bottom:2px;">ส่งรูป</div><div style="font-size:12px;color:#888;">ส่งรูปผ่าน LINE ได้เลยค่ะ</div></div>
-      </div>
-      <div style="background:#f8f8f8;border:1px solid #e8e8e8;border-radius:12px;padding:14px;display:flex;gap:12px;align-items:flex-start;">
-        <div style="background:#FAECE7;color:#993C1D;border-radius:50%;width:30px;height:30px;display:flex;align-items:center;justify-content:center;font-weight:600;font-size:13px;flex-shrink:0;">4</div>
-        <div><div style="font-size:13px;font-weight:600;margin-bottom:2px;">กด "แจ้งโอนเงิน"</div><div style="font-size:12px;color:#888;">หลังบลูคอนเฟิร์มแล้ว กดปุ่มแจ้งโอนใน RICH MENU ได้เลยค่ะ</div></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Section 2: Die-cut 100% -->
-  <div class="section">
-    <div class="sec-title">✂️ Die-cut 100% — วิธีสั่งและขนาด</div>
-    <div class="info-box">ผลิตจาก PP Sticker + เคลือบฟิล์ม PVC • ตัดตามรูปทรง • A4 เท่านั้น</div>
-
-
-    <!-- ขอบไดคัต -->
-    <div style="font-size:12px;font-weight:600;color:#888;margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px;">แบบขอบไดคัต</div>
-    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px;">
-      <div style="background:#f8f8f8;border:1px solid #e8e8e8;border-radius:10px;padding:10px 14px;text-align:center;flex:1;min-width:80px;">
-        <div style="width:40px;height:40px;border-radius:50%;background:#CECBF6;border:3px solid #fff;outline:2px solid #AFA9EC;margin:0 auto 6px;"></div>
-        <div style="font-size:12px;font-weight:500;">ขอบสีขาว</div>
-      </div>
-      <div style="background:#f8f8f8;border:1px solid #e8e8e8;border-radius:10px;padding:10px 14px;text-align:center;flex:1;min-width:80px;">
-        <div style="width:40px;height:40px;border-radius:50%;background:#CECBF6;border:3px solid #9FE1CB;outline:2px solid #5DCAA5;margin:0 auto 6px;"></div>
-        <div style="font-size:12px;font-weight:500;">ขอบสี</div>
-      </div>
-      <div style="background:#f8f8f8;border:1px solid #e8e8e8;border-radius:10px;padding:10px 14px;text-align:center;flex:1;min-width:80px;">
-        <div style="width:40px;height:40px;border-radius:50%;background:#CECBF6;margin:0 auto 6px;"></div>
-        <div style="font-size:12px;font-weight:500;">ติดขอบ</div>
-      </div>
-    </div>
-
-    <!-- เคลือบ -->
-    <div style="font-size:12px;font-weight:600;color:#888;margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px;">แบบเคลือบ</div>
-    <div style="display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;">
-      <div style="background:#EAF3DE;border:1px solid #C0DD97;border-radius:8px;padding:8px 14px;font-size:12px;"><span style="color:#3B6D11;font-weight:600;">เคลือบใสเงา</span> — ฟรี</div>
-      <div style="background:#FAEEDA;border:1px solid #FAC775;border-radius:8px;padding:8px 14px;font-size:12px;"><span style="color:#854F0B;font-weight:600;">เคลือบพิเศษ</span> — +10 ฿/แผ่น</div>
-    </div>
-
-    <!-- คละลาย -->
-    <div style="font-size:12px;font-weight:600;color:#888;margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px;">การคละลาย (ต่อ 1 แผ่น A4)</div>
-    <div style="background:#f8f8f8;border:1px solid #e8e8e8;border-radius:10px;padding:12px;margin-bottom:14px;">
-      <div style="display:flex;flex-direction:column;gap:6px;font-size:12px;color:#1a1a1a;line-height:1.7;margin-bottom:12px;">
-        <div style="display:flex;gap:8px;align-items:flex-start;"><span style="color:#3B6D11;font-weight:600;flex-shrink:0;">✓</span><span>ภายใน 1 แผ่น ใส่ได้ 2 ดีไซน์</span></div>
-        <div style="display:flex;gap:8px;align-items:flex-start;"><span style="color:#e65100;font-weight:600;flex-shrink:0;">✕</span><span>ไม่สามารถคละขนาดได้ — ยึดขนาดจาก "ด้านที่ยาวที่สุด" ของไฟล์งานค่ะ</span></div>
-      </div>
-      <!-- ตัวอย่าง -->
-      <div style="background:#fff;border:1px solid #e8e8e8;border-radius:8px;padding:10px 12px;">
-        <div style="font-size:12px;font-weight:600;color:#1a1a1a;margin-bottom:8px;">💖 ตัวอย่าง: สั่งขนาด 4 cm → ได้ประมาณ 30 ชิ้น/แผ่น</div>
-        <div style="display:flex;gap:8px;margin-bottom:6px;">
-          <div style="flex:1;background:#EEEDFE;border-radius:8px;padding:8px;text-align:center;">
-            <div style="font-size:11px;color:#534AB7;font-weight:600;margin-bottom:2px;">ลาย A</div>
-            <div style="font-size:20px;font-weight:500;color:#3C3489;">15</div>
-            <div style="font-size:10px;color:#888;">ชิ้น</div>
-          </div>
-          <div style="display:flex;align-items:center;color:#aaa;font-size:16px;">+</div>
-          <div style="flex:1;background:#E1F5EE;border-radius:8px;padding:8px;text-align:center;">
-            <div style="font-size:11px;color:#0F6E56;font-weight:600;margin-bottom:2px;">ลาย B</div>
-            <div style="font-size:20px;font-weight:500;color:#085041;">15</div>
-            <div style="font-size:10px;color:#888;">ชิ้น</div>
-          </div>
-          <div style="display:flex;align-items:center;color:#aaa;font-size:16px;">=</div>
-          <div style="flex:1;background:#f0f0f0;border-radius:8px;padding:8px;text-align:center;">
-            <div style="font-size:11px;color:#666;font-weight:600;margin-bottom:2px;">รวม</div>
-            <div style="font-size:20px;font-weight:500;color:#1a1a1a;">30</div>
-            <div style="font-size:10px;color:#888;">ชิ้น/แผ่น</div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- How To ตั้งชื่อไฟล์ -->
-    <div style="font-size:12px;font-weight:600;color:#888;margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px;">How To ตั้งชื่อไฟล์</div>
-    <div style="background:#f8f8f8;border:1px solid #e8e8e8;border-radius:10px;padding:12px;margin-bottom:14px;font-size:12px;color:#666;line-height:1.8;">
-      <div style="margin-bottom:4px;"><span style="background:#1a1a1a;color:#fff;padding:2px 6px;border-radius:4px;font-size:11px;">แผ่นที่ 1</span> สตก.ขนาด 3cm ไดคัตขอบขาว เคลือบใสเงา จำนวน 1 แผ่น.PNG</div>
-      <div style="margin-bottom:4px;"><span style="background:#1a1a1a;color:#fff;padding:2px 6px;border-radius:4px;font-size:11px;">แผ่นที่ 2</span> สตก.ขนาด 4cm ไดคัตติดขอบ เคลือบประกายดาว จำนวน 2 แผ่น.PNG</div>
-      <div><span style="background:#888;color:#fff;padding:2px 6px;border-radius:4px;font-size:11px;">คละลาย</span> แผ่นที่ 4(คละลายที่ 1) สตก.ขนาด 6cm ไดคัตขอบขาว เคลือบด้าน จำนวน 1 แผ่น.PNG</div><div style="margin-top:2px;padding-left:52px;">แผ่นที่ 4(คละลายที่ 2) สตก.ขนาด 6cm ไดคัตขอบสี เคลือบด้าน จำนวน 1 แผ่น.PNG</div>
-    </div>
-
-    <!-- Note -->
-    <div style="background:#fff3e0;border:1px solid #FAC775;border-radius:10px;padding:10px 14px;font-size:12px;color:#854F0B;line-height:1.7;">
-      <div style="font-weight:600;margin-bottom:4px;">⚠️ หมายเหตุ</div>
-      <div>• ทางร้านไม่รับหารูปให้นะคะ</div>
-      <div>• ไม่รับพิมพ์ซ้ำงานเดิมทุกกรณีค่ะ</div>
-      <div>• ส่งไฟล์ผ่าน Google Drive หรือ Canva (can edit)</div>
-    </div>
-
-    <!-- ขนาดสติ๊กเกอร์ -->
-    <div style="font-size:12px;font-weight:600;color:#888;margin:14px 0 8px;text-transform:uppercase;letter-spacing:0.5px;">ขนาดสติ๊กเกอร์ (หน่วย cm)</div>
-    <div style="display:flex;align-items:flex-end;gap:8px;flex-wrap:wrap;">
-      <div style="display:flex;flex-direction:column;align-items:center;gap:4px;"><div style="width:15px;height:15px;border-radius:50%;background:#CECBF6;border:1.5px solid #AFA9EC;"></div><span style="font-size:10px;color:#888;">1.5</span></div>
-      <div style="display:flex;flex-direction:column;align-items:center;gap:4px;"><div style="width:20px;height:20px;border-radius:50%;background:#CECBF6;border:1.5px solid #AFA9EC;"></div><span style="font-size:10px;color:#888;">2</span></div>
-      <div style="display:flex;flex-direction:column;align-items:center;gap:4px;"><div style="width:25px;height:25px;border-radius:50%;background:#CECBF6;border:1.5px solid #AFA9EC;"></div><span style="font-size:10px;color:#888;">2.5</span></div>
-      <div style="display:flex;flex-direction:column;align-items:center;gap:4px;"><div style="width:30px;height:30px;border-radius:50%;background:#9FE1CB;border:1.5px solid #5DCAA5;"></div><span style="font-size:10px;color:#888;">3</span></div>
-      <div style="display:flex;flex-direction:column;align-items:center;gap:4px;"><div style="width:35px;height:35px;border-radius:50%;background:#9FE1CB;border:1.5px solid #5DCAA5;"></div><span style="font-size:10px;color:#888;">3.5</span></div>
-      <div style="display:flex;flex-direction:column;align-items:center;gap:4px;"><div style="width:40px;height:40px;border-radius:50%;background:#9FE1CB;border:1.5px solid #5DCAA5;"></div><span style="font-size:10px;color:#888;">4</span></div>
-      <div style="display:flex;flex-direction:column;align-items:center;gap:4px;"><div style="width:45px;height:45px;border-radius:50%;background:#9FE1CB;border:1.5px solid #5DCAA5;"></div><span style="font-size:10px;color:#888;">4.5</span></div>
-      <div style="display:flex;flex-direction:column;align-items:center;gap:4px;"><div style="width:50px;height:50px;border-radius:50%;background:#FAC775;border:1.5px solid #EF9F27;"></div><span style="font-size:10px;color:#888;">5</span></div>
-      <div style="display:flex;flex-direction:column;align-items:center;gap:4px;"><div style="width:55px;height:55px;border-radius:50%;background:#FAC775;border:1.5px solid #EF9F27;"></div><span style="font-size:10px;color:#888;">5.5</span></div>
-      <div style="display:flex;flex-direction:column;align-items:center;gap:4px;"><div style="width:60px;height:60px;border-radius:50%;background:#FAC775;border:1.5px solid #EF9F27;"></div><span style="font-size:10px;color:#888;">6</span></div>
-      <div style="display:flex;flex-direction:column;align-items:center;gap:4px;"><div style="width:70px;height:70px;border-radius:50%;background:#F5C4B3;border:1.5px solid #F0997B;"></div><span style="font-size:10px;color:#888;">7</span></div>
-      <div style="display:flex;flex-direction:column;align-items:center;gap:4px;"><div style="width:80px;height:80px;border-radius:50%;background:#F5C4B3;border:1.5px solid #F0997B;"></div><span style="font-size:10px;color:#888;">8</span></div>
-      <div style="display:flex;flex-direction:column;align-items:center;gap:4px;"><div style="width:90px;height:90px;border-radius:50%;background:#F0997B;border:1.5px solid #D85A30;"></div><span style="font-size:10px;color:#888;">9</span></div>
-      <div style="display:flex;flex-direction:column;align-items:center;gap:4px;"><div style="width:100px;height:100px;border-radius:50%;background:#F0997B;border:1.5px solid #D85A30;"></div><span style="font-size:10px;color:#888;">10</span></div>
-    </div>
-  </div>
-
-  <!-- Section 3: Die-cut 50% sheet sizes -->
-  <div class="section">
-    <div class="sec-title">🏷 Die-cut 50% — ขนาดแผ่น Sticker Sheet</div>
-    <div class="info-box">Sticker sheet — ไดคัตไม่หลุดจากแผ่นรองหลัง (backing) • ไดคัตได้ไม่จำกัดจุด • ลูกค้าออกแบบไฟล์มาเองแล้วส่งให้ร้านค่ะ</div>
-    <div style="display:flex;align-items:flex-end;gap:16px;flex-wrap:wrap;">
-      <div style="display:flex;flex-direction:column;align-items:center;gap:8px;"><div style="width:52px;height:74px;background:#EEEDFE;border:1.5px solid #AFA9EC;border-radius:3px;display:flex;align-items:center;justify-content:center;"><div style="display:grid;grid-template-columns:1fr 1fr;gap:2px;padding:4px;width:100%;height:100%;box-sizing:border-box;"><div style="background:#AFA9EC;border-radius:2px;"></div><div style="background:#AFA9EC;border-radius:2px;"></div><div style="background:#AFA9EC;border-radius:2px;"></div><div style="background:#AFA9EC;border-radius:2px;"></div></div></div><div style="text-align:center;"><p style="font-size:12px;font-weight:500;margin:0;">A7</p><p style="font-size:10px;color:#888;margin:2px 0 0;">74×105 mm</p><p style="font-size:10px;color:#534AB7;margin:2px 0 0;">10 ฿/แผ่น</p></div></div>
-      <div style="display:flex;flex-direction:column;align-items:center;gap:8px;"><div style="width:74px;height:105px;background:#E1F5EE;border:1.5px solid #5DCAA5;border-radius:3px;display:flex;align-items:center;justify-content:center;"><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:2px;padding:6px;width:100%;height:100%;box-sizing:border-box;"><div style="background:#5DCAA5;border-radius:2px;"></div><div style="background:#5DCAA5;border-radius:2px;"></div><div style="background:#5DCAA5;border-radius:2px;"></div><div style="background:#5DCAA5;border-radius:2px;"></div><div style="background:#5DCAA5;border-radius:2px;"></div><div style="background:#5DCAA5;border-radius:2px;"></div></div></div><div style="text-align:center;"><p style="font-size:12px;font-weight:500;margin:0;">A6</p><p style="font-size:10px;color:#888;margin:2px 0 0;">105×148 mm</p><p style="font-size:10px;color:#0F6E56;margin:2px 0 0;">15 ฿/แผ่น</p></div></div>
-      <div style="display:flex;flex-direction:column;align-items:center;gap:8px;"><div style="width:105px;height:148px;background:#FAEEDA;border:1.5px solid #EF9F27;border-radius:3px;display:flex;align-items:center;justify-content:center;"><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:3px;padding:8px;width:100%;height:100%;box-sizing:border-box;"><div style="background:#EF9F27;border-radius:2px;"></div><div style="background:#EF9F27;border-radius:2px;"></div><div style="background:#EF9F27;border-radius:2px;"></div><div style="background:#EF9F27;border-radius:2px;"></div><div style="background:#EF9F27;border-radius:2px;"></div><div style="background:#EF9F27;border-radius:2px;"></div><div style="background:#EF9F27;border-radius:2px;"></div><div style="background:#EF9F27;border-radius:2px;"></div><div style="background:#EF9F27;border-radius:2px;"></div></div></div><div style="text-align:center;"><p style="font-size:12px;font-weight:500;margin:0;">A5</p><p style="font-size:10px;color:#888;margin:2px 0 0;">148×210 mm</p><p style="font-size:10px;color:#854F0B;margin:2px 0 0;">25 ฿/แผ่น</p></div></div>
-      <div style="display:flex;flex-direction:column;align-items:center;gap:8px;"><div style="width:148px;height:210px;background:#FAECE7;border:1.5px solid #F0997B;border-radius:3px;display:flex;align-items:center;justify-content:center;"><div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:3px;padding:10px;width:100%;height:100%;box-sizing:border-box;"><div style="background:#F0997B;border-radius:2px;"></div><div style="background:#F0997B;border-radius:2px;"></div><div style="background:#F0997B;border-radius:2px;"></div><div style="background:#F0997B;border-radius:2px;"></div><div style="background:#F0997B;border-radius:2px;"></div><div style="background:#F0997B;border-radius:2px;"></div><div style="background:#F0997B;border-radius:2px;"></div><div style="background:#F0997B;border-radius:2px;"></div><div style="background:#F0997B;border-radius:2px;"></div><div style="background:#F0997B;border-radius:2px;"></div><div style="background:#F0997B;border-radius:2px;"></div><div style="background:#F0997B;border-radius:2px;"></div><div style="background:#F0997B;border-radius:2px;"></div><div style="background:#F0997B;border-radius:2px;"></div><div style="background:#F0997B;border-radius:2px;"></div><div style="background:#F0997B;border-radius:2px;"></div></div></div><div style="text-align:center;"><p style="font-size:12px;font-weight:500;margin:0;">A4</p><p style="font-size:10px;color:#888;margin:2px 0 0;">210×297 mm</p><p style="font-size:10px;color:#993C1D;margin:2px 0 0;">40 ฿/แผ่น</p></div></div>
-    </div>
-  </div>
-
-  <!-- Section 4: How To ส่งไฟล์ Die-cut 50% -->
-  <div class="section">
-    <div class="sec-title">📂 How To ตั้งชื่อไฟล์ Die-cut 50%</div>
-    <div class="info-box">ลูกค้าต้องออกแบบและส่งไฟล์มาเองนะคะ • ส่งผ่าน Google Drive หรือ Canva (can edit)</div>
-    <div style="display:flex;flex-direction:column;gap:12px;">
-      <div style="background:#f8f8f8;border:1px solid #e8e8e8;border-radius:12px;padding:14px;">
-        <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
-          <div style="background:#EEEDFE;color:#3C3489;border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-weight:600;font-size:13px;flex-shrink:0;">1</div>
-          <div style="font-size:13px;font-weight:600;">ไฟล์ชิ้นงานที่ต้องการไดคัต</div>
-        </div>
-        <div style="font-size:12px;color:#888;margin-left:38px;line-height:1.7;">ตั้งชื่อว่า <span style="background:#1a1a1a;color:#fff;padding:2px 8px;border-radius:4px;font-size:11px;">ชิ้นงานที่ต้องการไดคัตใน...</span><br>เป็นไฟล์ <b>.png</b> พื้นหลังโปร่งใส (transparent)</div>
-      </div>
-      <div style="background:#f8f8f8;border:1px solid #e8e8e8;border-radius:12px;padding:14px;">
-        <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
-          <div style="background:#E1F5EE;color:#085041;border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-weight:600;font-size:13px;flex-shrink:0;">2</div>
-          <div style="font-size:13px;font-weight:600;">ไฟล์พื้นหลัง</div>
-        </div>
-        <div style="font-size:12px;color:#888;margin-left:38px;line-height:1.7;">ตั้งชื่อว่า <span style="background:#1a1a1a;color:#fff;padding:2px 8px;border-radius:4px;font-size:11px;">พื้นหลัง.png</span><br>เป็นภาพพื้นหลังของแผ่นสติ๊กเกอร์ค่ะ</div>
-      </div>
-      <div style="background:#f8f8f8;border:1px solid #e8e8e8;border-radius:12px;padding:14px;">
-        <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
-          <div style="background:#FAEEDA;color:#633806;border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-weight:600;font-size:13px;flex-shrink:0;">3</div>
-          <div style="font-size:13px;font-weight:600;">วิธีส่งไฟล์</div>
-        </div>
-        <div style="font-size:12px;color:#888;margin-left:38px;line-height:1.7;">
-          📁 ส่งผ่าน <b>Google Drive</b> — แชร์ลิงก์มาได้เลยค่ะ<br>
-          🎨 ออกแบบใน <b>Canva</b> — แชร์ลิงก์งาน ตั้งสิทธิ์เป็น <span style="background:#1a1a1a;color:#fff;padding:2px 8px;border-radius:4px;font-size:11px;">can edit</span>
-        </div>
-      </div>
-    </div>
-  </div>
-
-</div>
-
-<button onclick="resetOrder()" style="width:100%;padding:11px;border-radius:12px;background:#fff;border:2px dashed #e0e0e0;color:#888;font-size:13px;font-weight:600;cursor:pointer;margin-bottom:12px;display:flex;align-items:center;justify-content:center;gap:6px;">
-  🔄 กดรีเซ็ตเพื่อเริ่มกดรายการใหม่
-</button>
-
-<div class="section" style="margin-bottom:12px;">
-  <div class="sec-title">การจัดส่ง</div>
-  <label class="ship-opt sel" id="opt-post" onclick="selShip('post')">
-    <input type="radio" name="ship" checked>
-    <div><div class="s-lbl">ขนส่ง SPX <span style="font-weight:400;color:#aaa;">+40 บาท</span></div><div class="s-desc" id="spx-desc">ค่าจัดส่ง 40 บาท (ฟรีเมื่อยอด ≥ 500฿)</div></div>
-  </label>
-  <label class="ship-opt" id="opt-msg" onclick="selShip('msg')">
-    <input type="radio" name="ship">
-    <div><div class="s-lbl">ส่งแมสเซ็นเจอร์</div><div class="s-desc">ค่าจัดส่งจ่ายปลายทาง</div></div>
-  </label>
-</div>
-<div id="del-box-wrap" style="background:#f0fdf4;border:2px solid #86efac;border-radius:14px;padding:14px 18px;margin-bottom:12px;text-align:center;">
-  <div style="font-size:12px;color:#166534;font-weight:600;margin-bottom:4px;">📦 รอบจัดส่งของคุณ</div>
-  <div class="del-txt" id="del-txt" style="font-size:20px;font-weight:700;color:#15803d;">กรุณาเลือกสินค้าก่อน</div>
-  <div class="del-sub" id="del-sub" style="font-size:12px;color:#166534;margin-top:2px;">ระยะเวลาจะแสดงหลังเลือกรายการ</div>
-</div>
-<div class="file-sec">
-  <div class="sec-title">วิธีส่งไฟล์รูปให้เรา</div>
-  <div class="file-row"><div style="font-size:20px;">💬</div><div><div style="font-size:13px;font-weight:600;">LINE</div><div style="font-size:12px;color:#aaa;">ส่งไฟล์รูปทาง LINE หลังยืนยันออเดอร์</div></div></div>
-  <div class="file-row"><div style="font-size:20px;">📁</div><div><div style="font-size:13px;font-weight:600;">Google Drive / Google Photos</div><div style="font-size:12px;color:#aaa;">แชร์ลิงก์โฟลเดอร์มาได้เลย</div></div></div>
-</div>
-<div class="section" style="margin-bottom:12px;">
-  <div class="sec-title">📝 หมายเหตุ / รายละเอียดเพิ่มเติม</div>
-  <textarea id="order-note" placeholder="ใส่ลิงก์งาน / ข้อความอยากบอกบลู" style="width:100%;min-height:80px;font-size:13px;padding:10px;border-radius:10px;border:1px solid #e0e0e0;background:#f8f8f8;color:#1a1a1a;resize:vertical;font-family:inherit;line-height:1.6;" oninput="recalc()"></textarea>
-</div>
-<div class="total-sec">
-  <div class="t-row"><span class="tl">ค่าสินค้า</span><span class="ta" id="sub-disp">0.00 บาท</span></div>
-  <div class="t-row"><span class="tl">ค่าจัดส่ง</span><span class="ta" id="ship-disp">40.00 บาท</span></div>
-  <div class="t-row grand"><span class="tl">รวมทั้งหมด</span><span class="ta" id="total-disp">40.00 บาท</span></div>
-</div>
-<div id="order-summary" style="background:#fff;border:1px solid #e8e8e8;border-radius:16px;padding:16px 20px;margin-bottom:12px;display:none;">
-  <div style="font-size:12px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:0.8px;margin-bottom:12px;">📋 สรุปรายการ</div>
-  <div id="summary-items" style="font-size:13px;color:#1a1a1a;line-height:1.8;"></div>
-</div>
-<div onclick="copyOrder()" style="text-align:center;font-size:12px;color:#888;margin-bottom:8px;line-height:1.6;cursor:pointer;">📋 กดปุ่มด้านล่างเพื่อคัดลอกรายการที่สั่ง → แล้ววางในแชท LINE ร้านได้เลยค่ะ</div>
-<button class="copy-btn" onclick="copyOrder();setTimeout(function(){window.open('https://lin.ee/qMGO9Ok','_blank');},800);" style="background:linear-gradient(135deg,#06c755,#00a040);font-size:15px;padding:15px;border-radius:14px;gap:10px;flex-direction:column;">
-  <div style="display:flex;align-items:center;gap:10px;">
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.48 2 2 6.03 2 11c0 2.87 1.37 5.43 3.5 7.16L4.5 22l3.97-2.1A10.6 10.6 0 0 0 12 20c5.52 0 10-4.03 10-9S17.52 2 12 2z"/></svg>
-    สั่งผลิต / ส่งไฟล์ทาง LINE
-  </div>
-  <div style="font-size:11px;font-weight:400;opacity:0.85;">(อย่าลืมกดวางข้อความในช่องแชทด้วยนะคะ)</div>
-</button>
-<div class="copy-msg" id="copy-msg"></div>
-<div style="text-align:center;font-size:12px;color:#888;margin-top:8px;padding:10px 16px;background:#f8f8f8;border-radius:10px;line-height:1.6;">💬 ถ้าคุณลูกค้าไม่มั่นใจ สามารถสอบถามบลูได้เลยค่ะ 😊</div>
-</div>
+</main>
 
 <script>
-// ===== CONFIG =====
-var COATS=['เคลือบใสเงา','เคลือบด้าน','เคลือบทะเลดาว','เคลือบประกายดาว','เคลือบกลิตเตอร์','เคลือบสายรุ้ง','เคลือบหัวใจใหญ่','เคลือบโฮโลแกรมลายจุด'];
-var SPECIAL=COATS.filter(function(x){return x!=='เคลือบใสเงา';});
-var FRAMES=['เต็มใบ','กรอบเท่า','กรอบโพลารอยด์'];
-var FRAMES_ID=['กรอบขาว','เต็มใบ'];
+const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRTvOZSL9sX3ezpv8wGlhHB4o50K6dPYPs5L_64JjQSbVPGtutC-YYixoMe_z7yJ8MY2rdmN64MEZTE/pub?output=csv";
+const statusLabel = { shipped: "จัดส่งแล้ว", transit: "อยู่ระหว่างขนส่ง", delivered: "ส่งถึงแล้ว" };
+const statusClass = { shipped: "badge-shipped", transit: "badge-transit", delivered: "badge-delivered" };
+let DB = [], mode = "name";
 
-var ID_ITEMS=[
-  {label:'รูปติดบัตร 1 นิ้ว',base:1,coat:1},
-  {label:'รูปติดบัตร 1.5 นิ้ว',base:1,coat:1},
-  {label:'รูปติดบัตร 2 นิ้ว',base:1.5,coat:1}
-];
-
-var STD_ITEMS=[
-  {label:'มินิโฟโต้บูธ (ใส่หลังเคสได้)',base:2,coat:1},
-  {label:'ไอดี 4 ช่อง',base:3,coat:3,proQty:40,proPrice:100},
-  {label:'รูปอัด 2x2 นิ้ว',base:1.5,coat:3.5,twoSide:3,twoSideCoat:5.5,hasFrame:true,proQty:60,proPrice:80},
-  {label:'รูปอัด 2x3 นิ้ว',base:2,coat:3,twoSide:4,twoSideCoat:8,hasFrame:true,proQty:60,proPrice:100},
-  {label:'รูปอัด 2x4 นิ้ว',base:2,coat:5,twoSide:4,twoSideCoat:7},
-  {label:'รูปอัด 2x6 นิ้ว',base:3,coat:6,twoSide:6,twoSideCoat:9,hasFrame:true,proQty:40,proPrice:100},
-  {label:'รูปอัด 2.5x3.5 นิ้ว (เท่าบัตรประชาชน)',base:2.5,coat:5,hasFrame:true,hasCorner:true,proQty:45,proPrice:100},
-  {label:'รูปอัด 2.5x5 นิ้ว (เท่าล็อตตารี่)',base:2.5,coat:5},
-  {label:'รูปอัด 3x3 นิ้ว',base:3,coat:6,twoSide:6,twoSideCoat:9,hasFrame:true,proQty:40,proPrice:100},
-  {label:'รูปอัด 3x4 นิ้ว',base:3,coat:6,twoSide:6,twoSideCoat:9,hasFrame:true,proQty:40,proPrice:100},
-  {label:'รูปอัด 4x4 นิ้ว',base:4,coat:4,hasFrame:true},
-  {label:'รูปอัด 3.5x5 นิ้ว',base:3,coat:6,twoSide:6,twoSideCoat:9,hasFrame:true,proQty:40,proPrice:100},
-  {label:'รูปอัด 4x6 นิ้ว',base:5,coat:10,twoSide:10,twoSideCoat:15,hasFrame:true,proQty:100,proPrice:450,proPerSheet:4.5},
-  {label:'รูปอัด 5x7 นิ้ว',base:10,coat:20},
-  {label:'รูปอัด 6x8 นิ้ว',base:20,coat:35},
-  {label:'รูปอัด A5',base:20,coat:35},
-  {label:'รูปอัด A4',base:30,coat:50},
-  {label:'รูปอัด A3',base:100,coat:0,noCoat:true}
-];
-
-function calcStdPrice(item,coat,side,qty){
-  if(qty<=0)return 0;
-  var isCoat=coat!=='ไม่เคลือบ';
-  var isTwoSide=side==='แบบสองด้าน'&&item.twoSide;
-  var unitP;
-  if(isTwoSide) unitP=isCoat?item.twoSideCoat:item.twoSide;
-  else unitP=isCoat?item.coat:item.base;
-  if(item.proQty&&!isCoat&&!isTwoSide){
-    var rounds=Math.floor(qty/item.proQty);
-    var rem=qty%item.proQty;
-    var proUnitP=item.proPerSheet||(item.proPrice/item.proQty);
-    return rounds*item.proQty*proUnitP+rem*unitP;
+function splitCSV(line) {
+  const r = []; let c = "", q = false;
+  for (let i = 0; i < line.length; i++) {
+    if (line[i] === '"') q = !q;
+    else if (line[i] === ',' && !q) { r.push(c); c = ""; }
+    else c += line[i];
   }
-  return unitP*qty;
+  r.push(c); return r;
 }
 
-function proStatus(item,coat,side,qty){
-  if(!item.proQty||coat!=='ไม่เคลือบ'||(side==='แบบสองด้าน'&&item.twoSide))return null;
-  var rounds=Math.floor(qty/(item.proQty||1));
-  if(rounds>0)return '🎉 โปร! '+rounds+' รอบ × '+item.proQty+' ใบ = '+(rounds*item.proPrice)+' ฿';
-  var left=item.proQty-(qty%item.proQty);
-  if(qty>0&&left<item.proQty)return 'อีก '+left+' ใบ รับราคาโปร '+item.proPrice+'฿/'+item.proQty+' ใบ';
-  return 'โปร: '+item.proQty+' ใบ = '+item.proPrice+' ฿';
+function parseCSV(text) {
+  const lines = text.trim().split(/\r?\n/);
+  if (lines.length < 2) return [];
+  const h = splitCSV(lines[0]).map(x => x.trim());
+  return lines.slice(1).map(l => {
+    const v = splitCSV(l), o = {};
+    h.forEach((k, i) => o[k] = (v[i] || "").trim());
+    return o;
+  }).filter(r => Object.values(r).some(v => v));
 }
 
-var C_BASE=2,C_AREA=25,C_RATE=(30-2)/(623.7-25);
-function calcCustom(w,h){var a=w*h;return a<=C_AREA?C_BASE:+(C_BASE+(a-C_AREA)*C_RATE).toFixed(2);}
-
-var PC_TYPES=[
-  {label:'Photocard 1 ด้าน',price:5,desc:'กระดาษอาร์ตมัน 300 แกรม • เคลือบฟิล์มฟรี'},
-  {label:'Photocard 2 ด้าน',price:10,desc:'กระดาษอัดรูป 260 แกรม • เคลือบฟิล์มฟรี'}
-];
-var MEMO_OPTS=[{sheets:10,price:7},{sheets:15,price:10},{sheets:20,price:15}];
-var KP_BASE=3,KP_COAT=3,KP_MIN=10;
-var KD_PRICE=5,KD_MIN=15;
-
-var DC50_PER_SHEET={
-  '1.5':100,'2':80,'2.5':50,'3':48,'3.5':35,'4':24,'4.5':20,'5':15,'5.5':12,'6':12,'7':8,'8':6,'9':6,'10':4
-};
-var DC50=[
-  {size:'A7',clear:10,special:15},
-  {size:'A6',clear:15,special:20},
-  {size:'A5',clear:25,special:30},
-  {size:'A4',clear:40,special:50}
-];
-var DC100_CLEAR=40,DC100_SPECIAL=50;
-
-var SSET=[
-  {size:'3 cm',clear:1,special:1},
-  {size:'3.5 cm',clear:1.2,special:1.5},
-  {size:'4 cm',clear:1.4,special:1.6},
-  {size:'5 cm',clear:1.6,special:2},
-  {size:'6 cm',clear:2,special:2.5}
-];
-var BAG_OPTS=['ซอง PVC ใส','ถุงซีล (ฝากหยัก)','ซองฝากาว'];
-var PKG_ITEMS=[{label:'กระดาษรอง 3×3 นิ้ว',price:3},{label:'หัวแพ็ก 3×1.5 นิ้ว',price:2}];
-var GIFT_DC50=DC50.slice(0,3);
-var GIFT_PRINT_ITEMS=[];
-for(var _i=0;_i<ID_ITEMS.length;_i++)GIFT_PRINT_ITEMS.push({label:ID_ITEMS[_i].label,base:ID_ITEMS[_i].base,coat:ID_ITEMS[_i].coat,isID:true,idIdx:_i});
-for(var _i=0;_i<STD_ITEMS.length;_i++)GIFT_PRINT_ITEMS.push({label:STD_ITEMS[_i].label,base:STD_ITEMS[_i].base,coat:STD_ITEMS[_i].coat,isID:false,stdIdx:_i});
-
-// ===== STATE =====
-var idSel=ID_ITEMS.map(function(){return {coat:'ไม่เคลือบ',frame:'กรอบขาว',qty:0};});
-var stdSel=STD_ITEMS.map(function(){return {coat:'ไม่เคลือบ',side:'แบบด้านเดียว',frame:'เต็มใบ',corner:'ไม่ตัด',qty:0};});
-var selectedStdIdx=[];
-var customItems=[];
-var pcItems=[{typeIdx:0,coat:'เคลือบใสเงา',qty:0}];
-var memoItems=[{optIdx:0,qty:0}];
-var kpItems=[{coat:'ไม่เคลือบ',qty:0}];
-var kdItems=[{coat:'เคลือบใสเงา',qty:0}];
-var dc50Items=[{sizeIdx:3,coat:'เคลือบใสเงา',sheets:0}];
-var dc100Items=[{coat:'เคลือบใสเงา',sheets:0}];
-var ssetSets=[{setQty:10,items:[{sizeIdx:0,coat:'เคลือบใสเงา',qty:0}],bagSelected:false,bagChoice:'ซอง PVC ใส',pkg:[false,false]}];
-var pkgSel=PKG_ITEMS.map(function(){return {include:false};});
-var bagChoice='ซอง PVC ใส';
-var bagSelected=false;
-var shipMethod='post';
-var giftItems=[];
-
-function newGift(){
-  return {
-    setQty:0,
-    prints:[{printIdx:0,printCoat:'ไม่เคลือบ',printQty:0}],
-    stickers:[{stickerSizeIdx:0,stickerCoat:'เคลือบใสเงา',stickerQty:0}],
-    hasDc50:false,dc50SizeIdx:0,dc50Coat:'เคลือบใสเงา',dc50Qty:0,
-    hasPC:false,pcTypeIdx:0,pcCoat:'เคลือบใสเงา',pcQty:0,
-    hasMemo:false,memoOptIdx:0,memoQty:0,
-    hasKP:false,kpCoat:'ไม่เคลือบ',kpQty:0,
-    hasKD:false,kdCoat:'เคลือบใสเงา',kdQty:0,
-    pkgHead:false,pkgLabel:false
-  };
-}
-giftItems.push(newGift());
-
-function addGift(){giftItems.push(newGift());renderGift();}
-
-function calcGiftTotal(g){
-  var t=0;
-  for(var i=0;i<(g.prints||[]).length;i++){
-    var p=g.prints[i];
-    if(p.printQty>0){
-      var gpi=GIFT_PRINT_ITEMS[p.printIdx];
-      if(gpi){
-        var unitP=gpi.base+(p.printCoat!=='ไม่เคลือบ'?gpi.coat:0);
-        t+=unitP*p.printQty;
-      }
-    }
-  }
-  for(var j=0;j<(g.stickers||[]).length;j++){
-    var s=g.stickers[j];
-    if(s.stickerQty>0){var sz=SSET[s.stickerSizeIdx];if(sz){var sU=s.stickerCoat==='เคลือบใสเงา'?sz.clear:sz.special;t+=sU*s.stickerQty;}}
-  }
-  if(g.hasDc50){var dc=GIFT_DC50[g.dc50SizeIdx];if(dc)t+=(SPECIAL.indexOf(g.dc50Coat)>=0?dc.special:dc.clear)*g.dc50Qty;}
-  if(g.hasPC)t+=PC_TYPES[g.pcTypeIdx].price*g.pcQty;
-  if(g.hasMemo)t+=MEMO_OPTS[g.memoOptIdx].price*g.memoQty;
-  if(g.hasKP)t+=(KP_BASE+(g.kpCoat!=='ไม่เคลือบ'?KP_COAT:0))*g.kpQty;
-  if(g.hasKD)t+=KD_PRICE*g.kdQty;
-  if(g.pkgHead){
-    var mi=g.prints&&g.prints[0]?g.prints[0].printIdx:0;
-    t+=(mi>=9)?5:(mi===9||mi===8)?3:2;
-  }
-  if(g.pkgLabel)t+=1.5;
-  var needsMin10=(g.stickers||[]).some(function(s){return s.stickerQty>0;})||g.hasDc50||g.hasPC||g.hasMemo;
-  return {t:t,needsMin10:needsMin10};
+function mapRow(r) {
+  const k = Object.keys(r);
+  return { tracking: r[k[0]]||"", name: r[k[1]]||"", phone: r[k[2]]||"", province: r[k[3]]||"", date: r[k[4]]||"", courier: r[k[5]]||"SPX", status: (r[k[6]]||"shipped").toLowerCase().trim() };
 }
 
-// ===== HELPERS =====
-function addDaysNoSunday(days){
-  var d=new Date();
-  var count=0;
-  while(count<days){
-    d.setDate(d.getDate()+1);
-    if(d.getDay()!==0)count++; // ไม่นับวันอาทิตย์
-  }
-  var dd=d.getDate(),mm=d.getMonth()+1,yy=d.getFullYear();
-  return dd+'/'+(mm<10?'0'+mm:mm)+'/'+yy;
-}
-function calcSheets(){
-  var sz=document.getElementById('calc-size').value;
-  var qty=parseInt(document.getElementById('calc-qty').value)||0;
-  var res=document.getElementById('calc-result');
-  var shapeRow=document.getElementById('calc-shape-row');
-  var shapeEl=document.getElementById('calc-shape');
+const SUPABASE_URL = "https://zduqfsbohimmvoxiikxf.supabase.co";
+const SUPABASE_KEY = "sb_publishable_cH2ZhqrUXDmQ2Ur_s-db7A_c8pgCp6O";
+const BUCKET = "parcel-photos";
+const photoCache = {};
 
-  // แสดง/ซ่อน shape selector
-  if(sz==='4'||sz==='5'){
-    shapeRow.style.display='block';
-    // อัปเดต hint text
-    var hintMap={'4':'3.5 cm','5':'4 cm','7':'6 cm'};
-    shapeRow.querySelector('option[value="other"]').textContent=
-      'ทรงอื่นๆ (กว้าง < '+hintMap[sz]+')';
-  } else {
-    shapeRow.style.display='none';
-    shapeEl.value='';
-  }
-
-  if(!sz||!qty){res.textContent='';return;}
-
-  // คำนวณ perSheet
-  var perSheet=DC50_PER_SHEET[sz]||1;
-  if(sz==='4'){
-    if(shapeEl.value==='square') perSheet=24;
-    else if(shapeEl.value==='other') perSheet=30;
-    else {res.textContent='กรุณาเลือกรูปทรงก่อนนะคะ';return;}
-  } else if(sz==='5'){
-    if(shapeEl.value==='square') perSheet=15;
-    else if(shapeEl.value==='other') perSheet=25;
-    else {res.textContent='กรุณาเลือกรูปทรงก่อนนะคะ';return;}
-  }
-
-  var sheets=Math.ceil(qty/perSheet);
-  res.innerHTML='ต้องการ <span style="color:#c0533a;font-size:16px;">'+sheets+'</span> แผ่น ('+perSheet+' ชิ้น/แผ่น × '+sheets+' แผ่น = '+(perSheet*sheets)+' ชิ้น)';
-}
-function switchTab(tab){
-  ['print','extra','diecut','sset','gift','info','checkdel'].forEach(function(x){
-    document.getElementById('tab-'+x).style.display=x===tab?'':'none';
-  });
-  document.querySelectorAll('.tab-btn').forEach(function(b,i){
-    b.classList.toggle('active',['print','extra','diecut','sset','gift','info','checkdel'][i]===tab);
-  });
-  var tabDesc={
-    'print':'รูปติดบัตร • รูปอัดมาตรฐาน • Custom ขนาด',
-    'extra':'Photocard • Memo Pad • พวงกุญแจ • กิ๊ฟอะเวย์',
-    'diecut':'สติ๊กเกอร์ตัดตามรูปทรง • 50% (Sticker Sheet) • 100% (ตัดชิ้นๆ)',
-    'sset':'จัดเซ็ตงานสติ๊กเกอร์',
-    'gift':'เซ็ตของแจก • ลูกค้า custom ของข้างในเซ็ตได้เองเลยค่ะ',
-    'checkdel':'เช็คว่าโอนวันนี้จะได้รับของวันไหน',
-    'info':'วิธีส่งไฟล์และข้อมูลการสั่งซื้อ'
-  };
-  var descEl=document.getElementById('tab-desc');
-  if(descEl) descEl.textContent=tabDesc[tab]||'';
-  if(tab==='checkdel'){
-    var today=new Date();
-    var yyyy=today.getFullYear();
-    var mm=String(today.getMonth()+1).padStart(2,'0');
-    var dd=String(today.getDate()).padStart(2,'0');
-    var el=document.getElementById('cd-date');
-    if(el&&!el.value) el.value=yyyy+'-'+mm+'-'+dd;
-    calcDelivery();
-  }
-}
-function calcDelivery(){
-  var dateEl=document.getElementById('cd-date');
-  var resultEl=document.getElementById('cd-result');
-  var resultDate=document.getElementById('cd-result-date');
-  var resultDetail=document.getElementById('cd-result-detail');
-  if(!dateEl||!dateEl.value){if(resultEl)resultEl.style.display='none';return;}
-
-  var parts=dateEl.value.split('-');
-  var base=new Date(+parts[0],+parts[1]-1,+parts[2]);
-  var timeVal=document.querySelector('input[name="cd-time"]:checked');
-  var typeVal=document.querySelector('input[name="cd-type"]:checked');
-  var isAfter=timeVal&&timeVal.value==='after';
-  var isSlow=typeVal&&typeVal.value==='slow';
-
-  // ถ้าโอนหลัง 20:00 นับวันถัดไป
-  if(isAfter){base.setDate(base.getDate()+1);}
-
-  // วันผลิต
-  var prodDays=isSlow?7:2;
-
-  // นับวันผลิต (ข้ามอาทิตย์)
-  var cur=new Date(base);
-  var counted=0;
-  while(counted<prodDays){
-    cur.setDate(cur.getDate()+1);
-    if(cur.getDay()!==0) counted++; // 0 = อาทิตย์
-  }
-
-  // วันส่งต้องไม่ใช่อาทิตย์
-  while(cur.getDay()===0){cur.setDate(cur.getDate()+1);}
-
-  var days=['อาทิตย์','จันทร์','อังคาร','พุธ','พฤหัสบดี','ศุกร์','เสาร์'];
-  var months=['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'];
-  var dayName=days[cur.getDay()];
-  var dateStr='วัน'+dayName+'ที่ '+cur.getDate()+' '+months[cur.getMonth()]+' '+(cur.getFullYear()+543);
-
-  resultDate.textContent=dateStr;
-  resultDetail.textContent=(isSlow?'งานผลิต 7 วัน':'งานผลิต 2 วัน')+' • จัดส่งผ่าน SPX (ไม่ส่งวันอาทิตย์)';
-  resultEl.style.display='block';
-}
-function selShip(v){
-  shipMethod=v;
-  document.getElementById('opt-post').classList.toggle('sel',v==='post');
-  document.getElementById('opt-msg').classList.toggle('sel',v==='msg');
-  recalc();
-}
-function minCoatQty(coat){return coat!=='ไม่เคลือบ'?10:0;}
-
-// ===== NAMED HANDLERS =====
-function setIdQty(i,v){v=+v;idSel[i].qty=v>0?Math.max(minCoatQty(idSel[i].coat),v):0;renderID();}
-function setIdCoat(i,v){idSel[i].coat=v;if(v!=='ไม่เคลือบ'&&idSel[i].qty>0&&idSel[i].qty<10)idSel[i].qty=10;renderID();}
-function setStdQty(i,v){v=+v;stdSel[i].qty=v>0?Math.max(minCoatQty(stdSel[i].coat),v):0;renderSTD();}
-function setStdCoat(i,v){stdSel[i].coat=v;if(v!=='ไม่เคลือบ'&&stdSel[i].qty>0&&stdSel[i].qty<10)stdSel[i].qty=10;renderSTD();}
-function setStdSide(i,v){stdSel[i].side=v;renderSTD();}
-function setStdFrame(i,v){stdSel[i].frame=v;renderSTD();}
-function setStdCorner(i,v){stdSel[i].corner=v;renderSTD();}
-function setCustomW(i,v){customItems[i].w=+v||1;renderCustom();}
-function setCustomH(i,v){customItems[i].h=+v||1;renderCustom();}
-function setCustomCoat(i,v){customItems[i].coat=v;if(v!=='ไม่เคลือบ'&&customItems[i].qty>0&&customItems[i].qty<10)customItems[i].qty=10;renderCustom();}
-function setCustomQty(i,v){v=+v;customItems[i].qty=v>0?(customItems[i].coat!=='ไม่เคลือบ'?Math.max(10,v):v):0;renderCustom();}
-function rmCustom(i){customItems.splice(i,1);renderCustom();}
-function addCustom(){customItems.push({w:5,h:5,coat:'ไม่เคลือบ',qty:0});renderCustom();}
-function setPcType(i,v){pcItems[i].typeIdx=+v;renderExtra();}
-function setPcCoat(i,v){pcItems[i].coat=v;renderExtra();}
-function setPcQty(i,v){pcItems[i].qty=+v;renderExtra();}
-function rmPc(i){pcItems.splice(i,1);renderExtra();}
-function setMemoOpt(i,v){memoItems[i].optIdx=+v;renderExtra();}
-function setMemoQty(i,v){v=+v;memoItems[i].qty=v>0?Math.max(6,v):0;renderExtra();}
-function rmMemo(i){memoItems.splice(i,1);renderExtra();}
-function setKpCoat(i,v){kpItems[i].coat=v;if(v!=='ไม่เคลือบ'&&kpItems[i].qty>0&&kpItems[i].qty<KP_MIN)kpItems[i].qty=KP_MIN;renderExtra();}
-function setKpQty(i,v){v=+v;kpItems[i].qty=v>0?(kpItems[i].coat!=='ไม่เคลือบ'?Math.max(KP_MIN,v):v):0;renderExtra();}
-function rmKp(i){kpItems.splice(i,1);renderExtra();}
-function setKdCoat(i,v){kdItems[i].coat=v;renderExtra();}
-function setKdQty(i,v){v=+v;kdItems[i].qty=v>0?Math.max(KD_MIN,v):0;renderExtra();}
-function rmKd(i){kdItems.splice(i,1);renderExtra();}
-function setDc50Size(i,v){dc50Items[i].sizeIdx=+v;renderDiecut();}
-function setDc50Coat(i,v){dc50Items[i].coat=v;renderDiecut();}
-function setDc50Sheets(i,v){dc50Items[i].sheets=+v;renderDiecut();}
-function rmDc50(i){dc50Items.splice(i,1);renderDiecut();}
-function setDc100Coat(i,v){dc100Items[i].coat=v;renderDiecut();}
-function setDc100Sheets(i,v){dc100Items[i].sheets=+v;renderDiecut();}
-function rmDc100(i){dc100Items.splice(i,1);renderDiecut();}
-function setSsetSize(si,i,v){ssetSets[si].items[i].sizeIdx=+v;var sy=window.scrollY;renderSset();window.scrollTo(0,sy);}
-function setSsetCoat(si,i,v){ssetSets[si].items[i].coat=v;var sy=window.scrollY;renderSset();window.scrollTo(0,sy);}
-function setSsetQty(si,i,v){ssetSets[si].items[i].qty=+v||0;var sy=window.scrollY;renderSset();window.scrollTo(0,sy);}
-function rmSsetItem(si,i){
-  var scrollY=window.scrollY;
-  ssetSets[si].items.splice(i,1);
-  renderSset();
-  window.scrollTo(0,scrollY);
-}
-function rmSset(si){
-  var scrollY=window.scrollY;
-  ssetSets.splice(si,1);
-  renderSset();
-  window.scrollTo(0,scrollY);
-}
-function setSsetSetQty(si,v){ssetSets[si].setQty=Math.max(10,+v||10);var sy=window.scrollY;renderSset();window.scrollTo(0,sy);}
-function setBag(v){bagChoice=v;renderSset();}
-function setBagIdx(k){
-  if(bagSelected&&bagChoice===BAG_OPTS[k]){bagSelected=false;}
-  else{bagChoice=BAG_OPTS[k];bagSelected=true;}
-  renderSset();
-}
-function addSset(){
-  var scrollY=window.scrollY;
-  ssetSets.push({setQty:10,items:[{sizeIdx:0,coat:'เคลือบใสเงา',qty:0}],bagSelected:false,bagChoice:'ซอง PVC ใส',pkg:[false,false]});
-  renderSset();
-  window.scrollTo(0,scrollY);
-}
-function addSsetItem(si){
-  var scrollY=window.scrollY;
-  ssetSets[si].items.push({sizeIdx:0,coat:'เคลือบใสเงา',qty:0});
-  renderSset();
-  window.scrollTo(0,scrollY);
-}
-function setPkg(i,v){pkgSel[i].include=v;renderSset();}
-function setGiftQty(gi,v){v=+v||1;giftItems[gi].setQty=v;renderGift();}
-function rmGift(gi){giftItems.splice(gi,1);renderGift();}
-function addGiftPrint(gi){giftItems[gi].prints.push({printIdx:0,printCoat:'ไม่เคลือบ',printQty:0});renderGift();}
-function rmGiftPrint(gi,pi){giftItems[gi].prints.splice(pi,1);renderGift();}
-function setGiftPrintIdx(gi,pi,v){giftItems[gi].prints[pi].printIdx=+v;renderGift();}
-function setGiftPrintCoat(gi,pi,v){giftItems[gi].prints[pi].printCoat=v;renderGift();}
-function setGiftPrintQty(gi,pi,v){giftItems[gi].prints[pi].printQty=+v;renderGift();}
-function addGiftSticker(gi){giftItems[gi].stickers.push({stickerSizeIdx:0,stickerCoat:'เคลือบใสเงา',stickerQty:0});renderGift();}
-function rmGiftSticker(gi,si){giftItems[gi].stickers.splice(si,1);renderGift();}
-function setGiftStickerSize(gi,si,v){giftItems[gi].stickers[si].stickerSizeIdx=+v;renderGift();}
-function setGiftStickerCoat(gi,si,v){giftItems[gi].stickers[si].stickerCoat=v;renderGift();}
-function setGiftStickerQty(gi,si,v){giftItems[gi].stickers[si].stickerQty=+v;renderGift();}
-function toggleGiftExtra(gi,key,v){giftItems[gi][key]=v;renderGift();}
-function setGiftField(gi,key,v){giftItems[gi][key]=isNaN(+v)?v:+v||v;renderGift();}
-
-// ===== RENDER ID =====
-function renderID(){
-  var c=document.getElementById('id-rows');c.innerHTML='';
-  for(var i=0;i<ID_ITEMS.length;i++){
-    var item=ID_ITEMS[i],s=idSel[i];
-    var unitP=item.base+(s.coat!=='ไม่เคลือบ'?item.coat:0);
-    var price=s.qty>0?unitP*s.qty:0;
-    var coatOpts='<option value="ไม่เคลือบ">ไม่เคลือบ</option>';
-    for(var k=0;k<COATS.length;k++)coatOpts+='<option value="'+COATS[k]+'"'+(s.coat===COATS[k]?' selected':'')+'>'+COATS[k]+'</option>';
-    var frameOpts='';
-    for(var k=0;k<FRAMES_ID.length;k++)frameOpts+='<option value="'+FRAMES_ID[k]+'"'+(s.frame===FRAMES_ID[k]?' selected':'')+'>'+FRAMES_ID[k]+'</option>';
-    var row=document.createElement('div');row.className='item-row';
-    row.innerHTML='<span class="i-num">'+(i+1)+'</span><div class="i-inner"><div class="i-name">'+item.label+'</div><div class="i-sub">'+item.base+' ฿ / เคลือบ +'+item.coat+' ฿</div><div class="sel-row"><select onchange="setIdCoat('+i+',this.value)">'+coatOpts+'</select><select onchange="idSel['+i+'].frame=this.value">'+frameOpts+'</select></div><div class="qty-row"><span class="qty-lbl">จำนวน</span><input class="qty-inp" type="number" min="0" max="999" value="'+s.qty+'" onchange="setIdQty('+i+',this.value)"><span class="qty-lbl">ใบ</span></div>'+(s.coat!=='ไม่เคลือบ'?'<span class="warn">⚠️ เคลือบขั้นต่ำ 10 ใบ/ลาย</span>':'')+'</div><span class="p-badge'+(price>0?' on':'')+'">'+( price>0?price.toFixed(2)+' ฿':'-')+'</span>';
-    c.appendChild(row);
-  }
-  recalc();
-}
-
-// ===== RENDER STD =====
-function renderSTD(){
-  // populate add dropdown
-  var addSel=document.getElementById('std-add-select');
-  if(!addSel)return;
-  addSel.innerHTML='<option value="">-- เลือกขนาดที่ต้องการ --</option>';
-  for(var i=0;i<STD_ITEMS.length;i++){
-    if(selectedStdIdx.indexOf(i)>=0)continue; // ซ่อนขนาดที่เพิ่มแล้ว
-    var opt=document.createElement('option');
-    opt.value=i;
-    opt.textContent=STD_ITEMS[i].label+(STD_ITEMS[i].proQty?' ⭐':'');
-    addSel.appendChild(opt);
-  }
-  // render cards
-  var cards=document.getElementById('std-cards');
-  cards.innerHTML='';
-  for(var j=0;j<selectedStdIdx.length;j++){
-    var i=selectedStdIdx[j];
-    var card=document.createElement('div');
-    card.className='inner-box';
-    card.style.marginBottom='10px';
-    card.innerHTML=renderStdCard(i,j);
-    cards.appendChild(card);
-  }
-  recalc();
-}
-
-function addStdItem(){
-  var sel=document.getElementById('std-add-select');
-  var val=sel.value;
-  if(val==='')return;
-  selectedStdIdx.push(+val);
-  sel.value='';
-  renderSTD();
-}
-
-function removeStdItem(j){
-  selectedStdIdx.splice(j,1);
-  renderSTD();
-}
-
-function renderStdCard(i,j){
-  var item=STD_ITEMS[i],s=stdSel[i];
-  var price=calcStdPrice(item,s.coat,s.side,s.qty);
-  var ps=proStatus(item,s.coat,s.side,s.qty);
-  var isCoat=s.coat!=='ไม่เคลือบ';
-  var coatOpts=item.noCoat?'':('<option value="ไม่เคลือบ">ไม่เคลือบ</option>');
-  if(!item.noCoat)for(var k=0;k<COATS.length;k++)coatOpts+='<option value="'+COATS[k]+'"'+(s.coat===COATS[k]?' selected':'')+'>'+COATS[k]+'</option>';
-  var extraSel='';
-  if(item.hasFrame){var fo='';for(var k=0;k<FRAMES.length;k++)fo+='<option value="'+FRAMES[k]+'"'+(s.frame===FRAMES[k]?' selected':'')+'>'+FRAMES[k]+'</option>';extraSel+='<select onchange="setStdFrame('+i+',this.value)">'+fo+'</select>';}
-  if(item.hasCorner)extraSel+='<select onchange="setStdCorner('+i+',this.value)"><option value="ไม่ตัด"'+(s.corner==='ไม่ตัด'?' selected':'')+'>ไม่ตัดมุม</option><option value="ตัด"'+(s.corner==='ตัด'?' selected':'')+'>ตัดมุม</option></select>';
-  if(item.twoSide)extraSel+='<select onchange="setStdSide('+i+',this.value)"><option value="แบบด้านเดียว"'+(s.side==='แบบด้านเดียว'?' selected':'')+'>แบบด้านเดียว</option><option value="แบบสองด้าน"'+(s.side==='แบบสองด้าน'?' selected':'')+'>แบบสองด้าน</option></select>';
-  var proHtml=ps?('<span class="pro-info '+(Math.floor(s.qty/(item.proQty||1))>0?'active':'normal')+'">'+ps+'</span>'):'';
-  return '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">'
-    +'<div class="i-name">'+item.label+(item.proQty?'<span class="pro-badge">โปร</span>':'')+'</div>'
-    +'<button class="rm-btn" onclick="removeStdItem('+j+')">ลบ</button>'
-    +'</div>'
-    +'<div class="i-sub" style="margin-bottom:8px;">'+item.base+' ฿'+(item.noCoat?'':' / เคลือบ '+item.coat+' ฿')+(item.twoSide?' / 2ด้าน '+item.twoSide+' ฿':'')+'</div>'
-    +'<div class="sel-row" style="margin-bottom:8px;">'+(item.noCoat?'':('<select onchange="setStdCoat('+i+',this.value)">'+coatOpts+'</select>'))+extraSel+'</div>'
-    +'<div class="qty-row" style="margin-bottom:6px;"><span class="qty-lbl">จำนวน</span><input class="qty-inp" type="number" min="0" max="9999" value="'+s.qty+'" onchange="setStdQty('+i+',this.value)"><span class="qty-lbl">ใบ</span></div>'
-    +(isCoat?'<span class="warn">⚠️ เคลือบขั้นต่ำ 10 ใบ/ลาย</span>':'')+proHtml
-    +'<div style="display:flex;justify-content:flex-end;margin-top:8px;">'
-    +'<span class="p-badge'+(price>0?' on':'')+'" style="font-size:14px;">'+( price>0?price.toFixed(2)+' ฿':'0.00 ฿')+'</span>'
-    +'</div>';
-}
-
-function selectStdSize(val){
-  if(val===''){document.getElementById('std-detail')&&(document.getElementById('std-detail').innerHTML='');recalc();return;}
-  renderStdDetail(+val);recalc();
-}
-function renderStdDetail(i){renderSTD();}
-
-// ===== RENDER CUSTOM =====
-function renderCustom(){
-  var c=document.getElementById('custom-rows');c.innerHTML='';
-  for(var i=0;i<customItems.length;i++){
-    var item=customItems[i];
-    var bp=calcCustom(item.w,item.h);
-    var ca=item.coat!=='ไม่เคลือบ'?Math.max(2,+(bp*0.5).toFixed(2)):0;
-    var unitP=bp+ca,total=unitP*item.qty;
-    var coatOpts='<option value="ไม่เคลือบ">ไม่เคลือบ</option>';
-    for(var k=0;k<COATS.length;k++)coatOpts+='<option value="'+COATS[k]+'"'+(item.coat===COATS[k]?' selected':'')+'>'+COATS[k]+'</option>';
-    var row=document.createElement('div');row.className='item-row';
-    row.innerHTML='<span class="i-num">'+(i+1)+'</span><div class="i-inner"><div class="i-name">Custom ขนาด</div><div class="inner-box"><div class="qty-row" style="margin-bottom:8px;"><span class="qty-lbl">กว้าง</span><input class="qty-inp" type="number" min="1" max="21" step="0.1" value="'+item.w+'" onchange="setCustomW('+i+',this.value)"> cm <span class="qty-lbl">× ยาว</span><input class="qty-inp" type="number" min="1" max="29.7" step="0.1" value="'+item.h+'" onchange="setCustomH('+i+',this.value)"> cm</div><select style="width:100%;margin-bottom:8px;" onchange="setCustomCoat('+i+',this.value)">'+coatOpts+'</select><div class="qty-row"><span class="qty-lbl">จำนวน</span><input class="qty-inp" type="number" min="0" max="999" value="'+item.qty+'" onchange="setCustomQty('+i+',this.value)"><span class="qty-lbl">ใบ</span></div><div style="margin-top:6px;font-size:12px;color:#aaa;">ราคา/ใบ: <b>'+unitP.toFixed(2)+' ฿</b> ('+( item.w*item.h).toFixed(1)+' ตร.ซม.)</div>'+(item.coat!=='ไม่เคลือบ'?'<span class="warn">⚠️ เคลือบขั้นต่ำ 10 ใบ/ลาย</span>':'')+'</div></div><div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px;"><span class="p-badge on">'+total.toFixed(2)+' ฿</span><button class="rm-btn" onclick="rmCustom('+i+')">ลบ</button></div>';
-    c.appendChild(row);
-  }
-  recalc();
-}
-
-// ===== RENDER EXTRA =====
-function renderExtra(){
-  var cp=document.getElementById('pc-rows');cp.innerHTML='';
-  for(var i=0;i<pcItems.length;i++){
-    var s=pcItems[i],pt=PC_TYPES[s.typeIdx],price=pt.price*s.qty;
-    var tOpts='',cOpts='';
-    for(var k=0;k<PC_TYPES.length;k++)tOpts+='<option value="'+k+'"'+(s.typeIdx===k?' selected':'')+'>'+PC_TYPES[k].label+' ('+PC_TYPES[k].price+'฿)</option>';
-    for(var k=0;k<COATS.length;k++)cOpts+='<option value="'+COATS[k]+'"'+(s.coat===COATS[k]?' selected':'')+'>'+COATS[k]+'</option>';
-    var row=document.createElement('div');row.className='item-row';
-    row.innerHTML='<span class="i-num">'+(i+1)+'</span><div class="i-inner"><div style="display:flex;justify-content:space-between;"><div class="i-name">Photocard</div>'+(pcItems.length>1?'<button class="rm-btn" onclick="rmPc('+i+')">ลบ</button>':'')+'</div><div class="sel-row"><select onchange="setPcType('+i+',this.value)">'+tOpts+'</select><select onchange="setPcCoat('+i+',this.value)">'+cOpts+'</select></div><div class="i-sub">'+pt.desc+'</div><div class="qty-row"><span class="qty-lbl">จำนวน</span><input class="qty-inp" type="number" min="0" max="9999" value="'+s.qty+'" onchange="setPcQty('+i+',this.value)"><span class="qty-lbl">ใบ</span></div><span class="warn">⚠️ คละลายเคลือบขั้นต่ำ 10 ใบ</span></div><span class="p-badge'+(price>0?' on':'')+'">'+( price>0?price.toFixed(2)+' ฿':'-')+'</span>';
-    cp.appendChild(row);
-  }
-  var cm=document.getElementById('memo-rows');cm.innerHTML='';
-  for(var i=0;i<memoItems.length;i++){
-    var s=memoItems[i],opt=MEMO_OPTS[s.optIdx],price=opt.price*s.qty;
-    var oOpts='';
-    for(var k=0;k<MEMO_OPTS.length;k++)oOpts+='<option value="'+k+'"'+(s.optIdx===k?' selected':'')+'>'+MEMO_OPTS[k].sheets+' แผ่น/ก้อน = '+MEMO_OPTS[k].price+' ฿/ก้อน</option>';
-    var row=document.createElement('div');row.className='item-row';
-    row.innerHTML='<span class="i-num">'+(i+1)+'</span><div class="i-inner"><div style="display:flex;justify-content:space-between;"><div class="i-name">Memo Pad</div>'+(memoItems.length>1?'<button class="rm-btn" onclick="rmMemo('+i+')">ลบ</button>':'')+'</div><select onchange="setMemoOpt('+i+',this.value)">'+oOpts+'</select><div class="qty-row"><span class="qty-lbl">จำนวน (ขั้นต่ำ 6)</span><input class="qty-inp" type="number" min="0" max="999" value="'+s.qty+'" onchange="setMemoQty('+i+',this.value)"><span class="qty-lbl">ก้อน × '+opt.price+' ฿</span></div></div><span class="p-badge'+(price>0?' on':'')+'">'+( price>0?price.toFixed(2)+' ฿':'-')+'</span>';
-    cm.appendChild(row);
-  }
-  var ck=document.getElementById('kp-rows');ck.innerHTML='';
-  for(var i=0;i<kpItems.length;i++){
-    var s=kpItems[i],unitP=KP_BASE+(s.coat!=='ไม่เคลือบ'?KP_COAT:0),price=unitP*s.qty;
-    var cOpts='<option value="ไม่เคลือบ"'+(s.coat==='ไม่เคลือบ'?' selected':'')+'>ไม่เคลือบ ('+KP_BASE+'฿/ชิ้น)</option>';
-    for(var k=0;k<COATS.length;k++)cOpts+='<option value="'+COATS[k]+'"'+(s.coat===COATS[k]?' selected':'')+'>'+COATS[k]+' ('+(KP_BASE+KP_COAT)+'฿/ชิ้น)</option>';
-    var row=document.createElement('div');row.className='item-row';
-    row.innerHTML='<span class="i-num">'+(i+1)+'</span><div class="i-inner"><div style="display:flex;justify-content:space-between;"><div class="i-name">พวงกุญแจรูป 2×2 นิ้ว</div>'+(kpItems.length>1?'<button class="rm-btn" onclick="rmKp('+i+')">ลบ</button>':'')+'</div><select onchange="setKpCoat('+i+',this.value)">'+cOpts+'</select><div class="qty-row"><span class="qty-lbl">จำนวน</span><input class="qty-inp" type="number" min="0" max="999" value="'+s.qty+'" onchange="setKpQty('+i+',this.value)"><span class="qty-lbl">ชิ้น</span></div>'+(s.coat!=='ไม่เคลือบ'?'<span class="warn">⚠️ เคลือบขั้นต่ำ '+KP_MIN+' ชิ้น/ลาย</span>':'')+'</div><span class="p-badge'+(price>0?' on':'')+'">'+( price>0?price.toFixed(2)+' ฿':'-')+'</span>';
-    ck.appendChild(row);
-  }
-  var kd=document.getElementById('kd-rows');kd.innerHTML='';
-  for(var i=0;i<kdItems.length;i++){
-    var s=kdItems[i],price=KD_PRICE*s.qty;
-    var cOpts='';
-    for(var k=0;k<COATS.length;k++)cOpts+='<option value="'+COATS[k]+'"'+(s.coat===COATS[k]?' selected':'')+'>'+COATS[k]+'</option>';
-    var row=document.createElement('div');row.className='item-row';
-    row.innerHTML='<span class="i-num">'+(i+1)+'</span><div class="i-inner"><div style="display:flex;justify-content:space-between;"><div class="i-name">พวงกุญแจ Die-cut</div>'+(kdItems.length>1?'<button class="rm-btn" onclick="rmKd('+i+')">ลบ</button>':'')+'</div><select onchange="setKdCoat('+i+',this.value)">'+cOpts+'</select><div class="qty-row"><span class="qty-lbl">จำนวน (ขั้นต่ำ '+KD_MIN+')</span><input class="qty-inp" type="number" min="0" max="9999" value="'+s.qty+'" onchange="setKdQty('+i+',this.value)"><span class="qty-lbl">ชิ้น × '+KD_PRICE+' ฿</span></div>'+(s.qty>0?'<span class="warn">⚠️ ขั้นต่ำ '+KD_MIN+' ชิ้น/ลาย</span>':'')+'</div><span class="p-badge'+(price>0?' on':'')+'">'+( price>0?price.toFixed(2)+' ฿':'-')+'</span>';
-    kd.appendChild(row);
-  }
-  recalc();
-}
-
-// ===== RENDER DIECUT =====
-function renderDiecut(){
-  var c50=document.getElementById('dc50-rows');c50.innerHTML='';
-  for(var i=0;i<dc50Items.length;i++){
-    var s=dc50Items[i],sz=DC50[s.sizeIdx];
-    var isSpec=SPECIAL.indexOf(s.coat)>=0;
-    var unitP=isSpec?sz.special:sz.clear;
-    var price=unitP*s.sheets;
-    var sOpts='';for(var k=0;k<DC50.length;k++)sOpts+='<option value="'+k+'"'+(s.sizeIdx===k?' selected':'')+'>'+DC50[k].size+'</option>';
-    var cOpts='<option value="เคลือบใสเงา"'+(s.coat==='เคลือบใสเงา'?' selected':'')+'>เคลือบใสเงา</option>';
-    for(var k=0;k<SPECIAL.length;k++)cOpts+='<option value="'+SPECIAL[k]+'"'+(s.coat===SPECIAL[k]?' selected':'')+'>'+SPECIAL[k]+'</option>';
-    var row=document.createElement('div');row.className='item-row';
-    row.innerHTML='<span class="i-num">'+(i+1)+'</span><div class="i-inner"><div style="display:flex;justify-content:space-between;"><div class="i-name">Die-cut 50%</div>'+(dc50Items.length>1?'<button class="rm-btn" onclick="rmDc50('+i+')">ลบ</button>':'')+'</div><select onchange="setDc50Size('+i+',this.value)" style="margin-bottom:4px;">'+sOpts+'</select><select onchange="setDc50Coat('+i+',this.value)">'+cOpts+'</select><div class="i-sub" style="color:#1a1a1a;font-weight:600;">ราคา '+unitP+' ฿/แผ่น</div><div class="qty-row"><span class="qty-lbl">จำนวน</span><input class="qty-inp" type="number" min="0" max="99" value="'+s.sheets+'" onchange="setDc50Sheets('+i+',this.value)"><span class="qty-lbl">แผ่น</span></div></div><span class="p-badge'+(price>0?' on':'')+'">'+( price>0?price.toFixed(2)+' ฿':'-')+'</span>';
-    c50.appendChild(row);
-  }
-  var c100=document.getElementById('dc100-rows');c100.innerHTML='';
-  for(var i=0;i<dc100Items.length;i++){
-    var s=dc100Items[i];
-    var isSpec=SPECIAL.indexOf(s.coat)>=0;
-    var unitP=isSpec?DC100_SPECIAL:DC100_CLEAR;
-    var price=unitP*s.sheets;
-    var cOpts='<option value="เคลือบใสเงา"'+(s.coat==='เคลือบใสเงา'?' selected':'')+'>เคลือบใสเงา ('+DC100_CLEAR+' ฿/แผ่น)</option>';
-    for(var k=0;k<SPECIAL.length;k++)cOpts+='<option value="'+SPECIAL[k]+'"'+(s.coat===SPECIAL[k]?' selected':'')+'>'+SPECIAL[k]+' ('+DC100_SPECIAL+' ฿/แผ่น)</option>';
-    var row=document.createElement('div');row.className='item-row';
-    row.innerHTML='<span class="i-num">'+(i+1)+'</span><div class="i-inner"><div style="display:flex;justify-content:space-between;"><div class="i-name">Die-cut 100% A4</div>'+(dc100Items.length>1?'<button class="rm-btn" onclick="rmDc100('+i+')">ลบ</button>':'')+'</div><select onchange="setDc100Coat('+i+',this.value)">'+cOpts+'</select><div class="qty-row"><span class="qty-lbl">จำนวน</span><input class="qty-inp" type="number" min="0" max="99" value="'+s.sheets+'" onchange="setDc100Sheets('+i+',this.value)"><span class="qty-lbl">แผ่น × '+unitP+' ฿</span></div><div class="i-sub">คละได้ 2 ลาย/แผ่น</div></div><span class="p-badge'+(price>0?' on':'')+'">'+( price>0?price.toFixed(2)+' ฿':'-')+'</span>';
-    c100.appendChild(row);
-  }
-  recalc();
-}
-
-// ===== RENDER SSET =====
-function renderSset(){
-  var scrollY=window.scrollY;
-  var wrap=document.getElementById('sset-rows');
-  if(!wrap)return;
-  wrap.innerHTML='';
-
-  ssetSets.forEach(function(set,si){
-    var box=document.createElement('div');
-    box.className='inner-box';
-    box.style.marginBottom='12px';
-
-    // header
-    var topRow=document.createElement('div');
-    topRow.style.cssText='display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;';
-    var titleEl=document.createElement('div');
-    titleEl.className='i-name';
-    titleEl.textContent='เซ็ตที่ '+(si+1);
-    topRow.appendChild(titleEl);
-    if(ssetSets.length>1){
-      var rmBtn=document.createElement('button');
-      rmBtn.type='button';rmBtn.className='rm-btn';rmBtn.textContent='ลบเซ็ต';
-      (function(idx){rmBtn.addEventListener('click',function(){rmSset(idx);});})(si);
-      topRow.appendChild(rmBtn);
-    }
-    box.appendChild(topRow);
-
-    // จำนวนเซ็ต
-    var qtyRow=document.createElement('div');
-    qtyRow.style.cssText='display:flex;align-items:center;gap:8px;margin-bottom:10px;padding:8px;background:#fff;border-radius:8px;border:1px solid #e8e8e8;';
-    var qtyLbl=document.createElement('span');qtyLbl.className='qty-lbl';qtyLbl.style.fontWeight='600';qtyLbl.style.color='#666';qtyLbl.textContent='จำนวนเซ็ต';
-    var qtyInp=document.createElement('input');qtyInp.type='number';qtyInp.className='qty-inp';qtyInp.min='10';qtyInp.max='999';qtyInp.value=set.setQty;
-    (function(idx){qtyInp.addEventListener('change',function(){setSsetSetQty(idx,this.value);});})(si);
-    var qtyUnit=document.createElement('span');qtyUnit.className='qty-lbl';qtyUnit.textContent='เซ็ต (ขั้นต่ำ 10)';
-    qtyRow.appendChild(qtyLbl);qtyRow.appendChild(qtyInp);qtyRow.appendChild(qtyUnit);
-    box.appendChild(qtyRow);
-
-    // sticker items
-    set.items.forEach(function(s,i){
-      var sz=SSET[s.sizeIdx];
-      var unitP=s.coat==='เคลือบใสเงา'?sz.clear:sz.special;
-      var total=unitP*s.qty*set.setQty;
-
-      // filter used sizes
-      var usedSizes=[];
-      for(var j=0;j<set.items.length;j++){if(j!==i)usedSizes.push(set.items[j].sizeIdx);}
-
-      var itemRow=document.createElement('div');
-      itemRow.className='item-row';
-
-      var numEl=document.createElement('span');numEl.className='i-num';numEl.textContent=i+1;
-
-      var inner=document.createElement('div');inner.className='i-inner';
-
-      var nameRow=document.createElement('div');
-      nameRow.style.cssText='display:flex;justify-content:space-between;';
-      var nameEl=document.createElement('div');nameEl.className='i-name';nameEl.textContent='ขนาด STICKER '+(i+1);
-      nameRow.appendChild(nameEl);
-      if(set.items.length>1){
-        var rmItemBtn=document.createElement('button');
-        rmItemBtn.type='button';rmItemBtn.className='rm-btn';rmItemBtn.textContent='ลบ';
-        (function(si2,ii){rmItemBtn.addEventListener('click',function(){rmSsetItem(si2,ii);});})(si,i);
-        nameRow.appendChild(rmItemBtn);
-      }
-      inner.appendChild(nameRow);
-
-      // select size
-      var selRow=document.createElement('div');selRow.className='sel-row';
-      var sizeSelect=document.createElement('select');
-      SSET.forEach(function(z,k){
-        if(usedSizes.indexOf(k)>=0&&s.sizeIdx!==k)return;
-        var opt=document.createElement('option');
-        opt.value=k;opt.textContent=z.size;if(s.sizeIdx===k)opt.selected=true;
-        sizeSelect.appendChild(opt);
-      });
-      (function(si2,ii){sizeSelect.addEventListener('change',function(){setSsetSize(si2,ii,this.value);});})(si,i);
-
-      var coatSelect=document.createElement('select');
-      var opt0=document.createElement('option');
-      opt0.value='เคลือบใสเงา';opt0.textContent='เคลือบใสเงา ('+sz.clear+' ฿/ชิ้น)';
-      if(s.coat==='เคลือบใสเงา')opt0.selected=true;
-      coatSelect.appendChild(opt0);
-      SPECIAL.forEach(function(cn){
-        var opt=document.createElement('option');
-        opt.value=cn;opt.textContent=cn+' ('+sz.special+' ฿/ชิ้น)';
-        if(s.coat===cn)opt.selected=true;
-        coatSelect.appendChild(opt);
-      });
-      (function(si2,ii){coatSelect.addEventListener('change',function(){setSsetCoat(si2,ii,this.value);});})(si,i);
-
-      selRow.appendChild(sizeSelect);selRow.appendChild(coatSelect);
-      inner.appendChild(selRow);
-
-      // qty
-      var qRow=document.createElement('div');qRow.className='qty-row';
-      var ql=document.createElement('span');ql.className='qty-lbl';ql.textContent='';
-      var qi=document.createElement('input');qi.type='number';qi.className='qty-inp';qi.min='0';qi.max='9999';qi.value=s.qty;
-      (function(si2,ii){qi.addEventListener('change',function(){setSsetQty(si2,ii,this.value);});})(si,i);
-      var qu=document.createElement('span');qu.className='qty-lbl';qu.textContent='ชิ้น';
-      var qprice=document.createElement('span');qprice.className='qty-lbl';
-      var perSet=unitP*s.qty;
-      qprice.textContent=s.qty>0?'× '+unitP+' ฿ = '+perSet.toFixed(2)+' ฿':'';
-      qprice.style.cssText='color:#1a1a1a;font-weight:600;font-size:12px;';
-      qRow.appendChild(ql);qRow.appendChild(qi);qRow.appendChild(qu);qRow.appendChild(qprice);
-      inner.appendChild(qRow);
-
-      var badge=document.createElement('span');
-      badge.className='p-badge'+(total>0?' on':'');
-      badge.textContent=total>0?total.toFixed(2)+' ฿':'-';
-
-      itemRow.appendChild(numEl);itemRow.appendChild(inner);itemRow.appendChild(badge);
-      box.appendChild(itemRow);
+async function getPhotos(tracking) {
+  if (photoCache[tracking] !== undefined) return photoCache[tracking];
+  try {
+    const res = await fetch(SUPABASE_URL+"/storage/v1/object/list/"+BUCKET, {
+      method: "POST",
+      headers: { "apikey": SUPABASE_KEY, "Authorization": "Bearer "+SUPABASE_KEY, "Content-Type": "application/json" },
+      body: JSON.stringify({ prefix: tracking+"/", limit: 20 })
     });
-
-    // ปุ่มเพิ่ม sticker
-    var addItemBtn=document.createElement('button');
-    addItemBtn.type='button';addItemBtn.className='add-btn';addItemBtn.textContent='+ เพิ่ม Sticker ในเซ็ต';
-    (function(idx){addItemBtn.addEventListener('click',function(){addSsetItem(idx);});})(si);
-    box.appendChild(addItemBtn);
-
-    // สรุปเซ็ต
-    var setTotal=0;
-    var setPerTotal=0;
-    set.items.forEach(function(s){
-      var sz=SSET[s.sizeIdx];
-      var u=s.coat==='เคลือบใสเงา'?sz.clear:sz.special;
-      setPerTotal+=u*s.qty;
-      setTotal+=u*s.qty*set.setQty;
-    });
-    if(setPerTotal>0&&setPerTotal<5&&!set.bagSelected)setTotal+=0;
-    PKG_ITEMS.forEach(function(item,idx){if(set.pkg&&set.pkg[idx])setTotal+=item.price*set.setQty;});
-    var sumRow=document.createElement('div');
-    sumRow.style.cssText='display:flex;justify-content:space-between;align-items:flex-start;margin-top:10px;padding-top:8px;border-top:1px solid #e8e8e8;font-size:13px;';
-    var sumLbl=document.createElement('span');sumLbl.style.color='#888';sumLbl.textContent='รวมเซ็ตที่ '+(si+1);
-    var sumRight=document.createElement('div');sumRight.style.cssText='text-align:right;';
-    var sumAmt=document.createElement('div');sumAmt.style.fontWeight='700';sumAmt.textContent=setTotal.toFixed(2)+' ฿';
-    var sumPer=document.createElement('div');sumPer.style.cssText='font-size:11px;color:#aaa;margin-top:2px;';
-    sumPer.textContent=setPerTotal>0?'('+setPerTotal.toFixed(2)+' ฿/เซ็ต × '+set.setQty+' เซ็ต)':'';
-    sumRight.appendChild(sumAmt);sumRight.appendChild(sumPer);
-    sumRow.appendChild(sumLbl);sumRow.appendChild(sumRight);
-    box.appendChild(sumRow);
-
-    // แพ็กเกจจิ้งของเซ็ตนี้
-    var pkgTitle=document.createElement('div');
-    pkgTitle.style.cssText='font-size:12px;font-weight:600;color:#666;margin-top:10px;margin-bottom:6px;';
-    pkgTitle.textContent='📦 แพ็กเกจจิ้ง / ถุง';
-    box.appendChild(pkgTitle);
-
-    // ถุง
-    var bagRow2=document.createElement('div');bagRow2.style.cssText='display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px;';
-    var setPerItem=0;
-    set.items.forEach(function(s){var sz=SSET[s.sizeIdx];setPerItem+=(s.coat==='เคลือบใสเงา'?sz.clear:sz.special)*s.qty;});
-    BAG_OPTS.forEach(function(opt,k){
-      var lbl=document.createElement('label');
-      lbl.className='bag-lbl'+(set.bagSelected&&set.bagChoice===opt?' sel':'');
-      lbl.style.cursor='pointer';
-      var inp=document.createElement('input');inp.type='checkbox';inp.checked=(set.bagSelected&&set.bagChoice===opt);inp.style.marginRight='2px';
-      (function(si2,ki){inp.addEventListener('change',function(){
-        if(ssetSets[si2].bagSelected&&ssetSets[si2].bagChoice===BAG_OPTS[ki]){ssetSets[si2].bagSelected=false;}
-        else{ssetSets[si2].bagChoice=BAG_OPTS[ki];ssetSets[si2].bagSelected=true;}
-        renderSset();
-      });})(si,k);
-      var txt=opt;
-      if(k===0){
-        if(setPerItem<=0) txt=opt;
-        else if(setPerItem<5) txt=opt+' (+2฿/เซ็ต)';
-        else txt=opt+' (ฟรี)';
-      } else {
-        txt=opt+' (ฟรี)';
-      }
-      lbl.appendChild(inp);lbl.appendChild(document.createTextNode(txt));
-      bagRow2.appendChild(lbl);
-    });
-    if(setPerItem>0&&setPerItem<5){
-      var bagWarn=document.createElement('div');bagWarn.className='i-sub';
-      bagWarn.innerHTML='<span style="color:#e65100;">ยอด/เซ็ต < 5฿ → ซอง PVC +2฿/เซ็ต</span>';
-      box.appendChild(bagWarn);
-    }
-    box.appendChild(bagRow2);
-
-    // pkg items
-    PKG_ITEMS.forEach(function(item,idx){
-      var p=item.price*set.setQty;
-      var pkgRow=document.createElement('div');pkgRow.style.cssText='display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;';
-      var lbl=document.createElement('label');lbl.style.cssText='display:flex;align-items:center;gap:6px;cursor:pointer;font-size:13px;';
-      var chk=document.createElement('input');chk.type='checkbox';
-      if(!set.pkg)set.pkg=[false,false];
-      chk.checked=set.pkg[idx]||false;
-      (function(si2,ii){chk.addEventListener('change',function(){
-        if(!ssetSets[si2].pkg)ssetSets[si2].pkg=[false,false];
-        ssetSets[si2].pkg[ii]=this.checked;
-        renderSset();
-      });})(si,idx);
-      lbl.appendChild(chk);lbl.appendChild(document.createTextNode(item.label+' (เซ็ตที่'+(si+1)+') ('+item.price+'฿/เซ็ต)'));
-      var amt=document.createElement('span');amt.style.cssText='font-size:12px;font-weight:600;color:'+(set.pkg&&set.pkg[idx]?'#1a1a1a':'#ccc')+';';
-      amt.textContent=set.pkg&&set.pkg[idx]?p.toFixed(2)+' ฿':'-';
-      pkgRow.appendChild(lbl);pkgRow.appendChild(amt);
-      box.appendChild(pkgRow);
-    });
-
-    wrap.appendChild(box);
-  });
-
-  // pkg section - แสดงใต้ sset-rows
-  var pc=document.getElementById('pkg-rows');
-  if(!pc){recalc();return;}
-  pc.innerHTML='';
-
-  recalc();
-  window.scrollTo(0,scrollY);
+    if (!res.ok) { photoCache[tracking] = []; return []; }
+    const data = await res.json();
+    const urls = (data||[]).filter(f => f.name).map(f =>
+      SUPABASE_URL+"/storage/v1/object/public/"+BUCKET+"/"+tracking+"/"+f.name
+    );
+    photoCache[tracking] = urls;
+    return urls;
+  } catch { photoCache[tracking] = []; return []; }
 }
 
-
-function renderGift(){
-  var c=document.getElementById('gift-rows');c.innerHTML='';
-  for(var gi=0;gi<giftItems.length;gi++){
-    var g=giftItems[gi];
-    var res=calcGiftTotal(g);
-    var t=res.t,needsMin10=res.needsMin10;
-    var minSet=needsMin10?10:1;
-    if(g.setQty>0&&g.setQty<minSet){giftItems[gi].setQty=minSet;g.setQty=minSet;}
-    var mi=g.prints&&g.prints[0]?g.prints[0].printIdx:0;
-    var headPrice=(mi>=10)?5:(mi===9)?3:2;
-    var row=document.createElement('div');row.className='item-row';
-    var html='<span class="i-num">'+(gi+1)+'</span><div class="i-inner"><div style="display:flex;justify-content:space-between;align-items:center;"><div class="i-name">เซ็ตที่ '+(gi+1)+' 🎁</div>'+(giftItems.length>1?'<button class="rm-btn" onclick="rmGift('+gi+')">ลบ</button>':'')+'</div><div class="inner-box">';
-    html+='<div class="qty-row" style="margin-bottom:10px;padding:8px;background:#fff;border-radius:8px;border:1px solid #e8e8e8;"><span class="qty-lbl" style="font-weight:600;color:#666;">จำนวนเซ็ต</span><input class="qty-inp" type="number" min="1" max="999" value="'+g.setQty+'" onchange="setGiftQty('+gi+',this.value)"><span class="qty-lbl">เซ็ต</span></div>';
-    if(needsMin10)html+='<span class="warn" style="margin-bottom:8px;display:block;">⚠️ มีสต๊ก/การ์ด/เมโม — ขั้นต่ำ 10 เซ็ต</span>';
-    // prints
-    html+='<div style="font-size:12px;font-weight:600;color:#666;margin-bottom:6px;">🖼 รูปอัด</div>';
-    for(var pi2=0;pi2<g.prints.length;pi2++){
-      var p=g.prints[pi2];
-      var pOpts='';for(var k=0;k<GIFT_PRINT_ITEMS.length;k++)pOpts+='<option value="'+k+'"'+(p.printIdx===k?' selected':'')+'>'+GIFT_PRINT_ITEMS[k].label+'</option>';
-      var pcOpts='<option value="ไม่เคลือบ"'+(p.printCoat==='ไม่เคลือบ'?' selected':'')+'>ไม่เคลือบ</option>';
-      for(var k=0;k<COATS.length;k++)pcOpts+='<option value="'+COATS[k]+'"'+(p.printCoat===COATS[k]?' selected':'')+'>'+COATS[k]+'</option>';
-      html+='<div class="sub-box"><div style="display:flex;justify-content:space-between;margin-bottom:6px;"><span style="font-size:12px;color:#aaa;">รูปที่ '+(pi2+1)+'</span>'+(g.prints.length>1?'<button class="rm-btn" onclick="rmGiftPrint('+gi+','+pi2+')">ลบ</button>':'')+'</div><select style="width:100%;margin-bottom:6px;" onchange="setGiftPrintIdx('+gi+','+pi2+',this.value)">'+pOpts+'</select><div class="sel-row"><select onchange="setGiftPrintCoat('+gi+','+pi2+',this.value)">'+pcOpts+'</select><input class="qty-inp" type="number" min="0" max="999" value="'+p.printQty+'" onchange="setGiftPrintQty('+gi+','+pi2+',this.value)"><span class="qty-lbl">ใบ</span></div></div>';
-    }
-    html+='<button class="add-btn" style="margin-bottom:10px;" onclick="addGiftPrint('+gi+')">+ เพิ่มรูปอัด</button>';
-    // stickers
-    html+='<div style="font-size:12px;font-weight:600;color:#666;margin-bottom:6px;">🏷 Sticker Set</div>';
-    for(var si2=0;si2<g.stickers.length;si2++){
-      var s2=g.stickers[si2];
-      var ssOpts='';for(var k=0;k<SSET.length;k++)ssOpts+='<option value="'+k+'"'+(s2.stickerSizeIdx===k?' selected':'')+'>'+SSET[k].size+'</option>';
-      var scOpts='<option value="เคลือบใสเงา"'+(s2.stickerCoat==='เคลือบใสเงา'?' selected':'')+'>เคลือบใสเงา</option>';
-      for(var k=0;k<SPECIAL.length;k++)scOpts+='<option value="'+SPECIAL[k]+'"'+(s2.stickerCoat===SPECIAL[k]?' selected':'')+'>'+SPECIAL[k]+'</option>';
-      html+='<div class="sub-box"><div style="display:flex;justify-content:space-between;margin-bottom:6px;"><span style="font-size:12px;color:#aaa;">สต๊กที่ '+(si2+1)+'</span>'+(g.stickers.length>1?'<button class="rm-btn" onclick="rmGiftSticker('+gi+','+si2+')">ลบ</button>':'')+'</div><div class="sel-row"><select onchange="setGiftStickerSize('+gi+','+si2+',this.value)">'+ssOpts+'</select><select onchange="setGiftStickerCoat('+gi+','+si2+',this.value)">'+scOpts+'</select><input class="qty-inp" type="number" min="0" max="9999" value="'+s2.stickerQty+'" onchange="setGiftStickerQty('+gi+','+si2+',this.value)"><span class="qty-lbl">ชิ้น</span></div></div>';
-    }
-    html+='<button class="add-btn" style="margin-bottom:10px;" onclick="addGiftSticker('+gi+')">+ เพิ่ม Sticker</button>';
-    // extras checkboxes
-    var extras=[{key:'hasDc50',lbl:'✂️ Die-cut 50%'},{key:'hasPC',lbl:'🃏 Photocard'},{key:'hasMemo',lbl:'📝 Memo Pad'},{key:'hasKP',lbl:'🔑 พวงกุญแจรูป'},{key:'hasKD',lbl:'🔑 พวงกุญแจ Die-cut'}];
-    for(var ei=0;ei<extras.length;ei++){
-      var ex=extras[ei];
-      html+='<label style="display:flex;align-items:center;gap:6px;margin-bottom:6px;cursor:pointer;font-size:12px;font-weight:600;color:#666;"><input type="checkbox" '+(g[ex.key]?'checked':'')+' onchange="toggleGiftExtra('+gi+',\''+ex.key+'\',this.checked)"> '+ex.lbl+'</label>';
-      if(g[ex.key]){
-        if(ex.key==='hasDc50'){
-          var dc=GIFT_DC50[g.dc50SizeIdx];var dcU=dc?(SPECIAL.indexOf(g.dc50Coat)>=0?dc.special:dc.clear):0;
-          var dOpts='';for(var k=0;k<GIFT_DC50.length;k++)dOpts+='<option value="'+k+'"'+(g.dc50SizeIdx===k?' selected':'')+'>'+GIFT_DC50[k].size+'</option>';
-          var dcOpts='<option value="เคลือบใสเงา"'+(g.dc50Coat==='เคลือบใสเงา'?' selected':'')+'>เคลือบใสเงา</option>';
-          for(var k=0;k<SPECIAL.length;k++)dcOpts+='<option value="'+SPECIAL[k]+'"'+(g.dc50Coat===SPECIAL[k]?' selected':'')+'>'+SPECIAL[k]+'</option>';
-          html+='<div class="sel-row" style="margin-bottom:10px;"><select onchange="setGiftField('+gi+',\'dc50SizeIdx\',this.value)">'+dOpts+'</select><select onchange="setGiftField('+gi+',\'dc50Coat\',this.value)">'+dcOpts+'</select><input class="qty-inp" type="number" min="0" max="99" value="'+g.dc50Qty+'" onchange="setGiftField('+gi+',\'dc50Qty\',this.value)"><span class="qty-lbl">แผ่น×'+dcU+'฿</span></div>';
-        }
-        if(ex.key==='hasPC'){
-          var ptOpts='';for(var k=0;k<PC_TYPES.length;k++)ptOpts+='<option value="'+k+'"'+(g.pcTypeIdx===k?' selected':'')+'>'+PC_TYPES[k].label+'('+PC_TYPES[k].price+'฿)</option>';
-          var pcOpts2='';for(var k=0;k<COATS.length;k++)pcOpts2+='<option value="'+COATS[k]+'"'+(g.pcCoat===COATS[k]?' selected':'')+'>'+COATS[k]+'</option>';
-          html+='<div class="sel-row" style="margin-bottom:10px;"><select onchange="setGiftField('+gi+',\'pcTypeIdx\',this.value)">'+ptOpts+'</select><select onchange="setGiftField('+gi+',\'pcCoat\',this.value)">'+pcOpts2+'</select><input class="qty-inp" type="number" min="0" max="999" value="'+g.pcQty+'" onchange="setGiftField('+gi+',\'pcQty\',this.value)"><span class="qty-lbl">ใบ</span></div>';
-        }
-        if(ex.key==='hasMemo'){
-          var moOpts='';for(var k=0;k<MEMO_OPTS.length;k++)moOpts+='<option value="'+k+'"'+(g.memoOptIdx===k?' selected':'')+'>'+MEMO_OPTS[k].sheets+'แผ่น/ก้อน('+MEMO_OPTS[k].price+'฿)</option>';
-          html+='<div class="sel-row" style="margin-bottom:10px;"><select onchange="setGiftField('+gi+',\'memoOptIdx\',this.value)">'+moOpts+'</select><input class="qty-inp" type="number" min="0" max="999" value="'+g.memoQty+'" onchange="setGiftField('+gi+',\'memoQty\',this.value)"><span class="qty-lbl">ก้อน</span></div>';
-        }
-        if(ex.key==='hasKP'){
-          var kpOpts2='<option value="ไม่เคลือบ"'+(g.kpCoat==='ไม่เคลือบ'?' selected':'')+'>ไม่เคลือบ('+KP_BASE+'฿)</option>';
-          for(var k=0;k<COATS.length;k++)kpOpts2+='<option value="'+COATS[k]+'"'+(g.kpCoat===COATS[k]?' selected':'')+'>'+COATS[k]+'('+(KP_BASE+KP_COAT)+'฿)</option>';
-          html+='<div class="sel-row" style="margin-bottom:10px;"><select onchange="setGiftField('+gi+',\'kpCoat\',this.value)">'+kpOpts2+'</select><input class="qty-inp" type="number" min="0" max="999" value="'+g.kpQty+'" onchange="setGiftField('+gi+',\'kpQty\',this.value)"><span class="qty-lbl">ชิ้น</span></div>';
-        }
-        if(ex.key==='hasKD'){
-          var kdOpts2='';for(var k=0;k<COATS.length;k++)kdOpts2+='<option value="'+COATS[k]+'"'+(g.kdCoat===COATS[k]?' selected':'')+'>'+COATS[k]+'</option>';
-          html+='<div class="sel-row" style="margin-bottom:10px;"><select onchange="setGiftField('+gi+',\'kdCoat\',this.value)">'+kdOpts2+'</select><input class="qty-inp" type="number" min="0" max="999" value="'+g.kdQty+'" onchange="setGiftField('+gi+',\'kdQty\',this.value)"><span class="qty-lbl">ชิ้น×'+KD_PRICE+'฿</span></div>';
-        }
-      }
-    }
-    html+='<div style="font-size:12px;font-weight:600;color:#666;margin:8px 0 6px;">📦 แพ็กเกจจิ้งในเซ็ต</div>';
-    html+='<label style="display:flex;align-items:center;gap:6px;margin-bottom:4px;cursor:pointer;font-size:12px;"><input type="checkbox" '+(g.pkgHead?'checked':'')+' onchange="toggleGiftExtra('+gi+',\'pkgHead\',this.checked)"> หัวแพ็ก '+headPrice+'฿/เซ็ต</label>';
-    html+='<label style="display:flex;align-items:center;gap:6px;margin-bottom:8px;cursor:pointer;font-size:12px;"><input type="checkbox" '+(g.pkgLabel?'checked':'')+' onchange="toggleGiftExtra('+gi+',\'pkgLabel\',this.checked)"> Sticker Label 4×6 cm (1.5฿/เซ็ต)</label>';
-    html+='<div style="padding-top:8px;border-top:1px solid #e8e8e8;display:flex;justify-content:space-between;font-size:12px;"><span style="color:#aaa;">รวม '+g.setQty+' เซ็ต</span><span style="font-weight:700;">'+(t*g.setQty).toFixed(2)+' บาท</span></div>';
-    html+='</div></div><span class="p-badge'+(t>0?' on':'')+'">'+( t>0?(t*g.setQty).toFixed(2)+' ฿':'-')+'</span>';
-    row.innerHTML=html;
-    c.appendChild(row);
+async function loadSheet() {
+  try {
+    const res = await fetch(CSV_URL);
+    if (!res.ok) throw new Error("HTTP "+res.status);
+    const text = await res.text();
+    DB = parseCSV(text).map(mapRow).filter(r => r.tracking||r.name);
+    document.getElementById("syncStatus").textContent = "ข้อมูลล่าสุดจาก Google Sheets ("+DB.length+" รายการ)";
+    document.getElementById("syncDot").className = "sync-dot ok";
+  } catch(e) {
+    document.getElementById("syncStatus").textContent = "โหลดไม่สำเร็จ — "+e.message;
+    document.getElementById("syncDot").className = "sync-dot err";
   }
-  recalc();
 }
 
-// ===== RECALC =====
-function recalc(){
-  var sub=0,hasPrint=false,hasSlow=false;
-  for(var i=0;i<ID_ITEMS.length;i++){var s=idSel[i];if(s.qty>0){sub+=(ID_ITEMS[i].base+(s.coat!=='ไม่เคลือบ'?ID_ITEMS[i].coat:0))*s.qty;hasPrint=true;}}
-  for(var i=0;i<STD_ITEMS.length;i++){var s=stdSel[i];if(s.qty>0){sub+=calcStdPrice(STD_ITEMS[i],s.coat,s.side,s.qty);hasPrint=true;}}
-  for(var i=0;i<customItems.length;i++){var item=customItems[i];if(item.qty>0){var bp=calcCustom(item.w,item.h);var ca=item.coat!=='ไม่เคลือบ'?Math.max(2,+(bp*0.5).toFixed(2)):0;sub+=(bp+ca)*item.qty;hasPrint=true;}}
-  for(var i=0;i<pcItems.length;i++){if(pcItems[i].qty>0){sub+=PC_TYPES[pcItems[i].typeIdx].price*pcItems[i].qty;hasPrint=true;}}
-  for(var i=0;i<memoItems.length;i++){if(memoItems[i].qty>0){sub+=MEMO_OPTS[memoItems[i].optIdx].price*memoItems[i].qty;hasSlow=true;}}
-  for(var i=0;i<kpItems.length;i++){if(kpItems[i].qty>0){sub+=(KP_BASE+(kpItems[i].coat!=='ไม่เคลือบ'?KP_COAT:0))*kpItems[i].qty;hasPrint=true;}}
-  for(var i=0;i<kdItems.length;i++){if(kdItems[i].qty>0){sub+=KD_PRICE*kdItems[i].qty;hasSlow=true;}}
-  for(var i=0;i<dc50Items.length;i++){if(dc50Items[i].sheets>0){var sz=DC50[dc50Items[i].sizeIdx];sub+=(SPECIAL.indexOf(dc50Items[i].coat)>=0?sz.special:sz.clear)*dc50Items[i].sheets;hasSlow=true;}}
-  for(var i=0;i<dc100Items.length;i++){if(dc100Items[i].sheets>0){sub+=(SPECIAL.indexOf(dc100Items[i].coat)>=0?DC100_SPECIAL:DC100_CLEAR)*dc100Items[i].sheets;hasSlow=true;}}
-  ssetSets.forEach(function(set){
-    var per=0;
-    set.items.forEach(function(s){if(s.qty>0){var sz=SSET[s.sizeIdx];per+=(s.coat==='เคลือบใสเงา'?sz.clear:sz.special)*s.qty;hasSlow=true;}});
-    if(per>0){sub+=per*set.setQty;if(per<5)sub+=2*set.setQty;}
-  });
-  ssetSets.forEach(function(set){
-    PKG_ITEMS.forEach(function(item,idx){if(set.pkg&&set.pkg[idx])sub+=item.price*set.setQty;});
-  });
-  for(var gi=0;gi<giftItems.length;gi++){var res=calcGiftTotal(giftItems[gi]);if(res.t>0){sub+=res.t*giftItems[gi].setQty;hasPrint=true;hasSlow=true;}}
-  var freeShip=(shipMethod==='post'&&sub>=500);
-  var sc=shipMethod==='post'?(freeShip?0:40):0;
-  var spxEl=document.getElementById('spx-desc');
-  if(spxEl){if(freeShip)spxEl.innerHTML='<span style="color:#3B6D11;font-weight:600;">🎉 ยอดครบ 500฿ — จัดส่งฟรี!</span>';
-  else spxEl.textContent='ค่าจัดส่ง 40 บาท (ฟรีเมื่อยอด ≥ 500฿)';}
-  document.getElementById('sub-disp').textContent=sub.toFixed(2)+' บาท';
-  document.getElementById('ship-disp').textContent=shipMethod==='post'?(freeShip?'ฟรี! 🎉':'40.00 บาท'):'จ่ายปลายทาง';
-  document.getElementById('total-disp').textContent=(sub+sc).toFixed(2)+' บาท';
-  var dTxt,dSub;
-  if(!hasPrint&&!hasSlow){dTxt='กรุณาเลือกสินค้าก่อน';dSub='ระยะเวลาจะแสดงหลังเลือกรายการ';}
-  else if(hasPrint&&!hasSlow){dTxt='📅 จัดส่งงานภายใน: '+addDaysNoSunday(2);dSub='';}
-  else if(!hasPrint&&hasSlow){dTxt='📅 จัดส่งงานภายใน: '+addDaysNoSunday(7);dSub='';}
-  else{dTxt='📅 จัดส่งงานภายใน: '+addDaysNoSunday(7);dSub='';}
-  document.getElementById('del-txt').textContent=dTxt;
-  document.getElementById('del-sub').textContent=dSub;
-  renderSummary();
+function setTab(m) {
+  mode = m;
+  document.getElementById("tabName").className = "tab"+(m==="name"?" active":"");
+  document.getElementById("tabPhone").className = "tab"+(m==="phone"?" active":"");
+  document.getElementById("searchInput").value = "";
+  document.getElementById("results").innerHTML = "";
+  document.getElementById("hintText").textContent = m==="name" ? "พิมพ์ชื่อ-นามสกุลให้ครบ เช่น สมใจ รักดี" : "พิมพ์เบอร์โทรครบ 10 หลัก";
+  document.getElementById("searchInput").placeholder = m==="name" ? "พิมพ์ชื่อ-นามสกุลให้ครบ..." : "พิมพ์เบอร์โทร 10 หลัก...";
 }
 
-function renderSummary(){
-  var items=[];
-  var sub=0;
-
-  // ID
-  for(var i=0;i<ID_ITEMS.length;i++){var s=idSel[i];if(s.qty>0){var u=ID_ITEMS[i].base+(s.coat!=='ไม่เคลือบ'?ID_ITEMS[i].coat:0);var p=u*s.qty;items.push({name:ID_ITEMS[i].label,detail:s.coat+' × '+s.qty+' ใบ',price:p});sub+=p;}}
-  // STD
-  for(var i=0;i<STD_ITEMS.length;i++){var s=stdSel[i];if(s.qty>0){var p=calcStdPrice(STD_ITEMS[i],s.coat,s.side,s.qty);var det=s.coat+(STD_ITEMS[i].twoSide?' | '+s.side:'')+' × '+s.qty+' ใบ';items.push({name:STD_ITEMS[i].label,detail:det,price:p});sub+=p;}}
-  // Custom
-  for(var i=0;i<customItems.length;i++){var item=customItems[i];if(item.qty>0){var bp=calcCustom(item.w,item.h);var ca=item.coat!=='ไม่เคลือบ'?Math.max(2,+(bp*0.5).toFixed(2)):0;var p=(bp+ca)*item.qty;items.push({name:'Custom '+item.w+'×'+item.h+' cm',detail:item.coat+' × '+item.qty+' ใบ',price:p});sub+=p;}}
-  // PC
-  for(var i=0;i<pcItems.length;i++){if(pcItems[i].qty>0){var p=PC_TYPES[pcItems[i].typeIdx].price*pcItems[i].qty;items.push({name:PC_TYPES[pcItems[i].typeIdx].label,detail:pcItems[i].coat+' × '+pcItems[i].qty+' ใบ',price:p});sub+=p;}}
-  // Memo
-  for(var i=0;i<memoItems.length;i++){if(memoItems[i].qty>0){var opt=MEMO_OPTS[memoItems[i].optIdx];var p=opt.price*memoItems[i].qty;items.push({name:'Memo Pad '+opt.sheets+' แผ่น/ก้อน',detail:'× '+memoItems[i].qty+' ก้อน',price:p});sub+=p;}}
-  // KP
-  for(var i=0;i<kpItems.length;i++){if(kpItems[i].qty>0){var u=KP_BASE+(kpItems[i].coat!=='ไม่เคลือบ'?KP_COAT:0);var p=u*kpItems[i].qty;items.push({name:'พวงกุญแจรูป 2×2 นิ้ว',detail:kpItems[i].coat+' × '+kpItems[i].qty+' ชิ้น',price:p});sub+=p;}}
-  // KD
-  for(var i=0;i<kdItems.length;i++){if(kdItems[i].qty>0){var p=KD_PRICE*kdItems[i].qty;items.push({name:'พวงกุญแจ Die-cut',detail:kdItems[i].coat+' × '+kdItems[i].qty+' ชิ้น',price:p});sub+=p;}}
-  // DC50
-  for(var i=0;i<dc50Items.length;i++){if(dc50Items[i].sheets>0){var sz=DC50[dc50Items[i].sizeIdx];var u=SPECIAL.indexOf(dc50Items[i].coat)>=0?sz.special:sz.clear;var p=u*dc50Items[i].sheets;items.push({name:'Die-cut 50% '+sz.size,detail:dc50Items[i].coat+' × '+dc50Items[i].sheets+' แผ่น',price:p});sub+=p;}}
-  // DC100
-  for(var i=0;i<dc100Items.length;i++){if(dc100Items[i].sheets>0){var u=SPECIAL.indexOf(dc100Items[i].coat)>=0?DC100_SPECIAL:DC100_CLEAR;var p=u*dc100Items[i].sheets;items.push({name:'Die-cut 100% A4',detail:dc100Items[i].coat+' × '+dc100Items[i].sheets+' แผ่น',price:p});sub+=p;}}
-  // Sset
-  var ssetPer=0;
-  ssetSets.forEach(function(set,si){
-    var setPer=0;
-    set.items.forEach(function(s){if(s.qty<=0)return;var sz=SSET[s.sizeIdx];var u=s.coat==='เคลือบใสเงา'?sz.clear:sz.special;setPer+=u*s.qty;ssetPer+=u*s.qty;});
-    if(setPer<=0)return;
-    set.items.forEach(function(s,i){
-      if(s.qty<=0)return;
-      var sz=SSET[s.sizeIdx];var u=s.coat==='เคลือบใสเงา'?sz.clear:sz.special;
-      var p=u*s.qty*set.setQty;
-      items.push({name:'Sticker เซ็ตที่'+(si+1)+' ขนาด '+sz.size,detail:s.coat+' × '+s.qty+'/เซ็ต × '+set.setQty+' เซ็ต',price:p});
-      sub+=p;
-    });
-    if(setPer>0&&setPer<5&&!set.bagSelected){}
+async function doSearch() {
+  const q = document.getElementById("searchInput").value.trim().toLowerCase();
+  const container = document.getElementById("results");
+  if (!q) { container.innerHTML = ""; return; }
+  // ต้องพิมพ์ชื่อเต็ม หรือเบอร์ครบ 10 หลัก
+  if (mode === "name" && q.length < 3) { container.innerHTML = '<div class="empty-state">📝<br>กรุณาพิมพ์ชื่อ-นามสกุลให้ครบ</div>'; return; }
+  if (mode === "phone" && q.replace(/\D/g,"").length < 10) { container.innerHTML = '<div class="empty-state">📱<br>กรุณาพิมพ์เบอร์โทรครบ 10 หลัก</div>'; return; }
+  const found = DB.filter(r => {
+    if (mode === "name") return (r.name||"").toLowerCase() === q;
+    return (r.phone||"").replace(/\D/g,"") === q.replace(/\D/g,"");
   });
-  // PKG
-  ssetSets.forEach(function(set,si){
-    if(!set.pkg)return;
-    PKG_ITEMS.forEach(function(item2,idx2){
-      if(!set.pkg[idx2])return;
-      var p=item2.price*set.setQty;
-      items.push({name:item2.label+' (เซ็ตที่'+(si+1)+')',detail:'× '+set.setQty+' เซ็ต',price:p});
-      sub+=p;
-    });
-    // ถุง
-    if(set.bagSelected){
-      items.push({name:'ถุง: '+set.bagChoice+' (เซ็ตที่'+(si+1)+')',detail:'× '+set.setQty+' เซ็ต',price:0});
-    }
+  if (!found.length) { container.innerHTML = '<div class="empty-state">📦<br>ไม่พบข้อมูล<br><small>กรุณาตรวจสอบชื่อ-นามสกุล หรือเบอร์โทรอีกครั้ง</small></div>'; return; }
+  container.innerHTML = '<p class="result-count">กำลังโหลด...</p>';
+  const cards = await Promise.all(found.map(async r => {
+    const st = (r.status in statusLabel) ? r.status : "shipped";
+    const photos = await getPhotos(r.tracking);
+    const imgHtml = photos.length ? photos.map(p => '<img class="product-img" src="'+p+'" alt="รูปสินค้า" loading="lazy" onclick="openLightbox(this.src)" style="cursor:pointer;cursor:zoom-in">').join("") : "";
+    return '<div class="result-card">'+
+      '<div class="card-top"><div>'+
+        '<div class="card-name">'+r.name+'</div>'+
+        '<div class="card-phone">'+r.phone+'</div>'+
+        (r.province?'<div class="card-province">📍 '+r.province+'</div>':'')+
+      '</div><span class="badge '+statusClass[st]+'">'+statusLabel[st]+'</span></div>'+
+      '<div class="courier-row">🚚 '+r.courier+(r.date?' · '+r.date:'')+'</div>'+
+      '<div class="tracking-row">'+
+        '<span class="tracking-label">เลขพัสดุ</span>'+
+        '<span class="tracking-num">'+r.tracking+'</span>'+
+        '<button class="copy-btn" onclick="copyTracking(\''+r.tracking+'\',this)">คัดลอก</button>'+
+      '</div>'+imgHtml+(imgHtml ? '<p style="font-size:11px;color:#E24B4A;margin-top:6px;text-align:center;font-weight:500">📌 รูปสินค้ามีอายุ 7 วันหลังจัดส่ง</p>' : '')+
+    '</div>';
+  }));
+  container.innerHTML = '<p class="result-count">พบ '+found.length+' รายการ</p>' + cards.join("");
+}
+
+function copyTracking(text, btn) {
+  navigator.clipboard.writeText(text).then(() => {
+    btn.textContent = "✓ คัดลอกแล้ว"; btn.classList.add("copied");
+    setTimeout(() => { btn.textContent = "คัดลอก"; btn.classList.remove("copied"); }, 2000);
   });
-  // Gift
-  for(var gi=0;gi<giftItems.length;gi++){var res=calcGiftTotal(giftItems[gi]);if(res.t<=0){continue;}var gNames=[];(giftItems[gi].prints||[]).forEach(function(p){if(p.printQty>0&&GIFT_PRINT_ITEMS[p.printIdx])gNames.push(GIFT_PRINT_ITEMS[p.printIdx].label+' x'+p.printQty);});items.push({name:'กิ๊ฟอะเวย์ เซ็ตที่'+(gi+1),detail:(gNames.length?gNames.join(', ')+' ':'')+' × '+giftItems[gi].setQty+' เซ็ต',price:res.t*giftItems[gi].setQty});sub+=res.t*giftItems[gi].setQty;}
+}
 
-  var box=document.getElementById('order-summary');
-  var itemsEl=document.getElementById('summary-items');
+function openLightbox(src) {
+  document.getElementById('lightboxImg').src = src;
+  document.getElementById('lightbox').classList.add('show');
+  document.body.style.overflow = 'hidden';
+}
+function closeLightbox() {
+  document.getElementById('lightbox').classList.remove('show');
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
 
-  if(items.length===0){box.style.display='none';return;}
-  box.style.display='block';
-
-  var html='';
-  for(var i=0;i<items.length;i++){
-    html+='<div style="display:flex;justify-content:space-between;align-items:flex-start;padding:6px 0;border-bottom:1px solid #f5f5f5;">'
-      +'<div><div style="font-weight:600;color:#1a1a1a;">'+items[i].name+'</div>'
-      +'<div style="font-size:11px;color:#aaa;">'+items[i].detail+'</div></div>'
-      +'<div style="font-weight:600;color:#1a1a1a;white-space:nowrap;margin-left:12px;">'+items[i].price.toFixed(2)+' ฿</div>'
-      +'</div>';
+function toggleMenu() {
+  const m = document.getElementById("secretMenu");
+  m.classList.toggle("show");
+}
+document.addEventListener("click", e => {
+  if (!e.target.closest(".secret-btn") && !e.target.closest(".secret-menu")) {
+    document.getElementById("secretMenu").classList.remove("show");
   }
-  var sc=shipMethod==='post'?40:0;
-  html+='<div style="margin-top:10px;padding-top:10px;border-top:2px solid #e8e8e8;">'
-    +'<div style="display:flex;justify-content:space-between;font-size:13px;color:#888;margin-bottom:4px;"><span>ค่าสินค้า</span><span>'+sub.toFixed(2)+' ฿</span></div>'
-    +'<div style="display:flex;justify-content:space-between;font-size:13px;color:#888;margin-bottom:8px;"><span>ค่าจัดส่ง</span><span>'+(shipMethod==='post'?'40.00 ฿':'จ่ายปลายทาง')+'</span></div>'
-    +'<div style="display:flex;justify-content:space-between;font-size:16px;font-weight:700;color:#1a1a1a;"><span>รวมทั้งหมด</span><span>'+(sub+sc).toFixed(2)+' ฿</span></div>'
-    +'</div>';
-  itemsEl.innerHTML=html;
-}
+});
 
-// ===== COPY =====
-function copyOrder(){
-  var lines=['📸 Polaroid_tamsung — สรุปออเดอร์',''],sub=0,hasPrint=false,hasSlow=false;
-  var idL=[],stdL=[],custL=[],pcL=[],memoL=[],kpL=[],kdL=[],dc50L=[],dc100L=[],ssetL=[],pkgL=[],giftL=[];
-  for(var i=0;i<ID_ITEMS.length;i++){var s=idSel[i];if(s.qty<=0)continue;var p=(ID_ITEMS[i].base+(s.coat!=='ไม่เคลือบ'?ID_ITEMS[i].coat:0))*s.qty;idL.push('• '+ID_ITEMS[i].label+' | '+s.coat+' | '+s.frame+' x'+s.qty+' = '+p.toFixed(2)+'฿');sub+=p;hasPrint=true;}
-  for(var i=0;i<STD_ITEMS.length;i++){var s=stdSel[i];if(s.qty<=0)continue;var p=calcStdPrice(STD_ITEMS[i],s.coat,s.side,s.qty);var opt=s.coat;if(STD_ITEMS[i].hasFrame)opt+=' | '+s.frame;if(STD_ITEMS[i].hasCorner)opt+=' | '+(s.corner==='ตัด'?'ตัดมุม':'ไม่ตัดมุม');if(STD_ITEMS[i].twoSide)opt+=' | '+s.side;stdL.push('• '+STD_ITEMS[i].label+' | '+opt+' x'+s.qty+' = '+p.toFixed(2)+'฿');sub+=p;hasPrint=true;}
-  for(var i=0;i<customItems.length;i++){var item=customItems[i];if(item.qty<=0)continue;var bp=calcCustom(item.w,item.h);var ca=item.coat!=='ไม่เคลือบ'?Math.max(2,+(bp*0.5).toFixed(2)):0;var p=(bp+ca)*item.qty;custL.push('• Custom '+item.w+'x'+item.h+'cm | '+item.coat+' x'+item.qty+' = '+p.toFixed(2)+'฿');sub+=p;hasPrint=true;}
-  for(var i=0;i<pcItems.length;i++){if(pcItems[i].qty<=0)continue;var p=PC_TYPES[pcItems[i].typeIdx].price*pcItems[i].qty;pcL.push('• '+PC_TYPES[pcItems[i].typeIdx].label+' | '+pcItems[i].coat+' x'+pcItems[i].qty+' = '+p.toFixed(2)+'฿');sub+=p;hasPrint=true;}
-  for(var i=0;i<memoItems.length;i++){if(memoItems[i].qty<=0)continue;var opt=MEMO_OPTS[memoItems[i].optIdx];var p=opt.price*memoItems[i].qty;memoL.push('• Memo Pad '+opt.sheets+'แผ่น/ก้อน x'+memoItems[i].qty+'ก้อน = '+p.toFixed(2)+'฿');sub+=p;hasSlow=true;}
-  for(var i=0;i<kpItems.length;i++){if(kpItems[i].qty<=0)continue;var u=KP_BASE+(kpItems[i].coat!=='ไม่เคลือบ'?KP_COAT:0);var p=u*kpItems[i].qty;kpL.push('• พวงกุญแจรูป | '+kpItems[i].coat+' x'+kpItems[i].qty+' = '+p.toFixed(2)+'฿');sub+=p;hasPrint=true;}
-  for(var i=0;i<kdItems.length;i++){if(kdItems[i].qty<=0)continue;var p=KD_PRICE*kdItems[i].qty;kdL.push('• พวงกุญแจ Die-cut | '+kdItems[i].coat+' x'+kdItems[i].qty+' = '+p.toFixed(2)+'฿');sub+=p;hasSlow=true;}
-  for(var i=0;i<dc50Items.length;i++){if(dc50Items[i].sheets<=0)continue;var sz=DC50[dc50Items[i].sizeIdx];var u=SPECIAL.indexOf(dc50Items[i].coat)>=0?sz.special:sz.clear;var p=u*dc50Items[i].sheets;dc50L.push('• Die-cut 50% '+sz.size+' | '+dc50Items[i].coat+' x'+dc50Items[i].sheets+'แผ่น = '+p.toFixed(2)+'฿');sub+=p;hasSlow=true;}
-  for(var i=0;i<dc100Items.length;i++){if(dc100Items[i].sheets<=0)continue;var u=SPECIAL.indexOf(dc100Items[i].coat)>=0?DC100_SPECIAL:DC100_CLEAR;var p=u*dc100Items[i].sheets;dc100L.push('• Die-cut 100% A4 | '+dc100Items[i].coat+' x'+dc100Items[i].sheets+'แผ่น = '+p.toFixed(2)+'฿');sub+=p;hasSlow=true;}
-    ssetSets.forEach(function(set,si){
-    var per=0;
-    set.items.forEach(function(s){if(s.qty>0){var sz=SSET[s.sizeIdx];per+=(s.coat==='เคลือบใสเงา'?sz.clear:sz.special)*s.qty;}});
-    if(per<=0)return;
-    ssetL.push('• เซ็ตที่'+(si+1)+' ('+set.setQty+' เซ็ต):');
-    set.items.forEach(function(s,i){if(s.qty<=0)return;var sz=SSET[s.sizeIdx];var u=s.coat==='เคลือบใสเงา'?sz.clear:sz.special;var p=u*s.qty*set.setQty;ssetL.push('  ขนาด '+(i+1)+': '+sz.size+' '+s.coat+' x'+s.qty+'/เซ็ต = '+p.toFixed(2)+'฿');sub+=p;hasSlow=true;});
-    if(per<5){ssetL.push('  ⚠️ ยอด/เซ็ต < 5฿ กรุณาเลือกซอง PVC');}
-    else if(bagSelected)ssetL.push('  ถุง: '+bagChoice);
-  });
-  var _tq=0;ssetSets.forEach(function(set){_tq+=set.setQty;});
-  ssetSets.forEach(function(set,si){
-    PKG_ITEMS.forEach(function(item,idx){
-      if(!set.pkg||!set.pkg[idx])return;
-      var p=item.price*set.setQty;
-      pkgL.push('• เซ็ตที่'+(si+1)+' '+item.label+' x'+set.setQty+' เซ็ต = '+p.toFixed(2)+'฿');
-      sub+=p;
-    });
-  });
-  for(var gi=0;gi<giftItems.length;gi++){var g=giftItems[gi];var res=calcGiftTotal(g);if(res.t<=0)continue;giftL.push('• เซ็ตที่'+(gi+1)+' ('+g.setQty+'เซ็ต) รวม '+(res.t*g.setQty).toFixed(2)+'฿');for(var pi2=0;pi2<g.prints.length;pi2++){var p=g.prints[pi2];if(p.printQty>0&&GIFT_PRINT_ITEMS[p.printIdx])giftL.push('  - รูป: '+GIFT_PRINT_ITEMS[p.printIdx].label+' '+p.printCoat+' x'+p.printQty);}for(var si2=0;si2<g.stickers.length;si2++){var s2=g.stickers[si2];if(s2.stickerQty>0&&SSET[s2.stickerSizeIdx])giftL.push('  - Sticker: '+SSET[s2.stickerSizeIdx].size+' '+s2.stickerCoat+' x'+s2.stickerQty);}if(g.hasDc50&&GIFT_DC50[g.dc50SizeIdx])giftL.push('  - Die-cut 50% '+GIFT_DC50[g.dc50SizeIdx].size+' x'+g.dc50Qty);if(g.hasPC)giftL.push('  - Photocard: '+PC_TYPES[g.pcTypeIdx].label+' x'+g.pcQty);if(g.hasMemo)giftL.push('  - Memo Pad x'+g.memoQty+'ก้อน');if(g.hasKP)giftL.push('  - พวงกุญแจรูป x'+g.kpQty);if(g.hasKD)giftL.push('  - พวงกุญแจ Die-cut x'+g.kdQty);if(g.pkgHead)giftL.push('  - หัวแพ็ก');if(g.pkgLabel)giftL.push('  - Sticker Label 4×6 cm');sub+=res.t*g.setQty;hasPrint=true;hasSlow=true;}
-  if(idL.length||stdL.length||custL.length){lines.push('🖼 งานพิมพ์รูป');idL.concat(stdL).concat(custL).forEach(function(l){lines.push(l);});}
-  if(pcL.length){lines.push('');lines.push('🃏 Photocard');pcL.forEach(function(l){lines.push(l);});}
-  if(memoL.length){lines.push('');lines.push('📝 Memo Pad');memoL.forEach(function(l){lines.push(l);});}
-  if(kpL.length||kdL.length){lines.push('');lines.push('🔑 พวงกุญแจ');kpL.concat(kdL).forEach(function(l){lines.push(l);});}
-  if(dc50L.length||dc100L.length){lines.push('');lines.push('✂️ สต๊กเกอร์ Die-cut');dc50L.concat(dc100L).forEach(function(l){lines.push(l);});}
-  if(ssetL.length||pkgL.length){lines.push('');lines.push('🏷 Sticker Set');ssetL.concat(pkgL).forEach(function(l){lines.push(l);});}
-  if(giftL.length){lines.push('');lines.push('🎁 กิ๊ฟอะเวย์');giftL.forEach(function(l){lines.push(l);});}
-  lines.push('');
-
-  var delDays=hasPrint&&!hasSlow?2:7;
-  lines.push('');
-  var sc=shipMethod==='post'?(sub>=500?0:40):0;
-  lines.push('💰 ค่าสินค้า: '+sub.toFixed(2)+'฿');
-  if(shipMethod==='post'){lines.push(sub>=500?'🚚 ค่าจัดส่ง: ฟรี! (ยอดครบ 500฿)':'🚚 ค่าจัดส่ง: 40.00฿');}
-  else{lines.push('🛵 การจัดส่ง: ส่งแมสเซ็นเจอร์ (จ่ายปลายทาง)');}
-  lines.push('✅ รวมทั้งหมด: '+(sub+sc).toFixed(2)+'฿');
-  var noteVal=document.getElementById('order-note')?document.getElementById('order-note').value.trim():'';
-  if(noteVal){lines.push('');lines.push('📝 หมายเหตุ: '+noteVal);}
-  lines.push('');
-  lines.push('━━━━━━━━━━');
-  lines.push('📋 ขั้นตอนถัดไป:');
-  lines.push('');
-  var totalAmt=(sub+sc).toFixed(2);
-  lines.push('1. หากถูกต้องแล้ว โอนเงินยอด '+totalAmt+'฿ ได้เลยค่ะ');
-  lines.push('2. แจ้งสลิป / ชื่อ / ที่อยู่ / เบอร์โทร ทางแชทนี้ได้เลย');
-  lines.push('3. ส่งรูปหรือไฟล์งานตามขั้นตอนใน Rich Menu ด้านล่างได้เลยค่ะ');
-  lines.push('');
-  var delDate=addDaysNoSunday(hasPrint&&!hasSlow?2:7);
-  lines.push('📅 รอบจัดส่งของคุณคือ : '+delDate);
-  lines.push('💬 ติดขัดอยากแก้ไขรายละเอียดตรงไหน ทักถามบลูได้เสมอนะคะ ไม่ต้องกังวลค่ะ 😊');
-  navigator.clipboard.writeText(lines.join('\n')).then(function(){
-    var msg=document.getElementById('copy-msg');
-    msg.textContent='✅ คัดลอกแล้ว! วางใน LINE ได้เลย';
-    setTimeout(function(){msg.textContent='';},2500);
-  });
-}
-
-function resetOrder(){
-  if(!confirm('รีเซ็ตรายการทั้งหมดใช่ไหมคะ?')) return;
-  // reset จำนวนทุกช่อง
-  document.querySelectorAll('input[type="number"]').forEach(function(el){el.value=0;});
-  // reset dropdown ทั้งหมด
-  document.querySelectorAll('select').forEach(function(el){el.selectedIndex=0;});
-  // reset textarea
-  var note=document.getElementById('order-note');
-  if(note) note.value='';
-  // reset shipping
-  selShip('post');
-  // recalc
-  recalc();
-  // scroll ขึ้นบน
-  window.scrollTo({top:0,behavior:'smooth'});
-}
-
-// Init
-renderID();renderSTD();renderCustom();renderExtra();renderDiecut();renderSset();renderGift();recalc();
+loadSheet();
 </script>
 
-<!-- Social Footer -->
-<div style="margin-top:20px;padding:16px 12px;background:#fff;border-top:1px solid #e8e8e8;text-align:center;">
-  <div style="font-size:12px;color:#888;margin-bottom:12px;">ติดตามและแอดเพื่อนได้เลยค่ะ 🌸</div>
-  <div style="display:flex;justify-content:center;gap:10px;flex-wrap:wrap;">
-    <a href="https://lin.ee/qMGO9Ok" target="_blank" style="display:flex;align-items:center;gap:6px;background:#06C755;color:#fff;border-radius:20px;padding:8px 14px;text-decoration:none;font-size:13px;font-weight:600;">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M19.365 9.863c.349 0 .63.285.63.631 0 .345-.281.63-.63.63H17.61v1.125h1.755c.349 0 .63.283.63.63 0 .344-.281.629-.63.629h-2.386c-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63h2.386c.349 0 .63.285.63.63 0 .349-.281.63-.63.63H17.61v1.125h1.755zm-3.855 3.016c0 .27-.174.51-.432.596-.064.021-.133.031-.199.031-.211 0-.391-.09-.51-.25l-2.443-3.317v2.94c0 .344-.279.629-.631.629-.346 0-.626-.285-.626-.629V8.108c0-.27.173-.51.43-.595.06-.023.136-.033.194-.033.195 0 .375.104.495.254l2.462 3.33V8.108c0-.345.282-.63.63-.63.345 0 .63.285.63.63v4.771zm-5.741 0c0 .344-.282.629-.631.629-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63.349 0 .631.285.631.63v4.771zm-2.466.629H4.917c-.345 0-.63-.285-.63-.629V8.108c0-.345.285-.63.63-.63.348 0 .63.285.63.63v4.141h1.756c.348 0 .629.283.629.63 0 .344-.281.629-.629.629M24 10.314C24 4.943 18.615.572 12 .572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.07 9.436-6.975C23.176 14.393 24 12.458 24 10.314"/></svg>
-      LINE
-    </a>
-    <a href="https://x.com/polaroidtamsung?s=21" target="_blank" style="display:flex;align-items:center;gap:6px;background:#000;color:#fff;border-radius:20px;padding:8px 14px;text-decoration:none;font-size:13px;font-weight:600;">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="white"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.737-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-      X
-    </a>
-    <a href="https://www.tiktok.com/@polaroid_tamsung" target="_blank" style="display:flex;align-items:center;gap:6px;background:#010101;color:#fff;border-radius:20px;padding:8px 14px;text-decoration:none;font-size:13px;font-weight:600;">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="white"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.75a8.27 8.27 0 004.84 1.55V6.85a4.85 4.85 0 01-1.07-.16z"/></svg>
-      TikTok
-    </a>
-    <a href="https://www.instagram.com/polaroid_tamsung" target="_blank" style="display:flex;align-items:center;gap:6px;background:#C13584;color:#fff;border-radius:20px;padding:8px 14px;text-decoration:none;font-size:13px;font-weight:600;">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="white"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
-      Instagram
-    </a>
-  </div>
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <button class="lightbox-close" onclick="event.stopPropagation();closeLightbox()">✕</button>
+  <img id="lightboxImg" src="" alt="รูปสินค้า" class="lightbox-img" onclick="event.stopPropagation()">
 </div>
+
 </body>
 </html>
