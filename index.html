@@ -566,9 +566,12 @@ select{flex:1;min-width:100px;font-size:12px;padding:6px 8px;border-radius:8px;b
   <div id="summary-items" style="font-size:13px;color:#1a1a1a;line-height:1.8;"></div>
 </div>
 <div onclick="copyOrder()" style="text-align:center;font-size:12px;color:#888;margin-bottom:8px;line-height:1.6;cursor:pointer;">📋 กดปุ่มด้านล่างเพื่อคัดลอกรายการที่สั่ง → แล้ววางในแชท LINE ร้านได้เลยค่ะ</div>
-<button class="copy-btn" onclick="copyOrder();setTimeout(function(){window.open('https://lin.ee/qMGO9Ok','_blank');},800);" style="background:linear-gradient(135deg,#06c755,#00a040);font-size:15px;padding:15px;border-radius:14px;gap:10px;">
-  <svg width="22" height="22" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.48 2 2 6.03 2 11c0 2.87 1.37 5.43 3.5 7.16L4.5 22l3.97-2.1A10.6 10.6 0 0 0 12 20c5.52 0 10-4.03 10-9S17.52 2 12 2z"/></svg>
-  สั่งผลิต / ส่งไฟล์ทาง LINE
+<button class="copy-btn" onclick="copyOrder();setTimeout(function(){window.open('https://lin.ee/qMGO9Ok','_blank');},800);" style="background:linear-gradient(135deg,#06c755,#00a040);font-size:15px;padding:15px;border-radius:14px;gap:10px;flex-direction:column;">
+  <div style="display:flex;align-items:center;gap:10px;">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.48 2 2 6.03 2 11c0 2.87 1.37 5.43 3.5 7.16L4.5 22l3.97-2.1A10.6 10.6 0 0 0 12 20c5.52 0 10-4.03 10-9S17.52 2 12 2z"/></svg>
+    สั่งผลิต / ส่งไฟล์ทาง LINE
+  </div>
+  <div style="font-size:11px;font-weight:400;opacity:0.85;">(อย่าลืมกดวางข้อความในช่องแชทด้วยนะคะ)</div>
 </button>
 <div class="copy-msg" id="copy-msg"></div>
 <div style="text-align:center;font-size:12px;color:#888;margin-top:8px;padding:10px 16px;background:#f8f8f8;border-radius:10px;line-height:1.6;">💬 ถ้าคุณลูกค้าไม่มั่นใจ สามารถสอบถามบลูได้เลยค่ะ 😊</div>
