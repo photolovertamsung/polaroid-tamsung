@@ -110,8 +110,9 @@ select{flex:1;min-width:100px;font-size:12px;padding:6px 8px;border-radius:8px;b
     <div class="info-box">⏰ Cut-off time <b>20:00 น.</b> — โอนหลัง 2 ทุ่ม นับเป็นวันถัดไปค่ะ<br>🚚 SPX หยุดส่งวันอาทิตย์</div>
 
     <div style="margin-bottom:12px;">
-      <div style="font-size:12px;font-weight:700;color:#888;margin-bottom:6px;text-transform:uppercase;letter-spacing:0.8px;">วันที่โอนเงิน / สั่งซื้อ</div>
-      <input type="date" id="cd-date" style="width:100%;font-size:14px;padding:8px 12px;border-radius:10px;border:1px solid #e0e0e0;background:#f8f8f8;color:#1a1a1a;" />
+      <div style="font-size:12px;font-weight:700;color:#888;margin-bottom:6px;text-transform:uppercase;letter-spacing:0.8px;">เลือกวันที่โอนเงิน / สั่งซื้อ</div>
+      <input type="date" id="cd-date" onchange="calcDelivery()" placeholder="กดเลือกวันที่" style="width:100%;font-size:14px;padding:8px 12px;border-radius:10px;border:1px solid #e0e0e0;background:#f8f8f8;color:#1a1a1a;" />
+      <div style="font-size:11px;color:#aaa;margin-top:4px;">👆 กดที่ช่องด้านบนเพื่อเลือกวันที่ค่ะ</div>
     </div>
 
     <div style="margin-bottom:12px;">
@@ -154,7 +155,7 @@ select{flex:1;min-width:100px;font-size:12px;padding:6px 8px;border-radius:8px;b
       <div id="cd-result-detail" style="font-size:12px;color:#166534;"></div>
     </div>
 
-    <button onclick="calcDelivery()" style="width:100%;margin-top:12px;padding:12px;border-radius:10px;background:#1a1a1a;border:none;color:#fff;font-size:14px;font-weight:700;cursor:pointer;">คำนวณรอบจัดส่ง 🗓</button>
+
   </div>
 </div>
 
@@ -208,16 +209,47 @@ select{flex:1;min-width:100px;font-size:12px;padding:6px 8px;border-radius:8px;b
 
 <div id="tab-diecut" style="display:none;">
   <div class="section">
-    <div class="sec-title">Die-cut 50%</div>
-    
+    <div class="sec-title">Die-cut 50% <span style="font-size:11px;font-weight:400;color:#aaa;text-transform:none;letter-spacing:0;">(STICKER SHEET / LABEL)</span></div>
+    <div class="info-box">✂️ ไม่มีขั้นต่ำ • ไม่จำกัดจุดไดคัตค่ะ</div>
     <div id="dc50-rows"></div>
     <button class="add-btn" onclick="dc50Items.push({sizeIdx:3,coat:'เคลือบใสเงา',sheets:0});renderDiecut()">+ เพิ่มรายการ</button>
   </div>
   <div class="section">
-    <div class="sec-title">Die-cut 100% <span style="font-size:11px;font-weight:400;color:#aaa;text-transform:none;letter-spacing:0;">A4 เท่านั้น</span></div>
-    <div class="info-box">PP Sticker + เคลือบ PVC • คละได้ 2 ลาย/แผ่น</div>
+    <div class="sec-title">Die-cut 100% <span style="font-size:11px;font-weight:400;color:#aaa;text-transform:none;letter-spacing:0;">(ไดคัตเป็นชิ้นๆตามทรงงาน) A4 เท่านั้น</span></div>
+    <div class="info-box">💡 1 แผ่น A4 คละได้ 2 ลาย • ไม่มีขั้นต่ำ • ไม่จำกัดจุดไดคัตค่ะ</div>
+
+    <!-- กล่องตัวอย่างคละลาย -->
+    <div style="background:#f8f8f8;border:1px solid #e8e8e8;border-radius:10px;padding:12px;margin-bottom:12px;">
+      <div style="display:flex;flex-direction:column;gap:6px;font-size:12px;color:#1a1a1a;line-height:1.7;margin-bottom:12px;">
+        <div style="display:flex;gap:8px;align-items:flex-start;"><span style="color:#3B6D11;font-weight:600;flex-shrink:0;">✓</span><span>ภายใน 1 แผ่น ใส่ได้ 2 ดีไซน์</span></div>
+        <div style="display:flex;gap:8px;align-items:flex-start;"><span style="color:#e65100;font-weight:600;flex-shrink:0;">✕</span><span>ไม่สามารถคละขนาดได้ — ยึดขนาดจาก "ด้านที่ยาวที่สุด" ของไฟล์งานค่ะ</span></div>
+      </div>
+      <div style="background:#fff;border:1px solid #e8e8e8;border-radius:8px;padding:10px 12px;">
+        <div style="font-size:12px;font-weight:600;color:#1a1a1a;margin-bottom:8px;">💖 ตัวอย่าง: สั่งขนาด 4 cm → ได้ประมาณ 30 ชิ้น/แผ่น</div>
+        <div style="display:flex;gap:8px;margin-bottom:6px;">
+          <div style="flex:1;background:#EEEDFE;border-radius:8px;padding:8px;text-align:center;">
+            <div style="font-size:11px;color:#534AB7;font-weight:600;margin-bottom:2px;">ลาย A</div>
+            <div style="font-size:20px;font-weight:500;color:#3C3489;">15</div>
+            <div style="font-size:10px;color:#888;">ชิ้น</div>
+          </div>
+          <div style="display:flex;align-items:center;color:#aaa;font-size:16px;">+</div>
+          <div style="flex:1;background:#E1F5EE;border-radius:8px;padding:8px;text-align:center;">
+            <div style="font-size:11px;color:#0F6E56;font-weight:600;margin-bottom:2px;">ลาย B</div>
+            <div style="font-size:20px;font-weight:500;color:#085041;">15</div>
+            <div style="font-size:10px;color:#888;">ชิ้น</div>
+          </div>
+          <div style="display:flex;align-items:center;color:#aaa;font-size:16px;">=</div>
+          <div style="flex:1;background:#f0f0f0;border-radius:8px;padding:8px;text-align:center;">
+            <div style="font-size:11px;color:#666;font-weight:600;margin-bottom:2px;">รวม</div>
+            <div style="font-size:20px;font-weight:500;color:#1a1a1a;">30</div>
+            <div style="font-size:10px;color:#888;">ชิ้น/แผ่น</div>
+          </div>
+        </div>
+      </div>
+    </div>
     <div class="section" style="background:#f8f8f8;margin-bottom:10px;">
-      <div class="sec-title" style="color:#666;">🧮 คำนวณจำนวนแผ่น</div>
+      <div class="sec-title" style="color:#666;">คำนวณจำนวนแผ่น</div>
+      <div style="font-size:12px;color:#888;margin-bottom:10px;line-height:1.6;">เลือกขนาด → กรอกจำนวนชิ้นที่ต้องการ → ระบบจะคำนวณจำนวนแผ่นที่ใช้ให้อัตโนมัติค่ะ</div>
       <img src="https://i.ibb.co/HTXWtfrW/2.png" alt="ตารางจำนวนชิ้นต่อแผ่น" style="width:100%;border-radius:10px;margin-bottom:10px;">
       <div class="sel-row" style="margin-bottom:8px;">
         <select id="calc-size" onchange="calcSheets()">
@@ -385,7 +417,6 @@ select{flex:1;min-width:100px;font-size:12px;padding:6px 8px;border-radius:8px;b
     <div style="font-size:12px;font-weight:600;color:#888;margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px;">การคละลาย (ต่อ 1 แผ่น A4)</div>
     <div style="background:#f8f8f8;border:1px solid #e8e8e8;border-radius:10px;padding:12px;margin-bottom:14px;">
       <div style="display:flex;flex-direction:column;gap:6px;font-size:12px;color:#1a1a1a;line-height:1.7;margin-bottom:12px;">
-        <div style="background:#1a1a1a;color:#fff;border-radius:8px;padding:8px 12px;font-size:12px;font-weight:600;text-align:center;">⚠️ 1 แผ่น A4 คละได้ 2 ลาย เท่านั้นค่ะ</div>
         <div style="display:flex;gap:8px;align-items:flex-start;"><span style="color:#3B6D11;font-weight:600;flex-shrink:0;">✓</span><span>ภายใน 1 แผ่น ใส่ได้ 2 ดีไซน์</span></div>
         <div style="display:flex;gap:8px;align-items:flex-start;"><span style="color:#e65100;font-weight:600;flex-shrink:0;">✕</span><span>ไม่สามารถคละขนาดได้ — ยึดขนาดจาก "ด้านที่ยาวที่สุด" ของไฟล์งานค่ะ</span></div>
       </div>
@@ -496,6 +527,10 @@ select{flex:1;min-width:100px;font-size:12px;padding:6px 8px;border-radius:8px;b
 
 </div>
 
+<button onclick="resetOrder()" style="width:100%;padding:11px;border-radius:12px;background:#fff;border:2px dashed #e0e0e0;color:#888;font-size:13px;font-weight:600;cursor:pointer;margin-bottom:12px;display:flex;align-items:center;justify-content:center;gap:6px;">
+  🔄 กดรีเซ็ตเพื่อเริ่มกดรายการใหม่
+</button>
+
 <div class="section" style="margin-bottom:12px;">
   <div class="sec-title">การจัดส่ง</div>
   <label class="ship-opt sel" id="opt-post" onclick="selShip('post')">
@@ -519,7 +554,7 @@ select{flex:1;min-width:100px;font-size:12px;padding:6px 8px;border-radius:8px;b
 </div>
 <div class="section" style="margin-bottom:12px;">
   <div class="sec-title">📝 หมายเหตุ / รายละเอียดเพิ่มเติม</div>
-  <textarea id="order-note" placeholder="เช่น สีกรอบ, ข้อความบนงาน, รูปแบบพิเศษ หรือข้อความอื่นๆ..." style="width:100%;min-height:80px;font-size:13px;padding:10px;border-radius:10px;border:1px solid #e0e0e0;background:#f8f8f8;color:#1a1a1a;resize:vertical;font-family:inherit;line-height:1.6;" oninput="recalc()"></textarea>
+  <textarea id="order-note" placeholder="ใส่ลิงก์งาน / ข้อความอยากบอกบลู" style="width:100%;min-height:80px;font-size:13px;padding:10px;border-radius:10px;border:1px solid #e0e0e0;background:#f8f8f8;color:#1a1a1a;resize:vertical;font-family:inherit;line-height:1.6;" oninput="recalc()"></textarea>
 </div>
 <div class="total-sec">
   <div class="t-row"><span class="tl">ค่าสินค้า</span><span class="ta" id="sub-disp">0.00 บาท</span></div>
@@ -530,9 +565,12 @@ select{flex:1;min-width:100px;font-size:12px;padding:6px 8px;border-radius:8px;b
   <div style="font-size:12px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:0.8px;margin-bottom:12px;">📋 สรุปรายการ</div>
   <div id="summary-items" style="font-size:13px;color:#1a1a1a;line-height:1.8;"></div>
 </div>
-<button class="copy-btn" onclick="copyOrder()">📋 คัดลอกสรุปส่งให้ร้าน (ยังไม่ได้สั่งซื้อนะคะ)</button>
+<button class="copy-btn" onclick="copyOrder();setTimeout(function(){window.open('https://lin.ee/qMGO9Ok','_blank');},800);" style="background:linear-gradient(135deg,#06c755,#00a040);font-size:15px;padding:15px;border-radius:14px;gap:10px;">
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.48 2 2 6.03 2 11c0 2.87 1.37 5.43 3.5 7.16L4.5 22l3.97-2.1A10.6 10.6 0 0 0 12 20c5.52 0 10-4.03 10-9S17.52 2 12 2z"/></svg>
+  สั่งผลิต / ส่งไฟล์ทาง LINE
+</button>
 <div class="copy-msg" id="copy-msg"></div>
-<div style="text-align:center;font-size:12px;color:#888;margin-top:8px;padding:10px 16px;background:#f8f8f8;border-radius:10px;line-height:1.6;">💬 ถ้าคุณลูกค้าไม่มั่นใจ สามารถรอบลูเข้ามาคอนเฟิร์มได้เลยนะคะ 😊</div>
+<div style="text-align:center;font-size:12px;color:#888;margin-top:8px;padding:10px 16px;background:#f8f8f8;border-radius:10px;line-height:1.6;">💬 ถ้าคุณลูกค้าไม่มั่นใจ สามารถสอบถามบลูได้เลยค่ะ 😊</div>
 </div>
 
 <script>
@@ -1052,7 +1090,7 @@ function renderDiecut(){
     var cOpts='<option value="เคลือบใสเงา"'+(s.coat==='เคลือบใสเงา'?' selected':'')+'>เคลือบใสเงา</option>';
     for(var k=0;k<SPECIAL.length;k++)cOpts+='<option value="'+SPECIAL[k]+'"'+(s.coat===SPECIAL[k]?' selected':'')+'>'+SPECIAL[k]+'</option>';
     var row=document.createElement('div');row.className='item-row';
-    row.innerHTML='<span class="i-num">'+(i+1)+'</span><div class="i-inner"><div style="display:flex;justify-content:space-between;"><div class="i-name">Die-cut 50%</div>'+(dc50Items.length>1?'<button class="rm-btn" onclick="rmDc50('+i+')">ลบ</button>':'')+'</div><select onchange="setDc50Size('+i+',this.value)" style="margin-bottom:4px;">'+sOpts+'</select><select onchange="setDc50Coat('+i+',this.value)">'+cOpts+'</select><div class="i-sub" style="color:#1a1a1a;font-weight:600;">ราคา '+unitP+' ฿/แผ่น</div><div class="qty-row"><span class="qty-lbl">จำนวน</span><input class="qty-inp" type="number" min="0" max="99" value="'+s.sheets+'" onchange="setDc50Sheets('+i+',this.value)"><span class="qty-lbl">แผ่น</span></div><div class="i-sub">คละได้ 2 ลาย/แผ่น • PP Glossy</div></div><span class="p-badge'+(price>0?' on':'')+'">'+( price>0?price.toFixed(2)+' ฿':'-')+'</span>';
+    row.innerHTML='<span class="i-num">'+(i+1)+'</span><div class="i-inner"><div style="display:flex;justify-content:space-between;"><div class="i-name">Die-cut 50%</div>'+(dc50Items.length>1?'<button class="rm-btn" onclick="rmDc50('+i+')">ลบ</button>':'')+'</div><select onchange="setDc50Size('+i+',this.value)" style="margin-bottom:4px;">'+sOpts+'</select><select onchange="setDc50Coat('+i+',this.value)">'+cOpts+'</select><div class="i-sub" style="color:#1a1a1a;font-weight:600;">ราคา '+unitP+' ฿/แผ่น</div><div class="qty-row"><span class="qty-lbl">จำนวน</span><input class="qty-inp" type="number" min="0" max="99" value="'+s.sheets+'" onchange="setDc50Sheets('+i+',this.value)"><span class="qty-lbl">แผ่น</span></div></div><span class="p-badge'+(price>0?' on':'')+'">'+( price>0?price.toFixed(2)+' ฿':'-')+'</span>';
     c50.appendChild(row);
   }
   var c100=document.getElementById('dc100-rows');c100.innerHTML='';
@@ -1508,23 +1546,45 @@ function copyOrder(){
   lines.push('');
   var sc=shipMethod==='post'?(sub>=500?0:40):0;
   lines.push('💰 ค่าสินค้า: '+sub.toFixed(2)+'฿');
-  lines.push(shipMethod==='post'?(sub>=500?'🚚 ค่าจัดส่ง: ฟรี! (ยอดครบ 500฿)':'🚚 ค่าจัดส่ง: 40.00฿'):'🚚 ค่าจัดส่ง: จ่ายปลายทาง');
+  if(shipMethod==='post'){lines.push(sub>=500?'🚚 ค่าจัดส่ง: ฟรี! (ยอดครบ 500฿)':'🚚 ค่าจัดส่ง: 40.00฿');}
+  else{lines.push('🛵 การจัดส่ง: ส่งแมสเซ็นเจอร์ (จ่ายปลายทาง)');}
   lines.push('✅ รวมทั้งหมด: '+(sub+sc).toFixed(2)+'฿');
   var noteVal=document.getElementById('order-note')?document.getElementById('order-note').value.trim():'';
   if(noteVal){lines.push('');lines.push('📝 หมายเหตุ: '+noteVal);}
   lines.push('');
   lines.push('━━━━━━━━━━');
-  lines.push('📌 หลังโอนเงิน รบกวนแจ้งสลิป/ชื่อ/เบอร์โทร/ที่อยู่จัดส่ง/ซื้อทุกครั้งนะคะ');
-  lines.push('📂 คุณลูกค้าสามารถส่งรูปหรือไฟล์งานเข้ามาได้เลยค่ะ โดยกดที่ "วิธีการส่งรูป / ไฟล์สติ๊กเกอร์" ใน RICH MENU ด้านล่าง 👇🏻');
+  lines.push('📋 ขั้นตอนถัดไป:');
+  lines.push('');
+  var totalAmt=(sub+sc).toFixed(2);
+  lines.push('1. หากถูกต้องแล้ว โอนเงินยอด '+totalAmt+'฿ ได้เลยค่ะ');
+  lines.push('2. แจ้งสลิป / ชื่อ / ที่อยู่ / เบอร์โทร ทางแชทนี้ได้เลย');
+  lines.push('3. ส่งรูปหรือไฟล์งานตามขั้นตอนใน Rich Menu ด้านล่างได้เลยค่ะ');
   lines.push('');
   var delDate=addDaysNoSunday(hasPrint&&!hasSlow?2:7);
   lines.push('📅 รอบจัดส่งของคุณคือ : '+delDate);
-  lines.push('⚠️ กรุณาตรวจสอบจำนวน, ขนาด และรายละเอียดงานก่อนยืนยันออเดอร์นะคะ');
+  lines.push('💬 ติดขัดอยากแก้ไขรายละเอียดตรงไหน ทักถามบลูได้เสมอนะคะ ไม่ต้องกังวลค่ะ 😊');
   navigator.clipboard.writeText(lines.join('\n')).then(function(){
     var msg=document.getElementById('copy-msg');
     msg.textContent='✅ คัดลอกแล้ว! วางใน LINE ได้เลย';
     setTimeout(function(){msg.textContent='';},2500);
   });
+}
+
+function resetOrder(){
+  if(!confirm('รีเซ็ตรายการทั้งหมดใช่ไหมคะ?')) return;
+  // reset จำนวนทุกช่อง
+  document.querySelectorAll('input[type="number"]').forEach(function(el){el.value=0;});
+  // reset dropdown ทั้งหมด
+  document.querySelectorAll('select').forEach(function(el){el.selectedIndex=0;});
+  // reset textarea
+  var note=document.getElementById('order-note');
+  if(note) note.value='';
+  // reset shipping
+  selShip('post');
+  // recalc
+  recalc();
+  // scroll ขึ้นบน
+  window.scrollTo({top:0,behavior:'smooth'});
 }
 
 // Init
