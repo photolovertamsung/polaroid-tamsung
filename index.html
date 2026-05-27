@@ -1215,9 +1215,10 @@ function renderSset(){
       inner.appendChild(selRow);
 
 
+      var total1=unitP*1*set.setQty;
       var badge=document.createElement('span');
-      badge.className='p-badge'+(total>0?' on':'');
-      badge.textContent=total>0?total.toFixed(2)+' ฿':'-';
+      badge.className='p-badge'+(total1>0?' on':'');
+      badge.textContent=total1>0?total1.toFixed(2)+' ฿':'-';
 
       itemRow.appendChild(numEl);itemRow.appendChild(inner);itemRow.appendChild(badge);
       box.appendChild(itemRow);
@@ -1235,10 +1236,10 @@ function renderSset(){
     set.items.forEach(function(s){
       var sz=SSET[s.sizeIdx];
       var u=s.coat==='เคลือบใสเงา'?sz.clear:sz.special;
-      setPerTotal+=u*s.qty;
-      setTotal+=u*s.qty*set.setQty;
+      setPerTotal+=u*1;
+      setTotal+=u*1*set.setQty;
     });
-    if(setPerTotal>0&&setPerTotal<5&&!set.bagSelected)setTotal+=0;
+    if(setPerTotal>0&&setPerTotal<5&&!set.bagSelected)setTotal+=2*set.setQty;
     PKG_ITEMS.forEach(function(item,idx){if(set.pkg&&set.pkg[idx])setTotal+=item.price*set.setQty;});
     var sumRow=document.createElement('div');
     sumRow.style.cssText='display:flex;justify-content:space-between;align-items:flex-start;margin-top:10px;padding-top:8px;border-top:1px solid #e8e8e8;font-size:13px;';
@@ -1414,7 +1415,7 @@ function recalc(){
   for(var i=0;i<dc100Items.length;i++){if(dc100Items[i].sheets>0){sub+=(SPECIAL.indexOf(dc100Items[i].coat)>=0?DC100_SPECIAL:DC100_CLEAR)*dc100Items[i].sheets;hasSlow=true;}}
   ssetSets.forEach(function(set){
     var per=0;
-    set.items.forEach(function(s){if(s.qty>0){var sz=SSET[s.sizeIdx];per+=(s.coat==='เคลือบใสเงา'?sz.clear:sz.special)*s.qty;hasSlow=true;}});
+    set.items.forEach(function(s){var sz=SSET[s.sizeIdx];per+=(s.coat==='เคลือบใสเงา'?sz.clear:sz.special)*1;hasSlow=true;});
     if(per>0){sub+=per*set.setQty;if(per<5)sub+=2*set.setQty;}
   });
   ssetSets.forEach(function(set){
@@ -1468,10 +1469,9 @@ function renderSummary(){
     set.items.forEach(function(s){if(s.qty<=0)return;var sz=SSET[s.sizeIdx];var u=s.coat==='เคลือบใสเงา'?sz.clear:sz.special;setPer+=u*s.qty;ssetPer+=u*s.qty;});
     if(setPer<=0)return;
     set.items.forEach(function(s,i){
-      if(s.qty<=0)return;
       var sz=SSET[s.sizeIdx];var u=s.coat==='เคลือบใสเงา'?sz.clear:sz.special;
-      var p=u*s.qty*set.setQty;
-      items.push({name:'Sticker เซ็ตที่'+(si+1)+' ขนาด '+sz.size,detail:s.coat+' × '+s.qty+'/เซ็ต × '+set.setQty+' เซ็ต',price:p});
+      var p=u*1*set.setQty;
+      items.push({name:'Sticker เซ็ตที่'+(si+1)+' ขนาด '+sz.size,detail:s.coat+' × 1/เซ็ต × '+set.setQty+' เซ็ต',price:p});
       sub+=p;
     });
     if(setPer>0&&setPer<5&&!set.bagSelected){}
@@ -1531,10 +1531,10 @@ function copyOrder(){
   for(var i=0;i<dc100Items.length;i++){if(dc100Items[i].sheets<=0)continue;var u=SPECIAL.indexOf(dc100Items[i].coat)>=0?DC100_SPECIAL:DC100_CLEAR;var p=u*dc100Items[i].sheets;dc100L.push('• Die-cut 100% A4 | '+dc100Items[i].coat+' x'+dc100Items[i].sheets+'แผ่น = '+p.toFixed(2)+'฿');sub+=p;hasSlow=true;}
     ssetSets.forEach(function(set,si){
     var per=0;
-    set.items.forEach(function(s){if(s.qty>0){var sz=SSET[s.sizeIdx];per+=(s.coat==='เคลือบใสเงา'?sz.clear:sz.special)*s.qty;}});
+    set.items.forEach(function(s){var sz=SSET[s.sizeIdx];per+=(s.coat==='เคลือบใสเงา'?sz.clear:sz.special)*1;});
     if(per<=0)return;
     ssetL.push('• เซ็ตที่'+(si+1)+' ('+set.setQty+' เซ็ต):');
-    set.items.forEach(function(s,i){if(s.qty<=0)return;var sz=SSET[s.sizeIdx];var u=s.coat==='เคลือบใสเงา'?sz.clear:sz.special;var p=u*s.qty*set.setQty;ssetL.push('  ขนาด '+(i+1)+': '+sz.size+' '+s.coat+' x'+s.qty+'/เซ็ต = '+p.toFixed(2)+'฿');sub+=p;hasSlow=true;});
+    set.items.forEach(function(s,i){var sz=SSET[s.sizeIdx];var u=s.coat==='เคลือบใสเงา'?sz.clear:sz.special;var p=u*1*set.setQty;ssetL.push('  สตก.ชิ้นที่ '+(i+1)+': '+sz.size+' '+s.coat+' x1/เซ็ต = '+p.toFixed(2)+'฿');sub+=p;hasSlow=true;});
     if(per<5){ssetL.push('  ⚠️ ยอด/เซ็ต < 5฿ กรุณาเลือกซอง PVC');}
     else if(bagSelected)ssetL.push('  ถุง: '+bagChoice);
   });
