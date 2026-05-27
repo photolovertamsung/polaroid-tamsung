@@ -685,7 +685,7 @@ var kpItems=[{coat:'ไม่เคลือบ',qty:0}];
 var kdItems=[{coat:'เคลือบใสเงา',qty:0}];
 var dc50Items=[{sizeIdx:3,coat:'เคลือบใสเงา',sheets:0}];
 var dc100Items=[{coat:'เคลือบใสเงา',sheets:0}];
-var ssetSets=[{setQty:10,items:[{sizeIdx:0,coat:'เคลือบใสเงา',qty:0}],bagSelected:false,bagChoice:'ซอง PVC ใส',pkg:[false,false]}];
+var ssetSets=[{setQty:0,items:[{sizeIdx:0,coat:'เคลือบใสเงา',qty:0}],bagSelected:false,bagChoice:'ซอง PVC ใส',pkg:[false,false]}];
 var pkgSel=PKG_ITEMS.map(function(){return {include:false};});
 var bagChoice='ซอง PVC ใส';
 var bagSelected=false;
@@ -921,7 +921,7 @@ function setBagIdx(k){
 function addSset(){
   var scrollY=window.scrollY;
   var scrollY=window.scrollY;
-  ssetSets.push({setQty:10,items:[{sizeIdx:0,coat:'เคลือบใสเงา',qty:0}],bagSelected:false,bagChoice:'ซอง PVC ใส',pkg:[false,false]});
+  ssetSets.push({setQty:0,items:[{sizeIdx:0,coat:'เคลือบใสเงา',qty:0}],bagSelected:false,bagChoice:'ซอง PVC ใส',pkg:[false,false]});
   renderSset();
   window.scrollTo(0,scrollY);
 }
@@ -1157,7 +1157,7 @@ function renderSset(){
     var qtyRow=document.createElement('div');
     qtyRow.style.cssText='display:flex;align-items:center;gap:8px;margin-bottom:10px;padding:8px;background:#fff;border-radius:8px;border:1px solid #e8e8e8;';
     var qtyLbl=document.createElement('span');qtyLbl.className='qty-lbl';qtyLbl.style.fontWeight='600';qtyLbl.style.color='#666';qtyLbl.textContent='จำนวนเซ็ต';
-    var qtyInp=document.createElement('input');qtyInp.type='number';qtyInp.className='qty-inp';qtyInp.min='10';qtyInp.max='999';qtyInp.value=set.setQty;
+    var qtyInp=document.createElement('input');qtyInp.type='number';qtyInp.className='qty-inp';qtyInp.min='0';qtyInp.max='999';qtyInp.value=set.setQty;
     (function(idx){qtyInp.addEventListener('change',function(){setSsetSetQty(idx,this.value);});})(si);
     var qtyUnit=document.createElement('span');qtyUnit.className='qty-lbl';qtyUnit.textContent='เซ็ต (ขั้นต่ำ 10)';
     qtyRow.appendChild(qtyLbl);qtyRow.appendChild(qtyInp);qtyRow.appendChild(qtyUnit);
@@ -1233,13 +1233,13 @@ function renderSset(){
     // สรุปเซ็ต
     var setTotal=0;
     var setPerTotal=0;
-    set.items.forEach(function(s){
+    if(set.setQty>0){set.items.forEach(function(s){
       var sz=SSET[s.sizeIdx];
       var u=s.coat==='เคลือบใสเงา'?sz.clear:sz.special;
       setPerTotal+=u*1;
       setTotal+=u*1*set.setQty;
     });
-    if(setPerTotal>0&&setPerTotal<5&&!set.bagSelected)setTotal+=2*set.setQty;
+    if(setPerTotal>0&&setPerTotal<5&&!set.bagSelected)setTotal+=2*set.setQty;}
     PKG_ITEMS.forEach(function(item,idx){if(set.pkg&&set.pkg[idx])setTotal+=item.price*set.setQty;});
     var sumRow=document.createElement('div');
     sumRow.style.cssText='display:flex;justify-content:space-between;align-items:flex-start;margin-top:10px;padding-top:8px;border-top:1px solid #e8e8e8;font-size:13px;';
@@ -1414,9 +1414,10 @@ function recalc(){
   for(var i=0;i<dc50Items.length;i++){if(dc50Items[i].sheets>0){var sz=DC50[dc50Items[i].sizeIdx];sub+=(SPECIAL.indexOf(dc50Items[i].coat)>=0?sz.special:sz.clear)*dc50Items[i].sheets;hasSlow=true;}}
   for(var i=0;i<dc100Items.length;i++){if(dc100Items[i].sheets>0){sub+=(SPECIAL.indexOf(dc100Items[i].coat)>=0?DC100_SPECIAL:DC100_CLEAR)*dc100Items[i].sheets;hasSlow=true;}}
   ssetSets.forEach(function(set){
+    if(set.setQty<=0)return;
     var per=0;
-    set.items.forEach(function(s){var sz=SSET[s.sizeIdx];per+=(s.coat==='เคลือบใสเงา'?sz.clear:sz.special)*1;hasSlow=true;});
-    if(per>0){sub+=per*set.setQty;if(per<5)sub+=2*set.setQty;}
+    set.items.forEach(function(s){var sz=SSET[s.sizeIdx];per+=(s.coat==='เคลือบใสเงา'?sz.clear:sz.special)*1;});
+    if(per>0){sub+=per*set.setQty;if(per<5&&!set.bagSelected)sub+=2*set.setQty;hasSlow=true;}
   });
   ssetSets.forEach(function(set){
     PKG_ITEMS.forEach(function(item,idx){if(set.pkg&&set.pkg[idx])sub+=item.price*set.setQty;});
@@ -1465,6 +1466,7 @@ function renderSummary(){
   // Sset
   var ssetPer=0;
   ssetSets.forEach(function(set,si){
+    if(set.setQty<=0)return;
     var setPer=0;
     set.items.forEach(function(s){if(s.qty<=0)return;var sz=SSET[s.sizeIdx];var u=s.coat==='เคลือบใสเงา'?sz.clear:sz.special;setPer+=u*s.qty;ssetPer+=u*s.qty;});
     if(setPer<=0)return;
@@ -1530,6 +1532,7 @@ function copyOrder(){
   for(var i=0;i<dc50Items.length;i++){if(dc50Items[i].sheets<=0)continue;var sz=DC50[dc50Items[i].sizeIdx];var u=SPECIAL.indexOf(dc50Items[i].coat)>=0?sz.special:sz.clear;var p=u*dc50Items[i].sheets;dc50L.push('• Die-cut 50% '+sz.size+' | '+dc50Items[i].coat+' x'+dc50Items[i].sheets+'แผ่น = '+p.toFixed(2)+'฿');sub+=p;hasSlow=true;}
   for(var i=0;i<dc100Items.length;i++){if(dc100Items[i].sheets<=0)continue;var u=SPECIAL.indexOf(dc100Items[i].coat)>=0?DC100_SPECIAL:DC100_CLEAR;var p=u*dc100Items[i].sheets;dc100L.push('• Die-cut 100% A4 | '+dc100Items[i].coat+' x'+dc100Items[i].sheets+'แผ่น = '+p.toFixed(2)+'฿');sub+=p;hasSlow=true;}
     ssetSets.forEach(function(set,si){
+    if(set.setQty<=0)return;
     var per=0;
     set.items.forEach(function(s){var sz=SSET[s.sizeIdx];per+=(s.coat==='เคลือบใสเงา'?sz.clear:sz.special)*1;});
     if(per<=0)return;
@@ -1601,7 +1604,7 @@ function resetOrder(){
   kdItems=[{coat:'เคลือบใสเงา',qty:0}];
   dc50Items=[{sizeIdx:0,coat:'เคลือบใสเงา',sheets:0}];
   dc100Items=[{coat:'เคลือบใสเงา',sheets:0}];
-  ssetSets=[{setQty:10,items:[{sizeIdx:0,coat:'เคลือบใสเงา',qty:0}],bagSelected:false,bagChoice:'ซอง PVC ใส',pkg:[false,false]}];
+  ssetSets=[{setQty:0,items:[{sizeIdx:0,coat:'เคลือบใสเงา',qty:0}],bagSelected:false,bagChoice:'ซอง PVC ใส',pkg:[false,false]}];
   bagChoice='ซอง PVC ใส';bagSelected=false;
   pkgSel=PKG_ITEMS.map(function(){return {include:false};});
   giftItems=[newGift()];
