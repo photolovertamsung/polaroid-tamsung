@@ -98,8 +98,8 @@ select{flex:1;min-width:100px;font-size:12px;padding:6px 8px;border-radius:8px;b
   <button class="tab-btn" onclick="switchTab('extra')">🃏 การ์ด เมโม & พวงกุญแจ</button>
 
   <button class="tab-btn" onclick="switchTab('diecut')">✂️ สต๊ก Die-cut</button>
-  <button class="tab-btn" onclick="switchTab('sset')">🏷 Sticker Set</button>
-  <button class="tab-btn" onclick="switchTab('gift')">🎁 กิ๊ฟอะเวย์</button>
+  <button class="tab-btn" onclick="switchTab('sset')">🏷 จัดเซ็ต STICKER</button>
+  <button class="tab-btn" onclick="switchTab('gift')">🎁 จัดเซ็ต Giveaway</button>
 
 </div>
 <div id="tab-desc" style="font-size:11px;color:#888;text-align:center;padding:6px 12px;margin-bottom:4px;"></div>
@@ -618,8 +618,8 @@ function calcStdPrice(item,coat,side,qty){
   var isCoat=coat!=='ไม่เคลือบ';
   var isTwoSide=side==='แบบสองด้าน'&&item.twoSide;
   var unitP;
-  if(isTwoSide) unitP=isCoat?item.twoSideCoat:item.twoSide;
-  else unitP=isCoat?item.coat:item.base;
+  if(isTwoSide) unitP=isCoat?item.twoSide+item.twoSideCoat:item.twoSide;
+  else unitP=isCoat?item.base+item.coat:item.base;
   if(item.proQty&&!isCoat&&!isTwoSide){
     var rounds=Math.floor(qty/item.proQty);
     var rem=qty%item.proQty;
@@ -920,6 +920,7 @@ function setBagIdx(k){
 }
 function addSset(){
   var scrollY=window.scrollY;
+  var scrollY=window.scrollY;
   ssetSets.push({setQty:10,items:[{sizeIdx:0,coat:'เคลือบใสเงา',qty:0}],bagSelected:false,bagChoice:'ซอง PVC ใส',pkg:[false,false]});
   renderSset();
   window.scrollTo(0,scrollY);
@@ -1021,7 +1022,7 @@ function renderStdCard(i,j){
     +'<div class="i-name">'+item.label+(item.proQty?'<span class="pro-badge">โปร</span>':'')+'</div>'
     +'<button class="rm-btn" onclick="removeStdItem('+j+')">ลบ</button>'
     +'</div>'
-    +'<div class="i-sub" style="margin-bottom:8px;">'+item.base+' ฿'+(item.noCoat?'':' / เคลือบ '+item.coat+' ฿')+(item.twoSide?' / 2ด้าน '+item.twoSide+' ฿':'')+'</div>'
+    +'<div class="i-sub" style="margin-bottom:8px;">'+item.base+' ฿'+(item.noCoat?'':' / เคลือบ '+(item.base+item.coat)+' ฿')+(item.twoSide?' / 2ด้าน '+item.twoSide+' ฿':'')+'</div>'
     +'<div class="sel-row" style="margin-bottom:8px;">'+(item.noCoat?'':('<select onchange="setStdCoat('+i+',this.value)">'+coatOpts+'</select>'))+extraSel+'</div>'
     +'<div class="qty-row" style="margin-bottom:6px;"><span class="qty-lbl">จำนวน</span><input class="qty-inp" type="number" min="0" max="9999" value="'+s.qty+'" onchange="setStdQty('+i+',this.value)"><span class="qty-lbl">ใบ</span></div>'
     +(isCoat?'<span class="warn">⚠️ เคลือบขั้นต่ำ 10 ใบ/ลาย</span>':'')+proHtml
@@ -1168,10 +1169,6 @@ function renderSset(){
       var unitP=s.coat==='เคลือบใสเงา'?sz.clear:sz.special;
       var total=unitP*s.qty*set.setQty;
 
-      // filter used sizes
-      var usedSizes=[];
-      for(var j=0;j<set.items.length;j++){if(j!==i)usedSizes.push(set.items[j].sizeIdx);}
-
       var itemRow=document.createElement('div');
       itemRow.className='item-row';
 
@@ -1181,7 +1178,7 @@ function renderSset(){
 
       var nameRow=document.createElement('div');
       nameRow.style.cssText='display:flex;justify-content:space-between;';
-      var nameEl=document.createElement('div');nameEl.className='i-name';nameEl.textContent='ขนาด STICKER '+(i+1);
+      var nameEl=document.createElement('div');nameEl.className='i-name';nameEl.textContent='สตก. ชิ้นที่ '+(i+1);
       nameRow.appendChild(nameEl);
       if(set.items.length>1){
         var rmItemBtn=document.createElement('button');
@@ -1195,7 +1192,6 @@ function renderSset(){
       var selRow=document.createElement('div');selRow.className='sel-row';
       var sizeSelect=document.createElement('select');
       SSET.forEach(function(z,k){
-        if(usedSizes.indexOf(k)>=0&&s.sizeIdx!==k)return;
         var opt=document.createElement('option');
         opt.value=k;opt.textContent=z.size;if(s.sizeIdx===k)opt.selected=true;
         sizeSelect.appendChild(opt);
@@ -1218,18 +1214,6 @@ function renderSset(){
       selRow.appendChild(sizeSelect);selRow.appendChild(coatSelect);
       inner.appendChild(selRow);
 
-      // qty
-      var qRow=document.createElement('div');qRow.className='qty-row';
-      var ql=document.createElement('span');ql.className='qty-lbl';ql.textContent='';
-      var qi=document.createElement('input');qi.type='number';qi.className='qty-inp';qi.min='0';qi.max='9999';qi.value=s.qty;
-      (function(si2,ii){qi.addEventListener('change',function(){setSsetQty(si2,ii,this.value);});})(si,i);
-      var qu=document.createElement('span');qu.className='qty-lbl';qu.textContent='ชิ้น';
-      var qprice=document.createElement('span');qprice.className='qty-lbl';
-      var perSet=unitP*s.qty;
-      qprice.textContent=s.qty>0?'× '+unitP+' ฿ = '+perSet.toFixed(2)+' ฿':'';
-      qprice.style.cssText='color:#1a1a1a;font-weight:600;font-size:12px;';
-      qRow.appendChild(ql);qRow.appendChild(qi);qRow.appendChild(qu);qRow.appendChild(qprice);
-      inner.appendChild(qRow);
 
       var badge=document.createElement('span');
       badge.className='p-badge'+(total>0?' on':'');
@@ -1241,7 +1225,7 @@ function renderSset(){
 
     // ปุ่มเพิ่ม sticker
     var addItemBtn=document.createElement('button');
-    addItemBtn.type='button';addItemBtn.className='add-btn';addItemBtn.textContent='+ เพิ่ม Sticker ในเซ็ต';
+    addItemBtn.type='button';addItemBtn.className='add-btn';addItemBtn.textContent='+ เพิ่ม สตก. ชิ้นที่ '+(set.items.length+1);
     (function(idx){addItemBtn.addEventListener('click',function(){addSsetItem(idx);});})(si);
     box.appendChild(addItemBtn);
 
@@ -1363,7 +1347,7 @@ function renderGift(){
     }
     html+='<button class="add-btn" style="margin-bottom:10px;" onclick="addGiftPrint('+gi+')">+ เพิ่มรูปอัด</button>';
     // stickers
-    html+='<div style="font-size:12px;font-weight:600;color:#666;margin-bottom:6px;">🏷 Sticker Set</div>';
+    html+='<div style="font-size:12px;font-weight:600;color:#666;margin-bottom:6px;">🏷 จัดเซ็ต STICKER</div>';
     for(var si2=0;si2<g.stickers.length;si2++){
       var s2=g.stickers[si2];
       var ssOpts='';for(var k=0;k<SSET.length;k++)ssOpts+='<option value="'+k+'"'+(s2.stickerSizeIdx===k?' selected':'')+'>'+SSET[k].size+'</option>';
@@ -1569,8 +1553,8 @@ function copyOrder(){
   if(memoL.length){lines.push('');lines.push('📝 Memo Pad');memoL.forEach(function(l){lines.push(l);});}
   if(kpL.length||kdL.length){lines.push('');lines.push('🔑 พวงกุญแจ');kpL.concat(kdL).forEach(function(l){lines.push(l);});}
   if(dc50L.length||dc100L.length){lines.push('');lines.push('✂️ สต๊กเกอร์ Die-cut');dc50L.concat(dc100L).forEach(function(l){lines.push(l);});}
-  if(ssetL.length||pkgL.length){lines.push('');lines.push('🏷 Sticker Set');ssetL.concat(pkgL).forEach(function(l){lines.push(l);});}
-  if(giftL.length){lines.push('');lines.push('🎁 กิ๊ฟอะเวย์');giftL.forEach(function(l){lines.push(l);});}
+  if(ssetL.length||pkgL.length){lines.push('');lines.push('🏷 จัดเซ็ต STICKER');ssetL.concat(pkgL).forEach(function(l){lines.push(l);});}
+  if(giftL.length){lines.push('');lines.push('🎁 จัดเซ็ต Giveaway');giftL.forEach(function(l){lines.push(l);});}
   lines.push('');
 
   var delDays=hasPrint&&!hasSlow?2:7;
@@ -1585,15 +1569,19 @@ function copyOrder(){
   lines.push('');
   lines.push('━━━━━━━━━━');
   lines.push('📋 ขั้นตอนถัดไป:');
-  lines.push('');
   var totalAmt=(sub+sc).toFixed(2);
   lines.push('1. หากถูกต้องแล้ว โอนเงินยอด '+totalAmt+'฿ ได้เลยค่ะ');
   lines.push('2. แจ้งสลิป / ชื่อ / ที่อยู่ / เบอร์โทร ทางแชทนี้ได้เลย');
-  lines.push('3. ส่งรูปหรือไฟล์งานตามขั้นตอนใน Rich Menu ด้านล่างได้เลยค่ะ');
+  lines.push('3. ส่งรูปหรือไฟล์งานตามขั้นตอนใน Rich Menu ด้านล่างได้เลยค่ะ 👇🏻');
+  lines.push('');
+  lines.push('⚠ กรุณาตรวจสอบจํานวน, ขนาด และรายละเอียดงานก่อนยืนยันออเดอร์นะคะ');
   lines.push('');
   var delDate=addDaysNoSunday(hasPrint&&!hasSlow?2:7);
   lines.push('📅 รอบจัดส่งของคุณคือ : '+delDate);
-  lines.push('💬 ติดขัดอยากแก้ไขรายละเอียดตรงไหน ทักถามบลูได้เสมอนะคะ ไม่ต้องกังวลค่ะ 😊');
+  lines.push('🕙 บลูตรวจงาน/คอนเฟิร์มไฟล์ทุกวัน เวลา 22:00 น. ค่ะ');
+  lines.push('📊 สถานะงานจะอัปเดตในระบบภายใน 24 ชม. หลังโอนค่ะ');
+  lines.push('🔍 เช็กเลขพัสดุได้ที่ → https://photolovertamsung.github.io/polaroid-tracking/index.html');
+  lines.push('⏰ หมายเหตุ: รอบนี้สำหรับออเดอร์ที่สั่งและโอนภายในวันนี้เท่านั้นค่ะ');
   navigator.clipboard.writeText(lines.join('\n')).then(function(){
     var msg=document.getElementById('copy-msg');
     msg.textContent='✅ คัดลอกแล้ว! วางใน LINE ได้เลย';
@@ -1603,18 +1591,24 @@ function copyOrder(){
 
 function resetOrder(){
   if(!confirm('รีเซ็ตรายการทั้งหมดใช่ไหมคะ?')) return;
-  // reset จำนวนทุกช่อง
-  document.querySelectorAll('input[type="number"]').forEach(function(el){el.value=0;});
-  // reset dropdown ทั้งหมด
-  document.querySelectorAll('select').forEach(function(el){el.selectedIndex=0;});
-  // reset textarea
-  var note=document.getElementById('order-note');
-  if(note) note.value='';
-  // reset shipping
-  selShip('post');
-  // recalc
+  idSel=ID_ITEMS.map(function(){return {coat:'ไม่เคลือบ',qty:0};});
+  stdSel=STD_ITEMS.map(function(){return {coat:'ไม่เคลือบ',side:'แบบด้านเดียว',frame:'เต็มใบ',corner:'ไม่ตัด',qty:0};});
+  selectedStdIdx=[];
+  customItems=[];
+  pcItems=[{typeIdx:0,coat:'ไม่เคลือบ',qty:0}];
+  memoItems=[{optIdx:0,qty:0}];
+  kpItems=[{coat:'ไม่เคลือบ',qty:0}];
+  kdItems=[{coat:'เคลือบใสเงา',qty:0}];
+  dc50Items=[{sizeIdx:0,coat:'เคลือบใสเงา',sheets:0}];
+  dc100Items=[{coat:'เคลือบใสเงา',sheets:0}];
+  ssetSets=[{setQty:10,items:[{sizeIdx:0,coat:'เคลือบใสเงา',qty:0}],bagSelected:false,bagChoice:'ซอง PVC ใส',pkg:[false,false]}];
+  bagChoice='ซอง PVC ใส';bagSelected=false;
+  pkgSel=PKG_ITEMS.map(function(){return {include:false};});
+  giftItems=[newGift()];
+  shipMethod='post';
+  var note=document.getElementById('order-note');if(note)note.value='';
+  renderID();renderSTD();renderCustom();renderExtra();renderDiecut();renderSset();renderGift();
   recalc();
-  // scroll ขึ้นบน
   window.scrollTo({top:0,behavior:'smooth'});
 }
 
