@@ -249,35 +249,33 @@ select{flex:1;min-width:100px;font-size:12px;padding:6px 8px;border-radius:8px;b
       </div>
     </div>
     <div class="section" style="background:#f8f8f8;margin-bottom:10px;">
-      <div class="sec-title" style="color:#666;">คำนวณจำนวนแผ่น</div>
-      <div style="font-size:12px;color:#888;margin-bottom:10px;line-height:1.6;">เลือกขนาด → กรอกจำนวนชิ้นที่ต้องการ → ระบบจะคำนวณจำนวนแผ่นที่ใช้ให้อัตโนมัติค่ะ</div>
-      <img src="https://i.ibb.co/HTXWtfrW/2.png" alt="ตารางจำนวนชิ้นต่อแผ่น" style="width:100%;border-radius:10px;margin-bottom:10px;">
-      <div class="sel-row" style="margin-bottom:8px;">
-        <select id="calc-size" onchange="calcSheets()">
-          <option value="">-- เลือกขนาด --</option>
-          <option value="1.5">1.5 cm</option>
-          <option value="2">2 cm</option>
-          <option value="2.5">2.5 cm</option>
-          <option value="3">3 cm</option>
-          <option value="3.5">3.5 cm</option>
-          <option value="4">4 cm</option>
-          <option value="5">5 cm</option>
-          <option value="6">6 cm</option>
-          <option value="7">7 cm</option>
-          <option value="8">8 cm</option>
-          <option value="9">9 cm</option>
-          <option value="10">10 cm</option>
-        </select>
-        <input class="qty-inp" id="calc-qty" type="number" min="1" placeholder="จำนวนชิ้น" onchange="calcSheets()" style="width:100px;">
+      <div class="sec-title" style="color:#666;">คำนวณจำนวนชิ้นที่ได้ต่อแผ่น</div>
+      <div style="font-size:12px;color:#3B6D11;margin-bottom:10px;line-height:1.6;">ถ้าไม่แน่ใจความกว้าง กรอกแค่ความยาว ระบบจะแสดงตัวเลือกให้ค่ะ</div>
+      <img src="https://i.ibb.co/HTXWtfrW/2.png" alt="ตารางจำนวนชิ้นต่อแผ่น" style="width:60%;display:block;margin:0 auto 12px;border-radius:10px;">
+      <div style="display:flex;gap:8px;margin-bottom:10px;">
+        <div style="flex:1;display:flex;flex-direction:column;gap:4px;">
+          <label style="font-size:11px;color:#888;">กว้าง (cm) — ไม่บังคับ</label>
+          <input type="number" id="sc-w" placeholder="เช่น 2" min="1.5" step="0.1" oninput="sCalc()"
+            style="border:1px solid #e0e0e0;border-radius:8px;padding:8px 10px;font-size:14px;width:100%;background:#fff;">
+        </div>
+        <div style="flex:1;display:flex;flex-direction:column;gap:4px;">
+          <label style="font-size:11px;color:#888;">ยาว (cm)</label>
+          <input type="number" id="sc-h" placeholder="เช่น 4" min="1.5" step="0.1" oninput="sCalc()"
+            style="border:1px solid #e0e0e0;border-radius:8px;padding:8px 10px;font-size:14px;width:100%;background:#fff;">
+        </div>
       </div>
-      <div id="calc-shape-row" style="display:none;margin-bottom:8px;">
-        <select id="calc-shape" onchange="calcSheets()" style="width:100%;">
-          <option value="">-- เลือกรูปทรง --</option>
-          <option value="square">จัตุรัส / วงกลม / หัวใจ</option>
-          <option value="other">ทรงอื่นๆ (ด้านกว้างน้อยกว่า <span id="shape-hint"></span>)</option>
-        </select>
+      <div id="sc-err" style="font-size:12px;color:#c0392b;margin-bottom:8px;min-height:16px;"></div>
+      <div id="sc-exact" style="display:none;background:#fff;border:1px solid #e0e0e0;border-radius:8px;padding:10px 12px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <span style="font-size:12px;color:#888;">จำนวนชิ้นที่ได้ต่อแผ่น</span>
+          <span id="sc-exact-val" style="font-size:20px;font-weight:700;color:#1a1a1a;"></span>
+        </div>
       </div>
-      <div id="calc-result" style="font-size:13px;color:#1a1a1a;font-weight:600;min-height:20px;"></div>
+      <div id="sc-table" style="display:none;background:#fff;border:1px solid #e0e0e0;border-radius:8px;overflow:hidden;">
+        <div style="padding:8px 12px;border-bottom:1px solid #f0f0f0;font-size:12px;font-weight:600;">เปรียบเทียบตามขนาดกว้าง — ยาว <span id="sc-h-lbl"></span> cm</div>
+        <table id="sc-tbl" style="width:100%;border-collapse:collapse;"></table>
+      </div>
+      <div id="calc-result" style="display:none;"></div>
     </div>
     <div id="dc100-rows"></div>
     <button class="add-btn" onclick="dc100Items.push({coat:'เคลือบใสเงา',sheets:0});renderDiecut()">+ เพิ่มรายการ</button>
@@ -751,9 +749,40 @@ function addDaysNoSunday(days){
   var dd=d.getDate(),mm=d.getMonth()+1,yy=d.getFullYear();
   return dd+'/'+(mm<10?'0'+mm:mm)+'/'+yy;
 }
+function sCalc(){
+  var w=parseFloat(document.getElementById('sc-w').value)||0;
+  var h=parseFloat(document.getElementById('sc-h').value)||0;
+  var ex=document.getElementById('sc-exact');
+  var tb=document.getElementById('sc-table');
+  var err=document.getElementById('sc-err');
+  var PW=210,PH=297,MG=10,SP=2;
+  var WIDTHS=[1.5,2,2.5];
+  function fitN(sw,sh){var uw=PW-MG*2,uh=PH-MG*2;var c=Math.max(0,Math.floor((uw+SP)/(sw+SP)));var r=Math.max(0,Math.floor((uh+SP)/(sh+SP)));return c*r;}
+  function best(wmm,hmm){return Math.max(fitN(wmm,hmm),fitN(hmm,wmm));}
+  function plusMinus(n,ww,hh){var small=(ww<3&&hh<3);return small?'~'+n+' ชิ้น (±5)':n+' ชิ้น';}
+  ex.style.display='none';tb.style.display='none';err.textContent='';
+  if(!h&&!w)return;
+  var checkVal=function(v){
+    if(v>0&&v<1.5){err.textContent='ขนาดไม่ต่ำกว่า 1.5 cm';return false;}
+    if(v>20){err.textContent='ขนาดไม่เกิน 20 cm';return false;}
+    return true;
+  };
+  if(w&&!checkVal(w))return;
+  if(h&&!checkVal(h))return;
+  if(w&&h){
+    ex.style.display='block';
+    document.getElementById('sc-exact-val').textContent=plusMinus(best(w*10,h*10),w,h);
+  } else if(h){
+    tb.style.display='block';
+    document.getElementById('sc-h-lbl').textContent=h;
+    var rows='';
+    WIDTHS.forEach(function(ww){rows+='<tr style="border-bottom:1px solid #f0f0f0;"><td style="font-size:12px;color:#888;padding:7px 12px;">'+ww+'×'+h+' cm</td><td style="font-size:13px;font-weight:600;text-align:right;padding:7px 12px;">'+plusMinus(best(ww*10,h*10),ww,h)+'</td></tr>';});
+    document.getElementById('sc-tbl').innerHTML=rows;
+  }
+}
 function calcSheets(){
-  var sz=document.getElementById('calc-size').value;
-  var qty=parseInt(document.getElementById('calc-qty').value)||0;
+  var sz=document.getElementById('calc-size')?document.getElementById('calc-size').value:'';
+  var qty=parseInt(document.getElementById('calc-qty')?document.getElementById('calc-qty').value:0)||0;
   var res=document.getElementById('calc-result');
   var shapeRow=document.getElementById('calc-shape-row');
   var shapeEl=document.getElementById('calc-shape');
