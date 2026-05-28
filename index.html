@@ -657,7 +657,7 @@ var DC50=[
   {size:'A4',clear:40,special:50}
 ];
 var DC100_CLEAR=40,DC100_SPECIAL=50;
-var DC100_SIZES=['1.5 cm','2 cm','2.5 cm','3 cm','3.5 cm','4 cm','5 cm','6 cm','7 cm','8 cm','9 cm','10 cm'];
+var DC100_SIZES=['1.5 cm','2 cm','2.5 cm','3 cm','3.5 cm','4 cm','5 cm','6 cm','7 cm','8 cm','9 cm','10 cm','อื่นๆ'];
 
 var SSET=[
   {size:'3 cm',clear:1,special:1},
@@ -1154,7 +1154,9 @@ function renderDiecut(){
     for(var k=0;k<SPECIAL.length;k++)cOpts+='<option value="'+SPECIAL[k]+'"'+(s.coat===SPECIAL[k]?' selected':'')+'>'+SPECIAL[k]+' ('+DC100_SPECIAL+' ฿/แผ่น)</option>';
     var row=document.createElement('div');row.className='item-row';
     var sizeLabel=s.sizeIdx!=null&&s.sizeIdx!==''?DC100_SIZES[s.sizeIdx]:'';
-    row.innerHTML='<span class="i-num">'+(i+1)+'</span><div class="i-inner"><div style="display:flex;justify-content:space-between;"><div class="i-name">Die-cut 100% A4</div>'+(dc100Items.length>1?'<button class="rm-btn" onclick="rmDc100('+i+')">ลบ</button>':'')+'</div><select onchange="setDc100Size('+i+',this.value)" style="margin-bottom:4px;">'+szOpts+'</select><select onchange="setDc100Coat('+i+',this.value)">'+cOpts+'</select><div class="qty-row"><span class="qty-lbl">จำนวน</span><input class="qty-inp" type="number" min="0" max="99" value="'+s.sheets+'" onchange="setDc100Sheets('+i+',this.value)"><span class="qty-lbl">แผ่น × '+unitP+' ฿</span></div><div class="i-sub">คละได้ 2 ลาย/แผ่น</div></div><span class="p-badge'+(price>0?' on':'')+'">'+( price>0?price.toFixed(2)+' ฿':'-')+'</span>';
+    var isOther=s.sizeIdx!=null&&s.sizeIdx!==''&&DC100_SIZES[s.sizeIdx]==='อื่นๆ';
+    var otherMsg=isOther?'<div style="margin-top:6px;background:#fff3e0;border:1px solid #ffcc80;border-radius:8px;padding:7px 10px;font-size:12px;color:#e65100;">📐 กรุณาแจ้งขนาดในไฟล์งานที่แนบ</div>':'';
+    row.innerHTML='<span class="i-num">'+(i+1)+'</span><div class="i-inner"><div style="display:flex;justify-content:space-between;"><div class="i-name">Die-cut 100% A4</div>'+(dc100Items.length>1?'<button class="rm-btn" onclick="rmDc100('+i+')">ลบ</button>':'')+'</div><select onchange="setDc100Size('+i+',this.value)" style="margin-bottom:4px;">'+szOpts+'</select>'+otherMsg+'<select onchange="setDc100Coat('+i+',this.value)" style="margin-top:4px;">'+cOpts+'</select><div class="qty-row"><span class="qty-lbl">จำนวน</span><input class="qty-inp" type="number" min="0" max="99" value="'+s.sheets+'" onchange="setDc100Sheets('+i+',this.value)"><span class="qty-lbl">แผ่น × '+unitP+' ฿</span></div><div class="i-sub">คละได้ 2 ลาย/แผ่น</div></div><span class="p-badge'+(price>0?' on':'')+'">'+( price>0?price.toFixed(2)+' ฿':'-')+'</span>';
     c100.appendChild(row);
   }
   recalc();
