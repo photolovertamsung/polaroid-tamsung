@@ -1572,6 +1572,7 @@ function copyOrder(){
       if(!set.pkg||!set.pkg[idx])return;
       var p=item.price*set.setQty;
       pkgL.push('• เซ็ตที่'+(si+1)+' '+item.label+' x'+set.setQty+' เซ็ต = '+p.toFixed(2)+'฿');
+      sub+=p;
     });
   });
   for(var gi=0;gi<giftItems.length;gi++){var g=giftItems[gi];var res=calcGiftTotal(g);if(res.t<=0)continue;giftL.push('• เซ็ตที่'+(gi+1)+' ('+g.setQty+'เซ็ต) รวม '+(res.t*g.setQty).toFixed(2)+'฿');for(var pi2=0;pi2<g.prints.length;pi2++){var p=g.prints[pi2];if(p.printQty>0&&GIFT_PRINT_ITEMS[p.printIdx])giftL.push('  - รูป: '+GIFT_PRINT_ITEMS[p.printIdx].label+' '+p.printCoat+' x'+p.printQty);}for(var si2=0;si2<g.stickers.length;si2++){var s2=g.stickers[si2];if(s2.stickerQty>0&&SSET[s2.stickerSizeIdx])giftL.push('  - Sticker: '+SSET[s2.stickerSizeIdx].size+' '+s2.stickerCoat+' x'+s2.stickerQty);}if(g.hasDc50&&GIFT_DC50[g.dc50SizeIdx])giftL.push('  - Die-cut 50% '+GIFT_DC50[g.dc50SizeIdx].size+' x'+g.dc50Qty);if(g.hasPC)giftL.push('  - Photocard: '+PC_TYPES[g.pcTypeIdx].label+' x'+g.pcQty);if(g.hasMemo)giftL.push('  - Memo Pad x'+g.memoQty+'ก้อน');if(g.hasKP)giftL.push('  - พวงกุญแจรูป x'+g.kpQty);if(g.hasKD)giftL.push('  - พวงกุญแจ Die-cut x'+g.kdQty);if(g.pkgHead)giftL.push('  - หัวแพ็ก');if(g.pkgLabel)giftL.push('  - Sticker Label 4×6 cm');sub+=res.t*g.setQty;hasPrint=true;hasSlow=true;}
