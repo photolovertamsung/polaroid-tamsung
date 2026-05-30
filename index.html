@@ -1003,7 +1003,6 @@ function renderSTD(){
   if(!addSel)return;
   addSel.innerHTML='<option value="">-- เลือกขนาดที่ต้องการ --</option>';
   for(var i=0;i<STD_ITEMS.length;i++){
-    if(selectedStdIdx.indexOf(i)>=0)continue; // ซ่อนขนาดที่เพิ่มแล้ว
     var opt=document.createElement('option');
     opt.value=i;
     opt.textContent=STD_ITEMS[i].label+(STD_ITEMS[i].proQty?' ⭐':'');
