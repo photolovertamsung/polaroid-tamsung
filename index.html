@@ -676,7 +676,7 @@ for(var _i=0;_i<STD_ITEMS.length;_i++)GIFT_PRINT_ITEMS.push({label:STD_ITEMS[_i]
 // ===== STATE =====
 var idSel=ID_ITEMS.map(function(){return {coat:'ไม่เคลือบ',frame:'กรอบขาว',qty:0};});
 var stdSel=STD_ITEMS.map(function(){return {coat:'ไม่เคลือบ',side:'แบบด้านเดียว',frame:'เต็มใบ',corner:'ไม่ตัด',qty:0};});
-var selectedStdIdx=[];
+var selectedStdIdx=[]; // [{itemIdx, coat, side, frame, corner, qty}]
 var customItems=[];
 var pcItems=[{typeIdx:0,coat:'เคลือบใสเงา',qty:0}];
 var memoItems=[{optIdx:0,qty:0}];
@@ -895,11 +895,7 @@ function minCoatQty(coat){return coat!=='ไม่เคลือบ'?10:0;}
 // ===== NAMED HANDLERS =====
 function setIdQty(i,v){v=+v;idSel[i].qty=v>0?Math.max(minCoatQty(idSel[i].coat),v):0;renderID();}
 function setIdCoat(i,v){idSel[i].coat=v;if(v!=='ไม่เคลือบ'&&idSel[i].qty>0&&idSel[i].qty<10)idSel[i].qty=10;renderID();}
-function setStdQty(i,v){v=+v;stdSel[i].qty=v>0?Math.max(minCoatQty(stdSel[i].coat),v):0;renderSTD();}
-function setStdCoat(i,v){stdSel[i].coat=v;if(v!=='ไม่เคลือบ'&&stdSel[i].qty>0&&stdSel[i].qty<10)stdSel[i].qty=10;renderSTD();}
-function setStdSide(i,v){stdSel[i].side=v;renderSTD();}
-function setStdFrame(i,v){stdSel[i].frame=v;renderSTD();}
-function setStdCorner(i,v){stdSel[i].corner=v;renderSTD();}
+// std handlers now inline in renderStdCard
 function setCustomW(i,v){customItems[i].w=+v||1;renderCustom();}
 function setCustomH(i,v){customItems[i].h=+v||1;renderCustom();}
 function setCustomCoat(i,v){customItems[i].coat=v;if(v!=='ไม่เคลือบ'&&customItems[i].qty>0&&customItems[i].qty<10)customItems[i].qty=10;renderCustom();}
@@ -998,7 +994,6 @@ function renderID(){
 
 // ===== RENDER STD =====
 function renderSTD(){
-  // populate add dropdown
   var addSel=document.getElementById('std-add-select');
   if(!addSel)return;
   addSel.innerHTML='<option value="">-- เลือกขนาดที่ต้องการ --</option>';
@@ -1008,15 +1003,13 @@ function renderSTD(){
     opt.textContent=STD_ITEMS[i].label+(STD_ITEMS[i].proQty?' ⭐':'');
     addSel.appendChild(opt);
   }
-  // render cards
   var cards=document.getElementById('std-cards');
   cards.innerHTML='';
   for(var j=0;j<selectedStdIdx.length;j++){
-    var i=selectedStdIdx[j];
     var card=document.createElement('div');
     card.className='inner-box';
     card.style.marginBottom='10px';
-    card.innerHTML=renderStdCard(i,j);
+    card.innerHTML=renderStdCard(j);
     cards.appendChild(card);
   }
   recalc();
@@ -1026,7 +1019,7 @@ function addStdItem(){
   var sel=document.getElementById('std-add-select');
   var val=sel.value;
   if(val==='')return;
-  selectedStdIdx.push(+val);
+  selectedStdIdx.push({itemIdx:+val,coat:'ไม่เคลือบ',side:'แบบด้านเดียว',frame:'เต็มใบ',corner:'ไม่ตัด',qty:0});
   sel.value='';
   renderSTD();
 }
@@ -1036,25 +1029,32 @@ function removeStdItem(j){
   renderSTD();
 }
 
-function renderStdCard(i,j){
-  var item=STD_ITEMS[i],s=stdSel[i];
+function setStdObjCoat(j,v){selectedStdIdx[j].coat=v;if(v!=='ไม่เคลือบ'&&selectedStdIdx[j].qty>0&&selectedStdIdx[j].qty<10)selectedStdIdx[j].qty=10;renderSTD();}
+function setStdObjQty(j,v){v=+v;selectedStdIdx[j].qty=v>0?(selectedStdIdx[j].coat!=='ไม่เคลือบ'?Math.max(10,v):v):0;renderSTD();}
+function setStdObjFrame(j,v){selectedStdIdx[j].frame=v;renderSTD();}
+function setStdObjCorner(j,v){selectedStdIdx[j].corner=v;renderSTD();}
+function setStdObjSide(j,v){selectedStdIdx[j].side=v;renderSTD();}
+
+function renderStdCard(j){
+  var s=selectedStdIdx[j];
+  var item=STD_ITEMS[s.itemIdx];
   var price=calcStdPrice(item,s.coat,s.side,s.qty);
   var ps=proStatus(item,s.coat,s.side,s.qty);
   var isCoat=s.coat!=='ไม่เคลือบ';
   var coatOpts=item.noCoat?'':('<option value="ไม่เคลือบ">ไม่เคลือบ</option>');
   if(!item.noCoat)for(var k=0;k<COATS.length;k++)coatOpts+='<option value="'+COATS[k]+'"'+(s.coat===COATS[k]?' selected':'')+'>'+COATS[k]+'</option>';
   var extraSel='';
-  if(item.hasFrame){var fo='';for(var k=0;k<FRAMES.length;k++)fo+='<option value="'+FRAMES[k]+'"'+(s.frame===FRAMES[k]?' selected':'')+'>'+FRAMES[k]+'</option>';extraSel+='<select onchange="setStdFrame('+i+',this.value)">'+fo+'</select>';}
-  if(item.hasCorner)extraSel+='<select onchange="setStdCorner('+i+',this.value)"><option value="ไม่ตัด"'+(s.corner==='ไม่ตัด'?' selected':'')+'>ไม่ตัดมุม</option><option value="ตัด"'+(s.corner==='ตัด'?' selected':'')+'>ตัดมุม</option></select>';
-  if(item.twoSide)extraSel+='<select onchange="setStdSide('+i+',this.value)"><option value="แบบด้านเดียว"'+(s.side==='แบบด้านเดียว'?' selected':'')+'>แบบด้านเดียว</option><option value="แบบสองด้าน"'+(s.side==='แบบสองด้าน'?' selected':'')+'>แบบสองด้าน</option></select>';
+  if(item.hasFrame){var fo='';for(var k=0;k<FRAMES.length;k++)fo+='<option value="'+FRAMES[k]+'"'+(s.frame===FRAMES[k]?' selected':'')+'>'+FRAMES[k]+'</option>';extraSel+='<select onchange="setStdObjFrame('+j+',this.value)">'+fo+'</select>';}
+  if(item.hasCorner)extraSel+='<select onchange="setStdObjCorner('+j+',this.value)"><option value="ไม่ตัด"'+(s.corner==='ไม่ตัด'?' selected':'')+'>ไม่ตัดมุม</option><option value="ตัด"'+(s.corner==='ตัด'?' selected':'')+'>ตัดมุม</option></select>';
+  if(item.twoSide)extraSel+='<select onchange="setStdObjSide('+j+',this.value)"><option value="แบบด้านเดียว"'+(s.side==='แบบด้านเดียว'?' selected':'')+'>แบบด้านเดียว</option><option value="แบบสองด้าน"'+(s.side==='แบบสองด้าน'?' selected':'')+'>แบบสองด้าน</option></select>';
   var proHtml=ps?('<span class="pro-info '+(Math.floor(s.qty/(item.proQty||1))>0?'active':'normal')+'">'+ps+'</span>'):'';
   return '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">'
     +'<div class="i-name">'+item.label+(item.proQty?'<span class="pro-badge">โปร</span>':'')+'</div>'
     +'<button class="rm-btn" onclick="removeStdItem('+j+')">ลบ</button>'
     +'</div>'
     +'<div class="i-sub" style="margin-bottom:8px;">'+item.base+' ฿'+(item.noCoat?'':' / เคลือบ '+(item.base+item.coat)+' ฿')+(item.twoSide?' / 2ด้าน '+item.twoSide+' ฿':'')+'</div>'
-    +'<div class="sel-row" style="margin-bottom:8px;">'+(item.noCoat?'':('<select onchange="setStdCoat('+i+',this.value)">'+coatOpts+'</select>'))+extraSel+'</div>'
-    +'<div class="qty-row" style="margin-bottom:6px;"><span class="qty-lbl">จำนวน</span><input class="qty-inp" type="number" min="0" max="9999" value="'+s.qty+'" onchange="setStdQty('+i+',this.value)"><span class="qty-lbl">ใบ</span></div>'
+    +'<div class="sel-row" style="margin-bottom:8px;">'+(item.noCoat?'':('<select onchange="setStdObjCoat('+j+',this.value)">'+coatOpts+'</select>'))+extraSel+'</div>'
+    +'<div class="qty-row" style="margin-bottom:6px;"><span class="qty-lbl">จำนวน</span><input class="qty-inp" type="number" min="0" max="9999" value="'+s.qty+'" onchange="setStdObjQty('+j+',this.value)"><span class="qty-lbl">ใบ</span></div>'
     +(isCoat?'<span class="warn">⚠️ เคลือบขั้นต่ำ 10 ใบ/ลาย</span>':'')+proHtml
     +'<div style="display:flex;justify-content:flex-end;margin-top:8px;">'
     +'<span class="p-badge'+(price>0?' on':'')+'" style="font-size:14px;">'+( price>0?price.toFixed(2)+' ฿':'0.00 ฿')+'</span>'
@@ -1459,7 +1459,7 @@ function renderGift(){
 function recalc(){
   var sub=0,hasPrint=false,hasSlow=false;
   for(var i=0;i<ID_ITEMS.length;i++){var s=idSel[i];if(s.qty>0){sub+=(ID_ITEMS[i].base+(s.coat!=='ไม่เคลือบ'?ID_ITEMS[i].coat:0))*s.qty;hasPrint=true;}}
-  for(var i=0;i<STD_ITEMS.length;i++){var s=stdSel[i];if(s.qty>0){sub+=calcStdPrice(STD_ITEMS[i],s.coat,s.side,s.qty);hasPrint=true;}}
+  for(var i=0;i<selectedStdIdx.length;i++){var s=selectedStdIdx[i];var item=STD_ITEMS[s.itemIdx];if(s.qty>0){sub+=calcStdPrice(item,s.coat,s.side,s.qty);hasPrint=true;}}
   for(var i=0;i<customItems.length;i++){var item=customItems[i];if(item.qty>0){var bp=calcCustom(item.w,item.h);var ca=item.coat!=='ไม่เคลือบ'?Math.max(2,+(bp*0.5).toFixed(2)):0;sub+=(bp+ca)*item.qty;hasPrint=true;}}
   for(var i=0;i<pcItems.length;i++){if(pcItems[i].qty>0){sub+=PC_TYPES[pcItems[i].typeIdx].price*pcItems[i].qty;hasPrint=true;}}
   for(var i=0;i<memoItems.length;i++){if(memoItems[i].qty>0){sub+=MEMO_OPTS[memoItems[i].optIdx].price*memoItems[i].qty;hasSlow=true;}}
@@ -1502,7 +1502,7 @@ function renderSummary(){
   // ID
   for(var i=0;i<ID_ITEMS.length;i++){var s=idSel[i];if(s.qty>0){var u=ID_ITEMS[i].base+(s.coat!=='ไม่เคลือบ'?ID_ITEMS[i].coat:0);var p=u*s.qty;items.push({name:ID_ITEMS[i].label,detail:s.coat+' × '+s.qty+' ใบ',price:p});sub+=p;}}
   // STD
-  for(var i=0;i<STD_ITEMS.length;i++){var s=stdSel[i];if(s.qty>0){var p=calcStdPrice(STD_ITEMS[i],s.coat,s.side,s.qty);var det=s.coat+(STD_ITEMS[i].twoSide?' | '+s.side:'')+' × '+s.qty+' ใบ';items.push({name:STD_ITEMS[i].label,detail:det,price:p});sub+=p;}}
+  for(var i=0;i<selectedStdIdx.length;i++){var s=selectedStdIdx[i];var item=STD_ITEMS[s.itemIdx];if(s.qty>0){var p=calcStdPrice(item,s.coat,s.side,s.qty);var det=s.coat+(item.twoSide?' | '+s.side:'')+' × '+s.qty+' ใบ';items.push({name:item.label,detail:det,price:p});sub+=p;}}
   // Custom
   for(var i=0;i<customItems.length;i++){var item=customItems[i];if(item.qty>0){var bp=calcCustom(item.w,item.h);var ca=item.coat!=='ไม่เคลือบ'?Math.max(2,+(bp*0.5).toFixed(2)):0;var p=(bp+ca)*item.qty;items.push({name:'Custom '+item.w+'×'+item.h+' cm',detail:item.coat+' × '+item.qty+' ใบ',price:p});sub+=p;}}
   // PC
@@ -1575,7 +1575,7 @@ function copyOrder(){
   var lines=['📸 Polaroid_tamsung — สรุปออเดอร์',''],sub=0,hasPrint=false,hasSlow=false;
   var idL=[],stdL=[],custL=[],pcL=[],memoL=[],kpL=[],kdL=[],dc50L=[],dc100L=[],ssetL=[],pkgL=[],giftL=[];
   for(var i=0;i<ID_ITEMS.length;i++){var s=idSel[i];if(s.qty<=0)continue;var p=(ID_ITEMS[i].base+(s.coat!=='ไม่เคลือบ'?ID_ITEMS[i].coat:0))*s.qty;idL.push('• '+ID_ITEMS[i].label+' | '+s.coat+' | '+s.frame+' x'+s.qty+' = '+p.toFixed(2)+'฿');sub+=p;hasPrint=true;}
-  for(var i=0;i<STD_ITEMS.length;i++){var s=stdSel[i];if(s.qty<=0)continue;var p=calcStdPrice(STD_ITEMS[i],s.coat,s.side,s.qty);var opt=s.coat;if(STD_ITEMS[i].hasFrame)opt+=' | '+s.frame;if(STD_ITEMS[i].hasCorner)opt+=' | '+(s.corner==='ตัด'?'ตัดมุม':'ไม่ตัดมุม');if(STD_ITEMS[i].twoSide)opt+=' | '+s.side;stdL.push('• '+STD_ITEMS[i].label+' | '+opt+' x'+s.qty+' = '+p.toFixed(2)+'฿');sub+=p;hasPrint=true;}
+  for(var i=0;i<selectedStdIdx.length;i++){var s=selectedStdIdx[i];var item=STD_ITEMS[s.itemIdx];if(s.qty<=0)continue;var p=calcStdPrice(item,s.coat,s.side,s.qty);var opt=s.coat;if(item.hasFrame)opt+=' | '+s.frame;if(item.hasCorner)opt+=' | '+(s.corner==='ตัด'?'ตัดมุม':'ไม่ตัดมุม');if(item.twoSide)opt+=' | '+s.side;stdL.push('• '+item.label+' | '+opt+' x'+s.qty+' = '+p.toFixed(2)+'฿');sub+=p;hasPrint=true;}
   for(var i=0;i<customItems.length;i++){var item=customItems[i];if(item.qty<=0)continue;var bp=calcCustom(item.w,item.h);var ca=item.coat!=='ไม่เคลือบ'?Math.max(2,+(bp*0.5).toFixed(2)):0;var p=(bp+ca)*item.qty;custL.push('• Custom '+item.w+'x'+item.h+'cm | '+item.coat+' x'+item.qty+' = '+p.toFixed(2)+'฿');sub+=p;hasPrint=true;}
   for(var i=0;i<pcItems.length;i++){if(pcItems[i].qty<=0)continue;var p=PC_TYPES[pcItems[i].typeIdx].price*pcItems[i].qty;pcL.push('• '+PC_TYPES[pcItems[i].typeIdx].label+' | '+pcItems[i].coat+' x'+pcItems[i].qty+' = '+p.toFixed(2)+'฿');sub+=p;hasPrint=true;}
   for(var i=0;i<memoItems.length;i++){if(memoItems[i].qty<=0)continue;var opt=MEMO_OPTS[memoItems[i].optIdx];var p=opt.price*memoItems[i].qty;memoL.push('• Memo Pad '+opt.sheets+'แผ่น/ก้อน x'+memoItems[i].qty+'ก้อน = '+p.toFixed(2)+'฿');sub+=p;hasSlow=true;}
@@ -1650,7 +1650,6 @@ function copyOrder(){
 function resetOrder(){
   if(!confirm('รีเซ็ตรายการทั้งหมดใช่ไหมคะ?')) return;
   idSel=ID_ITEMS.map(function(){return {coat:'ไม่เคลือบ',qty:0};});
-  stdSel=STD_ITEMS.map(function(){return {coat:'ไม่เคลือบ',side:'แบบด้านเดียว',frame:'เต็มใบ',corner:'ไม่ตัด',qty:0};});
   selectedStdIdx=[];
   customItems=[];
   pcItems=[{typeIdx:0,coat:'ไม่เคลือบ',qty:0}];
