@@ -150,6 +150,7 @@ select{flex:1;min-width:100px;font-size:12px;padding:6px 8px;border-radius:8px;b
       </div>
     </div>
 
+    <div id="cd-holiday-warn" style="display:none;background:#fff3e0;border:1px solid #ffc107;border-radius:10px;padding:10px 14px;font-size:12px;color:#e65100;margin-bottom:10px;"></div>
     <div id="cd-result" style="display:none;background:#f0fdf4;border:2px solid #86efac;border-radius:12px;padding:14px 16px;text-align:center;">
       <div style="font-size:12px;color:#166534;font-weight:600;margin-bottom:4px;">📦 รอบจัดส่งของคุณ</div>
       <div id="cd-result-date" style="font-size:22px;font-weight:700;color:#15803d;margin-bottom:4px;"></div>
@@ -738,14 +739,34 @@ function calcGiftTotal(g){
   return {t:t,needsMin10:needsMin10};
 }
 
+// ===== HOLIDAY MANAGER =====
+var HOLIDAY_KEY='polaroid_holidays';
+function loadHolidays(){
+  try{var v=localStorage.getItem(HOLIDAY_KEY);return v?JSON.parse(v):[];}catch(e){return [];}
+}
+function saveHolidays(arr){
+  try{localStorage.setItem(HOLIDAY_KEY,JSON.stringify(arr));}catch(e){}
+}
+function isHoliday(d){
+  var holidays=loadHolidays();
+  var yy=d.getFullYear(),mm=String(d.getMonth()+1).padStart(2,'0'),dd=String(d.getDate()).padStart(2,'0');
+  var key=yy+'-'+mm+'-'+dd;
+  return holidays.some(function(h){return h.date===key;});
+}
+function isWorkday(d){
+  return d.getDay()!==0 && !isHoliday(d);
+}
+
 // ===== HELPERS =====
 function addDaysNoSunday(days){
   var d=new Date();
   var count=0;
   while(count<days){
     d.setDate(d.getDate()+1);
-    if(d.getDay()!==0)count++; // ไม่นับวันอาทิตย์
+    if(isWorkday(d))count++;
   }
+  // ถ้าวันส่งตรงวันหยุดพิเศษหรืออาทิตย์ ให้เลื่อนไป
+  while(!isWorkday(d)){d.setDate(d.getDate()+1);}
   var dd=d.getDate(),mm=d.getMonth()+1,yy=d.getFullYear();
   return dd+'/'+(mm<10?'0'+mm:mm)+'/'+yy;
 }
@@ -864,16 +885,39 @@ function calcDelivery(){
   // วันผลิต
   var prodDays=isSlow?7:2;
 
-  // นับวันผลิต (ข้ามอาทิตย์)
+  // ตรวจสอบวันที่เริ่มต้นว่าเป็นวันหยุดพิเศษ
+  var baseIsHoliday=isHoliday(base);
+  if(baseIsHoliday){
+    // หาชื่อวันหยุด
+    var holidays=loadHolidays();
+    var yy=base.getFullYear(),bmm=String(base.getMonth()+1).padStart(2,'0'),bdd=String(base.getDate()).padStart(2,'0');
+    var bkey=yy+'-'+bmm+'-'+bdd;
+    var hEntry=holidays.find(function(h){return h.date===bkey;});
+    var hNote=hEntry&&hEntry.note?'('+hEntry.note+')':'';
+    // เลื่อนวันเริ่มนับไปหลังวันหยุด
+    while(!isWorkday(base)){base.setDate(base.getDate()+1);}
+    // แสดง warning
+    var warnEl=document.getElementById('cd-holiday-warn');
+    if(warnEl){
+      var months2=['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'];
+      warnEl.style.display='block';
+      warnEl.textContent='⚠️ วันที่เลือกร้านหยุด '+hNote+' รอบส่งจะนับจากวันทำการถัดไปค่ะ';
+    }
+  } else {
+    var warnEl2=document.getElementById('cd-holiday-warn');
+    if(warnEl2) warnEl2.style.display='none';
+  }
+
+  // นับวันผลิต (ข้ามอาทิตย์ + วันหยุดพิเศษ)
   var cur=new Date(base);
   var counted=0;
   while(counted<prodDays){
     cur.setDate(cur.getDate()+1);
-    if(cur.getDay()!==0) counted++; // 0 = อาทิตย์
+    if(isWorkday(cur)) counted++;
   }
 
-  // วันส่งต้องไม่ใช่อาทิตย์
-  while(cur.getDay()===0){cur.setDate(cur.getDate()+1);}
+  // วันส่งต้องไม่ใช่วันหยุด
+  while(!isWorkday(cur)){cur.setDate(cur.getDate()+1);}
 
   var days=['อาทิตย์','จันทร์','อังคาร','พุธ','พฤหัสบดี','ศุกร์','เสาร์'];
   var months=['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'];
@@ -1695,5 +1739,202 @@ renderID();renderSTD();renderCustom();renderExtra();renderDiecut();renderSset();
     </a>
   </div>
 </div>
+<!-- INVISIBLE ADMIN TRIGGER: มุมบนขวา -->
+<div id="admin-trigger" onclick="openAdminLogin()" style="position:fixed;top:0;right:0;width:44px;height:44px;z-index:8888;cursor:pointer;opacity:0;"></div>
+
+<!-- LOGIN MODAL -->
+<div id="admin-login-overlay" style="display:none;position:fixed;inset:0;z-index:9998;background:rgba(0,0,0,0.45);backdrop-filter:blur(3px);">
+  <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:#fff;border-radius:20px;padding:28px 24px;width:300px;box-shadow:0 8px 32px rgba(0,0,0,0.18);">
+    <div style="text-align:center;margin-bottom:18px;">
+      <div style="font-size:28px;margin-bottom:6px;">🔐</div>
+      <div style="font-size:15px;font-weight:700;color:#1a1a1a;">Admin เท่านั้นค่ะ</div>
+    </div>
+    <input type="password" id="admin-pw-input" placeholder="รหัสผ่าน" maxlength="20"
+      style="width:100%;font-size:16px;padding:10px 14px;border-radius:10px;border:2px solid #e0e0e0;background:#f8f8f8;color:#1a1a1a;margin-bottom:8px;box-sizing:border-box;text-align:center;letter-spacing:4px;"
+      onkeydown="if(event.key==='Enter')checkAdminLogin()" />
+    <div id="admin-login-err" style="font-size:12px;color:#e53935;text-align:center;min-height:16px;margin-bottom:8px;"></div>
+    <button onclick="checkAdminLogin()" style="width:100%;padding:11px;border-radius:10px;background:#1a1a1a;border:none;color:#fff;font-size:14px;font-weight:700;cursor:pointer;margin-bottom:8px;">เข้าสู่ระบบ</button>
+    <button onclick="closeAdminLogin()" style="width:100%;padding:9px;border-radius:10px;background:#f5f5f5;border:1px solid #e0e0e0;color:#888;font-size:13px;cursor:pointer;">ยกเลิก</button>
+  </div>
+</div>
+
+<!-- ADMIN PANEL -->
+<div id="admin-panel" style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:9999;background:#fff;border-top:2px solid #1a1a1a;border-radius:20px 20px 0 0;padding:20px 16px 36px;max-width:520px;margin:0 auto;box-shadow:0 -4px 24px rgba(0,0,0,0.15);max-height:82vh;overflow-y:auto;">
+
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+    <div style="font-size:15px;font-weight:700;color:#1a1a1a;">⚙️ Admin Panel</div>
+    <button onclick="closeAdminPanel()" style="background:none;border:none;font-size:22px;cursor:pointer;color:#888;line-height:1;">✕</button>
+  </div>
+
+  <!-- Section: วันหยุด -->
+  <div style="font-size:11px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:0.8px;margin-bottom:10px;">🗓 จัดการวันหยุด</div>
+  <div style="font-size:11px;color:#aaa;margin-bottom:12px;line-height:1.6;">ระบบจะข้ามวันเหล่านี้อัตโนมัติเมื่อคำนวณรอบส่งค่ะ</div>
+
+  <div style="background:#f0fdf4;border:1px solid #86efac;border-radius:12px;padding:12px 14px;margin-bottom:12px;">
+    <div style="font-size:12px;font-weight:600;color:#166534;margin-bottom:10px;">+ เพิ่มวันหยุดใหม่</div>
+    <input type="date" id="new-holiday-date" style="width:100%;font-size:13px;padding:8px 10px;border-radius:8px;border:1px solid #86efac;background:#fff;color:#1a1a1a;margin-bottom:8px;box-sizing:border-box;" />
+    <input type="text" id="new-holiday-note" placeholder="เหตุผล เช่น หยุดป่วย / สงกรานต์ / หยุดยาว" style="width:100%;font-size:12px;padding:8px 10px;border-radius:8px;border:1px solid #e0e0e0;background:#fff;color:#1a1a1a;margin-bottom:8px;box-sizing:border-box;" />
+    <button onclick="addHoliday()" style="width:100%;padding:9px;border-radius:8px;background:#1a1a1a;border:none;color:#fff;font-size:13px;font-weight:600;cursor:pointer;">เพิ่มวันหยุด</button>
+  </div>
+  <div id="holiday-list" style="margin-bottom:20px;"></div>
+
+  <!-- Section: เพิ่มช่วงวันหยุด -->
+  <div style="font-size:11px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:0.8px;margin-bottom:10px;padding-top:12px;border-top:1px solid #f0f0f0;">📅 เพิ่มช่วงวันหยุด (หลายวัน)</div>
+  <div style="background:#fff8e1;border:1px solid #ffc107;border-radius:12px;padding:12px 14px;margin-bottom:16px;">
+    <div style="font-size:12px;font-weight:600;color:#e65100;margin-bottom:10px;">+ เพิ่มช่วงวันหยุด เช่น ปีใหม่ / สงกรานต์</div>
+    <div style="display:flex;gap:8px;margin-bottom:8px;align-items:center;">
+      <div style="flex:1;">
+        <div style="font-size:11px;color:#888;margin-bottom:4px;">วันเริ่ม</div>
+        <input type="date" id="range-start" style="width:100%;font-size:13px;padding:7px 10px;border-radius:8px;border:1px solid #ffc107;background:#fff;color:#1a1a1a;box-sizing:border-box;" />
+      </div>
+      <div style="padding-top:16px;color:#aaa;">→</div>
+      <div style="flex:1;">
+        <div style="font-size:11px;color:#888;margin-bottom:4px;">วันสุดท้าย</div>
+        <input type="date" id="range-end" style="width:100%;font-size:13px;padding:7px 10px;border-radius:8px;border:1px solid #ffc107;background:#fff;color:#1a1a1a;box-sizing:border-box;" />
+      </div>
+    </div>
+    <input type="text" id="range-note" placeholder="ชื่อวันหยุด เช่น ปีใหม่ / สงกรานต์" style="width:100%;font-size:12px;padding:8px 10px;border-radius:8px;border:1px solid #e0e0e0;background:#fff;color:#1a1a1a;margin-bottom:8px;box-sizing:border-box;" />
+    <div id="range-preview" style="font-size:11px;color:#e65100;min-height:16px;margin-bottom:8px;"></div>
+    <button onclick="addHolidayRange()" style="width:100%;padding:9px;border-radius:8px;background:#e65100;border:none;color:#fff;font-size:13px;font-weight:600;cursor:pointer;">เพิ่มช่วงวันหยุด</button>
+  </div>
+
+</div>
+
+<script>
+// ===== ADMIN AUTH =====
+var ADMIN_PW_KEY='polaroid_admin_pw';
+var DEFAULT_PW='11122540';
+
+function getAdminPw(){
+  try{return localStorage.getItem(ADMIN_PW_KEY)||DEFAULT_PW;}catch(e){return DEFAULT_PW;}
+}
+function setAdminPw(pw){
+  try{localStorage.setItem(ADMIN_PW_KEY,pw);}catch(e){}
+}
+
+function openAdminLogin(){
+  var inp=document.getElementById('admin-pw-input');
+  inp.value='';
+  document.getElementById('admin-login-err').textContent='';
+  document.getElementById('admin-login-overlay').style.display='block';
+  setTimeout(function(){inp.focus();},120);
+}
+function closeAdminLogin(){
+  document.getElementById('admin-login-overlay').style.display='none';
+}
+function checkAdminLogin(){
+  var inp=document.getElementById('admin-pw-input');
+  if(inp.value===getAdminPw()){
+    closeAdminLogin();
+    openAdminPanel();
+  } else {
+    document.getElementById('admin-login-err').textContent='รหัสไม่ถูกต้องค่ะ';
+    inp.value='';
+    inp.focus();
+  }
+}
+function openAdminPanel(){
+  renderHolidayList();
+  document.getElementById('admin-panel').style.display='block';
+}
+function closeAdminPanel(){
+  document.getElementById('admin-panel').style.display='none';
+}
+
+// ===== CHANGE PASSWORD =====
+// (ถูกเอาออกตามคำขอ — รหัส fixed ในโค้ด)
+
+// ===== HOLIDAY LIST =====
+function renderHolidayList(){
+  var holidays=loadHolidays();
+  var el=document.getElementById('holiday-list');
+  if(!holidays.length){
+    el.innerHTML='<div style="text-align:center;color:#aaa;font-size:12px;padding:8px;">ยังไม่มีวันหยุดพิเศษค่ะ</div>';
+    return;
+  }
+  var DAYS=['อาทิตย์','จันทร์','อังคาร','พุธ','พฤหัสบดี','ศุกร์','เสาร์'];
+  var MONTHS=['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'];
+  var sorted=holidays.slice().sort(function(a,b){return a.date.localeCompare(b.date);});
+  var html='<div style="font-size:12px;font-weight:600;color:#888;margin-bottom:8px;">วันหยุดที่กำหนด ('+holidays.length+' วัน)</div>';
+  sorted.forEach(function(h){
+    var d=new Date(h.date+'T00:00:00');
+    var dateStr='วัน'+DAYS[d.getDay()]+'ที่ '+d.getDate()+' '+MONTHS[d.getMonth()]+' '+(d.getFullYear()+543);
+    html+='<div style="display:flex;align-items:center;gap:10px;padding:9px 12px;background:#f8f8f8;border:1px solid #e8e8e8;border-radius:10px;margin-bottom:7px;">'
+      +'<div style="flex:1;"><div style="font-size:13px;font-weight:600;color:#1a1a1a;">'+dateStr+'</div>'
+      +(h.note?'<div style="font-size:11px;color:#888;margin-top:2px;">📝 '+h.note+'</div>':'')
+      +'</div>'
+      +'<button onclick="removeHoliday(\''+h.date+'\')" style="background:#fff0f0;border:1px solid #ffb3b3;border-radius:7px;color:#e53935;font-size:11px;font-weight:600;padding:5px 10px;cursor:pointer;flex-shrink:0;">ลบ</button>'
+      +'</div>';
+  });
+  el.innerHTML=html;
+}
+
+function addHoliday(){
+  var dateEl=document.getElementById('new-holiday-date');
+  var noteEl=document.getElementById('new-holiday-note');
+  var dateVal=dateEl.value;
+  if(!dateVal){alert('กรุณาเลือกวันที่ค่ะ');return;}
+  var holidays=loadHolidays();
+  if(holidays.some(function(h){return h.date===dateVal;})){alert('วันนี้มีอยู่แล้วค่ะ');return;}
+  holidays.push({date:dateVal,note:noteEl.value.trim()});
+  saveHolidays(holidays);
+  dateEl.value='';noteEl.value='';
+  renderHolidayList();
+  calcDelivery();
+  recalc();
+}
+
+function removeHoliday(dateKey){
+  saveHolidays(loadHolidays().filter(function(h){return h.date!==dateKey;}));
+  renderHolidayList();
+  calcDelivery();
+  recalc();
+}
+
+function addHolidayRange(){
+  var s=document.getElementById('range-start').value;
+  var e=document.getElementById('range-end').value;
+  var note=document.getElementById('range-note').value.trim();
+  if(!s||!e){alert('กรุณาเลือกทั้งวันเริ่มและวันสุดท้ายค่ะ');return;}
+  var start=new Date(s+'T00:00:00');
+  var end=new Date(e+'T00:00:00');
+  if(end<start){alert('วันสุดท้ายต้องไม่ก่อนวันเริ่มค่ะ');return;}
+  var holidays=loadHolidays();
+  var added=0;
+  var cur=new Date(start);
+  while(cur<=end){
+    var key=cur.getFullYear()+'-'+String(cur.getMonth()+1).padStart(2,'0')+'-'+String(cur.getDate()).padStart(2,'0');
+    if(!holidays.some(function(h){return h.date===key;})){
+      holidays.push({date:key,note:note});
+      added++;
+    }
+    cur.setDate(cur.getDate()+1);
+  }
+  saveHolidays(holidays);
+  document.getElementById('range-start').value='';
+  document.getElementById('range-end').value='';
+  document.getElementById('range-note').value='';
+  document.getElementById('range-preview').textContent='';
+  renderHolidayList();
+  calcDelivery();recalc();
+  if(added>0)alert('✅ เพิ่มวันหยุด '+added+' วันเรียบร้อยค่ะ');
+  else alert('วันที่เลือกมีทั้งหมดอยู่แล้วค่ะ');
+}
+
+// Preview จำนวนวันแบบ live
+['range-start','range-end'].forEach(function(id){
+  document.getElementById(id).addEventListener('change',function(){
+    var s=document.getElementById('range-start').value;
+    var e=document.getElementById('range-end').value;
+    var prev=document.getElementById('range-preview');
+    if(s&&e){
+      var diff=Math.round((new Date(e+'T00:00:00')-new Date(s+'T00:00:00'))/(1000*60*60*24))+1;
+      if(diff<1){prev.textContent='⚠️ วันสุดท้ายต้องไม่ก่อนวันเริ่มค่ะ';}
+      else{prev.textContent='📅 จะเพิ่ม '+diff+' วัน';}
+    } else {prev.textContent='';}
+  });
+});
+</script>
+
 </body>
 </html>
