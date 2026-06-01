@@ -71,6 +71,20 @@ select{flex:1;min-width:100px;font-size:12px;padding:6px 8px;border-radius:8px;b
 .copy-msg{font-size:12px;color:#3B6D11;text-align:center;margin-top:8px;min-height:18px;}
 .bag-lbl{display:flex;align-items:center;gap:4px;font-size:12px;cursor:pointer;padding:5px 10px;border-radius:8px;border:1px solid #e0e0e0;background:#f8f8f8;transition:all 0.15s;}
 .bag-lbl.sel{border-color:#1a1a1a;background:#f0f0f0;color:#1a1a1a;font-weight:600;}
+/* How To Order Accordion */
+.how-to-order{border:1.5px solid #ffd6e7;border-radius:12px;margin-bottom:12px;overflow:hidden;background:#fff;}
+.how-to-toggle{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;cursor:pointer;background:linear-gradient(135deg,#fff0f5,#fff8f0);user-select:none;-webkit-tap-highlight-color:transparent;}
+.how-to-toggle:active{background:linear-gradient(135deg,#ffe4f0,#fff0e4);}
+.how-to-label{display:flex;align-items:center;gap:7px;font-size:12px;font-weight:700;color:#c2185b;}
+.how-to-arrow{font-size:11px;color:#e91e8c;transition:transform 0.25s;flex-shrink:0;}
+.how-to-arrow.open{transform:rotate(180deg);}
+.how-to-body{display:none;padding:12px 14px;border-top:1px solid #ffd6e7;background:#fffafe;}
+.how-to-body.open{display:block;}
+.how-to-step{display:flex;gap:10px;margin-bottom:10px;align-items:flex-start;}
+.how-to-step:last-child{margin-bottom:0;}
+.how-to-num{background:#c2185b;color:#fff;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;margin-top:1px;}
+.how-to-text{font-size:12px;color:#555;line-height:1.6;flex:1;}
+.how-to-text b{color:#1a1a1a;}
 </style>
 </head>
 <body>
@@ -87,9 +101,6 @@ select{flex:1;min-width:100px;font-size:12px;padding:6px 8px;border-radius:8px;b
 <div style="display:flex;gap:8px;margin-bottom:12px;">
   <button onclick="switchTab('checkdel')" style="flex:1;padding:12px 8px;border-radius:12px;background:#fff8e1;border:2px solid #ffc107;color:#e65100;font-size:13px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;">
     🗓 เช็ครอบจัดส่ง
-  </button>
-  <button onclick="switchTab('info')" style="flex:1;padding:12px 8px;border-radius:12px;background:#f0f4ff;border:2px solid #90b0ff;color:#3355cc;font-size:13px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;">
-    📁 วิธีส่งไฟล์
   </button>
 </div>
 
@@ -162,6 +173,37 @@ select{flex:1;min-width:100px;font-size:12px;padding:6px 8px;border-radius:8px;b
 </div>
 
 <div id="tab-print">
+
+  <!-- วิธีสั่งงานพิมพ์รูป -->
+  <div class="how-to-order">
+    <div class="how-to-toggle" onclick="toggleHowTo(this)">
+      <div class="how-to-label">📋 วิธีสั่งงานอัดรูป — กดดูขั้นตอนค่ะ 💖</div>
+      <div class="how-to-arrow">▼</div>
+    </div>
+    <div class="how-to-body">
+      <div class="how-to-step">
+        <div class="how-to-num">1</div>
+        <div class="how-to-text">เลือกขนาดที่ต้องการด้านล่าง แล้วกด <b>+ เพิ่ม</b> เพื่อเพิ่มรายการได้เลยค่ะ</div>
+      </div>
+      <div class="how-to-step">
+        <div class="how-to-num">2</div>
+        <div class="how-to-text">กดปุ่ม <b>สั่งผลิต / ส่งไฟล์ทาง LINE</b> สีเขียวด้านล่าง ระบบจะคัดลอกสรุปออเดอร์ให้อัตโนมัติค่ะ</div>
+      </div>
+      <div class="how-to-step">
+        <div class="how-to-num">3</div>
+        <div class="how-to-text"><b>วางข้อความ</b> ในแชท LINE แล้วส่งให้บลูค่ะ (อย่าลืมวางด้วยนะคะ 💕)</div>
+      </div>
+      <div class="how-to-step">
+        <div class="how-to-num">4</div>
+        <div class="how-to-text"><b>ส่งรูป</b> ให้ทางร้านได้เลยค่ะ — ส่งได้ทั้งทาง LINE หรือ Google Drive / Photos<br><span style="font-size:11px;color:#c2185b;">📌 บลูตรวจเช็คไฟล์ทุกวันหลัง 4 ทุ่มค่ะ</span></div>
+      </div>
+      <div class="how-to-step">
+        <div class="how-to-num">5</div>
+        <div class="how-to-text">กด <b>แจ้งโอนเงิน</b> ใน Rich Menu ของ LINE ค่ะ — โอนหลัง 20.00 น. นับวันถัดไป</div>
+      </div>
+    </div>
+  </div>
+
   <div class="section"><div class="sec-title">รูปติดบัตร</div><div id="id-rows"></div></div>
   <div class="section">
     <div class="sec-title">รูปอัดมาตรฐาน</div>
@@ -183,6 +225,41 @@ select{flex:1;min-width:100px;font-size:12px;padding:6px 8px;border-radius:8px;b
 </div>
 
 <div id="tab-extra" style="display:none;">
+
+  <!-- วิธีสั่ง Photocard / Memo / พวงกุญแจ -->
+  <div class="how-to-order">
+    <div class="how-to-toggle" onclick="toggleHowTo(this)">
+      <div class="how-to-label">📋 วิธีสั่ง Photocard / Memo / พวงกุญแจ — กดดูค่ะ 💖</div>
+      <div class="how-to-arrow">▼</div>
+    </div>
+    <div class="how-to-body">
+      <div class="how-to-step">
+        <div class="how-to-num">1</div>
+        <div class="how-to-text">เลือกรายการด้านล่าง ใส่จำนวนที่ต้องการค่ะ — คละลายได้ ขั้นต่ำดูในแต่ละหมวดนะคะ</div>
+      </div>
+      <div class="how-to-step">
+        <div class="how-to-num">2</div>
+        <div class="how-to-text"><b>เตรียมไฟล์</b> ให้พร้อม — ส่งผ่าน <b>Google Drive</b> หรือ <b>Canva (can edit)</b> ค่ะ</div>
+      </div>
+      <div class="how-to-step">
+        <div class="how-to-num">3</div>
+        <div class="how-to-text">กดปุ่ม <b>สั่งผลิต / ส่งไฟล์ทาง LINE</b> สีเขียวด้านล่าง ระบบจะคัดลอกสรุปออเดอร์ให้อัตโนมัติค่ะ</div>
+      </div>
+      <div class="how-to-step">
+        <div class="how-to-num">4</div>
+        <div class="how-to-text"><b>วางข้อความ</b> ในแชท LINE แล้วส่งให้บลูค่ะ (อย่าลืมวางด้วยนะคะ 💕)</div>
+      </div>
+      <div class="how-to-step">
+        <div class="how-to-num">5</div>
+        <div class="how-to-text"><b>ส่งรูป</b> ให้ทางร้านได้เลยค่ะ — ส่งได้ทั้งทาง LINE หรือ Google Drive / Photos<br><span style="font-size:11px;color:#c2185b;">📌 บลูตรวจเช็คไฟล์ทุกวันหลัง 4 ทุ่มค่ะ</span></div>
+      </div>
+      <div class="how-to-step">
+        <div class="how-to-num">6</div>
+        <div class="how-to-text">กด <b>แจ้งโอนเงิน</b> ใน Rich Menu ของ LINE ค่ะ — โอนหลัง 20.00 น. นับวันถัดไป</div>
+      </div>
+    </div>
+  </div>
+
   <div class="section">
     <div class="sec-title">Photocard</div>
     <div class="info-box">เคลือบฟิล์มฟรีทุกแบบ • มีซองใสให้ • คละลายเคลือบขั้นต่ำ 10 ใบ</div>
@@ -210,6 +287,73 @@ select{flex:1;min-width:100px;font-size:12px;padding:6px 8px;border-radius:8px;b
 </div>
 
 <div id="tab-diecut" style="display:none;">
+
+  <!-- วิธีสั่ง Die-cut -->
+  <div class="how-to-order">
+    <div class="how-to-toggle" onclick="toggleHowTo(this)">
+      <div class="how-to-label">📋 วิธีสั่ง STICKER DIE CUT — กดดูค่ะ 💖</div>
+      <div class="how-to-arrow">▼</div>
+    </div>
+    <div class="how-to-body">
+
+      <!-- กล่อง 50% vs 100% — แสดงเสมอ -->
+      <div style="background:#fff0f5;border:1.5px solid #ffd6e7;border-radius:10px;padding:12px;margin-bottom:12px;">
+        <div style="font-size:12px;font-weight:700;color:#c2185b;margin-bottom:8px;">✂️ ไดคัต 50% vs 100% — เลือกแบบไหนดี?</div>
+        <div style="display:flex;flex-direction:column;gap:6px;font-size:12px;color:#555;line-height:1.6;">
+          <div style="background:#fff;border-radius:8px;padding:8px 10px;border:1px solid #ffd6e7;">
+            <div style="font-weight:700;color:#c2185b;margin-bottom:2px;">🏷 Die-cut 50% (สติ๊กเกอร์ชีท)</div>
+            <div>ไดคัตรอบชิ้นงาน แต่ยังติดอยู่บนแผ่น — แบบสติ๊กเกอร์ชีททั่วไปค่ะ</div>
+            <button onclick="toggleImg(this)" style="margin-top:6px;font-size:11px;padding:4px 10px;border-radius:6px;border:1px solid #ffd6e7;background:#fff0f5;color:#c2185b;cursor:pointer;font-weight:600;">▼ ดูวิธีเตรียมไฟล์ Die-cut 50%</button>
+            <div style="display:none;margin-top:8px;background:#f0fdf4;border:1px solid #86efac;border-radius:8px;padding:10px;font-size:12px;color:#555;line-height:1.7;">
+              ต้องส่งไฟล์มาให้ครบ <b>2 ไฟล์</b> นะคะ<br>
+              1️⃣ <b>พื้นหลัง</b> — ไฟล์สีพื้นหลังของสติ๊กเกอร์ค่ะ<br>
+              2️⃣ <b>ชิ้นงานที่ต้องการไดคัต</b> — ไฟล์ชิ้นงานในแผ่นค่ะ<br>
+              <div style="margin-top:6px;">📌 ดูตัวอย่างการเตรียมไฟล์ได้ที่นี่เลยค่ะ ꒰🍅꒱<br>
+              <a href="https://drive.google.com/drive/folders/1SE_KCvvGkbjfEvRRE2ZZEpwcQl8BfqrL" target="_blank" style="color:#166534;font-weight:600;">🔗 Google Drive ตัวอย่างไฟล์</a></div>
+              <div style="margin-top:4px;">✨ ส่งทั้ง 2 ไฟล์รวมในลิงก์ไดร์ฟเดียวกันมาได้เลยนะคะ</div>
+            </div>
+          </div>
+          <div style="background:#fff;border-radius:8px;padding:8px 10px;border:1px solid #ffd6e7;">
+            <div style="font-weight:700;color:#c2185b;margin-bottom:2px;">✂️ Die-cut 100% (ตัดแยกชิ้น)</div>
+            <div>ตัดแยกเป็นชิ้นๆ ตามทรงงานเลยค่ะ</div>
+            <button onclick="toggleImg(this)" style="margin-top:6px;font-size:11px;padding:4px 10px;border-radius:6px;border:1px solid #ffd6e7;background:#fff0f5;color:#c2185b;cursor:pointer;font-weight:600;">▼ ดูตัวอย่างการตั้งชื่อไฟล์ (Die-cut 100%)</button>
+            <img src="https://i.ibb.co/LDBhp0fw/5.png" alt="ตัวอย่างการตั้งชื่อไฟล์" style="width:100%;border-radius:8px;margin-top:6px;display:none;">
+          </div>
+        </div>
+      </div>
+
+      <div class="how-to-step">
+        <div class="how-to-num">1</div>
+        <div class="how-to-text"><b>ออกแบบไฟล์เอง</b> ก่อนนะคะ — ร้านไม่รับหารูปให้ค่ะ ไฟล์ต้องเป็น <b>.png</b> พื้นหลังโปร่งใส</div>
+      </div>
+
+      <div class="how-to-step">
+        <div class="how-to-num">2</div>
+        <div class="how-to-text" style="width:100%;">
+          เลือกขนาด + <b>แบบเคลือบ</b> ด้านล่างค่ะ<br>
+          <button onclick="toggleImg(this)" style="margin-top:6px;font-size:11px;padding:4px 10px;border-radius:6px;border:1px solid #ffd6e7;background:#fff0f5;color:#c2185b;cursor:pointer;font-weight:600;">▼ ดูตัวอย่างแบบเคลือบ</button>
+          <img src="https://i.ibb.co/bDHGzsq/4.png" alt="ตัวอย่างแบบเคลือบ" style="width:100%;border-radius:8px;margin-top:6px;display:none;">
+        </div>
+      </div>
+      <div class="how-to-step">
+        <div class="how-to-num">3</div>
+        <div class="how-to-text">กดปุ่ม <b>สั่งผลิต / ส่งไฟล์ทาง LINE</b> สีเขียวด้านล่าง ระบบจะคัดลอกสรุปออเดอร์ให้อัตโนมัติค่ะ</div>
+      </div>
+      <div class="how-to-step">
+        <div class="how-to-num">4</div>
+        <div class="how-to-text"><b>วางข้อความ</b> ในแชท LINE แล้วส่งให้บลูค่ะ (อย่าลืมวางด้วยนะคะ 💕)</div>
+      </div>
+      <div class="how-to-step">
+        <div class="how-to-num">5</div>
+        <div class="how-to-text"><b>ส่งรูป</b> ให้ทางร้านได้เลยค่ะ — ส่งได้ทั้งทาง LINE หรือ Google Drive / Photos<br><span style="font-size:11px;color:#c2185b;">📌 บลูตรวจเช็คไฟล์ทุกวันหลัง 4 ทุ่มค่ะ</span></div>
+      </div>
+      <div class="how-to-step">
+        <div class="how-to-num">6</div>
+        <div class="how-to-text">กด <b>แจ้งโอนเงิน</b> ใน Rich Menu ของ LINE ค่ะ — โอนหลัง 20.00 น. นับวันถัดไป</div>
+      </div>
+    </div>
+  </div>
+
   <div class="section">
     <div class="sec-title">Die-cut 50% <span style="font-size:11px;font-weight:400;color:#aaa;text-transform:none;letter-spacing:0;">(STICKER SHEET / LABEL)</span></div>
     <div class="info-box">✂️ ไม่มีขั้นต่ำ • ไม่จำกัดจุดไดคัตค่ะ</div>
@@ -284,6 +428,41 @@ select{flex:1;min-width:100px;font-size:12px;padding:6px 8px;border-radius:8px;b
 </div>
 
 <div id="tab-sset" style="display:none;">
+
+  <!-- วิธีสั่ง Sticker Set -->
+  <div class="how-to-order">
+    <div class="how-to-toggle" onclick="toggleHowTo(this)">
+      <div class="how-to-label">📋 วิธีสั่ง Sticker Set — กดดูค่ะ 💖</div>
+      <div class="how-to-arrow">▼</div>
+    </div>
+    <div class="how-to-body">
+      <div class="how-to-step">
+        <div class="how-to-num">1</div>
+        <div class="how-to-text">กด <b>+ เพิ่มเซ็ต</b> — ใน 1 เซ็ตคละขนาดและแบบเคลือบได้เลยค่ะ ขั้นต่ำ <b>10 เซ็ต/แบบ</b></div>
+      </div>
+      <div class="how-to-step">
+        <div class="how-to-num">2</div>
+        <div class="how-to-text"><b>เตรียมไฟล์</b> ให้พร้อม — ส่งผ่าน <b>Google Drive</b> หรือ <b>Canva (can edit)</b> ค่ะ</div>
+      </div>
+      <div class="how-to-step">
+        <div class="how-to-num">3</div>
+        <div class="how-to-text">กดปุ่ม <b>สั่งผลิต / ส่งไฟล์ทาง LINE</b> สีเขียวด้านล่าง ระบบจะคัดลอกสรุปออเดอร์ให้อัตโนมัติค่ะ</div>
+      </div>
+      <div class="how-to-step">
+        <div class="how-to-num">4</div>
+        <div class="how-to-text"><b>วางข้อความ</b> ในแชท LINE แล้วส่งให้บลูค่ะ (อย่าลืมวางด้วยนะคะ 💕)</div>
+      </div>
+      <div class="how-to-step">
+        <div class="how-to-num">5</div>
+        <div class="how-to-text"><b>ส่งรูป</b> ให้ทางร้านได้เลยค่ะ — ส่งได้ทั้งทาง LINE หรือ Google Drive / Photos<br><span style="font-size:11px;color:#c2185b;">📌 บลูตรวจเช็คไฟล์ทุกวันหลัง 4 ทุ่มค่ะ</span></div>
+      </div>
+      <div class="how-to-step">
+        <div class="how-to-num">6</div>
+        <div class="how-to-text">กด <b>แจ้งโอนเงิน</b> ใน Rich Menu ของ LINE ค่ะ — โอนหลัง 20.00 น. นับวันถัดไป</div>
+      </div>
+    </div>
+  </div>
+
   <div class="section">
     <div class="sec-title">Sticker Set (ราคาต่อชิ้น)</div>
     <div class="info-box">⚠️ ขั้นต่ำ 10 เซ็ต/แบบ<br><span style="font-size:11px;color:#aaa;">หมายเหตุ: ถ้ายอดไม่ถึง 5 บาท/เซ็ต จะบวกค่าซอง PVC +2 บาท/เซ็ต</span></div>
@@ -315,6 +494,41 @@ select{flex:1;min-width:100px;font-size:12px;padding:6px 8px;border-radius:8px;b
 </div>
 
 <div id="tab-gift" style="display:none;">
+
+  <!-- วิธีสั่ง Giveaway -->
+  <div class="how-to-order">
+    <div class="how-to-toggle" onclick="toggleHowTo(this)">
+      <div class="how-to-label">📋 วิธีสั่งเซ็ต Giveaway — กดดูค่ะ 💖</div>
+      <div class="how-to-arrow">▼</div>
+    </div>
+    <div class="how-to-body">
+      <div class="how-to-step">
+        <div class="how-to-num">1</div>
+        <div class="how-to-text">กด <b>+ เพิ่มเซ็ต</b> แล้วระบุจำนวนและรายการของที่ต้องการในเซ็ตค่ะ</div>
+      </div>
+      <div class="how-to-step">
+        <div class="how-to-num">2</div>
+        <div class="how-to-text"><b>เตรียมไฟล์ภาพ</b> ให้พร้อม — ส่งผ่าน <b>Google Drive</b> หรือ <b>Canva (can edit)</b> ค่ะ</div>
+      </div>
+      <div class="how-to-step">
+        <div class="how-to-num">3</div>
+        <div class="how-to-text">กดปุ่ม <b>สั่งผลิต / ส่งไฟล์ทาง LINE</b> สีเขียวด้านล่าง ระบบจะคัดลอกสรุปออเดอร์ให้อัตโนมัติค่ะ</div>
+      </div>
+      <div class="how-to-step">
+        <div class="how-to-num">4</div>
+        <div class="how-to-text"><b>วางข้อความ</b> ในแชท LINE แล้วส่งให้บลูค่ะ (อย่าลืมวางด้วยนะคะ 💕)</div>
+      </div>
+      <div class="how-to-step">
+        <div class="how-to-num">5</div>
+        <div class="how-to-text"><b>ส่งรูป</b> ให้ทางร้านได้เลยค่ะ — ส่งได้ทั้งทาง LINE หรือ Google Drive / Photos<br><span style="font-size:11px;color:#c2185b;">📌 บลูตรวจเช็คไฟล์ทุกวันหลัง 4 ทุ่มค่ะ</span></div>
+      </div>
+      <div class="how-to-step">
+        <div class="how-to-num">6</div>
+        <div class="how-to-text">กด <b>แจ้งโอนเงิน</b> ใน Rich Menu ของ LINE ค่ะ — โอนหลัง 20.00 น. นับวันถัดไป</div>
+      </div>
+    </div>
+  </div>
+
   <div class="section">
     <div class="sec-title">เซ็ตกิ๊ฟอะเวย์</div>
     <div id="gift-rows"></div>
@@ -1705,7 +1919,6 @@ function copyOrder(){
   if(ssetL.length||pkgL.length){lines.push('🏷 จัดเซ็ต STICKER');ssetL.concat(pkgL).forEach(function(l){lines.push(l);});}
   if(giftL.length){lines.push('🎁 จัดเซ็ต Giveaway');giftL.forEach(function(l){lines.push(l);});}
   lines.push('━━━━━━━━━━');
-
   var sc=shipMethod==='post'?(sub>=500?0:40):0;
   var totalAmt=(sub+sc).toFixed(2);
   lines.push('💰 สินค้า: '+sub.toFixed(2)+'฿');
@@ -1722,7 +1935,6 @@ function copyOrder(){
   var delDate=addDaysNoSunday(hasPrint&&!hasSlow?2:7);
   lines.push('📅 รอบจัดส่ง: '+delDate);
   lines.push('🕙 คอนเฟิร์มไฟล์ทุกวัน 22:00 น.');
-
   lines.push('⚠️ กรุณาตรวจสอบรายละเอียดก่อนยืนยันนะคะ');
   var consentTxt=consentEl.value==='yes'?'✅ อนุญาตนำรูปไปรีวิว':'❌ ไม่อนุญาตนำรูปไปรีวิว';
   lines.push('📸 รีวิว: '+consentTxt);
@@ -1843,6 +2055,32 @@ renderID();renderSTD();renderCustom();renderExtra();renderDiecut();renderSset();
 </div>
 
 <script>
+// ===== HOW TO ORDER ACCORDION =====
+function toggleHowTo(toggleEl) {
+  var arrow = toggleEl.querySelector('.how-to-arrow');
+  var body = toggleEl.nextElementSibling;
+  var isOpen = body.classList.contains('open');
+  if (isOpen) {
+    body.classList.remove('open');
+    arrow.classList.remove('open');
+  } else {
+    body.classList.add('open');
+    arrow.classList.add('open');
+  }
+}
+
+function toggleImg(btn) {
+  var next = btn.nextElementSibling;
+  var isHidden = next.style.display === 'none';
+  if (isHidden) {
+    next.style.display = 'block';
+    btn.textContent = btn.textContent.replace('▼', '▲');
+  } else {
+    next.style.display = 'none';
+    btn.textContent = btn.textContent.replace('▲', '▼');
+  }
+}
+
 // ===== ADMIN AUTH =====
 var ADMIN_PW_KEY='polaroid_admin_pw';
 var DEFAULT_PW='11122540';
