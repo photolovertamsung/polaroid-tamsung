@@ -582,7 +582,22 @@ select{flex:1;min-width:100px;font-size:12px;padding:6px 8px;border-radius:8px;b
   <div id="summary-items" style="font-size:13px;color:#1a1a1a;line-height:1.8;"></div>
 </div>
 <div onclick="copyOrder()" style="text-align:center;font-size:12px;color:#888;margin-bottom:8px;line-height:1.6;cursor:pointer;">📋 กดปุ่มด้านล่างเพื่อคัดลอกรายการที่สั่ง → แล้ววางในแชท LINE ร้านได้เลยค่ะ</div>
-<button class="copy-btn" onclick="copyOrder();setTimeout(function(){window.open('https://lin.ee/qMGO9Ok','_blank');},800);" style="background:linear-gradient(135deg,#06c755,#00a040);font-size:15px;padding:15px;border-radius:14px;gap:10px;flex-direction:column;">
+
+<!-- Review consent -->
+<div style="background:#fff8f0;border:1.5px solid #fcd9a0;border-radius:12px;padding:12px 14px;margin-bottom:10px;">
+  <div style="font-size:12px;font-weight:700;color:#b45309;margin-bottom:8px;">📸 อนุญาตให้ร้านนำรูปไปรีวิวไหมคะ?</div>
+  <label style="display:flex;align-items:center;gap:8px;font-size:13px;color:#1a1a1a;cursor:pointer;margin-bottom:6px;">
+    <input type="radio" name="review-consent" value="yes" onchange="updateCopyBtn()" style="accent-color:#c2185b;width:16px;height:16px;">
+    ✅ อนุญาตค่ะ
+  </label>
+  <label style="display:flex;align-items:center;gap:8px;font-size:13px;color:#1a1a1a;cursor:pointer;">
+    <input type="radio" name="review-consent" value="no" onchange="updateCopyBtn()" style="accent-color:#c2185b;width:16px;height:16px;">
+    ❌ ไม่อนุญาตค่ะ
+  </label>
+  <div id="consent-warn" style="font-size:11px;color:#e53e3e;margin-top:6px;display:none;">⚠️ กรุณาเลือกก่อนนะคะ</div>
+</div>
+
+<button id="copy-btn-main" class="copy-btn" onclick="copyOrder();setTimeout(function(){window.open('https://lin.ee/qMGO9Ok','_blank');},800);" style="background:linear-gradient(135deg,#06c755,#00a040);font-size:15px;padding:15px;border-radius:14px;gap:10px;flex-direction:column;opacity:0.4;cursor:not-allowed;" disabled>
   <div style="display:flex;align-items:center;gap:10px;">
     <svg width="22" height="22" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.48 2 2 6.03 2 11c0 2.87 1.37 5.43 3.5 7.16L4.5 22l3.97-2.1A10.6 10.6 0 0 0 12 20c5.52 0 10-4.03 10-9S17.52 2 12 2z"/></svg>
     สั่งผลิต / ส่งไฟล์ทาง LINE
@@ -1637,7 +1652,17 @@ function renderSummary(){
 }
 
 // ===== COPY =====
+function updateCopyBtn(){
+  var btn=document.getElementById('copy-btn-main');
+  var warn=document.getElementById('consent-warn');
+  var sel=document.querySelector('input[name="review-consent"]:checked');
+  if(sel){btn.disabled=false;btn.style.opacity='1';btn.style.cursor='pointer';warn.style.display='none';}
+  else{btn.disabled=true;btn.style.opacity='0.4';btn.style.cursor='not-allowed';}
+}
+
 function copyOrder(){
+  var consentEl=document.querySelector('input[name="review-consent"]:checked');
+  if(!consentEl){document.getElementById('consent-warn').style.display='block';return;}
   var lines=['📸 Polaroid_tamsung — สรุปออเดอร์','━━━━━━━━━━'],sub=0,hasPrint=false,hasSlow=false;
   var idL=[],stdL=[],custL=[],pcL=[],memoL=[],kpL=[],kdL=[],dc50L=[],dc100L=[],ssetL=[],pkgL=[],giftL=[];
   for(var i=0;i<ID_ITEMS.length;i++){var s=idSel[i];if(s.qty<=0)continue;var p=(ID_ITEMS[i].base+(s.coat!=='ไม่เคลือบ'?ID_ITEMS[i].coat:0))*s.qty;idL.push('• '+ID_ITEMS[i].label+' | '+s.coat+' | '+s.frame+' x'+s.qty+' = '+p.toFixed(2)+'฿');sub+=p;hasPrint=true;}
@@ -1699,6 +1724,8 @@ function copyOrder(){
   lines.push('🕙 คอนเฟิร์มไฟล์ทุกวัน 22:00 น.');
 
   lines.push('⚠️ กรุณาตรวจสอบรายละเอียดก่อนยืนยันนะคะ');
+  var consentTxt=consentEl.value==='yes'?'✅ อนุญาตนำรูปไปรีวิว':'❌ ไม่อนุญาตนำรูปไปรีวิว';
+  lines.push('📸 รีวิว: '+consentTxt);
   navigator.clipboard.writeText(lines.join('\n')).then(function(){
     var msg=document.getElementById('copy-msg');
     msg.textContent='✅ คัดลอกแล้ว! วางใน LINE ได้เลย';
