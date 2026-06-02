@@ -204,10 +204,13 @@ select{flex:1;min-width:100px;font-size:12px;padding:6px 8px;border-radius:8px;b
     </div>
   </div>
 
-  <div class="section"><div class="sec-title">รูปติดบัตร</div><div id="id-rows"></div></div>
+  <div class="section"><div class="sec-title">รูปติดบัตร</div><div style="padding:4px 0 8px;"><button onclick="toggleImg(this)" style="margin-top:6px;font-size:11px;padding:4px 10px;border-radius:6px;border:1px solid #ffd6e7;background:#fff0f5;color:#c2185b;cursor:pointer;font-weight:600;">▼ ดูตัวอย่างแบบเคลือบ</button>
+          <img src="https://i.ibb.co/bDHGzsq/4.png" alt="ตัวอย่างแบบเคลือบ" style="width:100%;border-radius:8px;margin-top:6px;display:none;"></div><div id="id-rows"></div></div>
   <div class="section">
     <div class="sec-title">รูปอัดมาตรฐาน</div>
     <div class="info-box">👇 เลือกขนาดที่ต้องการ แล้วกด <b>+ เพิ่ม</b> เพื่อเพิ่มสินค้าได้เลยค่ะ (เพิ่มได้หลายขนาด)</div>
+    <div style="padding:0 0 8px;"><button onclick="toggleImg(this)" style="margin-top:6px;font-size:11px;padding:4px 10px;border-radius:6px;border:1px solid #ffd6e7;background:#fff0f5;color:#c2185b;cursor:pointer;font-weight:600;">▼ ดูตัวอย่างแบบเคลือบ</button>
+          <img src="https://i.ibb.co/bDHGzsq/4.png" alt="ตัวอย่างแบบเคลือบ" style="width:100%;border-radius:8px;margin-top:6px;display:none;"></div>
     <div id="std-cards"></div>
     <div style="display:flex;gap:8px;margin-top:10px;">
       <select id="std-add-select" style="flex:1;font-size:13px;padding:8px;">
@@ -219,6 +222,8 @@ select{flex:1;min-width:100px;font-size:12px;padding:6px 8px;border-radius:8px;b
   <div class="section">
     <div class="sec-title">Custom ขนาด</div>
     <div class="info-box">กรอกขนาด (cm) • ขั้นต่ำ 1×1 cm • สูงสุด A4 (21×29.7 cm) • เคลือบขั้นต่ำ 10 ใบ/ลาย</div>
+    <div style="padding:0 0 8px;"><button onclick="toggleImg(this)" style="margin-top:6px;font-size:11px;padding:4px 10px;border-radius:6px;border:1px solid #ffd6e7;background:#fff0f5;color:#c2185b;cursor:pointer;font-weight:600;">▼ ดูตัวอย่างแบบเคลือบ</button>
+          <img src="https://i.ibb.co/bDHGzsq/4.png" alt="ตัวอย่างแบบเคลือบ" style="width:100%;border-radius:8px;margin-top:6px;display:none;"></div>
     <div id="custom-rows"></div>
     <button class="add-btn" onclick="addCustom()">+ เพิ่มขนาด Custom</button>
   </div>
@@ -263,6 +268,8 @@ select{flex:1;min-width:100px;font-size:12px;padding:6px 8px;border-radius:8px;b
   <div class="section">
     <div class="sec-title">Photocard</div>
     <div class="info-box">เคลือบฟิล์มฟรีทุกแบบ • มีซองใสให้ • คละลายเคลือบขั้นต่ำ 10 ใบ</div>
+    <div style="padding:0 0 8px;"><button onclick="toggleImg(this)" style="margin-top:6px;font-size:11px;padding:4px 10px;border-radius:6px;border:1px solid #ffd6e7;background:#fff0f5;color:#c2185b;cursor:pointer;font-weight:600;">▼ ดูตัวอย่างแบบเคลือบ</button>
+          <img src="https://i.ibb.co/bDHGzsq/4.png" alt="ตัวอย่างแบบเคลือบ" style="width:100%;border-radius:8px;margin-top:6px;display:none;"></div>
     <div id="pc-rows"></div>
     <button class="add-btn" onclick="pcItems.push({typeIdx:0,coat:'เคลือบใสเงา',qty:0});renderExtra()">+ เพิ่มรายการ</button>
   </div>
@@ -275,12 +282,16 @@ select{flex:1;min-width:100px;font-size:12px;padding:6px 8px;border-radius:8px;b
   <div class="section">
     <div class="sec-title">พวงกุญแจรูปภาพ <span style="font-size:11px;font-weight:400;color:#aaa;text-transform:none;letter-spacing:0;">2×2 นิ้ว</span></div>
     <div class="info-box">3 ฿/ชิ้น • เคลือบ +3 ฿ • เคลือบขั้นต่ำ 10 ชิ้น/ลาย</div>
+    <div style="padding:0 0 8px;"><button onclick="toggleImg(this)" style="margin-top:6px;font-size:11px;padding:4px 10px;border-radius:6px;border:1px solid #ffd6e7;background:#fff0f5;color:#c2185b;cursor:pointer;font-weight:600;">▼ ดูตัวอย่างแบบเคลือบ</button>
+          <img src="https://i.ibb.co/bDHGzsq/4.png" alt="ตัวอย่างแบบเคลือบ" style="width:100%;border-radius:8px;margin-top:6px;display:none;"></div>
     <div id="kp-rows"></div>
     <button class="add-btn" onclick="kpItems.push({coat:'ไม่เคลือบ',qty:0});renderExtra()">+ เพิ่มรายการ</button>
   </div>
   <div class="section">
     <div class="sec-title">พวงกุญแจ Die-cut</div>
     <div class="info-box">5 ฿/ชิ้น • เคลือบ 8 แบบ • ขั้นต่ำ 15 ชิ้น/ลาย</div>
+    <div style="padding:0 0 8px;"><button onclick="toggleImg(this)" style="margin-top:6px;font-size:11px;padding:4px 10px;border-radius:6px;border:1px solid #ffd6e7;background:#fff0f5;color:#c2185b;cursor:pointer;font-weight:600;">▼ ดูตัวอย่างแบบเคลือบ</button>
+          <img src="https://i.ibb.co/bDHGzsq/4.png" alt="ตัวอย่างแบบเคลือบ" style="width:100%;border-radius:8px;margin-top:6px;display:none;"></div>
     <div id="kd-rows"></div>
     <button class="add-btn" onclick="kdItems.push({coat:'เคลือบใสเงา',qty:0});renderExtra()">+ เพิ่มรายการ</button>
   </div>
@@ -357,13 +368,16 @@ select{flex:1;min-width:100px;font-size:12px;padding:6px 8px;border-radius:8px;b
   <div class="section">
     <div class="sec-title">Die-cut 50% <span style="font-size:11px;font-weight:400;color:#aaa;text-transform:none;letter-spacing:0;">(STICKER SHEET / LABEL)</span></div>
     <div class="info-box">✂️ ไม่มีขั้นต่ำ • ไม่จำกัดจุดไดคัตค่ะ</div>
+    <div style="padding:0 0 8px;"><button onclick="toggleImg(this)" style="margin-top:6px;font-size:11px;padding:4px 10px;border-radius:6px;border:1px solid #ffd6e7;background:#fff0f5;color:#c2185b;cursor:pointer;font-weight:600;">▼ ดูตัวอย่างแบบเคลือบ</button>
+          <img src="https://i.ibb.co/bDHGzsq/4.png" alt="ตัวอย่างแบบเคลือบ" style="width:100%;border-radius:8px;margin-top:6px;display:none;"></div>
     <div id="dc50-rows"></div>
     <button class="add-btn" onclick="dc50Items.push({sizeIdx:3,coat:'เคลือบใสเงา',sheets:0});renderDiecut()">+ เพิ่มรายการ</button>
   </div>
   <div class="section">
     <div class="sec-title">Die-cut 100% <span style="font-size:11px;font-weight:400;color:#aaa;text-transform:none;letter-spacing:0;">(ไดคัตเป็นชิ้นๆตามทรงงาน) A4 เท่านั้น</span></div>
     <div class="info-box">💡 1 แผ่น A4 คละได้ 2 ลาย • ไม่มีขั้นต่ำ • ไม่จำกัดจุดไดคัตค่ะ</div>
-
+    <div style="padding:0 0 8px;"><button onclick="toggleImg(this)" style="margin-top:6px;font-size:11px;padding:4px 10px;border-radius:6px;border:1px solid #ffd6e7;background:#fff0f5;color:#c2185b;cursor:pointer;font-weight:600;">▼ ดูตัวอย่างแบบเคลือบ</button>
+          <img src="https://i.ibb.co/bDHGzsq/4.png" alt="ตัวอย่างแบบเคลือบ" style="width:100%;border-radius:8px;margin-top:6px;display:none;"></div>
     <!-- กล่องตัวอย่างคละลาย -->
     <div style="background:#f8f8f8;border:1px solid #e8e8e8;border-radius:10px;padding:12px;margin-bottom:12px;">
       <div style="display:flex;flex-direction:column;gap:6px;font-size:12px;color:#1a1a1a;line-height:1.7;margin-bottom:12px;">
@@ -465,6 +479,8 @@ select{flex:1;min-width:100px;font-size:12px;padding:6px 8px;border-radius:8px;b
 
   <div class="section">
     <div class="sec-title">Sticker Set (ราคาต่อชิ้น)</div>
+    <div style="padding:0 0 8px;"><button onclick="toggleImg(this)" style="margin-top:6px;font-size:11px;padding:4px 10px;border-radius:6px;border:1px solid #ffd6e7;background:#fff0f5;color:#c2185b;cursor:pointer;font-weight:600;">▼ ดูตัวอย่างแบบเคลือบ</button>
+          <img src="https://i.ibb.co/bDHGzsq/4.png" alt="ตัวอย่างแบบเคลือบ" style="width:100%;border-radius:8px;margin-top:6px;display:none;"></div>
     <div class="info-box">⚠️ ขั้นต่ำ 10 เซ็ต/แบบ<br><span style="font-size:11px;color:#aaa;">หมายเหตุ: ถ้ายอดไม่ถึง 5 บาท/เซ็ต จะบวกค่าซอง PVC +2 บาท/เซ็ต</span></div>
     <div class="info-box" style="background:#f0fdf4;border-color:#86efac;color:#166534;">🎨 ใน 1 เซ็ต คละขนาดและแบบเคลือบได้เลยค่ะ<br><span style="font-size:11px;">ต้องการคละ กด <b>+ เพิ่ม Sticker ในเซ็ต</b> ได้เลยนะคะ</span></div>
     
