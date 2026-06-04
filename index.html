@@ -827,6 +827,12 @@ select{flex:1;min-width:100px;font-size:12px;padding:6px 8px;border-radius:8px;b
   <div id="consent-warn" style="font-size:11px;color:#e53e3e;margin-top:6px;display:none;">⚠️ กรุณาเลือกก่อนนะคะ</div>
 </div>
 
+<div style="margin-bottom:10px;padding:12px 16px;background:#f0fff4;border:1.5px solid #68d391;border-radius:12px;line-height:1.8;">
+  <div style="font-size:12px;font-weight:700;color:#276749;margin-bottom:6px;">📲 วิธีวางข้อความใน LINE</div>
+  <div style="font-size:12px;color:#276749;">1️⃣ กดปุ่มสีเขียวด้านล่าง → LINE จะเปิดขึ้นมาค่ะ</div>
+  <div style="font-size:12px;color:#276749;">2️⃣ ไปที่แชทร้าน แล้ว<b>กดค้างในช่องพิมพ์ข้อความ</b></div>
+  <div style="font-size:12px;color:#276749;">3️⃣ เลือก <b>"วาง"</b> แล้วกดส่งได้เลยค่ะ 💚</div>
+</div>
 <button id="copy-btn-main" class="copy-btn" onclick="copyOrder();setTimeout(function(){window.open('https://lin.ee/qMGO9Ok','_blank');},800);" style="background:linear-gradient(135deg,#06c755,#00a040);font-size:15px;padding:15px;border-radius:14px;gap:10px;flex-direction:column;opacity:0.4;cursor:not-allowed;" disabled>
   <div style="display:flex;align-items:center;gap:10px;">
     <svg width="22" height="22" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.48 2 2 6.03 2 11c0 2.87 1.37 5.43 3.5 7.16L4.5 22l3.97-2.1A10.6 10.6 0 0 0 12 20c5.52 0 10-4.03 10-9S17.52 2 12 2z"/></svg>
@@ -835,7 +841,6 @@ select{flex:1;min-width:100px;font-size:12px;padding:6px 8px;border-radius:8px;b
   <div style="font-size:11px;font-weight:400;opacity:0.85;">(อย่าลืมกดวางข้อความในช่องแชทด้วยนะคะ)</div>
 </button>
 <div class="copy-msg" id="copy-msg"></div>
-<div style="text-align:center;font-size:12px;color:#888;margin-top:8px;padding:10px 16px;background:#f8f8f8;border-radius:10px;line-height:1.6;">💬 ถ้าคุณลูกค้าไม่มั่นใจ สามารถสอบถามบลูได้เลยค่ะ 😊</div>
 </div>
 
 <script>
@@ -1956,8 +1961,8 @@ function copyOrder(){
   lines.push('📸 รีวิว: '+consentTxt);
   navigator.clipboard.writeText(lines.join('\n')).then(function(){
     var msg=document.getElementById('copy-msg');
-    msg.textContent='✅ คัดลอกแล้ว! วางใน LINE ได้เลย';
-    setTimeout(function(){msg.textContent='';},2500);
+    msg.textContent='✅ คัดลอกแล้ว! ไปที่แชท LINE แล้วกดค้างในช่องข้อความ → เลือก "วาง" ค่ะ';
+    setTimeout(function(){msg.textContent='';},4000);
   });
 }
 
