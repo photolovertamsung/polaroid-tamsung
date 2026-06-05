@@ -835,7 +835,7 @@ select{flex:1;min-width:100px;font-size:12px;padding:6px 8px;border-radius:8px;b
     <div><div class="s-lbl">ส่งแมสเซ็นเจอร์ <span style="font-size:11px;font-weight:400;color:#aaa;">(กทม และปริมณฑลเท่านั้น)</span></div><div class="s-desc" style="color:#aaa;">ค่าส่งคิดตามแอพเดลิเวอรี่ • ค่าจัดส่งจ่ายปลายทาง • ได้รับของภายในวันที่นัดส่ง</div></div>
   </label>
 </div>
-<div id="del-box-wrap" style="background:#f0fdf4;border:2px solid #86efac;border-radius:14px;padding:14px 18px;margin-bottom:12px;text-align:center;">
+<div id="del-box-wrap" style="background:#f0fdf4;border:2px solid #86efac;border-radius:14px;padding:14px 18px;margin-bottom:8px;text-align:center;">
   <div style="font-size:12px;color:#166534;font-weight:600;margin-bottom:4px;">📦 รอบจัดส่งของคุณ</div>
   <div class="del-txt" id="del-txt" style="font-size:20px;font-weight:700;color:#15803d;">กรุณาเลือกสินค้าก่อน</div>
   <div class="del-sub" id="del-sub" style="font-size:12px;color:#166534;margin-top:2px;">ระยะเวลาจะแสดงหลังเลือกรายการ</div>
@@ -845,6 +845,10 @@ select{flex:1;min-width:100px;font-size:12px;padding:6px 8px;border-radius:8px;b
     <div style="font-size:11px;color:#1a1a1a;">(ขึ้นอยู่กับพื้นที่และขนส่ง)</div>
   </div>
 </div>
+<!-- Banner เตือนวันหยุดล่วงหน้า 2 สัปดาห์ -->
+<div id="holiday-banner" style="display:none;background:#fff3e0;border:1.5px solid #ffa726;border-radius:12px;padding:12px 14px;margin-bottom:8px;text-align:center;"></div>
+<!-- เตือนวันจัดส่งตรงวันหยุด -->
+<div id="delivery-holiday-warn" style="display:none;background:#fff5f5;border:1.5px solid #fca5a5;border-radius:12px;padding:12px 14px;margin-bottom:8px;text-align:center;"></div>
 <div class="file-sec">
   <div class="sec-title">วิธีส่งไฟล์รูปให้เรา</div>
   <div class="file-row"><div style="font-size:20px;">💬</div><div><div style="font-size:13px;font-weight:600;">LINE</div><div style="font-size:12px;color:#aaa;">ส่งไฟล์รูปทาง LINE หลังยืนยันออเดอร์</div></div></div>
@@ -1094,6 +1098,8 @@ function loadHolidaysFromSheet(){
       });
       _holidaysLoaded=true;
       recalc();
+      updateHolidayBanners();
+      if(typeof calcDelivery==='function') calcDelivery();
     }catch(e){_cachedHolidays=[];_holidaysLoaded=true;}
   }).catch(function(){_cachedHolidays=[];_holidaysLoaded=true;});
 }
@@ -1108,7 +1114,64 @@ function isHoliday(d){
   return holidays.some(function(h){return h.date===key;});
 }
 function isWorkday(d){
-  return d.getDay()!==0 && !isHoliday(d);
+  if(d.getDay()===0) return false; // อาทิตย์หยุดเสมอ
+  if(!_holidaysLoaded) return true;
+  return !isHoliday(d);
+}
+
+function updateHolidayBanners(){
+  if(!_holidaysLoaded)return;
+  var holidays=loadHolidays();
+  var now=new Date();
+  var twoWeeks=new Date(now);twoWeeks.setDate(twoWeeks.getDate()+14);
+
+  // หาวันหยุดที่อยู่ใน 2 สัปดาห์ข้างหน้า
+  var upcoming=holidays.filter(function(h){
+    var p=h.date.split('-');
+    var d=new Date(+p[0],+p[1]-1,+p[2]);
+    return d>=now&&d<=twoWeeks;
+  });
+
+  var banner=document.getElementById('holiday-banner');
+  if(upcoming.length>0){
+    // หาช่วงวันหยุด
+    var dates=upcoming.map(function(h){var p=h.date.split('-');return new Date(+p[0],+p[1]-1,+p[2]);});
+    dates.sort(function(a,b){return a-b;});
+    var first=dates[0],last=dates[dates.length-1];
+    var thaiMonths=['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'];
+    var firstStr=first.getDate()+' '+thaiMonths[first.getMonth()];
+    var lastStr=last.getDate()+' '+thaiMonths[last.getMonth()];
+    var rangeStr=first.getDate()===last.getDate()&&first.getMonth()===last.getMonth()?firstStr:firstStr+'-'+lastStr;
+    // คำนวณ "สั่งด่วนก่อน" = 7 วันทำการก่อนวันหยุดแรก
+    var deadline=new Date(first);var countBack=0;
+    while(countBack<7){deadline.setDate(deadline.getDate()-1);if(deadline.getDay()!==0)countBack++;}
+    var deadlineStr=deadline.getDate()+' '+thaiMonths[deadline.getMonth()];
+    banner.style.display='block';
+    banner.innerHTML='<div style="font-size:13px;font-weight:700;color:#e65100;">🏠 ร้านหยุด '+rangeStr+'</div>'
+      +'<div style="font-size:12px;color:#e65100;margin-top:4px;">⚡ สั่งด่วนก่อน <b>'+deadlineStr+'</b> นะคะ 💕</div>';
+  } else {
+    banner.style.display='none';
+  }
+
+  // เตือนถ้าวันจัดส่งตรงวันหยุด (ดูจาก del-txt)
+  var delWarn=document.getElementById('delivery-holiday-warn');
+  var delTxt=document.getElementById('del-txt').textContent;
+  // หาวันจัดส่งจาก del-txt แล้วเช็คว่าตรงวันหยุดไหม
+  var skipped=holidays.filter(function(h){
+    var p=h.date.split('-');
+    var d=new Date(+p[0],+p[1]-1,+p[2]);
+    return d>=now;
+  });
+  // ถ้ามีวันจัดส่งและมีวันหยุดที่ถูกข้าม
+  if(delTxt.indexOf('จัดส่งงานภายใน')>=0&&skipped.length>0){
+    // เช็คว่าวันจัดส่งมีการเลื่อนเนื่องจากวันหยุดไหม โดยดูจาก holidays ที่อยู่ระหว่างวันนี้และวันจัดส่ง
+    delWarn.style.display='block';
+    var thaiMonths2=['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'];
+    var skipDates=skipped.map(function(h){var p=h.date.split('-');return (new Date(+p[0],+p[1]-1,+p[2])).getDate()+' '+thaiMonths2[(new Date(+p[0],+p[1]-1,+p[2])).getMonth()];});
+    delWarn.innerHTML='<div style="font-size:12px;font-weight:700;color:#dc2626;">⚠️ มีวันหยุดในช่วงผลิต ('+skipDates.join(', ')+') — วันจัดส่งถูกเลื่อนออกไปอัตโนมัติแล้วค่ะ</div>';
+  } else {
+    delWarn.style.display='none';
+  }
 }
 
 // ===== HELPERS =====
@@ -2016,6 +2079,7 @@ function recalc(){
   document.getElementById('del-txt').textContent=dTxt;
   document.getElementById('del-sub').textContent=dSub;
   if(typeof calcDelivery==='function') calcDelivery();
+  updateHolidayBanners();
   renderSummary();
 }
 
