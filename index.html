@@ -1061,7 +1061,7 @@ function calcGiftTotal(g){
   if(g.kdQty>0)t+=KD_PRICE*g.kdQty;
   if(g.pkgHead){
     var mi=g.prints&&g.prints[0]?g.prints[0].printIdx:0;
-    t+=(mi>=9)?5:(mi===9||mi===8)?3:2;
+    t+=(mi>=9)?5:2;
   }
   if(g.pkgLabel)t+=1.5;
   var needsMin10=(g.stickers||[]).some(function(s){return s.stickerQty>0;})||g.dc50Qty>0||g.pcQty>0||g.memoQty>0;
@@ -1798,7 +1798,7 @@ function renderGift(){
     var minSet=needsMin10?10:1;
     if(g.setQty>0&&g.setQty<minSet){giftItems[gi].setQty=minSet;g.setQty=minSet;}
     var mi=g.prints&&g.prints[0]?g.prints[0].printIdx:0;
-    var headPrice=(mi>=10)?5:(mi===9)?3:2;
+    var headPrice=(mi>=9)?5:2;
     var row=document.createElement('div');row.className='item-row';
 
     var html='<span class="i-num">'+(gi+1)+'</span><div class="i-inner">';
@@ -2041,7 +2041,21 @@ function renderSummary(){
     });}
   });
   // Gift
-  for(var gi=0;gi<giftItems.length;gi++){var res=calcGiftTotal(giftItems[gi]);if(res.t<=0){continue;}var gNames=[];(giftItems[gi].prints||[]).forEach(function(p){if(p.printQty>0&&GIFT_PRINT_ITEMS[p.printIdx])gNames.push(GIFT_PRINT_ITEMS[p.printIdx].label+' x'+p.printQty);});items.push({name:'กิ๊ฟอะเวย์ เซ็ตที่'+(gi+1),detail:(gNames.length?gNames.join(', ')+' ':'')+' × '+giftItems[gi].setQty+' เซ็ต',price:res.t*giftItems[gi].setQty});sub+=res.t*giftItems[gi].setQty;}
+  for(var gi=0;gi<giftItems.length;gi++){
+    var g2=giftItems[gi];var res=calcGiftTotal(g2);if(res.t<=0){continue;}
+    var gDetails=[];
+    (g2.prints||[]).forEach(function(p){if(p.printQty>0&&GIFT_PRINT_ITEMS[p.printIdx])gDetails.push('รูป: '+GIFT_PRINT_ITEMS[p.printIdx].label+' x'+p.printQty);});
+    (g2.stickers||[]).forEach(function(s){if(s.stickerQty>0&&SSET[s.stickerSizeIdx])gDetails.push('Sticker: '+SSET[s.stickerSizeIdx].size+' '+s.stickerCoat+' x'+s.stickerQty);});
+    if(g2.hasDc50&&GIFT_DC50&&GIFT_DC50[g2.dc50SizeIdx])gDetails.push('Die-cut 50%: '+GIFT_DC50[g2.dc50SizeIdx].size+' x'+g2.dc50Qty);
+    if(g2.hasPC)gDetails.push('Photocard: '+PC_TYPES[g2.pcTypeIdx].label+' x'+g2.pcQty);
+    if(g2.hasMemo)gDetails.push('Memo Pad x'+g2.memoQty+'ก้อน');
+    if(g2.hasKP)gDetails.push('พวงกุญแจรูป x'+g2.kpQty);
+    if(g2.hasKD)gDetails.push('พวงกุญแจ Die-cut x'+g2.kdQty);
+    if(g2.pkgHead)gDetails.push('หัวแพ็ก');
+    if(g2.pkgLabel)gDetails.push('Sticker Label 4×6 cm');
+    items.push({name:'🎁 กิ๊ฟอะเวย์ เซ็ตที่'+(gi+1)+' × '+g2.setQty+' เซ็ต',detail:gDetails.join(' | '),price:res.t*g2.setQty});
+    sub+=res.t*g2.setQty;
+  }
 
   var box=document.getElementById('order-summary');
   var itemsEl=document.getElementById('summary-items');
