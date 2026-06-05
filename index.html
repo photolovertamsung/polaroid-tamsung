@@ -120,6 +120,8 @@ select{flex:1;min-width:100px;font-size:12px;padding:6px 8px;border-radius:8px;b
 </div>
 
 <!-- Quick Access Buttons -->
+<div id="holiday-banner" style="display:none;background:#fff3e0;border:1.5px solid #ffa726;border-radius:12px;padding:12px 14px;margin-bottom:8px;"></div>
+<div id="delivery-holiday-warn" style="display:none;background:#fff5f5;border:1.5px solid #fca5a5;border-radius:12px;padding:12px 14px;margin-bottom:8px;text-align:center;"></div>
 <div style="display:flex;gap:8px;margin-bottom:12px;">
   <button onclick="switchTab('checkdel')" style="flex:1;padding:12px 8px;border-radius:12px;background:#fff8e1;border:2px solid #ffc107;color:#e65100;font-size:13px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;">
     🗓 เช็ครอบจัดส่ง
@@ -845,10 +847,7 @@ select{flex:1;min-width:100px;font-size:12px;padding:6px 8px;border-radius:8px;b
     <div style="font-size:11px;color:#1a1a1a;">(ขึ้นอยู่กับพื้นที่และขนส่ง)</div>
   </div>
 </div>
-<!-- Banner เตือนวันหยุดล่วงหน้า 2 สัปดาห์ -->
-<div id="holiday-banner" style="display:none;background:#fff3e0;border:1.5px solid #ffa726;border-radius:12px;padding:12px 14px;margin-bottom:8px;text-align:center;"></div>
-<!-- เตือนวันจัดส่งตรงวันหยุด -->
-<div id="delivery-holiday-warn" style="display:none;background:#fff5f5;border:1.5px solid #fca5a5;border-radius:12px;padding:12px 14px;margin-bottom:8px;text-align:center;"></div>
+<!-- Banner เตือนวันหยุด (ย้ายไปด้านบนแล้ว) -->
 <div class="file-sec">
   <div class="sec-title">วิธีส่งไฟล์รูปให้เรา</div>
   <div class="file-row"><div style="font-size:20px;">💬</div><div><div style="font-size:13px;font-weight:600;">LINE</div><div style="font-size:12px;color:#aaa;">ส่งไฟล์รูปทาง LINE หลังยืนยันออเดอร์</div></div></div>
@@ -1098,7 +1097,6 @@ function loadHolidaysFromSheet(){
       });
       _holidaysLoaded=true;
       recalc();
-      updateHolidayBanners();
       if(typeof calcDelivery==='function') calcDelivery();
     }catch(e){_cachedHolidays=[];_holidaysLoaded=true;}
   }).catch(function(){_cachedHolidays=[];_holidaysLoaded=true;});
@@ -1119,56 +1117,63 @@ function isWorkday(d){
   return !isHoliday(d);
 }
 
-function updateHolidayBanners(){
+function updateHolidayBanners(deliveryDate){
   if(!_holidaysLoaded)return;
   var holidays=loadHolidays();
-  var now=new Date();
-  var twoWeeks=new Date(now);twoWeeks.setDate(twoWeeks.getDate()+14);
+  var now=new Date();now.setHours(0,0,0,0);
+  var thaiMonths=['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'];
 
-  // หาวันหยุดที่อยู่ใน 2 สัปดาห์ข้างหน้า
+  // ── Banner สีส้ม: วันหยุดทั้งหมดที่ยังไม่ผ่าน แยกตามเดือน ──
   var upcoming=holidays.filter(function(h){
-    var p=h.date.split('-');
-    var d=new Date(+p[0],+p[1]-1,+p[2]);
-    return d>=now&&d<=twoWeeks;
+    var p=h.date.split('-');var d=new Date(+p[0],+p[1]-1,+p[2]);
+    return d>=now;
   });
-
   var banner=document.getElementById('holiday-banner');
   if(upcoming.length>0){
-    // หาช่วงวันหยุด
-    var dates=upcoming.map(function(h){var p=h.date.split('-');return new Date(+p[0],+p[1]-1,+p[2]);});
-    dates.sort(function(a,b){return a-b;});
-    var first=dates[0],last=dates[dates.length-1];
-    var thaiMonths=['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'];
-    var firstStr=first.getDate()+' '+thaiMonths[first.getMonth()];
-    var lastStr=last.getDate()+' '+thaiMonths[last.getMonth()];
-    var rangeStr=first.getDate()===last.getDate()&&first.getMonth()===last.getMonth()?firstStr:firstStr+'-'+lastStr;
-    // คำนวณ "สั่งด่วนก่อน" = 7 วันทำการก่อนวันหยุดแรก
-    var deadline=new Date(first);var countBack=0;
-    while(countBack<7){deadline.setDate(deadline.getDate()-1);if(deadline.getDay()!==0)countBack++;}
-    var deadlineStr=deadline.getDate()+' '+thaiMonths[deadline.getMonth()];
+    var byMonth={};
+    upcoming.forEach(function(h){
+      var p=h.date.split('-');var d=new Date(+p[0],+p[1]-1,+p[2]);
+      var key=p[0]+'-'+p[1];
+      if(!byMonth[key])byMonth[key]={dates:[],month:d.getMonth(),year:+p[0]};
+      byMonth[key].dates.push(d);
+    });
+    var html='<div style="font-size:13px;font-weight:700;color:#e65100;margin-bottom:6px;">🏠 วันหยุดร้านที่จะถึง</div>';
+    Object.keys(byMonth).sort().forEach(function(key){
+      var grp=byMonth[key];
+      grp.dates.sort(function(a,b){return a-b;});
+      var first=grp.dates[0],last=grp.dates[grp.dates.length-1];
+      var firstStr=first.getDate()+' '+thaiMonths[grp.month];
+      var lastStr=last.getDate()+' '+thaiMonths[grp.month];
+      var rangeStr=first.getTime()===last.getTime()?firstStr:first.getDate()+'-'+lastStr;
+      var deadline=new Date(first);var countBack=0;
+      while(countBack<7){deadline.setDate(deadline.getDate()-1);if(deadline.getDay()!==0)countBack++;}
+      var deadlineStr=deadline.getDate()+' '+thaiMonths[deadline.getMonth()];
+      html+='<div style="font-size:12px;color:#e65100;margin-bottom:3px;">• '+rangeStr+' — สั่งด่วนก่อน <b>'+deadlineStr+'</b> นะคะ 💕</div>';
+    });
     banner.style.display='block';
-    banner.innerHTML='<div style="font-size:13px;font-weight:700;color:#e65100;">🏠 ร้านหยุด '+rangeStr+'</div>'
-      +'<div style="font-size:12px;color:#e65100;margin-top:4px;">⚡ สั่งด่วนก่อน <b>'+deadlineStr+'</b> นะคะ 💕</div>';
+    banner.innerHTML=html;
   } else {
     banner.style.display='none';
   }
 
-  // เตือนถ้าวันจัดส่งตรงวันหยุด (ดูจาก del-txt)
+  // ── Banner สีแดง: มีวันหยุดในช่วงผลิต ──
   var delWarn=document.getElementById('delivery-holiday-warn');
-  var delTxt=document.getElementById('del-txt').textContent;
-  // หาวันจัดส่งจาก del-txt แล้วเช็คว่าตรงวันหยุดไหม
-  var skipped=holidays.filter(function(h){
-    var p=h.date.split('-');
-    var d=new Date(+p[0],+p[1]-1,+p[2]);
-    return d>=now;
-  });
-  // ถ้ามีวันจัดส่งและมีวันหยุดที่ถูกข้าม
-  if(delTxt.indexOf('จัดส่งงานภายใน')>=0&&skipped.length>0){
-    // เช็คว่าวันจัดส่งมีการเลื่อนเนื่องจากวันหยุดไหม โดยดูจาก holidays ที่อยู่ระหว่างวันนี้และวันจัดส่ง
-    delWarn.style.display='block';
-    var thaiMonths2=['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'];
-    var skipDates=skipped.map(function(h){var p=h.date.split('-');return (new Date(+p[0],+p[1]-1,+p[2])).getDate()+' '+thaiMonths2[(new Date(+p[0],+p[1]-1,+p[2])).getMonth()];});
-    delWarn.innerHTML='<div style="font-size:12px;font-weight:700;color:#dc2626;">⚠️ มีวันหยุดในช่วงผลิต ('+skipDates.join(', ')+') — วันจัดส่งถูกเลื่อนออกไปอัตโนมัติแล้วค่ะ</div>';
+  if(deliveryDate&&holidays.length>0){
+    var skipped=holidays.filter(function(h){
+      var p=h.date.split('-');var d=new Date(+p[0],+p[1]-1,+p[2]);
+      return d>now&&d<=deliveryDate;
+    });
+    if(skipped.length>0){
+      var skipDates=skipped.map(function(h){
+        var p=h.date.split('-');var d=new Date(+p[0],+p[1]-1,+p[2]);
+        return d.getDate()+' '+thaiMonths[d.getMonth()];
+      });
+      var delStr=deliveryDate.getDate()+' '+thaiMonths[deliveryDate.getMonth()];
+      delWarn.style.display='block';
+      delWarn.innerHTML='<div style="font-size:12px;font-weight:700;color:#dc2626;">⚠️ มีวันหยุดในช่วงผลิต ('+skipDates.join(', ')+') — จัดส่งเลื่อนเป็น <b>'+delStr+'</b> นะคะ</div>';
+    } else {
+      delWarn.style.display='none';
+    }
   } else {
     delWarn.style.display='none';
   }
@@ -2079,7 +2084,22 @@ function recalc(){
   document.getElementById('del-txt').textContent=dTxt;
   document.getElementById('del-sub').textContent=dSub;
   if(typeof calcDelivery==='function') calcDelivery();
-  updateHolidayBanners();
+  // คำนวณ deliveryDate สำหรับ banner
+  var _delDate=null;
+  try{
+    var _delDays2=hasSlow?7:((hasPC||giftHasPC2)?3:(hasPrint?2:0));
+    if(_delDays2>0){
+      var _base=new Date();
+      var _now2=new Date();
+      if(_now2.getHours()>=20)_base.setDate(_base.getDate()+1);
+      while(!isWorkday(_base))_base.setDate(_base.getDate()+1);
+      var _cnt=0;var _d=new Date(_base);
+      while(_cnt<_delDays2){_d.setDate(_d.getDate()+1);if(isWorkday(_d))_cnt++;}
+      while(!isWorkday(_d))_d.setDate(_d.getDate()+1);
+      _delDate=_d;
+    }
+  }catch(e){}
+  updateHolidayBanners(_delDate);
   renderSummary();
 }
 
