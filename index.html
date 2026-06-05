@@ -1069,12 +1069,37 @@ function calcGiftTotal(g){
 }
 
 // ===== HOLIDAY MANAGER =====
-var HOLIDAY_KEY='polaroid_holidays';
-function loadHolidays(){
-  try{var v=localStorage.getItem(HOLIDAY_KEY);return v?JSON.parse(v):[];}catch(e){return [];}
+var SHEET_ID='14oLUa0F6VlCxQ2LZGsJgV4oGXICylQPC6vO_aq6deiI';
+var SHEET_TAB='วันหยุด';
+var _cachedHolidays=null;
+var _holidaysLoaded=false;
+
+function loadHolidaysFromSheet(){
+  var url='https://docs.google.com/spreadsheets/d/'+SHEET_ID+'/gviz/tq?tqx=out:json&sheet='+encodeURIComponent(SHEET_TAB)+'&t='+Date.now();
+  fetch(url).then(function(r){return r.text();}).then(function(txt){
+    try{
+      var json=JSON.parse(txt.replace(/^[^(]+\(|\);?\s*$/g,''));
+      var rows=json.table.rows||[];
+      _cachedHolidays=[];
+      rows.forEach(function(row){
+        if(!row.c||!row.c[0]||!row.c[0].v)return;
+        var v=row.c[0].v; // เช่น "Date(2025,5,26)"
+        var m=String(v).match(/Date\((\d+),(\d+),(\d+)\)/);
+        if(m){
+          var yy=parseInt(m[1]),mm=parseInt(m[2]),dd=parseInt(m[3]);
+          var key=yy+'-'+String(mm+1).padStart(2,'0')+'-'+String(dd).padStart(2,'0');
+          var note=row.c[1]&&row.c[1].v?row.c[1].v:'';
+          _cachedHolidays.push({date:key,note:note});
+        }
+      });
+      _holidaysLoaded=true;
+      recalc();
+    }catch(e){_cachedHolidays=[];_holidaysLoaded=true;}
+  }).catch(function(){_cachedHolidays=[];_holidaysLoaded=true;});
 }
-function saveHolidays(arr){
-  try{localStorage.setItem(HOLIDAY_KEY,JSON.stringify(arr));}catch(e){}
+
+function loadHolidays(){
+  return _cachedHolidays||[];
 }
 function isHoliday(d){
   var holidays=loadHolidays();
@@ -2114,7 +2139,16 @@ function copyOrder(){
       sub+=p;
     });
   });
-  for(var gi=0;gi<giftItems.length;gi++){var g=giftItems[gi];var res=calcGiftTotal(g);if(res.t<=0)continue;giftL.push('• เซ็ตที่'+(gi+1)+' ('+g.setQty+'เซ็ต) รวม '+(res.t*g.setQty).toFixed(2)+'฿');for(var pi2=0;pi2<g.prints.length;pi2++){var p=g.prints[pi2];if(p.printQty>0&&GIFT_PRINT_ITEMS[p.printIdx])giftL.push('  - รูป: '+GIFT_PRINT_ITEMS[p.printIdx].label+' '+p.printCoat+' x'+p.printQty);}for(var si2=0;si2<g.stickers.length;si2++){var s2=g.stickers[si2];if(s2.stickerQty>0&&SSET[s2.stickerSizeIdx])giftL.push('  - Sticker: '+SSET[s2.stickerSizeIdx].size+' '+s2.stickerCoat+' x'+s2.stickerQty);}if(g.dc50Qty>0&&GIFT_DC50[g.dc50SizeIdx])giftL.push('  - Die-cut 50% '+GIFT_DC50[g.dc50SizeIdx].size+' x'+g.dc50Qty);if(g.pcQty>0)giftL.push('  - Photocard: '+PC_TYPES[g.pcTypeIdx].label+' x'+g.pcQty);if(g.memoQty>0)giftL.push('  - Memo Pad x'+g.memoQty+'ก้อน');if(g.kpQty>0)giftL.push('  - พวงกุญแจรูป x'+g.kpQty);if(g.kdQty>0)giftL.push('  - พวงกุญแจ Die-cut x'+g.kdQty);if(g.pkgHead)giftL.push('  - หัวแพ็ก');if(g.pkgLabel)giftL.push('  - Sticker Label 4×6 cm');
+  for(var gi=0;gi<giftItems.length;gi++){var g=giftItems[gi];var res=calcGiftTotal(g);if(res.t<=0)continue;giftL.push('• เซ็ตที่'+(gi+1)+' ('+g.setQty+'เซ็ต) รวม '+(res.t*g.setQty).toFixed(2)+'฿');
+    for(var pi2=0;pi2<g.prints.length;pi2++){var p=g.prints[pi2];if(p.printQty>0&&GIFT_PRINT_ITEMS[p.printIdx])giftL.push('  - รูป: '+GIFT_PRINT_ITEMS[p.printIdx].label+' | '+p.printCoat+' x'+p.printQty);}
+    for(var si2=0;si2<g.stickers.length;si2++){var s2=g.stickers[si2];if(s2.stickerQty>0&&SSET[s2.stickerSizeIdx])giftL.push('  - Sticker: '+SSET[s2.stickerSizeIdx].size+' | '+s2.stickerCoat+' x'+s2.stickerQty);}
+    if(g.dc50Qty>0&&GIFT_DC50[g.dc50SizeIdx]){var dc=GIFT_DC50[g.dc50SizeIdx];var dcU=SPECIAL.indexOf(g.dc50Coat)>=0?dc.special:dc.clear;giftL.push('  - Die-cut 50%: '+dc.size+' | '+g.dc50Coat+' x'+g.dc50Qty+' ('+dcU+'฿/แผ่น)');}
+    if(g.pcQty>0){var pt=PC_TYPES[g.pcTypeIdx];giftL.push('  - Photocard: '+pt.label+' | '+g.pcCoat+' x'+g.pcQty+' ('+pt.price+'฿/ใบ)');}
+    if(g.memoQty>0){var mo=MEMO_OPTS[g.memoOptIdx];giftL.push('  - Memo Pad: '+mo.sheets+'แผ่น/ก้อน x'+g.memoQty+'ก้อน ('+mo.price+'฿/ก้อน)');}
+    if(g.kpQty>0){var kpU=KP_BASE+(g.kpCoat!=='ไม่เคลือบ'?KP_COAT:0);giftL.push('  - พวงกุญแจรูป: '+g.kpCoat+' x'+g.kpQty+' ('+kpU+'฿/ชิ้น)');}
+    if(g.kdQty>0)giftL.push('  - พวงกุญแจ Die-cut: '+g.kdCoat+' x'+g.kdQty+' ('+KD_PRICE+'฿/ชิ้น)');
+    if(g.pkgHead)giftL.push('  - หัวแพ็ก');
+    if(g.pkgLabel)giftL.push('  - Sticker Label 4×6 cm');
     // คำนวณวันตาม logic ใหม่
     var gHasSlow=(g.stickers&&g.stickers.some(function(s){return s.stickerQty>0;}))||g.memoQty>0||g.kdQty>0||g.dc50Qty>0;
     var gHasPC=g.pcQty>0;
@@ -2181,6 +2215,7 @@ function resetOrder(){
 
 // Init
 renderID();renderSTD();renderCustom();renderExtra();renderDiecut();renderSset();renderGift();recalc();
+loadHolidaysFromSheet();
 </script>
 
 <!-- Social Footer -->
