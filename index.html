@@ -1055,8 +1055,8 @@ function calcGiftTotal(g){
     if(s.stickerQty>0){var sz=SSET[s.stickerSizeIdx];if(sz){var sU=s.stickerCoat==='เคลือบใสเงา'?sz.clear:sz.special;t+=sU*s.stickerQty;}}
   }
   if(g.dc50Qty>0){var dc=GIFT_DC50[g.dc50SizeIdx];if(dc)t+=(SPECIAL.indexOf(g.dc50Coat)>=0?dc.special:dc.clear)*g.dc50Qty;}
-  if(g.pcQty>0)t+=PC_TYPES[g.pcTypeIdx].price*g.pcQty;
-  if(g.memoQty>0)t+=MEMO_OPTS[g.memoOptIdx].price*g.memoQty;
+  if(g.pcQty>0&&PC_TYPES[g.pcTypeIdx])t+=PC_TYPES[g.pcTypeIdx].price*g.pcQty;
+  if(g.memoQty>0&&MEMO_OPTS[g.memoOptIdx])t+=MEMO_OPTS[g.memoOptIdx].price*g.memoQty;
   if(g.kpQty>0)t+=(KP_BASE+(g.kpCoat!=='ไม่เคลือบ'?KP_COAT:0))*g.kpQty;
   if(g.kdQty>0)t+=KD_PRICE*g.kdQty;
   if(g.pkgHead){
@@ -2046,11 +2046,11 @@ function renderSummary(){
     var gDetails=[];
     (g2.prints||[]).forEach(function(p){if(p.printQty>0&&GIFT_PRINT_ITEMS[p.printIdx])gDetails.push('รูป: '+GIFT_PRINT_ITEMS[p.printIdx].label+' x'+p.printQty);});
     (g2.stickers||[]).forEach(function(s){if(s.stickerQty>0&&SSET[s.stickerSizeIdx])gDetails.push('Sticker: '+SSET[s.stickerSizeIdx].size+' '+s.stickerCoat+' x'+s.stickerQty);});
-    if(g2.hasDc50&&GIFT_DC50&&GIFT_DC50[g2.dc50SizeIdx])gDetails.push('Die-cut 50%: '+GIFT_DC50[g2.dc50SizeIdx].size+' x'+g2.dc50Qty);
-    if(g2.hasPC)gDetails.push('Photocard: '+PC_TYPES[g2.pcTypeIdx].label+' x'+g2.pcQty);
-    if(g2.hasMemo)gDetails.push('Memo Pad x'+g2.memoQty+'ก้อน');
-    if(g2.hasKP)gDetails.push('พวงกุญแจรูป x'+g2.kpQty);
-    if(g2.hasKD)gDetails.push('พวงกุญแจ Die-cut x'+g2.kdQty);
+    if(g2.dc50Qty>0&&GIFT_DC50&&GIFT_DC50[g2.dc50SizeIdx])gDetails.push('Die-cut 50%: '+GIFT_DC50[g2.dc50SizeIdx].size+' x'+g2.dc50Qty);
+    if(g2.pcQty>0)gDetails.push('Photocard: '+PC_TYPES[g2.pcTypeIdx].label+' x'+g2.pcQty);
+    if(g2.memoQty>0)gDetails.push('Memo Pad x'+g2.memoQty+'ก้อน');
+    if(g2.kpQty>0)gDetails.push('พวงกุญแจรูป x'+g2.kpQty);
+    if(g2.kdQty>0)gDetails.push('พวงกุญแจ Die-cut x'+g2.kdQty);
     if(g2.pkgHead)gDetails.push('หัวแพ็ก');
     if(g2.pkgLabel)gDetails.push('Sticker Label 4×6 cm');
     items.push({name:'🎁 กิ๊ฟอะเวย์ เซ็ตที่'+(gi+1)+' × '+g2.setQty+' เซ็ต',detail:gDetails.join(' | '),price:res.t*g2.setQty});
@@ -2125,7 +2125,7 @@ function copyOrder(){
       sub+=p;
     });
   });
-  for(var gi=0;gi<giftItems.length;gi++){var g=giftItems[gi];var res=calcGiftTotal(g);if(res.t<=0)continue;giftL.push('• เซ็ตที่'+(gi+1)+' ('+g.setQty+'เซ็ต) รวม '+(res.t*g.setQty).toFixed(2)+'฿');for(var pi2=0;pi2<g.prints.length;pi2++){var p=g.prints[pi2];if(p.printQty>0&&GIFT_PRINT_ITEMS[p.printIdx])giftL.push('  - รูป: '+GIFT_PRINT_ITEMS[p.printIdx].label+' '+p.printCoat+' x'+p.printQty);}for(var si2=0;si2<g.stickers.length;si2++){var s2=g.stickers[si2];if(s2.stickerQty>0&&SSET[s2.stickerSizeIdx])giftL.push('  - Sticker: '+SSET[s2.stickerSizeIdx].size+' '+s2.stickerCoat+' x'+s2.stickerQty);}if(g.hasDc50&&GIFT_DC50[g.dc50SizeIdx])giftL.push('  - Die-cut 50% '+GIFT_DC50[g.dc50SizeIdx].size+' x'+g.dc50Qty);if(g.hasPC)giftL.push('  - Photocard: '+PC_TYPES[g.pcTypeIdx].label+' x'+g.pcQty);if(g.hasMemo)giftL.push('  - Memo Pad x'+g.memoQty+'ก้อน');if(g.hasKP)giftL.push('  - พวงกุญแจรูป x'+g.kpQty);if(g.hasKD)giftL.push('  - พวงกุญแจ Die-cut x'+g.kdQty);if(g.pkgHead)giftL.push('  - หัวแพ็ก');if(g.pkgLabel)giftL.push('  - Sticker Label 4×6 cm');sub+=res.t*g.setQty;hasPrint=true;hasSlow=true;}
+  for(var gi=0;gi<giftItems.length;gi++){var g=giftItems[gi];var res=calcGiftTotal(g);if(res.t<=0)continue;giftL.push('• เซ็ตที่'+(gi+1)+' ('+g.setQty+'เซ็ต) รวม '+(res.t*g.setQty).toFixed(2)+'฿');for(var pi2=0;pi2<g.prints.length;pi2++){var p=g.prints[pi2];if(p.printQty>0&&GIFT_PRINT_ITEMS[p.printIdx])giftL.push('  - รูป: '+GIFT_PRINT_ITEMS[p.printIdx].label+' '+p.printCoat+' x'+p.printQty);}for(var si2=0;si2<g.stickers.length;si2++){var s2=g.stickers[si2];if(s2.stickerQty>0&&SSET[s2.stickerSizeIdx])giftL.push('  - Sticker: '+SSET[s2.stickerSizeIdx].size+' '+s2.stickerCoat+' x'+s2.stickerQty);}if(g.dc50Qty>0&&GIFT_DC50[g.dc50SizeIdx])giftL.push('  - Die-cut 50% '+GIFT_DC50[g.dc50SizeIdx].size+' x'+g.dc50Qty);if(g.pcQty>0)giftL.push('  - Photocard: '+PC_TYPES[g.pcTypeIdx].label+' x'+g.pcQty);if(g.memoQty>0)giftL.push('  - Memo Pad x'+g.memoQty+'ก้อน');if(g.kpQty>0)giftL.push('  - พวงกุญแจรูป x'+g.kpQty);if(g.kdQty>0)giftL.push('  - พวงกุญแจ Die-cut x'+g.kdQty);if(g.pkgHead)giftL.push('  - หัวแพ็ก');if(g.pkgLabel)giftL.push('  - Sticker Label 4×6 cm');sub+=res.t*g.setQty;hasPrint=true;hasSlow=true;}
   if(idL.length||stdL.length||custL.length){lines.push('🖼 งานพิมพ์รูป');idL.concat(stdL).concat(custL).forEach(function(l){lines.push(l);});}
   if(pcL.length){lines.push('🃏 Photocard');pcL.forEach(function(l){lines.push(l);});}
   if(memoL.length){lines.push('📝 Memo Pad');memoL.forEach(function(l){lines.push(l);});}
