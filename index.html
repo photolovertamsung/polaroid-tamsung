@@ -119,10 +119,55 @@ select{flex:1;min-width:100px;font-size:12px;padding:6px 8px;border-radius:8px;b
 <!-- Quick Access Buttons -->
 <div id="holiday-banner" style="display:none;background:#fff3e0;border:1.5px solid #ffa726;border-radius:12px;padding:12px 14px;margin-bottom:8px;text-align:center;"></div>
 <div id="delivery-holiday-warn" style="display:none;background:#fff5f5;border:1.5px solid #fca5a5;border-radius:12px;padding:12px 14px;margin-bottom:8px;text-align:center;"></div>
-<div style="display:flex;gap:8px;margin-bottom:12px;">
-  <button onclick="switchTab('checkdel')" style="flex:1;padding:12px 8px;border-radius:12px;background:#fff8e1;border:2px solid #ffc107;color:#e65100;font-size:13px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;">
-    🗓 เช็ครอบจัดส่ง
+
+<!-- เช็ครอบจัดส่ง accordion -->
+<div style="margin-bottom:12px;">
+  <button onclick="toggleCheckDel(this)" id="checkdel-btn" style="width:100%;padding:14px 16px;border-radius:12px;background:#1a1a1a;border:none;color:#fff;font-size:15px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;letter-spacing:0.3px;">
+    <span style="flex:1;text-align:center;">🗓 เช็ครอบจัดส่ง</span>
+    <span id="checkdel-arrow" style="font-size:11px;opacity:0.6;transition:transform 0.2s;">▼</span>
   </button>
+  <div id="checkdel-body" style="display:none;background:#fafafa;border:1.5px solid #333;border-top:none;border-radius:0 0 12px 12px;padding:14px;">
+    <div style="font-size:12px;color:#666;font-weight:600;text-align:center;margin-bottom:10px;">(สำหรับลูกค้าที่อยากเช็ควันจัดส่งก่อนสั่งค่ะ)</div>
+    <div style="font-size:11px;color:#888;text-align:center;margin-bottom:10px;">⏰ Cut-off 20:00 น. • 🏠 เสาร์-อาทิตย์ร้านหยุด</div>
+
+    <div style="margin-bottom:10px;">
+      <div style="font-size:11px;font-weight:700;color:#666;margin-bottom:4px;">เลือกวันที่โอนเงิน / สั่งซื้อ</div>
+      <input type="date" id="cd-date" onchange="calcDelivery()" style="width:100%;font-size:13px;padding:8px 10px;border-radius:8px;border:1.5px solid #ddd;background:#fff;color:#1a1a1a;" />
+    </div>
+
+    <div style="display:flex;gap:6px;margin-bottom:10px;">
+      <label style="flex:1;display:flex;align-items:center;gap:6px;padding:8px 10px;border-radius:8px;border:1.5px solid #ddd;cursor:pointer;background:#fff;font-size:12px;font-weight:600;color:#333;" id="cd-before-lbl">
+        <input type="radio" name="cd-time" value="before" onchange="calcDelivery()" style="accent-color:#333;width:14px;height:14px;" checked> ก่อน 20:00 น.
+      </label>
+      <label style="flex:1;display:flex;align-items:center;gap:6px;padding:8px 10px;border-radius:8px;border:1.5px solid #ddd;cursor:pointer;background:#fff;font-size:12px;font-weight:600;color:#333;" id="cd-after-lbl">
+        <input type="radio" name="cd-time" value="after" onchange="calcDelivery()" style="accent-color:#333;width:14px;height:14px;"> หลัง 20:00 น.
+      </label>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:12px;">
+      <label style="display:flex;align-items:flex-start;gap:8px;padding:10px;border-radius:8px;border:1.5px solid #ddd;cursor:pointer;background:#fff;" id="cd-type1-lbl">
+        <input type="radio" name="cd-type" value="print" onchange="calcDelivery()" style="accent-color:#333;width:14px;height:14px;margin-top:2px;" checked>
+        <div>
+          <div style="font-size:12px;font-weight:600;color:#333;">🖼 งานอัดรูปอย่างเดียว</div>
+          <div style="font-size:11px;color:#aaa;margin-top:1px;">รูปติดบัตร / รูปอัดมาตรฐาน / Custom ขนาด</div>
+        </div>
+      </label>
+      <label style="display:flex;align-items:flex-start;gap:8px;padding:10px;border-radius:8px;border:1.5px solid #ddd;cursor:pointer;background:#fff;" id="cd-type2-lbl">
+        <input type="radio" name="cd-type" value="slow" onchange="calcDelivery()" style="accent-color:#333;width:14px;height:14px;margin-top:2px;">
+        <div>
+          <div style="font-size:12px;font-weight:600;color:#333;">🃏 โฟโต้การ์ด / เมมโม / ไดคัต / สติ๊กเกอร์</div>
+          <div style="font-size:11px;color:#aaa;margin-top:1px;">Photocard / Memo Pad / Die-cut / Sticker Set / พวงกุญแจ / กิ๊ฟอะเวย์</div>
+        </div>
+      </label>
+    </div>
+
+    <div id="cd-holiday-warn" style="display:none;background:#fff3e0;border:1px solid #ffc107;border-radius:8px;padding:8px 12px;font-size:12px;color:#e65100;margin-bottom:8px;"></div>
+    <div id="cd-result" style="display:none;background:#f0fdf4;border:2px solid #86efac;border-radius:10px;padding:12px 14px;text-align:center;">
+      <div style="font-size:11px;color:#166534;font-weight:600;margin-bottom:4px;">📦 รอบจัดส่งของคุณ</div>
+      <div id="cd-result-date" style="font-size:20px;font-weight:700;color:#15803d;margin-bottom:4px;"></div>
+      <div id="cd-result-detail" style="font-size:12px;color:#166534;"></div>
+    </div>
+  </div>
 </div>
 
 <div class="tab-row">
@@ -136,62 +181,7 @@ select{flex:1;min-width:100px;font-size:12px;padding:6px 8px;border-radius:8px;b
 </div>
 <div id="tab-desc" style="font-size:11px;color:#888;text-align:center;padding:6px 12px;margin-bottom:4px;"></div>
 
-<!-- CHECK DELIVERY TAB -->
-<div id="tab-checkdel" style="display:none;">
-  <div class="section">
-    <div class="sec-title">🗓 เช็ครอบจัดส่ง</div>
-    <div class="info-box">⏰ Cut-off time <b>20:00 น.</b> — โอนหลัง 2 ทุ่ม นับเป็นวันถัดไปค่ะ<br>🏠 วันอาทิตย์ร้านหยุด</div>
-
-    <div style="margin-bottom:12px;">
-      <div style="font-size:12px;font-weight:700;color:#888;margin-bottom:6px;text-transform:uppercase;letter-spacing:0.8px;">เลือกวันที่โอนเงิน / สั่งซื้อ</div>
-      <input type="date" id="cd-date" onchange="calcDelivery()" placeholder="กดเลือกวันที่" style="width:100%;font-size:14px;padding:8px 12px;border-radius:10px;border:1px solid #e0e0e0;background:#f8f8f8;color:#1a1a1a;" />
-      <div style="font-size:11px;color:#aaa;margin-top:4px;">👆 กดที่ช่องด้านบนเพื่อเลือกวันที่ค่ะ</div>
-    </div>
-
-    <div style="margin-bottom:12px;">
-      <div style="font-size:12px;font-weight:700;color:#888;margin-bottom:6px;text-transform:uppercase;letter-spacing:0.8px;">เวลาที่โอน</div>
-      <div style="display:flex;gap:8px;">
-        <label style="flex:1;display:flex;align-items:center;gap:8px;padding:10px 12px;border-radius:10px;border:2px solid #e0e0e0;cursor:pointer;background:#f8f8f8;transition:all 0.15s;" id="cd-before-lbl">
-          <input type="radio" name="cd-time" value="before" onchange="calcDelivery()" style="accent-color:#1a1a1a;width:16px;height:16px;" checked>
-          <span style="font-size:13px;font-weight:600;">ก่อน 20:00 น.</span>
-        </label>
-        <label style="flex:1;display:flex;align-items:center;gap:8px;padding:10px 12px;border-radius:10px;border:2px solid #e0e0e0;cursor:pointer;background:#f8f8f8;transition:all 0.15s;" id="cd-after-lbl">
-          <input type="radio" name="cd-time" value="after" onchange="calcDelivery()" style="accent-color:#1a1a1a;width:16px;height:16px;">
-          <span style="font-size:13px;font-weight:600;">หลัง 20:00 น.</span>
-        </label>
-      </div>
-    </div>
-
-    <div style="margin-bottom:16px;">
-      <div style="font-size:12px;font-weight:700;color:#888;margin-bottom:8px;text-transform:uppercase;letter-spacing:0.8px;">ประเภทงานที่สั่ง</div>
-      <div style="display:flex;flex-direction:column;gap:8px;">
-        <label style="display:flex;align-items:flex-start;gap:10px;padding:12px;border-radius:10px;border:2px solid #e0e0e0;cursor:pointer;background:#f8f8f8;" id="cd-type1-lbl">
-          <input type="radio" name="cd-type" value="print" onchange="calcDelivery()" style="accent-color:#1a1a1a;width:16px;height:16px;margin-top:1px;" checked>
-          <div>
-            <div style="font-size:13px;font-weight:600;">🖼 งานอัดรูปอย่างเดียว</div>
-            <div style="font-size:11px;color:#aaa;margin-top:2px;">รูปติดบัตร / รูปอัดมาตรฐาน / Custom ขนาด</div>
-          </div>
-        </label>
-        <label style="display:flex;align-items:flex-start;gap:10px;padding:12px;border-radius:10px;border:2px solid #e0e0e0;cursor:pointer;background:#f8f8f8;" id="cd-type2-lbl">
-          <input type="radio" name="cd-type" value="slow" onchange="calcDelivery()" style="accent-color:#1a1a1a;width:16px;height:16px;margin-top:1px;">
-          <div>
-            <div style="font-size:13px;font-weight:600;">🃏 โฟโต้การ์ด / เมมโม / ไดคัต / สติ๊กเกอร์</div>
-            <div style="font-size:11px;color:#aaa;margin-top:2px;">Photocard / Memo Pad / Die-cut / Sticker Set / พวงกุญแจ / กิ๊ฟอะเวย์</div>
-          </div>
-        </label>
-      </div>
-    </div>
-
-    <div id="cd-holiday-warn" style="display:none;background:#fff3e0;border:1px solid #ffc107;border-radius:10px;padding:10px 14px;font-size:12px;color:#e65100;margin-bottom:10px;"></div>
-    <div id="cd-result" style="display:none;background:#f0fdf4;border:2px solid #86efac;border-radius:12px;padding:14px 16px;text-align:center;">
-      <div style="font-size:12px;color:#166534;font-weight:600;margin-bottom:4px;">📦 รอบจัดส่งของคุณ</div>
-      <div id="cd-result-date" style="font-size:22px;font-weight:700;color:#15803d;margin-bottom:4px;"></div>
-      <div id="cd-result-detail" style="font-size:12px;color:#166534;"></div>
-    </div>
-
-
-  </div>
-</div>
+<!-- tab-checkdel ย้ายเป็น accordion แล้ว -->
 
 <div id="tab-print">
 
@@ -841,7 +831,8 @@ select{flex:1;min-width:100px;font-size:12px;padding:6px 8px;border-radius:8px;b
   <div style="margin-top:10px;padding-top:10px;border-top:1px solid #86efac;text-align:center;">
     <div style="font-size:12px;color:#1a1a1a;font-weight:600;margin-bottom:3px;">📦 ระยะเวลาหลังร้านจัดส่ง: กทม 1-3 วัน / ต่างจังหวัด 2-7 วัน</div>
     <div style="font-size:12px;color:#1a1a1a;font-weight:600;margin-bottom:3px;">⚠️ วันจัดส่ง ≠ วันที่ได้รับของนะคะ</div>
-    <div style="font-size:11px;color:#1a1a1a;">(ขึ้นอยู่กับพื้นที่และขนส่ง)</div>
+    <div style="font-size:11px;color:#1a1a1a;margin-bottom:4px;">(ขึ้นอยู่กับพื้นที่และขนส่ง)</div>
+    <div style="font-size:12px;color:#dc2626;font-weight:600;">⚠️ รอบส่งนี้สำหรับโอนวันนี้</div>
   </div>
 </div>
 <!-- Banner เตือนวันหยุด (ย้ายไปด้านบนแล้ว) -->
@@ -1109,7 +1100,7 @@ function isHoliday(d){
   return holidays.some(function(h){return h.date===key;});
 }
 function isWorkday(d){
-  if(d.getDay()===0) return false; // อาทิตย์หยุดเสมอ
+  if(d.getDay()===0||d.getDay()===6) return false; // อาทิตย์และเสาร์หยุดเสมอ
   if(!_holidaysLoaded) return true;
   return !isHoliday(d);
 }
@@ -1126,6 +1117,7 @@ function updateHolidayBanners(deliveryDate){
     return d>=now;
   });
   var banner=document.getElementById('holiday-banner');
+  if(banner){
   if(upcoming.length>0){
     var byMonth={};
     upcoming.forEach(function(h){
@@ -1134,28 +1126,30 @@ function updateHolidayBanners(deliveryDate){
       if(!byMonth[key])byMonth[key]={dates:[],month:d.getMonth(),year:+p[0]};
       byMonth[key].dates.push(d);
     });
-    var html='<div style="font-size:13px;font-weight:700;color:#e65100;margin-bottom:6px;">🏠 วันหยุดร้านที่จะถึง</div>';
+    var html='<div style="font-size:13px;font-weight:700;color:#e65100;margin-bottom:6px;">📅 แจ้งวันหยุดร้าน</div>';
     Object.keys(byMonth).sort().forEach(function(key){
       var grp=byMonth[key];
       grp.dates.sort(function(a,b){return a-b;});
       var first=grp.dates[0],last=grp.dates[grp.dates.length-1];
       var firstStr=first.getDate()+' '+thaiMonths[grp.month];
       var lastStr=last.getDate()+' '+thaiMonths[grp.month];
-      var rangeStr=first.getTime()===last.getTime()?firstStr:first.getDate()+'-'+lastStr;
+      var rangeStr=first.getTime()===last.getTime()?firstStr:first.getDate()+'–'+lastStr;
       var deadline=new Date(first);var countBack=0;
       while(countBack<7){deadline.setDate(deadline.getDate()-1);if(deadline.getDay()!==0)countBack++;}
       var deadlineStr=deadline.getDate()+' '+thaiMonths[deadline.getMonth()];
-      html+='<div style="font-size:12px;color:#e65100;margin-bottom:3px;">• '+rangeStr+' — สั่งด่วนก่อน <b>'+deadlineStr+'</b> นะคะ 💕</div>';
+      html+='<div style="font-size:12px;color:#e65100;margin-bottom:2px;">• ร้านหยุด '+rangeStr+'</div>';
+      html+='<div style="font-size:12px;color:#e65100;margin-bottom:4px;">• หากต้องการรับงานก่อนวันหยุด รบกวนสั่งภายใน <b>'+deadlineStr+'</b> นะคะ</div>';
     });
     banner.style.display='block';
     banner.innerHTML=html;
   } else {
     banner.style.display='none';
   }
+  } // end banner null check
 
   // ── Banner สีแดง: มีวันหยุดในช่วงผลิต ──
   var delWarn=document.getElementById('delivery-holiday-warn');
-  if(deliveryDate&&holidays.length>0){
+  if(delWarn&&deliveryDate&&holidays.length>0){
     var skipped=holidays.filter(function(h){
       var p=h.date.split('-');var d=new Date(+p[0],+p[1]-1,+p[2]);
       return d>now&&d<=deliveryDate;
@@ -1178,25 +1172,11 @@ function updateHolidayBanners(deliveryDate){
 
 // ===== HELPERS =====
 function addDaysNoSunday(days){
-  // อ่านวันที่จาก input (ถ้ามี) มิเช่นนั้นใช้วันนี้
-  var base;
-  var dateEl=document.getElementById('cd-date');
-  if(dateEl&&dateEl.value){
-    var parts=dateEl.value.split('-');
-    base=new Date(+parts[0],+parts[1]-1,+parts[2]);
-  } else {
-    base=new Date();
-  }
-  // เช็ค cutoff 20:00 น. — ถ้าหลัง 2 ทุ่มหรือกดปุ่ม "หลัง 20:00 น." ให้นับวันถัดไป
-  var timeVal=document.querySelector('input[name="cd-time"]:checked');
-  var isAfter=timeVal&&timeVal.value==='after';
-  if(!isAfter){
-    // ถ้าไม่ได้เลือก และ input เป็นวันนี้ → เช็คเวลาจริง
-    var now=new Date();
-    var sameDay=(base.getFullYear()===now.getFullYear()&&base.getMonth()===now.getMonth()&&base.getDate()===now.getDate());
-    if(sameDay&&now.getHours()>=20) isAfter=true;
-  }
-  if(isAfter) base.setDate(base.getDate()+1);
+  var base=new Date();
+  base.setHours(0,0,0,0);
+  // เช็ค cutoff 20:00 น.
+  var now=new Date();
+  if(now.getHours()>=20) base.setDate(base.getDate()+1);
   // ข้ามวันหยุดพิเศษที่วันเริ่ม
   while(!isWorkday(base)) base.setDate(base.getDate()+1);
   var d=new Date(base);
@@ -1278,6 +1258,30 @@ function calcSheets(){
   var sheets=Math.ceil(qty/perSheet);
   res.innerHTML='ต้องการ <span style="color:#c0533a;font-size:16px;">'+sheets+'</span> แผ่น ('+perSheet+' ชิ้น/แผ่น × '+sheets+' แผ่น = '+(perSheet*sheets)+' ชิ้น)';
 }
+function toggleCheckDel(){
+  var body=document.getElementById('checkdel-body');
+  var arrow=document.getElementById('checkdel-arrow');
+  var btn=document.getElementById('checkdel-btn');
+  var isOpen=body.style.display!=='none';
+  if(isOpen){
+    body.style.display='none';
+    arrow.style.transform='';
+    btn.style.borderRadius='12px';
+  } else {
+    body.style.display='block';
+    arrow.style.transform='rotate(180deg)';
+    btn.style.borderRadius='12px 12px 0 0';
+    btn.style.background='#1a1a1a';
+    // set วันนี้ถ้ายังไม่ได้เลือก
+    var dateEl=document.getElementById('cd-date');
+    if(dateEl&&!dateEl.value){
+      var now=new Date();
+      dateEl.value=now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0')+'-'+String(now.getDate()).padStart(2,'0');
+    }
+    calcDelivery();
+  }
+}
+
 function switchTab(tab){
   ['print','extra','diecut','sset','gift','info','checkdel'].forEach(function(x){
     document.getElementById('tab-'+x).style.display=x===tab?'':'none';
@@ -1366,7 +1370,7 @@ function calcDelivery(){
   var dateStr='วัน'+dayName+'ที่ '+cur.getDate()+' '+months[cur.getMonth()]+' '+(cur.getFullYear()+543);
 
   resultDate.textContent=dateStr;
-  resultDetail.textContent=(isSlow?'งานผลิต 7 วัน':'งานผลิต 2 วัน')+' • จัดส่งผ่าน SPX (ไม่ส่งวันอาทิตย์)';
+  resultDetail.textContent=(isSlow?'งานผลิต 7 วัน':'งานผลิต 2 วัน')+' • 🏠 เสาร์-อาทิตย์ร้านหยุด';
   resultEl.style.display='block';
 }
 function selShip(v){
@@ -2078,8 +2082,10 @@ function recalc(){
   var delDays2=hasSlow?7:((hasPC||giftHasPC2)?3:(hasPrint?2:7));
   if(!hasPrint&&!hasSlow&&!hasPC&&!giftHasPC2){dTxt='กรุณาเลือกสินค้าก่อน';dSub='ระยะเวลาจะแสดงหลังเลือกรายการ';}
   else{dTxt='📅 จัดส่งงานภายใน: '+addDaysNoSunday(delDays2);dSub='';}
-  document.getElementById('del-txt').textContent=dTxt;
-  document.getElementById('del-sub').textContent=dSub;
+  var delTxtEl=document.getElementById('del-txt');
+  var delSubEl=document.getElementById('del-sub');
+  if(delTxtEl) delTxtEl.textContent=dTxt;
+  if(delSubEl) delSubEl.textContent=dSub;
   if(typeof calcDelivery==='function') calcDelivery();
   // คำนวณ deliveryDate สำหรับ banner
   var _delDate=null;
