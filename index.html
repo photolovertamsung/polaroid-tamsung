@@ -1051,8 +1051,11 @@ function calcGiftTotal(g){
   if(g.kpQty>0)t+=(KP_BASE+(g.kpCoat!=='ไม่เคลือบ'?KP_COAT:0))*g.kpQty;
   if(g.kdQty>0)t+=KD_PRICE*g.kdQty;
   if(g.pkgHead){
+    // ID_ITEMS = index 0-2 (≤2 นิ้ว), STD_ITEMS เริ่มที่ index 3
+    // STD_ITEMS index 0-12 (ถึง 4x6 นิ้ว) = GIFT_PRINT_ITEMS index 3-15 → ≤4×6 นิ้ว
+    // STD_ITEMS index 13+ (5x7 ขึ้นไป) = GIFT_PRINT_ITEMS index 16+ → ใหญ่กว่า 4×6 นิ้ว
     var mi=g.prints&&g.prints[0]?g.prints[0].printIdx:0;
-    t+=(mi>=9)?5:(mi===9||mi===8)?3:2;
+    t+=(mi>=16)?5:2;
   }
   if(g.pkgLabel)t+=1.5;
   var needsMin10=(g.stickers||[]).some(function(s){return s.stickerQty>0;})||g.dc50Qty>0||g.pcQty>0||g.memoQty>0;
@@ -1284,7 +1287,8 @@ function toggleCheckDel(){
 
 function switchTab(tab){
   ['print','extra','diecut','sset','gift','info','checkdel'].forEach(function(x){
-    document.getElementById('tab-'+x).style.display=x===tab?'':'none';
+    var el=document.getElementById('tab-'+x);
+    if(el) el.style.display=x===tab?'':'none';
   });
   document.querySelectorAll('.tab-btn').forEach(function(b,i){
     b.classList.toggle('active',['print','extra','diecut','sset','gift','info','checkdel'][i]===tab);
@@ -1892,7 +1896,7 @@ function renderGift(){
     var minSet=needsMin10?10:1;
     if(g.setQty>0&&g.setQty<minSet){giftItems[gi].setQty=minSet;g.setQty=minSet;}
     var mi=g.prints&&g.prints[0]?g.prints[0].printIdx:0;
-    var headPrice=(mi>=10)?5:(mi===9)?3:2;
+    var headPrice=(mi>=16)?5:2;
     var row=document.createElement('div');row.className='item-row';
 
     var html='<span class="i-num">'+(gi+1)+'</span><div class="i-inner">';
