@@ -1162,16 +1162,34 @@ function updateHolidayBanners(deliveryDate){
       var firstStr=first.getDate()+' '+thaiMonths[grp.month];
       var lastStr=last.getDate()+' '+thaiMonths[grp.month];
       var rangeStr=first.getTime()===last.getTime()?firstStr:first.getDate()+'–'+lastStr;
-      // คำนวณ deadline งานรูป (2 วันทำการก่อนวันหยุด)
-      var dlPrint=new Date(first);var cpPrint=0;
-      while(cpPrint<2){dlPrint.setDate(dlPrint.getDate()-1);if(dlPrint.getDay()!==0&&dlPrint.getDay()!==6)cpPrint++;}
-      // ถ้า deadline ตรงเสาร์-อาทิตย์ ถอยไปวันทำการก่อนหน้า
-      while(dlPrint.getDay()===0||dlPrint.getDay()===6){dlPrint.setDate(dlPrint.getDate()-1);}
+      // helper: นับวันทำการไปข้างหน้า (ข้ามเสาร์-อาทิตย์ + วันหยุดพิเศษ)
+      function addWD(start, n){
+        var d=new Date(start);
+        var keyFn=function(x){return x.getFullYear()+'-'+String(x.getMonth()+1).padStart(2,'0')+'-'+String(x.getDate()).padStart(2,'0');};
+        var isWD=function(x){if(x.getDay()===0||x.getDay()===6)return false;return !holidays.some(function(h){return h.date===keyFn(x);});};
+        while(!isWD(d))d.setDate(d.getDate()+1);
+        var c=0;while(c<n){d.setDate(d.getDate()+1);if(isWD(d))c++;}
+        while(!isWD(d))d.setDate(d.getDate()+1);
+        return d;
+      }
+      // หา deadline = วันสุดท้ายที่สั่งแล้วส่งได้ก่อนวันหยุด
+      function findDeadline(prodDays){
+        var candidate=new Date(first);candidate.setDate(candidate.getDate()-1);
+        var keyFn2=function(x){return x.getFullYear()+'-'+String(x.getMonth()+1).padStart(2,'0')+'-'+String(x.getDate()).padStart(2,'0');};
+        var isWD2=function(x){if(x.getDay()===0||x.getDay()===6)return false;return !holidays.some(function(h){return h.date===keyFn2(x);});};
+        while(!isWD2(candidate))candidate.setDate(candidate.getDate()-1);
+        // ถอยทีละวันจนหาวันที่ addWD(วันนั้น, prodDays) < first
+        for(var tries=0;tries<60;tries++){
+          var delivery=addWD(candidate,prodDays);
+          if(delivery<first)return candidate;
+          candidate.setDate(candidate.getDate()-1);
+          while(!isWD2(candidate))candidate.setDate(candidate.getDate()-1);
+        }
+        return candidate;
+      }
+      var dlPrint=findDeadline(2);
       var dlPrintStr=dlPrint.getDate()+' '+thaiMonths[dlPrint.getMonth()];
-      // คำนวณ deadline งานสติ๊กเกอร์ (7 วันทำการก่อนวันหยุด)
-      var dlStk=new Date(first);var cpStk=0;
-      while(cpStk<7){dlStk.setDate(dlStk.getDate()-1);if(dlStk.getDay()!==0&&dlStk.getDay()!==6)cpStk++;}
-      while(dlStk.getDay()===0||dlStk.getDay()===6){dlStk.setDate(dlStk.getDate()-1);}
+      var dlStk=findDeadline(7);
       var dlStkStr=dlStk.getDate()+' '+thaiMonths[dlStk.getMonth()];
       html+='<div style="font-size:12px;color:#e65100;margin-bottom:4px;">• ร้านหยุด '+rangeStr+'</div>';
       html+='<div style="font-size:12px;color:#e65100;margin-bottom:2px;">• งานรูป สั่งภายใน <b>'+dlPrintStr+'</b></div>';
