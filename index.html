@@ -13,7 +13,32 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Polaroid_tamsung</title>
 <style>
-*{box-sizing:border-box;margin:0;padding:0;}
+/* ── Sticky Bar ── */
+#sticky-bar{position:fixed;bottom:0;left:0;right:0;z-index:998;display:flex;align-items:center;justify-content:center;padding:0;pointer-events:none;}
+.sticky-inner{width:100%;max-width:520px;background:#fff;border-top:1px solid #e8e8e8;box-shadow:0 -4px 20px rgba(0,0,0,.1);padding:10px 16px;display:flex;align-items:center;gap:10px;pointer-events:all;}
+.sticky-info{flex:1;min-width:0;}
+.sticky-total{font-size:16px;font-weight:700;color:#1a1a1a;line-height:1.2;}
+.sticky-date{font-size:11px;color:#16a34a;font-weight:600;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.sticky-btn{flex-shrink:0;background:linear-gradient(135deg,#06c755,#00a040);color:#fff;border:none;border-radius:12px;padding:11px 18px;font-size:13px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:6px;opacity:0.4;pointer-events:none;}
+.sticky-btn.active{opacity:1;pointer-events:all;}
+/* เพิ่ม padding ด้านล่างของ body ให้ sticky bar ไม่บัง content */
+body{padding-bottom:72px;}
+
+#confirmModal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:9999;align-items:flex-end;justify-content:center;padding:0;}
+#confirmModal.open{display:flex;}
+.cm-wrap{background:#fff;border-radius:20px 20px 0 0;width:100%;max-width:520px;padding:20px 20px 32px;animation:slideUp .25s ease;}
+@keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+.cm-title{font-size:14px;font-weight:700;color:#276749;margin-bottom:14px;text-align:center;}
+.cm-list{background:#f0fff4;border:1.5px solid #68d391;border-radius:12px;padding:12px 14px;margin-bottom:14px;line-height:2.2;font-size:13px;color:#276749;}
+.cm-checks{display:flex;flex-direction:column;gap:10px;margin-bottom:18px;}
+.cm-check-row{display:flex;align-items:flex-start;gap:10px;background:#fffbeb;border:1.5px solid #fcd34d;border-radius:10px;padding:11px 13px;cursor:pointer;}
+.cm-check-row input[type=checkbox]{width:18px;height:18px;accent-color:#059669;flex-shrink:0;margin-top:1px;cursor:pointer;}
+.cm-check-row span{font-size:12px;color:#1a1a1a;line-height:1.5;}
+.cm-btn{width:100%;padding:14px;border-radius:12px;border:none;font-size:14px;font-weight:700;cursor:pointer;transition:all .15s;}
+.cm-btn-ok{background:linear-gradient(135deg,#06c755,#00a040);color:#fff;}
+.cm-btn-ok:disabled{background:#ccc;cursor:not-allowed;}
+.cm-btn-cancel{background:#f5f5f5;color:#888;margin-top:8px;}
+
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f5f5f5;color:#1a1a1a;padding:16px;}
 .wrap{max-width:520px;margin:0 auto;}
 .shop-header{text-align:center;padding:18px 16px 14px;background:#fff;border-radius:16px;margin-bottom:12px;border:1px solid #e8e8e8;box-shadow:0 2px 8px rgba(0,0,0,0.06);}
@@ -854,7 +879,7 @@ select{flex:1;min-width:100px;font-size:12px;padding:6px 8px;border-radius:8px;b
   <div style="font-size:12px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:0.8px;margin-bottom:12px;">📋 สรุปรายการ</div>
   <div id="summary-items" style="font-size:13px;color:#1a1a1a;line-height:1.8;"></div>
 </div>
-<div onclick="copyOrder()" style="text-align:center;font-size:12px;color:#888;margin-bottom:8px;line-height:1.6;cursor:pointer;">📋 กดปุ่มด้านล่างเพื่อคัดลอกรายการที่สั่ง → แล้ววางในแชท LINE ร้านได้เลยค่ะ</div>
+<div style="text-align:center;font-size:12px;color:#888;margin-bottom:8px;line-height:1.6;">📋 กดปุ่มด้านล่างเพื่อคัดลอกรายการที่สั่ง → แล้ววางในแชท LINE ร้านได้เลยค่ะ</div>
 
 <!-- Review consent -->
 <div style="background:#fff8f0;border:1.5px solid #fcd9a0;border-radius:12px;padding:12px 14px;margin-bottom:10px;">
@@ -877,7 +902,7 @@ select{flex:1;min-width:100px;font-size:12px;padding:6px 8px;border-radius:8px;b
   <div style="font-size:12px;color:#276749;">3️⃣ กดปุ่มสีเขียว → วางข้อความในแชท LINE = สั่งซื้อเลยค่ะ 💚</div>
   <div style="font-size:12px;color:#276749;margin-top:4px;">💬 <b>ยังไม่แน่ใจ?</b> กดได้เลย แล้ววางข้อความไว้สอบถามบลูได้ค่ะ</div>
 </div>
-<button id="copy-btn-main" class="copy-btn" onclick="copyOrder();setTimeout(function(){window.open('https://lin.ee/qMGO9Ok','_blank');},800);" style="background:linear-gradient(135deg,#06c755,#00a040);font-size:15px;padding:15px;border-radius:14px;gap:10px;flex-direction:column;opacity:0.4;cursor:not-allowed;" disabled>
+<button id="copy-btn-main" class="copy-btn" onclick="openConfirmModal()" style="background:linear-gradient(135deg,#06c755,#00a040);font-size:15px;padding:15px;border-radius:14px;gap:10px;flex-direction:column;opacity:0.4;cursor:not-allowed;" disabled>
   <div style="display:flex;align-items:center;gap:10px;">
     <svg width="22" height="22" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.48 2 2 6.03 2 11c0 2.87 1.37 5.43 3.5 7.16L4.5 22l3.97-2.1A10.6 10.6 0 0 0 12 20c5.52 0 10-4.03 10-9S17.52 2 12 2z"/></svg>
     สั่งผลิต / ส่งไฟล์ทาง LINE
@@ -2082,6 +2107,12 @@ function recalc(){
   document.getElementById('sub-disp').textContent=sub.toFixed(2)+' บาท';
   document.getElementById('ship-disp').textContent=shipMethod==='post'?(freeShip?'ฟรี! 🎉':'40.00 บาท'):'จ่ายปลายทาง';
   document.getElementById('total-disp').textContent=(sub+sc).toFixed(2)+' บาท';
+  // อัป sticky bar
+  var totalAmt=(sub+sc).toFixed(2);
+  var stickyTotal=document.getElementById('sticky-total');
+  var stickyBtn=document.getElementById('sticky-btn');
+  if(stickyTotal) stickyTotal.textContent='💰 '+totalAmt+' บาท';
+  if(stickyBtn){if(sub>0){stickyBtn.classList.add('active');}else{stickyBtn.classList.remove('active');}}
   var dTxt,dSub;
   var delDays2=hasSlow?7:((hasPC||giftHasPC2)?3:(hasPrint?2:7));
   if(!hasPrint&&!hasSlow&&!hasPC&&!giftHasPC2){dTxt='กรุณาเลือกสินค้าก่อน';dSub='ระยะเวลาจะแสดงหลังเลือกรายการ';}
@@ -2090,6 +2121,9 @@ function recalc(){
   var delSubEl=document.getElementById('del-sub');
   if(delTxtEl) delTxtEl.textContent=dTxt;
   if(delSubEl) delSubEl.textContent=dSub;
+  // อัป sticky date
+  var stickyDate=document.getElementById('sticky-date');
+  if(stickyDate) stickyDate.textContent=hasPrint||hasSlow||hasPC||giftHasPC2?addDaysNoSunday(delDays2):'📅 เลือกสินค้าก่อนนะคะ';
   if(typeof calcDelivery==='function') calcDelivery();
   // คำนวณ deliveryDate สำหรับ banner
   var _delDate=null;
@@ -2194,6 +2228,28 @@ function updateCopyBtn(){
   else{btn.disabled=true;btn.style.opacity='0.4';btn.style.cursor='not-allowed';}
 }
 
+function openConfirmModal(){
+  var consentEl=document.querySelector('input[name="review-consent"]:checked');
+  if(!consentEl){document.getElementById('consent-warn').style.display='block';return;}
+  // reset checkboxes
+  document.getElementById('cm-chk1').checked=false;
+  document.getElementById('cm-chk2').checked=false;
+  document.getElementById('cm-ok-btn').disabled=true;
+  document.getElementById('confirmModal').classList.add('open');
+}
+function closeConfirmModal(){
+  document.getElementById('confirmModal').classList.remove('open');
+}
+function updateCmBtn(){
+  var ok=document.getElementById('cm-chk1').checked && document.getElementById('cm-chk2').checked;
+  document.getElementById('cm-ok-btn').disabled=!ok;
+}
+function confirmAndCopy(){
+  closeConfirmModal();
+  copyOrder();
+  setTimeout(function(){window.open('https://lin.ee/qMGO9Ok','_blank');},800);
+}
+
 function copyOrder(){
   var consentEl=document.querySelector('input[name="review-consent"]:checked');
   if(!consentEl){document.getElementById('consent-warn').style.display='block';return;}
@@ -2275,6 +2331,10 @@ function copyOrder(){
   lines.push('⚠️ กรุณาตรวจสอบรายละเอียดก่อนยืนยันนะคะ');
   var consentTxt=consentEl.value==='yes'?'✅ อนุญาตนำรูปไปรีวิว':'❌ ไม่อนุญาตนำรูปไปรีวิว';
   lines.push('📸 รีวิว: '+consentTxt);
+  lines.push('━━━━━━━━━━');
+  lines.push('☑️ รับทราบและยอมรับรอบจัดส่งและรายการที่เลือก');
+  lines.push('☑️ รับทราบว่าไม่สามารถเปลี่ยนแปลงรอบจัดส่งได้หลังโอนเงิน');
+  lines.push('━━━━━━━━━━');
   navigator.clipboard.writeText(lines.join('\n')).then(function(){
     var msg=document.getElementById('copy-msg');
     msg.textContent='✅ คัดลอกแล้ว! ไปที่แชท LINE แล้วกดค้างในช่องข้อความ → เลือก "วาง" ค่ะ';
@@ -2553,6 +2613,45 @@ function addHolidayRange(){
   });
 });
 </script>
+
+<!-- ── Sticky Bar ── -->
+<div id="sticky-bar">
+  <div class="sticky-inner">
+    <div class="sticky-info">
+      <div class="sticky-total" id="sticky-total">💰 0.00 บาท</div>
+      <div class="sticky-date" id="sticky-date">📅 เลือกสินค้าก่อนนะคะ</div>
+    </div>
+    <button class="sticky-btn" id="sticky-btn" onclick="openConfirmModal()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M12 2C6.48 2 2 6.03 2 11c0 2.87 1.37 5.43 3.5 7.16L4.5 22l3.97-2.1A10.6 10.6 0 0 0 12 20c5.52 0 10-4.03 10-9S17.52 2 12 2z"/></svg>
+      สั่งผลิต
+    </button>
+  </div>
+</div>
+
+<!-- ── Confirm Modal ── -->
+<div id="confirmModal">
+  <div class="cm-wrap">
+    <div class="cm-title">📋 ก่อนกดสั่งผลิต กรุณาตรวจสอบค่ะ</div>
+    <div class="cm-list">
+      1️⃣ เช็ครายการสินค้าให้ครบ<br>
+      2️⃣ เช็ครอบจัดส่งให้แน่ใจ<br>
+      3️⃣ กดปุ่มสีเขียว → วางข้อความในแชท LINE = สั่งซื้อเลยค่ะ 💚<br>
+      💬 <b>ยังไม่แน่ใจ?</b> กดได้เลย แล้ววางข้อความไว้สอบถามบลูได้ค่ะ
+    </div>
+    <div class="cm-checks">
+      <label class="cm-check-row">
+        <input type="checkbox" id="cm-chk1" onchange="updateCmBtn()">
+        <span>✅ ตรวจสอบรายการสินค้าและรอบจัดส่งครบถ้วนแล้วค่ะ</span>
+      </label>
+      <label class="cm-check-row">
+        <input type="checkbox" id="cm-chk2" onchange="updateCmBtn()">
+        <span>📅 รับทราบว่าไม่สามารถเปลี่ยนแปลงรอบจัดส่งได้หลังโอนเงินแล้วค่ะ</span>
+      </label>
+    </div>
+    <button class="cm-btn cm-btn-ok" id="cm-ok-btn" onclick="confirmAndCopy()" disabled>✅ เข้าใจแล้ว — คัดลอกข้อความ</button>
+    <button class="cm-btn cm-btn-cancel" onclick="closeConfirmModal()">ยังไม่แน่ใจ ขอดูอีกครั้ง</button>
+  </div>
+</div>
 
 </body>
 </html>
