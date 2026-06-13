@@ -1165,10 +1165,13 @@ function updateHolidayBanners(deliveryDate){
       // คำนวณ deadline งานรูป (2 วันทำการก่อนวันหยุด)
       var dlPrint=new Date(first);var cpPrint=0;
       while(cpPrint<2){dlPrint.setDate(dlPrint.getDate()-1);if(dlPrint.getDay()!==0&&dlPrint.getDay()!==6)cpPrint++;}
+      // ถ้า deadline ตรงเสาร์-อาทิตย์ ถอยไปวันทำการก่อนหน้า
+      while(dlPrint.getDay()===0||dlPrint.getDay()===6){dlPrint.setDate(dlPrint.getDate()-1);}
       var dlPrintStr=dlPrint.getDate()+' '+thaiMonths[dlPrint.getMonth()];
       // คำนวณ deadline งานสติ๊กเกอร์ (7 วันทำการก่อนวันหยุด)
       var dlStk=new Date(first);var cpStk=0;
       while(cpStk<7){dlStk.setDate(dlStk.getDate()-1);if(dlStk.getDay()!==0&&dlStk.getDay()!==6)cpStk++;}
+      while(dlStk.getDay()===0||dlStk.getDay()===6){dlStk.setDate(dlStk.getDate()-1);}
       var dlStkStr=dlStk.getDate()+' '+thaiMonths[dlStk.getMonth()];
       html+='<div style="font-size:12px;color:#e65100;margin-bottom:4px;">• ร้านหยุด '+rangeStr+'</div>';
       html+='<div style="font-size:12px;color:#e65100;margin-bottom:2px;">• งานรูป สั่งภายใน <b>'+dlPrintStr+'</b></div>';
