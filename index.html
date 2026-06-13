@@ -1162,11 +1162,17 @@ function updateHolidayBanners(deliveryDate){
       var firstStr=first.getDate()+' '+thaiMonths[grp.month];
       var lastStr=last.getDate()+' '+thaiMonths[grp.month];
       var rangeStr=first.getTime()===last.getTime()?firstStr:first.getDate()+'–'+lastStr;
-      var deadline=new Date(first);var countBack=0;
-      while(countBack<7){deadline.setDate(deadline.getDate()-1);if(deadline.getDay()!==0)countBack++;}
-      var deadlineStr=deadline.getDate()+' '+thaiMonths[deadline.getMonth()];
-      html+='<div style="font-size:12px;color:#e65100;margin-bottom:2px;">• ร้านหยุด '+rangeStr+'</div>';
-      html+='<div style="font-size:12px;color:#e65100;margin-bottom:4px;">• หากต้องการรับงานก่อนวันหยุด รบกวนสั่งภายใน <b>'+deadlineStr+'</b> นะคะ</div>';
+      // คำนวณ deadline งานรูป (2 วันทำการก่อนวันหยุด)
+      var dlPrint=new Date(first);var cpPrint=0;
+      while(cpPrint<2){dlPrint.setDate(dlPrint.getDate()-1);if(dlPrint.getDay()!==0&&dlPrint.getDay()!==6)cpPrint++;}
+      var dlPrintStr=dlPrint.getDate()+' '+thaiMonths[dlPrint.getMonth()];
+      // คำนวณ deadline งานสติ๊กเกอร์ (7 วันทำการก่อนวันหยุด)
+      var dlStk=new Date(first);var cpStk=0;
+      while(cpStk<7){dlStk.setDate(dlStk.getDate()-1);if(dlStk.getDay()!==0&&dlStk.getDay()!==6)cpStk++;}
+      var dlStkStr=dlStk.getDate()+' '+thaiMonths[dlStk.getMonth()];
+      html+='<div style="font-size:12px;color:#e65100;margin-bottom:4px;">• ร้านหยุด '+rangeStr+'</div>';
+      html+='<div style="font-size:12px;color:#e65100;margin-bottom:2px;">• งานรูป สั่งภายใน <b>'+dlPrintStr+'</b></div>';
+      html+='<div style="font-size:12px;color:#e65100;margin-bottom:4px;">• งานสติ๊กเกอร์ สั่งภายใน <b>'+dlStkStr+'</b></div>';
     });
     banner.style.display='block';
     banner.innerHTML=html;
@@ -1356,31 +1362,15 @@ function calcDelivery(){
   // ถ้าโอนหลัง 20:00 นับวันถัดไป
   if(isAfter){base.setDate(base.getDate()+1);}
 
+  // ข้ามเสาร์-อาทิตย์และวันหยุดพิเศษที่วันเริ่มต้น (เหมือน addDaysNoSunday)
+  while(!isWorkday(base)){base.setDate(base.getDate()+1);}
+
   // วันผลิต
   var prodDays=isSlow?7:2;
 
-  // ตรวจสอบวันที่เริ่มต้นว่าเป็นวันหยุดพิเศษ
-  var baseIsHoliday=isHoliday(base);
-  if(baseIsHoliday){
-    // หาชื่อวันหยุด
-    var holidays=loadHolidays();
-    var yy=base.getFullYear(),bmm=String(base.getMonth()+1).padStart(2,'0'),bdd=String(base.getDate()).padStart(2,'0');
-    var bkey=yy+'-'+bmm+'-'+bdd;
-    var hEntry=holidays.find(function(h){return h.date===bkey;});
-    var hNote=hEntry&&hEntry.note?'('+hEntry.note+')':'';
-    // เลื่อนวันเริ่มนับไปหลังวันหยุด
-    while(!isWorkday(base)){base.setDate(base.getDate()+1);}
-    // แสดง warning
-    var warnEl=document.getElementById('cd-holiday-warn');
-    if(warnEl){
-      var months2=['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'];
-      warnEl.style.display='block';
-      warnEl.textContent='⚠️ วันที่เลือกร้านหยุด '+hNote+' รอบส่งจะนับจากวันทำการถัดไปค่ะ';
-    }
-  } else {
-    var warnEl2=document.getElementById('cd-holiday-warn');
-    if(warnEl2) warnEl2.style.display='none';
-  }
+  // เคลียร์ warning วันหยุด
+  var warnEl2=document.getElementById('cd-holiday-warn');
+  if(warnEl2) warnEl2.style.display='none';
 
   // นับวันผลิต (ข้ามอาทิตย์ + วันหยุดพิเศษ)
   var cur=new Date(base);
