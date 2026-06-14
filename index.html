@@ -1122,9 +1122,11 @@ function loadFullDatesFromSheet(){
       var json=JSON.parse(txt.replace(/^[^(]+\(|\);?\s*$/g,''));
       var rows=json.table.rows||[];
       _cachedFullDates=[];
+      console.log('[Queue] rows:', rows.length);
       rows.forEach(function(row){
         if(!row.c||!row.c[0]||!row.c[0].v)return;
         var v=row.c[0].v;
+        console.log('[Queue] raw value:', v, 'col1:', row.c[1]&&row.c[1].v);
         var key='';
         var m=String(v).match(/Date\((\d+),(\d+),(\d+)\)/);
         if(m){
@@ -1138,10 +1140,12 @@ function loadFullDatesFromSheet(){
         }
         if(key){
           var status=row.c[1]&&row.c[1].v?String(row.c[1].v).trim():'';
+          console.log('[Queue] key:', key, 'status:', status);
           if(status==='รอบเต็ม') _cachedFullDates.push(key);
         }
       });
       _fullDatesLoaded=true;
+      console.log('[Queue] fullDates loaded:', _cachedFullDates);
       recalc();
       if(typeof calcDelivery==='function') calcDelivery();
     }catch(e){_cachedFullDates=[];_fullDatesLoaded=true;}
