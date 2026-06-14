@@ -1084,8 +1084,11 @@ function calcGiftTotal(g){
 // ===== HOLIDAY MANAGER =====
 var SHEET_ID='14oLUa0F6VlCxQ2LZGsJgV4oGXICylQPC6vO_aq6deiI';
 var SHEET_TAB='วันหยุด';
+var QUEUE_TAB='คิว';
 var _cachedHolidays=null;
 var _holidaysLoaded=false;
+var _cachedFullDates=null;
+var _fullDatesLoaded=false;
 
 function loadHolidaysFromSheet(){
   var url='https://docs.google.com/spreadsheets/d/'+SHEET_ID+'/gviz/tq?tqx=out:json&sheet='+encodeURIComponent(SHEET_TAB)+'&t='+Date.now();
@@ -1110,6 +1113,45 @@ function loadHolidaysFromSheet(){
       if(typeof calcDelivery==='function') calcDelivery();
     }catch(e){_cachedHolidays=[];_holidaysLoaded=true;}
   }).catch(function(){_cachedHolidays=[];_holidaysLoaded=true;});
+}
+
+function loadFullDatesFromSheet(){
+  var url='https://docs.google.com/spreadsheets/d/'+SHEET_ID+'/gviz/tq?tqx=out:json&sheet='+encodeURIComponent(QUEUE_TAB)+'&t='+Date.now();
+  fetch(url).then(function(r){return r.text();}).then(function(txt){
+    try{
+      var json=JSON.parse(txt.replace(/^[^(]+\(|\);?\s*$/g,''));
+      var rows=json.table.rows||[];
+      _cachedFullDates=[];
+      rows.forEach(function(row){
+        if(!row.c||!row.c[0]||!row.c[0].v)return;
+        var v=row.c[0].v;
+        var key='';
+        var m=String(v).match(/Date\((\d+),(\d+),(\d+)\)/);
+        if(m){
+          key=parseInt(m[1])+'-'+String(parseInt(m[2])+1).padStart(2,'0')+'-'+String(parseInt(m[3])).padStart(2,'0');
+        } else {
+          var parts=String(v).split('/');
+          if(parts.length===3){
+            var yy2=parts[2].length===2?'20'+parts[2]:parts[2];
+            key=yy2+'-'+parts[1].padStart(2,'0')+'-'+parts[0].padStart(2,'0');
+          }
+        }
+        if(key){
+          var status=row.c[1]&&row.c[1].v?String(row.c[1].v).trim():'';
+          if(status==='รอบเต็ม') _cachedFullDates.push(key);
+        }
+      });
+      _fullDatesLoaded=true;
+      recalc();
+      if(typeof calcDelivery==='function') calcDelivery();
+    }catch(e){_cachedFullDates=[];_fullDatesLoaded=true;}
+  }).catch(function(){_cachedFullDates=[];_fullDatesLoaded=true;});
+}
+
+function isFullDate(d){
+  if(!_cachedFullDates||!_cachedFullDates.length)return false;
+  var key=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+  return _cachedFullDates.indexOf(key)>=0;
 }
 
 function loadHolidays(){
@@ -1235,6 +1277,9 @@ function addDaysNoSunday(days){
     if(isWorkday(d))count++;
   }
   while(!isWorkday(d)){d.setDate(d.getDate()+1);}
+  // ข้ามวันรอบเต็ม
+  var safety=0;
+  while(isFullDate(d)&&safety<30){d.setDate(d.getDate()+1);while(!isWorkday(d))d.setDate(d.getDate()+1);safety++;}
   var dd=d.getDate(),mm=d.getMonth()+1,yy=d.getFullYear();
   var thaiMonths=['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'];
   var thaiDays=['อาทิตย์','จันทร์','อังคาร','พุธ','พฤหัสบดี','ศุกร์','เสาร์'];
@@ -1395,8 +1440,10 @@ function calcDelivery(){
     if(isWorkday(cur)) counted++;
   }
 
-  // วันส่งต้องไม่ใช่วันหยุด
+  // วันส่งต้องไม่ใช่วันหยุดและไม่รอบเต็ม
   while(!isWorkday(cur)){cur.setDate(cur.getDate()+1);}
+  var safety2=0;
+  while(isFullDate(cur)&&safety2<30){cur.setDate(cur.getDate()+1);while(!isWorkday(cur))cur.setDate(cur.getDate()+1);safety2++;}
 
   var days=['อาทิตย์','จันทร์','อังคาร','พุธ','พฤหัสบดี','ศุกร์','เสาร์'];
   var months=['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'];
@@ -2376,6 +2423,7 @@ function resetOrder(){
 // Init
 renderID();renderSTD();renderCustom();renderExtra();renderDiecut();renderSset();renderGift();recalc();
 loadHolidaysFromSheet();
+loadFullDatesFromSheet();
 </script>
 
 <!-- Social Footer -->
