@@ -233,41 +233,21 @@ select{flex:1;min-width:100px;font-size:12px;padding:6px 8px;border-radius:8px;b
 <!-- tab-checkdel ย้ายเป็น accordion แล้ว -->
 
 <div id="tab-print">
-
-  <!-- วิธีสั่งงานพิมพ์รูป -->
-  <div class="how-to-order">
-    <div class="how-to-toggle" onclick="toggleHowTo(this)">
-      <div class="how-to-label">📋 วิธีสั่งงานอัดรูป — กดดูขั้นตอนค่ะ 💖</div>
-      <div class="how-to-arrow">▼</div>
+<!-- ── แถบแจ้งเตือนสีงานพิมพ์ ── -->
+<div style="background:#fff8e1;border:1.5px solid #fcd34d;border-radius:10px;padding:10px 14px;margin-bottom:12px;display:flex;align-items:center;gap:8px;">
+  <span style="font-size:16px;">📱</span>
+  <span style="font-size:12px;color:#92400e;font-weight:600;line-height:1.5;">สีบนหน้าจอ ≠ สีงานพิมพ์<br><span style="font-weight:400;">สีที่ได้จากงานพิมพ์อาจแตกต่างจากหน้าจอ เนื่องจากระบบสีที่แตกต่างกันค่ะ</span></span>
+</div>
+<img src="https://i.ibb.co/jZxy8SQ5/Untitled-1-Recovered.png" style="width:100%;border-radius:10px;display:block;margin-bottom:12px;cursor:pointer;" onclick="openLightbox(this.src)" alt="สีบนหน้าจอ ≠ สีงานพิมพ์">
+<!-- เนื้อกระดาษ -->
+  <div class="paper-info-box" style="padding:0;overflow:hidden;">
+    <div onclick="var b=this.nextElementSibling;var open=b.style.display==='block';b.style.display=open?'none':'block';this.querySelector('.paper-arrow').textContent=open?'▼':'▲';" style="display:flex;align-items:center;justify-content:space-between;padding:12px 14px;cursor:pointer;">
+      <div class="paper-info-title" style="margin-bottom:0;">📄 เนื้อกระดาษที่ใช้</div>
+      <span class="paper-arrow" style="color:#92400e;font-size:12px;font-weight:700;">▼</span>
     </div>
-    <div class="how-to-body">
-      <div class="how-to-step">
-        <div class="how-to-num">1</div>
-        <div class="how-to-text">เลือกขนาดที่ต้องการด้านล่าง แล้วกด <b>+ เพิ่ม</b> เพื่อเพิ่มรายการได้เลยค่ะ</div>
-      </div>
-      <div class="how-to-step">
-        <div class="how-to-num">2</div>
-        <div class="how-to-text">กดปุ่ม <b>สั่งผลิต / ส่งไฟล์ทาง LINE</b> สีเขียวด้านล่าง ระบบจะคัดลอกสรุปออเดอร์ให้อัตโนมัติค่ะ</div>
-      </div>
-      <div class="how-to-step">
-        <div class="how-to-num">3</div>
-        <div class="how-to-text"><b>วางข้อความ</b> ในแชท LINE แล้วส่งให้บลูค่ะ (อย่าลืมวางด้วยนะคะ 💕)</div>
-      </div>
-      <div class="how-to-step">
-        <div class="how-to-num">4</div>
-        <div class="how-to-text"><b>ส่งรูป</b> ให้ทางร้านได้เลยค่ะ — ส่งได้ทั้งทาง LINE หรือ Google Drive / Photos<br><span style="font-size:11px;color:#c2185b;">📌 บลูตรวจเช็คไฟล์ทุกวันหลัง 4 ทุ่มค่ะ</span></div>
-      </div>
-      <div class="how-to-step">
-        <div class="how-to-num">5</div>
-        <div class="how-to-text">กด <b>แจ้งโอนเงิน</b> ใน Rich Menu ของ LINE ค่ะ — โอนหลัง 20.00 น. นับวันถัดไป</div>
-      </div>
+    <div style="display:none;padding:0 14px 12px;">
+      <img src="https://i.ibb.co/hR0PDMcp/01.jpg" alt="เนื้อกระดาษ" style="width:100%;border-radius:8px;display:block;cursor:pointer;" onclick="openLightbox(this.src)">
     </div>
-  </div>
-
-  <!-- เนื้อกระดาษ -->
-  <div class="paper-info-box">
-    <div class="paper-info-title">📄 เนื้อกระดาษที่ใช้</div>
-    <img src="https://i.ibb.co/hR0PDMcp/01.jpg" alt="เนื้อกระดาษ" style="width:100%;border-radius:8px;display:block;cursor:pointer;" onclick="openLightbox(this.src)">
   </div>
 
   <!-- ── รูปติดบัตร accordion ── -->
@@ -278,14 +258,12 @@ select{flex:1;min-width:100px;font-size:12px;padding:6px 8px;border-radius:8px;b
   <div class="print-acc-body" id="acc-body-id">
     <div class="section" style="margin-bottom:0;">
       <div class="gallery-wrap">
-        <button class="gallery-toggle" onclick="toggleGallery('id',this)">▼ ดูตัวอย่างสินค้า</button>
+        <button class="gallery-toggle" onclick="toggleGallery('id',this)" style="width:100%;display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:linear-gradient(135deg,#fff0f5,#fce4ec);border:2px solid #f48fb1;border-radius:12px;cursor:pointer;font-size:13px;font-weight:700;color:#c2185b;margin-bottom:8px;">
+          <span>🖼 ดูตัวอย่างสินค้า</span><span>▼</span>
+        </button>
         <div class="gallery-body" id="gallery-body-id">
           <div class="gallery-slider">
-            <div class="gallery-track" id="gallery-track-id">
-              <img style="cursor:pointer;" src="https://i.ibb.co/xK63rJTF/6.jpg" alt="รูปติดบัตร 1" onclick="openLightbox(this.src)">
-              <img style="cursor:pointer;" src="https://i.ibb.co/J0TvGWg/Screenshot-2026-06-13-232605.png" alt="รูปติดบัตร 2" onclick="openLightbox(this.src)">
-              <img style="cursor:pointer;" src="https://i.ibb.co/gZf8RzmQ/Screenshot-2026-06-13-232732.png" alt="รูปติดบัตร 3" onclick="openLightbox(this.src)">
-            </div>
+            <div class="gallery-track" id="gallery-track-id"></div>
             <button class="gallery-nav prev" onclick="galleryPrev('id')">‹</button>
             <button class="gallery-nav next" onclick="galleryNext('id')">›</button>
           </div>
@@ -307,17 +285,12 @@ select{flex:1;min-width:100px;font-size:12px;padding:6px 8px;border-radius:8px;b
       <div class="info-box">👇 เลือกขนาดที่ต้องการ แล้วกด <b>+ เพิ่ม</b> เพื่อเพิ่มสินค้าได้เลยค่ะ (เพิ่มได้หลายขนาด)</div>
       <div class="pink-tag">🩷 รูปโพลารอยด์ / รูปขนาดโปสการ์ด / โฟโต้บูธ</div>
       <div class="gallery-wrap">
-        <button class="gallery-toggle" onclick="toggleGallery('std',this)">▼ ดูตัวอย่างสินค้า</button>
-        <div class="gallery-body open" id="gallery-body-std">
+        <button class="gallery-toggle" onclick="toggleGallery('std',this)" style="width:100%;display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:linear-gradient(135deg,#fff0f5,#fce4ec);border:2px solid #f48fb1;border-radius:12px;cursor:pointer;font-size:13px;font-weight:700;color:#c2185b;margin-bottom:8px;">
+          <span>🖼 ดูตัวอย่างสินค้า</span><span>▼</span>
+        </button>
+        <div class="gallery-body" id="gallery-body-std">
           <div class="gallery-slider" style="position:relative;">
-            <div class="gallery-track" id="gallery-track-std">
-              <img src="https://i.ibb.co/hRNRzkYy/1.jpg" alt="รูปอัดมาตรฐาน 1" onclick="openLightbox(this.src)" style="cursor:pointer;">
-              <img src="https://i.ibb.co/0yrg0NW1/2x6.jpg" alt="รูปอัดมาตรฐาน 2" onclick="openLightbox(this.src)" style="cursor:pointer;">
-              <img src="https://i.ibb.co/nsB4D2Js/7.jpg" alt="รูปอัดมาตรฐาน 3" onclick="openLightbox(this.src)" style="cursor:pointer;">
-              <img src="https://i.ibb.co/bj5R1wZP/8.jpg" alt="รูปอัดมาตรฐาน 4" onclick="openLightbox(this.src)" style="cursor:pointer;">
-              <img src="https://i.ibb.co/MD72Z6vn/line-oa-chat-230501-131750-group-4.jpg" alt="รูปอัดมาตรฐาน 5" onclick="openLightbox(this.src)" style="cursor:pointer;">
-              <img src="https://i.ibb.co/N6wykQYN/line-oa-chat-230501-131750-group-5.jpg" alt="รูปอัดมาตรฐาน 6" onclick="openLightbox(this.src)" style="cursor:pointer;">
-            </div>
+            <div class="gallery-track" id="gallery-track-std"></div>
             <button class="gallery-nav prev" onclick="galleryPrev('std')">‹</button>
             <button class="gallery-nav next" onclick="galleryNext('std')">›</button>
           </div>
@@ -352,216 +325,137 @@ select{flex:1;min-width:100px;font-size:12px;padding:6px 8px;border-radius:8px;b
 </div>
 
 <div id="tab-extra" style="display:none;">
+<!-- ── แถบแจ้งเตือนสีงานพิมพ์ ── -->
+<div style="background:#fff8e1;border:1.5px solid #fcd34d;border-radius:10px;padding:10px 14px;margin-bottom:12px;display:flex;align-items:center;gap:8px;">
+  <span style="font-size:16px;">📱</span>
+  <span style="font-size:12px;color:#92400e;font-weight:600;line-height:1.5;">สีบนหน้าจอ ≠ สีงานพิมพ์<br><span style="font-weight:400;">สีที่ได้จากงานพิมพ์อาจแตกต่างจากหน้าจอ เนื่องจากระบบสีที่แตกต่างกันค่ะ</span></span>
+</div>
+<img src="https://i.ibb.co/jZxy8SQ5/Untitled-1-Recovered.png" style="width:100%;border-radius:10px;display:block;margin-bottom:12px;cursor:pointer;" onclick="openLightbox(this.src)" alt="สีบนหน้าจอ ≠ สีงานพิมพ์">
 
-  <!-- วิธีสั่ง Photocard / Memo / พวงกุญแจ -->
-  <div class="how-to-order">
-    <div class="how-to-toggle" onclick="toggleHowTo(this)">
-      <div class="how-to-label">📋 วิธีสั่ง Photocard / Memo / พวงกุญแจ — กดดูค่ะ 💖</div>
-      <div class="how-to-arrow">▼</div>
-    </div>
-    <div class="how-to-body">
-      <div class="how-to-step">
-        <div class="how-to-num">1</div>
-        <div class="how-to-text">เลือกรายการด้านล่าง ใส่จำนวนที่ต้องการค่ะ — คละลายได้ ขั้นต่ำดูในแต่ละหมวดนะคะ</div>
-      </div>
-      <div class="how-to-step">
-        <div class="how-to-num">2</div>
-        <div class="how-to-text"><b>เตรียมไฟล์</b> ให้พร้อม — ส่งผ่าน <b>Google Drive</b> หรือ <b>Canva (can edit)</b> ค่ะ</div>
-      </div>
-      <div class="how-to-step">
-        <div class="how-to-num">3</div>
-        <div class="how-to-text">กดปุ่ม <b>สั่งผลิต / ส่งไฟล์ทาง LINE</b> สีเขียวด้านล่าง ระบบจะคัดลอกสรุปออเดอร์ให้อัตโนมัติค่ะ</div>
-      </div>
-      <div class="how-to-step">
-        <div class="how-to-num">4</div>
-        <div class="how-to-text"><b>วางข้อความ</b> ในแชท LINE แล้วส่งให้บลูค่ะ (อย่าลืมวางด้วยนะคะ 💕)</div>
-      </div>
-      <div class="how-to-step">
-        <div class="how-to-num">5</div>
-        <div class="how-to-text"><b>ส่งรูป</b> ให้ทางร้านได้เลยค่ะ — ส่งได้ทั้งทาง LINE หรือ Google Drive / Photos<br><span style="font-size:11px;color:#c2185b;">📌 บลูตรวจเช็คไฟล์ทุกวันหลัง 4 ทุ่มค่ะ</span></div>
-      </div>
-      <div class="how-to-step">
-        <div class="how-to-num">6</div>
-        <div class="how-to-text">กด <b>แจ้งโอนเงิน</b> ใน Rich Menu ของ LINE ค่ะ — โอนหลัง 20.00 น. นับวันถัดไป</div>
-      </div>
-    </div>
+  <!-- Photocard accordion -->
+  <div class="print-acc-hd" onclick="toggleExtraAcc('pc')" id="acc-hd-pc">
+    <div><div class="print-acc-title">🃏 Photocard</div><div class="print-acc-sub">เคลือบฟิล์มฟรี • มีซองใสให้ • คละลายขั้นต่ำ 10 ใบ</div></div>
+    <span class="print-acc-arrow">▼</span>
   </div>
-
-  <div class="section">
-    <div class="sec-title">Photocard</div>
-    <div class="info-box">เคลือบฟิล์มฟรีทุกแบบ • มีซองใสให้ • คละลายเคลือบขั้นต่ำ 10 ใบ</div>
-    <!-- Gallery 1 ด้าน -->
-    <div style="margin-bottom:6px;font-size:11px;font-weight:700;color:#c2185b;">🃏 Photocard 1 ด้าน</div>
-    <div class="gallery-wrap" style="margin-bottom:10px;">
-      <button class="gallery-toggle" onclick="toggleGallery('pc1',this)">▼ ดูตัวอย่าง 1 ด้าน</button>
-      <div class="gallery-body" id="gallery-body-pc1">
+  <div class="print-acc-body" id="acc-body-pc">
+    <div class="section" style="margin-bottom:0;">
+      <div class="info-box">เคลือบฟิล์มฟรีทุกแบบ • มีซองใสให้ • คละลายเคลือบขั้นต่ำ 10 ใบ</div>
+      <div style="margin-bottom:6px;font-size:11px;font-weight:700;color:#c2185b;">🃏 Photocard 1 ด้าน</div>
+      <div class="gallery-body open" id="gallery-body-pc1">
         <div class="gallery-slider" style="position:relative;">
-          <div class="gallery-track" id="gallery-track-pc1">
-            <img style="cursor:pointer;" src="https://i.ibb.co/vxN15yK9/1-2.jpg" alt="PC 1ด้าน 4" onclick="openLightbox(this.src)">
-            <img style="cursor:pointer;" src="https://i.ibb.co/354SSYSW/Screenshot-2026-06-13-232511.png" alt="PC 1ด้าน 6" onclick="openLightbox(this.src)">
-            <img style="cursor:pointer;" src="https://i.ibb.co/GvBf4wXg/Screenshot-2026-06-13-232459.png" alt="PC 1ด้าน 5" onclick="openLightbox(this.src)">
-            <img style="cursor:pointer;" src="https://i.ibb.co/3YSybF3W/Screenshot-2026-06-13-232743.png" alt="PC 1ด้าน" onclick="openLightbox(this.src)">
-            <img style="cursor:pointer;" src="https://i.ibb.co/JRX8pmSk/line-oa-chat-230501-131750-group-3.jpg" alt="PC 1ด้าน 1" onclick="openLightbox(this.src)">
-            <img style="cursor:pointer;" src="https://i.ibb.co/4w1Dz7cM/line-oa-chat-230501-131809-group-5.jpg" alt="PC 1ด้าน 2" onclick="openLightbox(this.src)">
-            <img style="cursor:pointer;" src="https://i.ibb.co/9HH2TqtT/line-oa-chat-230513-141322.jpg" alt="PC 1ด้าน 3" onclick="openLightbox(this.src)">
-          </div>
+          <div class="gallery-track" id="gallery-track-pc1"></div>
           <button class="gallery-nav prev" onclick="galleryPrev('pc1')">‹</button>
           <button class="gallery-nav next" onclick="galleryNext('pc1')">›</button>
         </div>
         <div class="gallery-dots" id="gallery-dots-pc1"></div>
       </div>
-    </div>
-    <!-- Gallery 2 ด้าน -->
-    <div style="margin-bottom:6px;font-size:11px;font-weight:700;color:#c2185b;">🃏 Photocard 2 ด้าน</div>
-    <div class="gallery-wrap" style="margin-bottom:10px;">
-      <button class="gallery-toggle" onclick="toggleGallery('pc2',this)">▼ ดูตัวอย่าง 2 ด้าน</button>
-      <div class="gallery-body" id="gallery-body-pc2">
-        <div class="gallery-slider">
-          <div class="gallery-track" id="gallery-track-pc2">
-            <img style="cursor:pointer;" src="https://i.ibb.co/xqYJqmpk/1-3.jpg" alt="PC 2ด้าน" onclick="openLightbox(this.src)">
-          </div>
-        </div>
-      </div>
-    </div>
-    <div id="pc-rows"></div>
-    <button class="add-btn" onclick="pcItems.push({typeIdx:0,coat:'เคลือบใสเงา',qty:0});renderExtra()">+ เพิ่มรายการ</button>
-  </div>
-  <div class="section">
-    <div class="sec-title">Memo Pad <span style="font-size:11px;font-weight:400;color:#aaa;text-transform:none;letter-spacing:0;">8×8 cm • กระดาษการ์ดขาว 150 แกรม</span></div>
-    <div class="info-box">ขั้นต่ำ 6 ก้อน/ลาย</div>
-    <div class="gallery-wrap" style="margin-bottom:10px;">
-      <button class="gallery-toggle" onclick="toggleGallery('memo',this)">▼ ดูตัวอย่างสินค้า</button>
-      <div class="gallery-body" id="gallery-body-memo">
-        <div class="gallery-slider">
-          <div class="gallery-track" id="gallery-track-memo">
-            <img style="cursor:pointer;" src="https://i.ibb.co/ch7TJYk7/Screenshot-2026-06-13-230437.png" alt="Memo Pad" onclick="openLightbox(this.src)">
-          </div>
-        </div>
-      </div>
-    </div>
-    <div id="memo-rows"></div>
-    <button class="add-btn" onclick="memoItems.push({optIdx:0,qty:0});renderExtra()">+ เพิ่มรายการ</button>
-  </div>
-  <div class="section">
-    <div class="sec-title">พวงกุญแจรูปภาพ <span style="font-size:11px;font-weight:400;color:#aaa;text-transform:none;letter-spacing:0;">2×2 นิ้ว • โซ่สีเงินเท่านั้น</span></div>
-    <div class="info-box">3 ฿/ชิ้น • เคลือบ +3 ฿ • เคลือบขั้นต่ำ 10 ชิ้น/ลาย</div>
-    <div class="gallery-wrap" style="margin-bottom:10px;">
-      <button class="gallery-toggle" onclick="toggleGallery('kp',this)">▼ ดูตัวอย่างสินค้า</button>
-      <div class="gallery-body" id="gallery-body-kp">
-        <div class="gallery-slider">
-          <div class="gallery-track" id="gallery-track-kp">
-            <img style="cursor:pointer;" src="https://i.ibb.co/11yvSWY/Screenshot-2026-06-13-230549.png" alt="พวงกุญแจรูปภาพ" onclick="openLightbox(this.src)">
-          </div>
-        </div>
-      </div>
-    </div>
-    <div id="kp-rows"></div>
-    <button class="add-btn" onclick="kpItems.push({coat:'ไม่เคลือบ',qty:0});renderExtra()">+ เพิ่มรายการ</button>
-  </div>
-  <div class="section">
-    <div class="sec-title">พวงกุญแจ Die-cut <span style="font-size:11px;font-weight:400;color:#aaa;text-transform:none;letter-spacing:0;">โซ่สีเงินเท่านั้น</span></div>
-    <div class="info-box">5 ฿/ชิ้น • เคลือบ 8 แบบ • ขั้นต่ำ 15 ชิ้น/ลาย • กระดาษรองหลัง +3 ฿/ชิ้น</div>
-    <div class="gallery-wrap" style="margin-bottom:10px;">
-      <button class="gallery-toggle" onclick="toggleGallery('kd',this)">▼ ดูตัวอย่างสินค้า</button>
-      <div class="gallery-body" id="gallery-body-kd">
+      <div style="margin-bottom:6px;font-size:11px;font-weight:700;color:#c2185b;margin-top:10px;">🃏 Photocard 2 ด้าน</div>
+      <div class="gallery-body open" id="gallery-body-pc2">
         <div class="gallery-slider" style="position:relative;">
-          <div class="gallery-track" id="gallery-track-kd">
-            <img style="cursor:pointer;" src="https://i.ibb.co/mC2gGSvj/IMG-0726.jpg" alt="พวงกุญแจ Die-cut 1" onclick="openLightbox(this.src)">
-            <img style="cursor:pointer;" src="https://i.ibb.co/HptMBWNB/IMG-3919.jpg" alt="พวงกุญแจ Die-cut 2" onclick="openLightbox(this.src)">
-            <img style="cursor:pointer;" src="https://i.ibb.co/35kft3zn/Screenshot-2026-06-13-232446.png" alt="พวงกุญแจ Die-cut 3" onclick="openLightbox(this.src)">
-          </div>
+          <div class="gallery-track" id="gallery-track-pc2"></div>
+          <button class="gallery-nav prev" onclick="galleryPrev('pc2')">‹</button>
+          <button class="gallery-nav next" onclick="galleryNext('pc2')">›</button>
+        </div>
+        <div class="gallery-dots" id="gallery-dots-pc2"></div>
+      </div>
+      <div id="pc-rows"></div>
+      <button class="add-btn" onclick="pcItems.push({typeIdx:0,coat:'เคลือบใสเงา',qty:0});renderExtra()">+ เพิ่มรายการ</button>
+    </div>
+  </div>
+
+  <!-- Memo accordion -->
+  <div class="print-acc-hd" onclick="toggleExtraAcc('memo')" id="acc-hd-memo">
+    <div><div class="print-acc-title">📝 Memo Pad</div><div class="print-acc-sub">8×8 cm • กระดาษการ์ดขาว 150 แกรม</div></div>
+    <span class="print-acc-arrow">▼</span>
+  </div>
+  <div class="print-acc-body" id="acc-body-memo">
+    <div class="section" style="margin-bottom:0;">
+      <div class="info-box">ขั้นต่ำ 6 ก้อน/ลาย</div>
+      <div class="gallery-body open" id="gallery-body-memo">
+        <div class="gallery-slider" style="position:relative;">
+          <div class="gallery-track" id="gallery-track-memo"></div>
+          <button class="gallery-nav prev" onclick="galleryPrev('memo')">‹</button>
+          <button class="gallery-nav next" onclick="galleryNext('memo')">›</button>
+        </div>
+        <div class="gallery-dots" id="gallery-dots-memo"></div>
+      </div>
+      <div id="memo-rows"></div>
+      <button class="add-btn" onclick="memoItems.push({optIdx:0,qty:0});renderExtra()">+ เพิ่มรายการ</button>
+    </div>
+  </div>
+
+  <!-- พวงกุญแจรูปภาพ accordion -->
+  <div class="print-acc-hd" onclick="toggleExtraAcc('kp')" id="acc-hd-kp">
+    <div><div class="print-acc-title">🔑 พวงกุญแจรูปภาพ</div><div class="print-acc-sub">2×2 นิ้ว • โซ่สีเงินเท่านั้น</div></div>
+    <span class="print-acc-arrow">▼</span>
+  </div>
+  <div class="print-acc-body" id="acc-body-kp">
+    <div class="section" style="margin-bottom:0;">
+      <div class="info-box">3 ฿/ชิ้น • เคลือบ +3 ฿ • เคลือบขั้นต่ำ 10 ชิ้น/ลาย</div>
+      <div class="gallery-body open" id="gallery-body-kp">
+        <div class="gallery-slider" style="position:relative;">
+          <div class="gallery-track" id="gallery-track-kp"></div>
+          <button class="gallery-nav prev" onclick="galleryPrev('kp')">‹</button>
+          <button class="gallery-nav next" onclick="galleryNext('kp')">›</button>
+        </div>
+        <div class="gallery-dots" id="gallery-dots-kp"></div>
+      </div>
+      <div id="kp-rows"></div>
+      <button class="add-btn" onclick="kpItems.push({coat:'ไม่เคลือบ',qty:0});renderExtra()">+ เพิ่มรายการ</button>
+    </div>
+  </div>
+
+  <!-- พวงกุญแจ Die-cut accordion -->
+  <div class="print-acc-hd" onclick="toggleExtraAcc('kd')" id="acc-hd-kd">
+    <div><div class="print-acc-title">🔑 พวงกุญแจ Die-cut</div><div class="print-acc-sub">โซ่สีเงินเท่านั้น</div></div>
+    <span class="print-acc-arrow">▼</span>
+  </div>
+  <div class="print-acc-body" id="acc-body-kd">
+    <div class="section" style="margin-bottom:0;">
+      <div class="info-box">5 ฿/ชิ้น • เคลือบ 8 แบบ • ขั้นต่ำ 15 ชิ้น/ลาย • กระดาษรองหลัง +3 ฿/ชิ้น</div>
+      <div class="gallery-body open" id="gallery-body-kd">
+        <div class="gallery-slider" style="position:relative;">
+          <div class="gallery-track" id="gallery-track-kd"></div>
           <button class="gallery-nav prev" onclick="galleryPrev('kd')">‹</button>
           <button class="gallery-nav next" onclick="galleryNext('kd')">›</button>
         </div>
         <div class="gallery-dots" id="gallery-dots-kd"></div>
       </div>
+      <div id="kd-rows"></div>
+      <button class="add-btn" onclick="kdItems.push({coat:'เคลือบใสเงา',backing:false,qty:0});renderExtra()">+ เพิ่มรายการ</button>
     </div>
-    <div id="kd-rows"></div>
-    <button class="add-btn" onclick="kdItems.push({coat:'เคลือบใสเงา',backing:false,qty:0});renderExtra()">+ เพิ่มรายการ</button>
   </div>
 </div>
 
 <div id="tab-diecut" style="display:none;">
-
-  <!-- วิธีสั่ง Die-cut -->
-  <div class="how-to-order">
-    <div class="how-to-toggle" onclick="toggleHowTo(this)">
-      <div class="how-to-label">📋 วิธีสั่ง STICKER DIE CUT — กดดูค่ะ 💖</div>
-      <div class="how-to-arrow">▼</div>
-    </div>
-    <div class="how-to-body">
-
-      <!-- กล่อง 50% vs 100% — แสดงเสมอ -->
-      <div style="background:#fff0f5;border:1.5px solid #ffd6e7;border-radius:10px;padding:12px;margin-bottom:12px;">
-        <div style="font-size:12px;font-weight:700;color:#c2185b;margin-bottom:8px;">✂️ ไดคัต 50% vs 100% — เลือกแบบไหนดี?</div>
-        <div style="display:flex;flex-direction:column;gap:6px;font-size:12px;color:#555;line-height:1.6;">
-          <div style="background:#fff;border-radius:8px;padding:8px 10px;border:1px solid #ffd6e7;">
-            <div style="font-weight:700;color:#c2185b;margin-bottom:2px;">🏷 Die-cut 50% (สติ๊กเกอร์ชีท)</div>
-            <div>ไดคัตรอบชิ้นงาน แต่ยังติดอยู่บนแผ่น — แบบสติ๊กเกอร์ชีททั่วไปค่ะ</div>
-            <button onclick="toggleImg(this)" style="margin-top:6px;font-size:11px;padding:4px 10px;border-radius:6px;border:1px solid #ffd6e7;background:#fff0f5;color:#c2185b;cursor:pointer;font-weight:600;">▼ ดูวิธีเตรียมไฟล์ Die-cut 50%</button>
-            <div style="display:none;margin-top:8px;background:#f0fdf4;border:1px solid #86efac;border-radius:8px;padding:10px;font-size:12px;color:#555;line-height:1.7;">
-              ต้องส่งไฟล์มาให้ครบ <b>2 ไฟล์</b> นะคะ<br>
-              1️⃣ <b>พื้นหลัง</b> — ไฟล์สีพื้นหลังของสติ๊กเกอร์ค่ะ<br>
-              2️⃣ <b>ชิ้นงานที่ต้องการไดคัต</b> — ไฟล์ชิ้นงานในแผ่นค่ะ<br>
-              <div style="margin-top:6px;">📌 ดูตัวอย่างการเตรียมไฟล์ได้ที่นี่เลยค่ะ ꒰🍅꒱<br>
-              <a href="https://drive.google.com/drive/folders/1SE_KCvvGkbjfEvRRE2ZZEpwcQl8BfqrL" target="_blank" style="color:#166534;font-weight:600;">🔗 Google Drive ตัวอย่างไฟล์</a></div>
-              <div style="margin-top:4px;">✨ ส่งทั้ง 2 ไฟล์รวมในลิงก์ไดร์ฟเดียวกันมาได้เลยนะคะ</div>
-            </div>
-          </div>
-          <div style="background:#fff;border-radius:8px;padding:8px 10px;border:1px solid #ffd6e7;">
-            <div style="font-weight:700;color:#c2185b;margin-bottom:2px;">✂️ Die-cut 100% (ตัดแยกชิ้น)</div>
-            <div>ตัดแยกเป็นชิ้นๆ ตามทรงงานเลยค่ะ</div>
-            <button onclick="toggleImg(this)" style="margin-top:6px;font-size:11px;padding:4px 10px;border-radius:6px;border:1px solid #ffd6e7;background:#fff0f5;color:#c2185b;cursor:pointer;font-weight:600;">▼ ดูตัวอย่างการตั้งชื่อไฟล์ (Die-cut 100%)</button>
-            <img src="https://i.ibb.co/LDBhp0fw/5.png" alt="ตัวอย่างการตั้งชื่อไฟล์" style="width:100%;border-radius:8px;margin-top:6px;display:none;">
-          </div>
-        </div>
-      </div>
-
-      <div class="how-to-step">
-        <div class="how-to-num">1</div>
-        <div class="how-to-text"><b>ออกแบบไฟล์เอง</b> ก่อนนะคะ — ร้านไม่รับหารูปให้ค่ะ ไฟล์ต้องเป็น <b>.png</b> พื้นหลังโปร่งใส</div>
-      </div>
-
-      <div class="how-to-step">
-        <div class="how-to-num">2</div>
-        <div class="how-to-text" style="width:100%;">
-          เลือกขนาด + <b>แบบเคลือบ</b> ด้านล่างค่ะ<br>
-          <button onclick="toggleImg(this)" style="margin-top:6px;font-size:11px;padding:4px 10px;border-radius:6px;border:1px solid #ffd6e7;background:#fff0f5;color:#c2185b;cursor:pointer;font-weight:600;">▼ ดูตัวอย่างแบบเคลือบ</button>
-          <img src="https://i.ibb.co/bDHGzsq/4.png" alt="ตัวอย่างแบบเคลือบ" style="width:100%;border-radius:8px;margin-top:6px;display:none;">
-        </div>
-      </div>
-      <div class="how-to-step">
-        <div class="how-to-num">3</div>
-        <div class="how-to-text">กดปุ่ม <b>สั่งผลิต / ส่งไฟล์ทาง LINE</b> สีเขียวด้านล่าง ระบบจะคัดลอกสรุปออเดอร์ให้อัตโนมัติค่ะ</div>
-      </div>
-      <div class="how-to-step">
-        <div class="how-to-num">4</div>
-        <div class="how-to-text"><b>วางข้อความ</b> ในแชท LINE แล้วส่งให้บลูค่ะ (อย่าลืมวางด้วยนะคะ 💕)</div>
-      </div>
-      <div class="how-to-step">
-        <div class="how-to-num">5</div>
-        <div class="how-to-text"><b>ส่งรูป</b> ให้ทางร้านได้เลยค่ะ — ส่งได้ทั้งทาง LINE หรือ Google Drive / Photos<br><span style="font-size:11px;color:#c2185b;">📌 บลูตรวจเช็คไฟล์ทุกวันหลัง 4 ทุ่มค่ะ</span></div>
-      </div>
-      <div class="how-to-step">
-        <div class="how-to-num">6</div>
-        <div class="how-to-text">กด <b>แจ้งโอนเงิน</b> ใน Rich Menu ของ LINE ค่ะ — โอนหลัง 20.00 น. นับวันถัดไป</div>
-      </div>
-    </div>
-  </div>
+<!-- ── แถบแจ้งเตือนสีงานพิมพ์ ── -->
+<div style="background:#fff8e1;border:1.5px solid #fcd34d;border-radius:10px;padding:10px 14px;margin-bottom:12px;display:flex;align-items:center;gap:8px;">
+  <span style="font-size:16px;">📱</span>
+  <span style="font-size:12px;color:#92400e;font-weight:600;line-height:1.5;">สีบนหน้าจอ ≠ สีงานพิมพ์<br><span style="font-weight:400;">สีที่ได้จากงานพิมพ์อาจแตกต่างจากหน้าจอ เนื่องจากระบบสีที่แตกต่างกันค่ะ</span></span>
+</div>
+<img src="https://i.ibb.co/jZxy8SQ5/Untitled-1-Recovered.png" style="width:100%;border-radius:10px;display:block;margin-bottom:12px;cursor:pointer;" onclick="openLightbox(this.src)" alt="สีบนหน้าจอ ≠ สีงานพิมพ์">
 
   <div class="section">
     <div class="sec-title">Die-cut 50% <span style="font-size:11px;font-weight:400;color:#aaa;text-transform:none;letter-spacing:0;">(STICKER SHEET / LABEL)</span></div>
     <div class="info-box">✂️ ไม่มีขั้นต่ำ • ไม่จำกัดจุดไดคัตค่ะ</div>
-    <div style="padding:0 0 8px;"><button onclick="toggleImg(this)" style="margin-top:6px;font-size:11px;padding:4px 10px;border-radius:6px;border:1px solid #ffd6e7;background:#fff0f5;color:#c2185b;cursor:pointer;font-weight:600;">▼ ดูตัวอย่างแบบเคลือบ</button>
-          <img src="https://i.ibb.co/bDHGzsq/4.png" alt="ตัวอย่างแบบเคลือบ" style="width:100%;border-radius:8px;margin-top:6px;display:none;"></div>
+    <div class="gallery-slider" style="position:relative;margin-bottom:10px;">
+      <div class="gallery-track" id="gallery-track-stk50"></div>
+      <button class="gallery-nav prev" onclick="galleryPrev('stk50')">‹</button>
+      <button class="gallery-nav next" onclick="galleryNext('stk50')">›</button>
+    </div>
+    <div class="gallery-dots" id="gallery-dots-stk50"></div>
     <div id="dc50-rows"></div>
     <button class="add-btn" onclick="dc50Items.push({sizeIdx:3,coat:'เคลือบใสเงา',sheets:0});renderDiecut()">+ เพิ่มรายการ</button>
   </div>
   <div class="section">
     <div class="sec-title">Die-cut 100% <span style="font-size:11px;font-weight:400;color:#aaa;text-transform:none;letter-spacing:0;">(ไดคัตเป็นชิ้นๆตามทรงงาน) A4 เท่านั้น</span></div>
     <div class="info-box">💡 1 แผ่น A4 คละได้ 2 ลาย • ไม่มีขั้นต่ำ • ไม่จำกัดจุดไดคัตค่ะ</div>
-    <div style="padding:0 0 8px;"><button onclick="toggleImg(this)" style="margin-top:6px;font-size:11px;padding:4px 10px;border-radius:6px;border:1px solid #ffd6e7;background:#fff0f5;color:#c2185b;cursor:pointer;font-weight:600;">▼ ดูตัวอย่างแบบเคลือบ</button>
-          <img src="https://i.ibb.co/bDHGzsq/4.png" alt="ตัวอย่างแบบเคลือบ" style="width:100%;border-radius:8px;margin-top:6px;display:none;"></div>
+    <div class="gallery-slider" style="position:relative;margin-bottom:10px;">
+      <div class="gallery-track" id="gallery-track-stk100"></div>
+      <button class="gallery-nav prev" onclick="galleryPrev('stk100')">‹</button>
+      <button class="gallery-nav next" onclick="galleryNext('stk100')">›</button>
+    </div>
+    <div class="gallery-dots" id="gallery-dots-stk100"></div>
     <!-- กล่องตัวอย่างคละลาย -->
     <div style="background:#f8f8f8;border:1px solid #e8e8e8;border-radius:10px;padding:12px;margin-bottom:12px;">
       <div style="display:flex;flex-direction:column;gap:6px;font-size:12px;color:#1a1a1a;line-height:1.7;margin-bottom:12px;">
@@ -626,45 +520,20 @@ select{flex:1;min-width:100px;font-size:12px;padding:6px 8px;border-radius:8px;b
 </div>
 
 <div id="tab-sset" style="display:none;">
-
-  <!-- วิธีสั่ง Sticker Set -->
-  <div class="how-to-order">
-    <div class="how-to-toggle" onclick="toggleHowTo(this)">
-      <div class="how-to-label">📋 วิธีสั่ง Sticker Set — กดดูค่ะ 💖</div>
-      <div class="how-to-arrow">▼</div>
-    </div>
-    <div class="how-to-body">
-      <div class="how-to-step">
-        <div class="how-to-num">1</div>
-        <div class="how-to-text">กด <b>+ เพิ่มเซ็ต</b> — ใน 1 เซ็ตคละขนาดและแบบเคลือบได้เลยค่ะ ขั้นต่ำ <b>10 เซ็ต/แบบ</b></div>
-      </div>
-      <div class="how-to-step">
-        <div class="how-to-num">2</div>
-        <div class="how-to-text"><b>เตรียมไฟล์</b> ให้พร้อม — ส่งผ่าน <b>Google Drive</b> หรือ <b>Canva (can edit)</b> ค่ะ</div>
-      </div>
-      <div class="how-to-step">
-        <div class="how-to-num">3</div>
-        <div class="how-to-text">กดปุ่ม <b>สั่งผลิต / ส่งไฟล์ทาง LINE</b> สีเขียวด้านล่าง ระบบจะคัดลอกสรุปออเดอร์ให้อัตโนมัติค่ะ</div>
-      </div>
-      <div class="how-to-step">
-        <div class="how-to-num">4</div>
-        <div class="how-to-text"><b>วางข้อความ</b> ในแชท LINE แล้วส่งให้บลูค่ะ (อย่าลืมวางด้วยนะคะ 💕)</div>
-      </div>
-      <div class="how-to-step">
-        <div class="how-to-num">5</div>
-        <div class="how-to-text"><b>ส่งรูป</b> ให้ทางร้านได้เลยค่ะ — ส่งได้ทั้งทาง LINE หรือ Google Drive / Photos<br><span style="font-size:11px;color:#c2185b;">📌 บลูตรวจเช็คไฟล์ทุกวันหลัง 4 ทุ่มค่ะ</span></div>
-      </div>
-      <div class="how-to-step">
-        <div class="how-to-num">6</div>
-        <div class="how-to-text">กด <b>แจ้งโอนเงิน</b> ใน Rich Menu ของ LINE ค่ะ — โอนหลัง 20.00 น. นับวันถัดไป</div>
-      </div>
-    </div>
-  </div>
-
-  <div class="section">
+<!-- ── แถบแจ้งเตือนสีงานพิมพ์ ── -->
+<div style="background:#fff8e1;border:1.5px solid #fcd34d;border-radius:10px;padding:10px 14px;margin-bottom:12px;display:flex;align-items:center;gap:8px;">
+  <span style="font-size:16px;">📱</span>
+  <span style="font-size:12px;color:#92400e;font-weight:600;line-height:1.5;">สีบนหน้าจอ ≠ สีงานพิมพ์<br><span style="font-weight:400;">สีที่ได้จากงานพิมพ์อาจแตกต่างจากหน้าจอ เนื่องจากระบบสีที่แตกต่างกันค่ะ</span></span>
+</div>
+<img src="https://i.ibb.co/jZxy8SQ5/Untitled-1-Recovered.png" style="width:100%;border-radius:10px;display:block;margin-bottom:12px;cursor:pointer;" onclick="openLightbox(this.src)" alt="สีบนหน้าจอ ≠ สีงานพิมพ์">
+<div class="section">
     <div class="sec-title">Sticker Set (ราคาต่อชิ้น)</div>
-    <div style="padding:0 0 8px;"><button onclick="toggleImg(this)" style="margin-top:6px;font-size:11px;padding:4px 10px;border-radius:6px;border:1px solid #ffd6e7;background:#fff0f5;color:#c2185b;cursor:pointer;font-weight:600;">▼ ดูตัวอย่างแบบเคลือบ</button>
-          <img src="https://i.ibb.co/bDHGzsq/4.png" alt="ตัวอย่างแบบเคลือบ" style="width:100%;border-radius:8px;margin-top:6px;display:none;"></div>
+    <div class="gallery-slider" style="position:relative;margin-bottom:10px;">
+      <div class="gallery-track" id="gallery-track-stk_set"></div>
+      <button class="gallery-nav prev" onclick="galleryPrev('stk_set')">‹</button>
+      <button class="gallery-nav next" onclick="galleryNext('stk_set')">›</button>
+    </div>
+    <div class="gallery-dots" id="gallery-dots-stk_set"></div>
     <div class="info-box">⚠️ ขั้นต่ำ 10 เซ็ต/แบบ<br><span style="font-size:11px;color:#aaa;">หมายเหตุ: ถ้ายอดไม่ถึง 5 บาท/เซ็ต จะบวกค่าซอง PVC +2 บาท/เซ็ต</span></div>
     <div class="info-box" style="background:#f0fdf4;border-color:#86efac;color:#166534;">🎨 ใน 1 เซ็ต คละขนาดและแบบเคลือบได้เลยค่ะ<br><span style="font-size:11px;">ต้องการคละ กด <b>+ เพิ่ม Sticker ในเซ็ต</b> ได้เลยนะคะ</span></div>
     
@@ -694,43 +563,20 @@ select{flex:1;min-width:100px;font-size:12px;padding:6px 8px;border-radius:8px;b
 </div>
 
 <div id="tab-gift" style="display:none;">
-
-  <!-- วิธีสั่ง Giveaway -->
-  <div class="how-to-order">
-    <div class="how-to-toggle" onclick="toggleHowTo(this)">
-      <div class="how-to-label">📋 วิธีสั่งเซ็ต Giveaway — กดดูค่ะ 💖</div>
-      <div class="how-to-arrow">▼</div>
-    </div>
-    <div class="how-to-body">
-      <div class="how-to-step">
-        <div class="how-to-num">1</div>
-        <div class="how-to-text">กด <b>+ เพิ่มเซ็ต</b> แล้วระบุจำนวนและรายการของที่ต้องการในเซ็ตค่ะ</div>
-      </div>
-      <div class="how-to-step">
-        <div class="how-to-num">2</div>
-        <div class="how-to-text"><b>เตรียมไฟล์ภาพ</b> ให้พร้อม — ส่งผ่าน <b>Google Drive</b> หรือ <b>Canva (can edit)</b> ค่ะ</div>
-      </div>
-      <div class="how-to-step">
-        <div class="how-to-num">3</div>
-        <div class="how-to-text">กดปุ่ม <b>สั่งผลิต / ส่งไฟล์ทาง LINE</b> สีเขียวด้านล่าง ระบบจะคัดลอกสรุปออเดอร์ให้อัตโนมัติค่ะ</div>
-      </div>
-      <div class="how-to-step">
-        <div class="how-to-num">4</div>
-        <div class="how-to-text"><b>วางข้อความ</b> ในแชท LINE แล้วส่งให้บลูค่ะ (อย่าลืมวางด้วยนะคะ 💕)</div>
-      </div>
-      <div class="how-to-step">
-        <div class="how-to-num">5</div>
-        <div class="how-to-text"><b>ส่งรูป</b> ให้ทางร้านได้เลยค่ะ — ส่งได้ทั้งทาง LINE หรือ Google Drive / Photos<br><span style="font-size:11px;color:#c2185b;">📌 บลูตรวจเช็คไฟล์ทุกวันหลัง 4 ทุ่มค่ะ</span></div>
-      </div>
-      <div class="how-to-step">
-        <div class="how-to-num">6</div>
-        <div class="how-to-text">กด <b>แจ้งโอนเงิน</b> ใน Rich Menu ของ LINE ค่ะ — โอนหลัง 20.00 น. นับวันถัดไป</div>
-      </div>
-    </div>
-  </div>
-
-  <div class="section">
+<!-- ── แถบแจ้งเตือนสีงานพิมพ์ ── -->
+<div style="background:#fff8e1;border:1.5px solid #fcd34d;border-radius:10px;padding:10px 14px;margin-bottom:12px;display:flex;align-items:center;gap:8px;">
+  <span style="font-size:16px;">📱</span>
+  <span style="font-size:12px;color:#92400e;font-weight:600;line-height:1.5;">สีบนหน้าจอ ≠ สีงานพิมพ์<br><span style="font-weight:400;">สีที่ได้จากงานพิมพ์อาจแตกต่างจากหน้าจอ เนื่องจากระบบสีที่แตกต่างกันค่ะ</span></span>
+</div>
+<img src="https://i.ibb.co/jZxy8SQ5/Untitled-1-Recovered.png" style="width:100%;border-radius:10px;display:block;margin-bottom:12px;cursor:pointer;" onclick="openLightbox(this.src)" alt="สีบนหน้าจอ ≠ สีงานพิมพ์">
+<div class="section">
     <div class="sec-title">เซ็ตกิ๊ฟอะเวย์</div>
+    <div class="gallery-slider" style="position:relative;margin-bottom:6px;">
+      <div class="gallery-track" id="gallery-track-giveaway"></div>
+      <button class="gallery-nav prev" onclick="galleryPrev('giveaway')">‹</button>
+      <button class="gallery-nav next" onclick="galleryNext('giveaway')">›</button>
+    </div>
+    <div class="gallery-dots" id="gallery-dots-giveaway"></div>
     <div id="gift-rows"></div>
     <button class="add-btn" onclick="addGift()">+ เพิ่มเซ็ต</button>
   </div>
@@ -1038,13 +884,38 @@ select{flex:1;min-width:100px;font-size:12px;padding:6px 8px;border-radius:8px;b
 <script>
 // ===== PRINT ACCORDION =====
 var _printAccOpen={};
+function toggleExtraAcc(key){
+  var hd=document.getElementById('acc-hd-'+key);
+  var body=document.getElementById('acc-body-'+key);
+  if(!hd||!body)return;
+  var isOpen=hd.classList.contains('open');
+  if(isOpen){hd.classList.remove('open');body.classList.remove('open');}
+  else{
+    hd.classList.add('open');body.classList.add('open');
+    // init galleries ใน section นี้
+    var ids={'pc':['pc1','pc2'],'memo':['memo'],'kp':['kp'],'kd':['kd']};
+    (ids[key]||[]).forEach(function(id){initGallery(id);});
+  }
+}
+
 function togglePrintAcc(key){
   _printAccOpen[key]=!_printAccOpen[key];
   var hd=document.getElementById('acc-hd-'+key);
   var body=document.getElementById('acc-body-'+key);
   if(!hd||!body)return;
-  if(_printAccOpen[key]){hd.classList.add('open');body.classList.add('open');}
-  else{hd.classList.remove('open');body.classList.remove('open');}
+  if(_printAccOpen[key]){
+    hd.classList.add('open');body.classList.add('open');
+    // auto-open gallery ในหัวข้อนี้
+    var galleryBody=document.getElementById('gallery-body-'+key);
+    if(galleryBody&&!galleryBody.classList.contains('open')){
+      galleryBody.classList.add('open');
+      var btn=galleryBody.previousElementSibling;
+      if(btn&&btn.querySelector){var arr=btn.querySelector('span:last-child');if(arr)arr.textContent='▲';}
+      initGallery(key);
+    }
+  } else {
+    hd.classList.remove('open');body.classList.remove('open');
+  }
 }
 
 // ===== CONFIG =====
@@ -2751,6 +2622,195 @@ function addHolidayRange(){
   });
 });
 
+// ===== GALLERY CONFIG — แก้รูปตรงนี้ที่เดียวได้เลยค่ะ =====
+var PROMO_IMG = 'https://i.ibb.co/jZxy8SQ5/Untitled-1-Recovered.png';
+var GALLERY_IMAGES = {
+  'paper': [
+    'https://i.ibb.co/hR0PDMcp/01.jpg'
+  ],
+  'id': [
+    'https://i.ibb.co/xK63rJTF/6.jpg',
+    'https://i.ibb.co/J0TvGWg/Screenshot-2026-06-13-232605.png',
+    'https://i.ibb.co/gZf8RzmQ/Screenshot-2026-06-13-232732.png'
+  ],
+  'std': [
+    'https://i.ibb.co/hRNRzkYy/1.jpg',
+    'https://i.ibb.co/dsBzTqWz/line-oa-chat-260614-165421-group-0.jpg',
+    'https://i.ibb.co/M5GrcGdp/line-oa-chat-260614-165429-group-2.jpg',
+    'https://i.ibb.co/4wmT3n2G/line-oa-chat-260614-165429-group-3.jpg',
+    'https://i.ibb.co/VpwS76bq/line-oa-chat-260614-165432-group-9.jpg',
+    'https://i.ibb.co/4ZJZTP8f/line-oa-chat-260614-165435-group-6.jpg',
+    'https://i.ibb.co/TqP3CSv7/line-oa-chat-260614-165435-group-7.jpg',
+    'https://i.ibb.co/C5428PDc/line-oa-chat-260614-165441-group-0.jpg',
+    'https://i.ibb.co/zhyZ4zHh/line-oa-chat-260614-165441-group-1.jpg',
+    'https://i.ibb.co/FkDnSsLQ/line-oa-chat-260614-165441-group-2.jpg',
+    'https://i.ibb.co/zVsgk9JZ/line-oa-chat-260614-165441-group-5.jpg',
+    'https://i.ibb.co/BKK4vsqv/line-oa-chat-260614-165441-group-6.jpg',
+    'https://i.ibb.co/HLVnc0HR/line-oa-chat-260614-165445-group-2.jpg',
+    'https://i.ibb.co/mr5wDkLk/line-oa-chat-260614-165445-group-4.jpg',
+    'https://i.ibb.co/LDMbXb7g/line-oa-chat-260614-165445-group-5.jpg',
+    'https://i.ibb.co/pBmGHN7d/line-oa-chat-260614-165445-group-6.jpg',
+    'https://i.ibb.co/PsbmWdzM/line-oa-chat-260614-165445-group-7.jpg',
+    'https://i.ibb.co/Wv3vRZ95/line-oa-chat-260614-165445-group-8.jpg',
+    'https://i.ibb.co/sdxGVR4v/line-oa-chat-260614-165445-group-9.jpg',
+    'https://i.ibb.co/zT1VRZq3/line-oa-chat-260614-165451-group-7.jpg',
+    'https://i.ibb.co/ksnzkkCx/line-oa-chat-260614-165455-group-1.jpg',
+    'https://i.ibb.co/21gyZGzB/line-oa-chat-260614-165455-group-2.jpg',
+    'https://i.ibb.co/672ZvXf8/line-oa-chat-260614-165455-group-3.jpg',
+    'https://i.ibb.co/0yrg0NW1/2x6.jpg',
+    'https://i.ibb.co/nsB4D2Js/7.jpg',
+    'https://i.ibb.co/bj5R1wZP/8.jpg',
+    'https://i.ibb.co/MD72Z6vn/line-oa-chat-230501-131750-group-4.jpg',
+    'https://i.ibb.co/N6wykQYN/line-oa-chat-230501-131750-group-5.jpg',
+    'https://i.ibb.co/bj9XdYDX/line-oa-chat-230501-131750-group-6.jpg'
+  ],
+  'pc1': [
+    'https://i.ibb.co/vxN15yK9/1-2.jpg',
+    'https://i.ibb.co/354SSYSW/Screenshot-2026-06-13-232511.png',
+    'https://i.ibb.co/GvBf4wXg/Screenshot-2026-06-13-232459.png',
+    'https://i.ibb.co/3YSybF3W/Screenshot-2026-06-13-232743.png',
+    'https://i.ibb.co/JRX8pmSk/line-oa-chat-230501-131750-group-3.jpg',
+    'https://i.ibb.co/4w1Dz7cM/line-oa-chat-230501-131809-group-5.jpg',
+    'https://i.ibb.co/9HH2TqtT/line-oa-chat-230513-141322.jpg',
+    'https://i.ibb.co/0y76Dkdk/line-oa-chat-260614-165429-group-8.jpg',
+    'https://i.ibb.co/BKP4mZWx/line-oa-chat-260614-165438-group-3.jpg',
+    'https://i.ibb.co/MkxBbcHB/line-oa-chat-260614-165438-group-4.jpg',
+    'https://i.ibb.co/HTnbz2SG/line-oa-chat-260614-165438-group-5.jpg'
+  ],
+  'pc2': [
+    'https://i.ibb.co/xqYJqmpk/1-3.jpg',
+    'https://i.ibb.co/tTy6JRwQ/IMG-4187.jpg',
+    'https://i.ibb.co/zHJ6gbDL/IMG-4180-2.jpg',
+    'https://i.ibb.co/k2k3MFvw/line-oa-chat-260614-165429-group-0.jpg'
+  ],
+  'memo': [
+    'https://i.ibb.co/ch7TJYk7/Screenshot-2026-06-13-230437.png',
+    'https://i.ibb.co/zHJ6gbDL/IMG-4180-2.jpg',
+    'https://i.ibb.co/pj197g1R/IMG-4187.jpg',
+    'https://i.ibb.co/d0dxf2Zp/line-oa-chat-260614-165421-group-5.jpg',
+    'https://i.ibb.co/CRFgGR9/line-oa-chat-260614-165421-group-6.jpg',
+    'https://i.ibb.co/6JHHrWcn/line-oa-chat-260614-165429-group-4.jpg',
+    'https://i.ibb.co/3mBBnCTP/line-oa-chat-260614-165432-group-5.jpg',
+    'https://i.ibb.co/vvDrwKVQ/line-oa-chat-260614-165432-group-7.jpg',
+    'https://i.ibb.co/FkWjhxnZ/line-oa-chat-260614-165448-group-1.jpg',
+    'https://i.ibb.co/21Z0NkGP/line-oa-chat-260614-165448-group-7.jpg',
+    'https://i.ibb.co/jP87v37n/line-oa-chat-260614-165451-group-8.jpg'
+  ],
+  'kp': [
+    'https://i.ibb.co/11yvSWY/Screenshot-2026-06-13-230549.png',
+    'https://i.ibb.co/twy3Trws/line-oa-chat-260614-165438-group-8.jpg',
+    'https://i.ibb.co/Z6xj1yBD/line-oa-chat-260614-165448-group-4.jpg',
+    'https://i.ibb.co/MkCScv1d/line-oa-chat-260614-165448-group-5.jpg'
+  ],
+  'kd': [
+    'https://i.ibb.co/mC2gGSvj/IMG-0726.jpg',
+    'https://i.ibb.co/HptMBWNB/IMG-3919.jpg',
+    'https://i.ibb.co/35kft3zn/Screenshot-2026-06-13-232446.png',
+    'https://i.ibb.co/5g26gcXB/IMG-7200.jpg',
+    'https://i.ibb.co/GfvNn604/IMG-7201.jpg',
+    'https://i.ibb.co/4n8CDkF5/IMG-3612.jpg'
+  ],
+  'giveaway': [
+    'https://i.ibb.co/bgrh9v4Y/GW1.png',
+    'https://i.ibb.co/PsDyXhmy/GW2.png',
+    'https://i.ibb.co/7xbTDDDs/GW3.png',
+    'https://i.ibb.co/yBnSXSmH/GW4.png',
+    'https://i.ibb.co/b0JdVzJ/GW5.png',
+    'https://i.ibb.co/TDdZyh5V/GW6.png',
+    'https://i.ibb.co/SXJDgQZd/GW7.png',
+    'https://i.ibb.co/n8LQ4NhX/GW8.png',
+    'https://i.ibb.co/8gPfcxXZ/GW9.png',
+    'https://i.ibb.co/tTQfcdqK/GW10.png',
+    'https://i.ibb.co/qLCCW2Sb/GW11.png',
+    'https://i.ibb.co/8DFqLqnf/GW12.png',
+    'https://i.ibb.co/xK7pNknc/GW13.png',
+    'https://i.ibb.co/Gvx3gHch/GW14.png',
+    'https://i.ibb.co/F4NT81Wv/GW15.png',
+    'https://i.ibb.co/ZRymHLnr/GW16.png',
+    'https://i.ibb.co/1GJzJVPg/GW17.png',
+    'https://i.ibb.co/xQzN95J/GW18.png',
+    'https://i.ibb.co/60kb4qGX/GW19.png',
+    'https://i.ibb.co/QjYx3dtX/GW20.png',
+    'https://i.ibb.co/1fMwr5jS/GW21.png',
+    'https://i.ibb.co/g10Thkc/GW22.png',
+    'https://i.ibb.co/svh7qfT1/GW23.jpg',
+    'https://i.ibb.co/sp5wSXvJ/IMG-1549.jpg',
+    'https://i.ibb.co/W4pf6R26/IMG-2086.jpg',
+    'https://i.ibb.co/Q34Ssp0Z/IMG-5694.jpg'
+  ],
+  'stk_set': [
+    'https://i.ibb.co/kgW5tr7K/STK4-1.jpg',
+    'https://i.ibb.co/p6fyy88w/STK3-24.jpg',
+    'https://i.ibb.co/XZWbQgdX/STK3-28.jpg',
+    'https://i.ibb.co/qYhg74Xt/STK3-29.jpg',
+    'https://i.ibb.co/0yXSsgVp/STK4-4.jpg',
+    'https://i.ibb.co/G3NK5Lg6/STK4-5.jpg',
+    'https://i.ibb.co/nM8Zyd64/STK4-6.jpg',
+    'https://i.ibb.co/wNFxwGCN/STK5.jpg',
+    'https://i.ibb.co/YFbRNtWv/STK2-2.jpg',
+    'https://i.ibb.co/C5gNdzn3/STK3-8.jpg',
+    'https://i.ibb.co/hFKVtJ1q/STK3-9.jpg',
+    'https://i.ibb.co/mCYS6NvC/STK3-15.jpg',
+    'https://i.ibb.co/tpmwPcdF/STK3-16.jpg',
+    'https://i.ibb.co/62sNYyw/STK3-17.jpg',
+    'https://i.ibb.co/2GsJVbm/STK3-18.jpg',
+    'https://i.ibb.co/r2cRHvfQ/STK3-19.jpg',
+    'https://i.ibb.co/cX7nNyHb/STK3-20.jpg',
+    'https://i.ibb.co/pj2Y62b7/STK3-21.jpg'
+  ],
+  'stk50': [
+    'https://i.ibb.co/Xrgp3mC5/STK-SHEET-1-2.jpg',
+    'https://i.ibb.co/fz8bTWQf/STK-SHEET-1-3.jpg',
+    'https://i.ibb.co/C3V6gfk7/STK-SHEET-1-1.jpg',
+    'https://i.ibb.co/s9YsYr4P/line-oa-chat-240628-201822.png',
+    'https://i.ibb.co/tR9xjHq/3.jpg',
+    'https://i.ibb.co/bjh086G9/IMG-7932.jpg',
+    'https://i.ibb.co/RTW1mvHz/IMG-0081.jpg',
+    'https://i.ibb.co/nNs4ZQpk/IMG-2471.jpg',
+    'https://i.ibb.co/1Y8x8R18/IMG-4232.jpg',
+    'https://i.ibb.co/xtRKyG6q/IMG-7026.jpg'
+  ],
+  'stk100': [
+    'https://i.ibb.co/35SWC6J7/1.png',
+    'https://i.ibb.co/MxdRTsBf/1.png',
+    'https://i.ibb.co/DfcyF4kL/2.png',
+    'https://i.ibb.co/8D979KKp/3-2.png',
+    'https://i.ibb.co/S4dXndGy/4-2.png',
+    'https://i.ibb.co/gbN5z5WQ/4.jpg',
+    'https://i.ibb.co/bgnHyCXr/5.jpg',
+    'https://i.ibb.co/rn8FCXd/FDRD6906.jpg',
+    'https://i.ibb.co/TxjwrzBg/HACK9921.png',
+    'https://i.ibb.co/vCHJZg7G/HCSK3932.png',
+    'https://i.ibb.co/j9LH5VMS/IMG-0168.jpg',
+    'https://i.ibb.co/TxhsgfWF/IMG-1556-2.jpg',
+    'https://i.ibb.co/4Rwrcg22/IMG-2095.jpg',
+    'https://i.ibb.co/jPT3kvJk/IMG-2505-2.jpg',
+    'https://i.ibb.co/qYsV55Ys/IMG-3298-2.jpg',
+    'https://i.ibb.co/ksMkFGrC/IMG-3744-2.jpg',
+    'https://i.ibb.co/rRfJjCfJ/IMG-4551.jpg',
+    'https://i.ibb.co/NnSyfp4s/IMG-5731.jpg',
+    'https://i.ibb.co/xKxB3nCm/IMG-7463.jpg',
+    'https://i.ibb.co/d4f1Gn50/IMG-7468.jpg',
+    'https://i.ibb.co/zhhNcdz2/IMG-7560.jpg'
+  ]
+};
+
+function renderAllGalleries(){
+  Object.keys(GALLERY_IMAGES).forEach(function(id){
+    var track=document.getElementById('gallery-track-'+id);
+    if(!track)return;
+    track.innerHTML='';
+    GALLERY_IMAGES[id].forEach(function(url){
+      var img=document.createElement('img');
+      img.src=url;
+      img.style.cursor='pointer';
+      img.onclick=function(){openLightbox(this.src);};
+      track.appendChild(img);
+    });
+    initGallery(id);
+  });
+}
+
 // ===== LIGHTBOX =====
 function openLightbox(src){
   document.getElementById('lightbox-img').src=src;
@@ -2765,31 +2825,74 @@ function closeLightbox(){
 // ===== GALLERY FUNCTIONS =====
 var _galleryIdx={};
 
+function shuffleGallery(id){
+  if(!GALLERY_IMAGES[id])return;
+  var arr=GALLERY_IMAGES[id].slice();
+  for(var i=arr.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=arr[i];arr[i]=arr[j];arr[j]=t;}
+  GALLERY_IMAGES[id]=arr;
+  _galleryIdx[id]=0;
+  var track=document.getElementById('gallery-track-'+id);
+  if(!track)return;
+  track.innerHTML='';
+  var dotsEl=document.getElementById('gallery-dots-'+id);
+  if(dotsEl)dotsEl.innerHTML='';
+  arr.forEach(function(url){
+    var img=document.createElement('img');
+    img.src=url;img.style.cursor='pointer';
+    img.onclick=function(){openLightbox(this.src);};
+    track.appendChild(img);
+  });
+  initGallery(id);
+}
+
 // Auto-init std gallery (already open on load)
 document.addEventListener('DOMContentLoaded',function(){
-  initGallery('std');
+  renderAllGalleries();
+  // เปิด std อัตโนมัติ
+  var stdBody=document.getElementById('gallery-body-std');
+  if(stdBody){
+    stdBody.classList.add('open');
+    var stdBtn=stdBody.previousElementSibling;
+    if(stdBtn&&stdBtn.querySelector){var arr=stdBtn.querySelector('span:last-child');if(arr)arr.textContent='▲';}
+    initGallery('std');
+  }
+  // init tab-extra galleries (เปิดอยู่แล้ว)
+  ['pc1','pc2','memo','kp','kd'].forEach(function(id){initGallery(id);});
 });
 
 function toggleGallery(id,btn){
   var body=document.getElementById('gallery-body-'+id);
   if(!body)return;
   var open=body.classList.toggle('open');
-  if(btn){btn.textContent=open?'▲ ซ่อนรูปตัวอย่าง':'▼ ดูตัวอย่างสินค้า';}
-  if(open){
-    initGallery(id);
+  if(btn){
+    var arrow=btn.querySelector('span:last-child');
+    if(arrow)arrow.textContent=open?'▲':'▼';
   }
+  if(open){initGallery(id);}
 }
 
 function initGallery(id){
   var track=document.getElementById('gallery-track-'+id);
   if(!track)return;
   var imgs=track.querySelectorAll('img');
-  if(imgs.length<=1)return; // single image no dots/nav needed
+  var total=imgs.length;
+  // ซ่อน nav และ dots ถ้ารูปเดียว
+  var slider=track.parentElement;
+  var prevBtn=slider?slider.querySelector('.prev'):null;
+  var nextBtn=slider?slider.querySelector('.next'):null;
+  var dotsEl=document.getElementById('gallery-dots-'+id);
+  if(total<=1){
+    if(prevBtn)prevBtn.style.display='none';
+    if(nextBtn)nextBtn.style.display='none';
+    if(dotsEl)dotsEl.style.display='none';
+    return;
+  }
+  if(prevBtn)prevBtn.style.display='';
+  if(nextBtn)nextBtn.style.display='';
   if(_galleryIdx[id]===undefined)_galleryIdx[id]=0;
   // init dots
-  var dotsEl=document.getElementById('gallery-dots-'+id);
   if(dotsEl&&dotsEl.children.length===0){
-    for(var i=0;i<imgs.length;i++){
+    for(var i=0;i<total;i++){
       var d=document.createElement('span');
       d.className='gallery-dot'+(i===0?' active':'');
       (function(idx){d.onclick=function(){goGallery(id,idx);};})(i);
