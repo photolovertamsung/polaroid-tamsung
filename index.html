@@ -38,6 +38,27 @@ body{padding-bottom:72px;}
 .cm-btn-ok{background:linear-gradient(135deg,#06c755,#00a040);color:#fff;}
 .cm-btn-ok:disabled{background:#ccc;cursor:not-allowed;}
 .cm-btn-cancel{background:#f5f5f5;color:#888;margin-top:8px;}
+/* modal ใหม่ */
+.cm-green-box{background:#f0fff4;border:1.5px solid #68d391;border-radius:12px;padding:12px 14px;margin-bottom:10px;}
+.cm-green-row{display:flex;align-items:center;gap:10px;padding:8px 0;cursor:pointer;}
+.cm-green-row+.cm-green-row{border-top:1px solid #c6f6d5;}
+.cm-green-row input[type=checkbox]{width:20px;height:20px;accent-color:#059669;flex-shrink:0;cursor:pointer;}
+.cm-green-row .cm-icon{font-size:22px;flex-shrink:0;}
+.cm-green-row .cm-row-title{font-size:13px;font-weight:500;color:#276749;margin:0;}
+.cm-green-row .cm-row-sub{font-size:11px;color:#68d391;margin:0;}
+.cm-line-box{background:#f0f9ff;border:1.5px solid #90cdf4;border-radius:12px;padding:12px 14px;margin-bottom:14px;}
+.cm-line-title{font-size:12px;font-weight:500;color:#2b6cb0;margin:0 0 10px;text-align:center;}
+.cm-steps{display:flex;align-items:center;justify-content:center;margin-bottom:12px;}
+.cm-step{display:flex;flex-direction:column;align-items:center;gap:4px;flex:1;}
+.cm-step-icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;}
+.cm-step-icon.green{background:#06c755;}
+.cm-step-icon.blue{background:#e9f5fe;border:1.5px solid #90cdf4;}
+.cm-step-lbl{font-size:10px;color:#2b6cb0;margin:0;text-align:center;line-height:1.4;}
+.cm-step-lbl b{color:#06c755;}
+.cm-step-arr{font-size:18px;color:#90cdf4;padding:0 2px;margin-bottom:16px;}
+.cm-line-chk{display:flex;align-items:center;gap:10px;background:#fff;border:1.5px solid #90cdf4;border-radius:10px;padding:10px 12px;cursor:pointer;}
+.cm-line-chk input[type=checkbox]{width:20px;height:20px;accent-color:#2b6cb0;flex-shrink:0;cursor:pointer;}
+.cm-line-chk span{font-size:12px;font-weight:500;color:#2b6cb0;}
 
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f5f5f5;color:#1a1a1a;padding:16px;}
 .wrap{max-width:520px;margin:0 auto;}
@@ -2301,7 +2322,7 @@ function closeConfirmModal(){
   document.getElementById('confirmModal').classList.remove('open');
 }
 function updateCmBtn(){
-  var ok=document.getElementById('cm-chk1').checked && document.getElementById('cm-chk2').checked;
+  var ok=document.getElementById('cm-chk1').checked && document.getElementById('cm-chk2').checked && document.getElementById('cm-chk3').checked;
   document.getElementById('cm-ok-btn').disabled=!ok;
 }
 function confirmAndCopy(){
@@ -3012,24 +3033,59 @@ function goGallery(id,idx){
 <!-- ── Confirm Modal ── -->
 <div id="confirmModal">
   <div class="cm-wrap">
-    <div class="cm-title">📋 ก่อนกดสั่งผลิต กรุณาตรวจสอบค่ะ</div>
-    <div class="cm-list">
-      1️⃣ เช็ครายการสินค้าให้ครบ<br>
-      2️⃣ เช็ครอบจัดส่งให้แน่ใจ<br>
-      3️⃣ กดปุ่มสีเขียว → วางข้อความในแชท LINE = สั่งซื้อเลยค่ะ 💚<br>
-      💬 <b>ยังไม่แน่ใจ?</b> กดได้เลย แล้ววางข้อความไว้สอบถามบลูได้ค่ะ
-    </div>
-    <div class="cm-checks">
-      <label class="cm-check-row">
+    <div class="cm-title">📋 ก่อนกดสั่งผลิต ตรวจสอบด้วยนะคะ</div>
+
+    <!-- กรอบเขียว -->
+    <div class="cm-green-box">
+      <label class="cm-green-row">
         <input type="checkbox" id="cm-chk1" onchange="updateCmBtn()">
-        <span>✅ ตรวจสอบรายการสินค้าและรอบจัดส่งครบถ้วนแล้วค่ะ</span>
+        <span class="cm-icon">🛍️</span>
+        <div>
+          <p class="cm-row-title">เช็ครายการสินค้าครบแล้ว</p>
+          <p class="cm-row-sub">ประเภท / ขนาด / จำนวน ถูกต้องไหม?</p>
+        </div>
       </label>
-      <label class="cm-check-row">
+      <label class="cm-green-row">
         <input type="checkbox" id="cm-chk2" onchange="updateCmBtn()">
-        <span>📅 รับทราบว่าไม่สามารถเปลี่ยนแปลงรอบจัดส่งได้หลังโอนเงินแล้วค่ะ</span>
+        <span class="cm-icon">📅</span>
+        <div>
+          <p class="cm-row-title">รอบจัดส่ง — เปลี่ยนไม่ได้หลังโอน</p>
+          <p class="cm-row-sub">วันที่รับของโอเคแล้วใช่ไหม?</p>
+        </div>
       </label>
     </div>
-    <button class="cm-btn cm-btn-ok" id="cm-ok-btn" onclick="confirmAndCopy()" disabled>✅ เข้าใจแล้ว — คัดลอกข้อความ</button>
+
+    <!-- กรอบฟ้า วิธีวาง LINE -->
+    <div class="cm-line-box">
+      <p class="cm-line-title">วิธีส่งออเดอร์หลังกดปุ่ม</p>
+      <div class="cm-steps">
+        <div class="cm-step">
+          <div class="cm-step-icon blue">📋</div>
+          <p class="cm-step-lbl">ระบบ<br>คัดลอกให้</p>
+        </div>
+        <div class="cm-step-arr">→</div>
+        <div class="cm-step">
+          <div class="cm-step-icon green">🟢</div>
+          <p class="cm-step-lbl"><b>กดปุ่มสีเขียว</b><br>เด้งเข้า LINE เลย</p>
+        </div>
+        <div class="cm-step-arr">→</div>
+        <div class="cm-step">
+          <div class="cm-step-icon blue">👇</div>
+          <p class="cm-step-lbl">กดค้าง<br>ช่องพิมพ์</p>
+        </div>
+        <div class="cm-step-arr">→</div>
+        <div class="cm-step">
+          <div class="cm-step-icon blue">📤</div>
+          <p class="cm-step-lbl">วาง<br>แล้วส่ง</p>
+        </div>
+      </div>
+      <label class="cm-line-chk">
+        <input type="checkbox" id="cm-chk3" onchange="updateCmBtn()">
+        <span>เข้าใจวิธีวางใน LINE แล้วค่ะ</span>
+      </label>
+    </div>
+
+    <button class="cm-btn cm-btn-ok" id="cm-ok-btn" onclick="confirmAndCopy()" disabled>🟢 สั่งสินค้า — ส่งออเดอร์ผ่าน LINE</button>
     <button class="cm-btn cm-btn-cancel" onclick="closeConfirmModal()">ยังไม่แน่ใจ ขอดูอีกครั้ง</button>
   </div>
 </div>
