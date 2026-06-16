@@ -1092,7 +1092,7 @@ var kpItems=[{coat:'ไม่เคลือบ',qty:0}];
 var kdItems=[{coat:'เคลือบใสเงา',qty:0}];
 var dc50Items=[{sizeIdx:3,coat:'เคลือบใสเงา',sheets:0}];
 var dc100Items=[{sizeIdx:0,coat:'เคลือบใสเงา',sheets:0}];
-var ssetSets=[{setQty:0,items:[{sizeIdx:0,coat:'เคลือบใสเงา',qty:0}],bagSelected:false,bagChoice:'ซอง PVC ใส',pkg:[false,false]}];
+var ssetSets=[{setQty:0,items:[{sizeIdx:0,coat:'เคลือบใสเงา',qty:0}],bagSelected:false,bagChoice:'ซอง PVC ใส',pkg:[false,false],packOption:'แพ็กให้'}];
 var pkgSel=PKG_ITEMS.map(function(){return {include:false};});
 var bagChoice='ซอง PVC ใส';
 var bagSelected=false;
@@ -1109,7 +1109,8 @@ function newGift(){
     hasMemo:false,memoOptIdx:0,memoQty:0,
     hasKP:false,kpCoat:'ไม่เคลือบ',kpQty:0,
     hasKD:false,kdCoat:'เคลือบใสเงา',kdQty:0,
-    pkgHead:false,pkgLabel:false
+    pkgHead:false,pkgLabel:false,
+    packOption:'แพ็กให้'
   };
 }
 giftItems.push(newGift());
@@ -1595,7 +1596,7 @@ function setBagIdx(k){
 function addSset(){
   var scrollY=window.scrollY;
   var scrollY=window.scrollY;
-  ssetSets.push({setQty:0,items:[{sizeIdx:0,coat:'เคลือบใสเงา',qty:0}],bagSelected:false,bagChoice:'ซอง PVC ใส',pkg:[false,false]});
+  ssetSets.push({setQty:0,items:[{sizeIdx:0,coat:'เคลือบใสเงา',qty:0}],bagSelected:false,bagChoice:'ซอง PVC ใส',pkg:[false,false],packOption:'แพ็กให้'});
   renderSset();
   window.scrollTo(0,scrollY);
 }
@@ -2020,6 +2021,29 @@ function renderSset(){
     pkgTotalRow.innerHTML='<span>ค่าแพ็กเกจจิ้ง</span><span style="font-weight:600;color:#1a1a1a;">'+pkgTotal.toFixed(2)+' ฿</span>';
     box.appendChild(pkgTotalRow);
 
+    // ── การแพ็กของ ──
+    var ssetPackOpt=set.packOption||'แพ็กให้';
+    var packDiv=document.createElement('div');
+    packDiv.style.cssText='margin-top:10px;padding:10px 12px;background:#f0f9ff;border:1.5px solid #90cdf4;border-radius:10px;';
+    packDiv.innerHTML='<div style="font-size:12px;font-weight:700;color:#2b6cb0;margin-bottom:8px;">📦 การแพ็กของ</div>'
+      +'<div style="display:flex;gap:8px;">'
+      +'<label style="flex:1;display:flex;align-items:center;gap:7px;padding:9px 12px;border-radius:9px;border:1.5px solid '+(ssetPackOpt==='แพ็กให้'?'#2b6cb0':'#e0e0e0')+';background:'+(ssetPackOpt==='แพ็กให้'?'#ebf8ff':'#fff')+';cursor:pointer;font-size:12px;font-weight:'+(ssetPackOpt==='แพ็กให้'?'700':'500')+';color:'+(ssetPackOpt==='แพ็กให้'?'#2b6cb0':'#666')+';">'
+      +'<input type="radio" name="sset-pack-'+si+'" value="แพ็กให้" '+(ssetPackOpt==='แพ็กให้'?'checked':'')+' style="accent-color:#2b6cb0;width:15px;height:15px;"> 📦 ให้แพ็กไปให้เลย</label>'
+      +'<label style="flex:1;display:flex;align-items:center;gap:7px;padding:9px 12px;border-radius:9px;border:1.5px solid '+(ssetPackOpt==='ไม่แพ็ก'?'#2b6cb0':'#e0e0e0')+';background:'+(ssetPackOpt==='ไม่แพ็ก'?'#ebf8ff':'#fff')+';cursor:pointer;font-size:12px;font-weight:'+(ssetPackOpt==='ไม่แพ็ก'?'700':'500')+';color:'+(ssetPackOpt==='ไม่แพ็ก'?'#2b6cb0':'#666')+';">'
+      +'<input type="radio" name="sset-pack-'+si+'" value="ไม่แพ็ก" '+(ssetPackOpt==='ไม่แพ็ก'?'checked':'')+' style="accent-color:#2b6cb0;width:15px;height:15px;"> 🚫 ไม่ต้องแพ็ก</label>'
+      +'</div>';
+    // bind events after append
+    box.appendChild(packDiv);
+    (function(idx){
+      var radios=packDiv.querySelectorAll('input[type=radio]');
+      radios.forEach(function(r){
+        r.addEventListener('change',function(){
+          ssetSets[idx].packOption=this.value;
+          renderSset();
+        });
+      });
+    })(si);
+
     // รวม
     var grandTotal=stickerTotal+pkgTotal;
     // แต่ stickerTotal บวก bag ไปแล้ว ต้องหักออกก่อนบวก pkgTotal ใหม่
@@ -2201,6 +2225,17 @@ function renderGift(){
     html+='<label style="display:flex;align-items:center;gap:6px;margin-bottom:6px;cursor:pointer;font-size:13px;"><input type="checkbox" '+(g.pkgHead?'checked':'')+' onchange="toggleGiftExtra('+gi+',\'pkgHead\',this.checked)"> หัวแพ็ก '+headPrice+'฿/เซ็ต</label>';
     html+='<label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:13px;"><input type="checkbox" '+(g.pkgLabel?'checked':'')+' onchange="toggleGiftExtra('+gi+',\'pkgLabel\',this.checked)"> Sticker Label 4×6 cm (1.5฿/เซ็ต)</label>';
     html+='</div>';
+
+    // ── 9. การแพ็กของ ──
+    var packOpt=g.packOption||'แพ็กให้';
+    html+='<div style="margin-top:10px;padding:10px 12px;background:#f0f9ff;border:1.5px solid #90cdf4;border-radius:10px;">';
+    html+='<div style="font-size:12px;font-weight:700;color:#2b6cb0;margin-bottom:8px;">📦 การแพ็กของ</div>';
+    html+='<div style="display:flex;gap:8px;">';
+    html+='<label style="flex:1;display:flex;align-items:center;gap:7px;padding:9px 12px;border-radius:9px;border:1.5px solid '+(packOpt==='แพ็กให้'?'#2b6cb0':'#e0e0e0')+';background:'+(packOpt==='แพ็กให้'?'#ebf8ff':'#fff')+';cursor:pointer;font-size:12px;font-weight:'+(packOpt==='แพ็กให้'?'700':'500')+';color:'+(packOpt==='แพ็กให้'?'#2b6cb0':'#666')+';">';
+    html+='<input type="radio" name="packopt-'+gi+'" value="แพ็กให้" '+(packOpt==='แพ็กให้'?'checked':'')+' onchange="setGiftField('+gi+',\'packOption\',this.value);renderGift();" style="accent-color:#2b6cb0;width:15px;height:15px;"> 📦 ให้แพ็กไปให้เลย</label>';
+    html+='<label style="flex:1;display:flex;align-items:center;gap:7px;padding:9px 12px;border-radius:9px;border:1.5px solid '+(packOpt==='ไม่แพ็ก'?'#2b6cb0':'#e0e0e0')+';background:'+(packOpt==='ไม่แพ็ก'?'#ebf8ff':'#fff')+';cursor:pointer;font-size:12px;font-weight:'+(packOpt==='ไม่แพ็ก'?'700':'500')+';color:'+(packOpt==='ไม่แพ็ก'?'#2b6cb0':'#666')+';">';
+    html+='<input type="radio" name="packopt-'+gi+'" value="ไม่แพ็ก" '+(packOpt==='ไม่แพ็ก'?'checked':'')+' onchange="setGiftField('+gi+',\'packOption\',this.value);renderGift();" style="accent-color:#2b6cb0;width:15px;height:15px;"> 🚫 ไม่ต้องแพ็ก</label>';
+    html+='</div></div>';
 
     // รวม
     html+='<div style="margin-top:10px;padding-top:8px;border-top:1px solid #e8e8e8;display:flex;justify-content:space-between;font-size:12px;">';
@@ -2422,6 +2457,7 @@ function copyOrder(){
     set.items.forEach(function(s,i){var sz=SSET[s.sizeIdx];var u=s.coat==='เคลือบใสเงา'?sz.clear:sz.special;var p=u*set.setQty;ssetL.push('  สตก.ชิ้นที่ '+(i+1)+': '+sz.size+' '+s.coat+' x1/เซ็ต = '+p.toFixed(2)+'฿');hasSlow=true;});
 
     if(set.bagSelected){var bagP=0;if(per<5){if(set.bagChoice===BAG_OPTS[0])bagP=2*set.setQty;else if(set.bagChoice===BAG_OPTS[1]||set.bagChoice===BAG_OPTS[2])bagP=1*set.setQty;}ssetL.push('  ถุง: '+set.bagChoice+(bagP>0?' (+'+bagP.toFixed(2)+'฿)':'  (ฟรี)'));}
+    ssetL.push('  📦 การแพ็ก: '+(set.packOption||'แพ็กให้'));
   });
   var _tq=0;ssetSets.forEach(function(set){_tq+=set.setQty;});
   ssetSets.forEach(function(set,si){
@@ -2442,6 +2478,7 @@ function copyOrder(){
     if(g.kdQty>0)giftL.push('  - พวงกุญแจ Die-cut: '+g.kdCoat+' x'+g.kdQty+' ('+KD_PRICE+'฿/ชิ้น)');
     if(g.pkgHead)giftL.push('  - หัวแพ็ก');
     if(g.pkgLabel)giftL.push('  - Sticker Label 4×6 cm');
+    giftL.push('  📦 การแพ็ก: '+(g.packOption||'แพ็กให้'));
     // คำนวณวันตาม logic ใหม่
     var gHasSlow=(g.stickers&&g.stickers.some(function(s){return s.stickerQty>0;}))||g.memoQty>0||g.kdQty>0||g.dc50Qty>0;
     var gHasPC=g.pcQty>0;
@@ -2500,7 +2537,7 @@ function resetOrder(){
   kdItems=[{coat:'เคลือบใสเงา',qty:0}];
   dc50Items=[{sizeIdx:0,coat:'เคลือบใสเงา',sheets:0}];
   dc100Items=[{sizeIdx:0,coat:'เคลือบใสเงา',sheets:0}];
-  ssetSets=[{setQty:0,items:[{sizeIdx:0,coat:'เคลือบใสเงา',qty:0}],bagSelected:false,bagChoice:'ซอง PVC ใส',pkg:[false,false]}];
+  ssetSets=[{setQty:0,items:[{sizeIdx:0,coat:'เคลือบใสเงา',qty:0}],bagSelected:false,bagChoice:'ซอง PVC ใส',pkg:[false,false],packOption:'แพ็กให้'}];
   bagChoice='ซอง PVC ใส';bagSelected=false;
   pkgSel=PKG_ITEMS.map(function(){return {include:false};});
   giftItems=[newGift()];
