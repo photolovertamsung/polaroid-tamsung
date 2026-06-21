@@ -68,6 +68,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .tab-row{display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap;}
 .tab-btn{flex:1;min-width:70px;padding:8px 4px;border-radius:10px;border:1px solid #e0e0e0;background:#fff;color:#888;font-size:11px;cursor:pointer;font-weight:600;text-align:center;transition:all 0.15s;}
 .tab-btn.active{background:#1a1a1a;border-color:#1a1a1a;color:#fff;}
+.tab-btn.active.tab-c-print{background:#fffabf;border-color:#fffabf;color:#8a7a00;}
+.tab-btn.active.tab-c-extra{background:#ffd6ff;border-color:#ffd6ff;color:#7a3d7a;}
+.tab-btn.active.tab-c-diecut{background:#b2f9e7;border-color:#b2f9e7;color:#0d7a63;}
+.tab-btn.active.tab-c-sset{background:#f4adcf;border-color:#f4adcf;color:#8a1450;}
+.tab-btn.active.tab-c-gift{background:#bfc4ff;border-color:#bfc4ff;color:#3a3a99;}
 .section{background:#fff;border:1px solid #e8e8e8;border-radius:16px;padding:16px 20px;margin-bottom:12px;}
 .sec-title{font-size:12px;font-weight:700;color:#888;margin-bottom:12px;text-transform:uppercase;letter-spacing:0.8px;}
 .info-box{background:#f8f8f8;border:1px solid #e8e8e8;border-radius:10px;padding:9px 13px;margin-bottom:12px;font-size:12px;color:#666;line-height:1.6;}
@@ -257,12 +262,12 @@ select{flex:1;min-width:100px;font-size:12px;padding:6px 8px;border-radius:8px;b
 </div>
 
 <div class="tab-row">
-  <button class="tab-btn active" onclick="switchTab('print')">🖼 งานพิมพ์รูป</button>
-  <button class="tab-btn" onclick="switchTab('extra')">🃏 การ์ด เมโม & พวงกุญแจ</button>
+  <button class="tab-btn active tab-c-print" onclick="switchTab('print')">🖼 งานพิมพ์รูป</button>
+  <button class="tab-btn tab-c-extra" onclick="switchTab('extra')">🃏 การ์ด เมโม & พวงกุญแจ</button>
 
-  <button class="tab-btn" onclick="switchTab('diecut')">✂️ สต๊ก Die-cut</button>
-  <button class="tab-btn" onclick="switchTab('sset')">🏷 จัดเซ็ต STICKER</button>
-  <button class="tab-btn" onclick="switchTab('gift')">🎁 จัดเซ็ต Giveaway</button>
+  <button class="tab-btn tab-c-diecut" onclick="switchTab('diecut')">✂️ สต๊ก Die-cut</button>
+  <button class="tab-btn tab-c-sset" onclick="switchTab('sset')">🏷 จัดเซ็ต STICKER</button>
+  <button class="tab-btn tab-c-gift" onclick="switchTab('gift')">🎁 จัดเซ็ต Giveaway</button>
 
 </div>
 <div id="tab-desc" style="font-size:11px;color:#888;text-align:center;padding:6px 12px;margin-bottom:4px;"></div>
@@ -280,12 +285,17 @@ select{flex:1;min-width:100px;font-size:12px;padding:6px 8px;border-radius:8px;b
 <!-- tab-checkdel ย้ายเป็น accordion แล้ว -->
 
 <div id="tab-print">
-<!-- ── แถบแจ้งเตือนสีงานพิมพ์ ── -->
-<div style="background:#fff;border:1.5px solid #e8e8e8;border-radius:10px;padding:10px 14px;margin-bottom:12px;display:flex;align-items:center;gap:8px;">
-  <span style="font-size:16px;">📱</span>
-  <span style="font-size:12px;color:#92400e;font-weight:600;line-height:1.5;">สีบนหน้าจอ ≠ สีงานพิมพ์<br><span style="font-weight:400;">สีที่ได้จากงานพิมพ์อาจแตกต่างจากหน้าจอ เนื่องจากระบบสีที่แตกต่างกันค่ะ</span></span>
+<!-- ── แถบแจ้งเตือนสีงานพิมพ์ (ขึ้นเฉพาะแท็บนี้, ยุบเป็น accordion) ── -->
+<div class="paper-info-box" style="padding:0;overflow:hidden;">
+  <div onclick="var b=this.nextElementSibling;var open=b.style.display==='block';b.style.display=open?'none':'block';this.querySelector('.paper-arrow').textContent=open?'▼':'▲';" style="display:flex;align-items:center;justify-content:space-between;padding:12px 14px;cursor:pointer;">
+    <div class="paper-info-title" style="margin-bottom:0;">📱 สีบนหน้าจอ ≠ สีงานพิมพ์</div>
+    <span class="paper-arrow" style="color:#92400e;font-size:12px;font-weight:700;">▼</span>
+  </div>
+  <div style="display:none;padding:0 14px 12px;">
+    <div style="font-size:12px;color:#92400e;font-weight:400;line-height:1.5;margin-bottom:10px;">สีที่ได้จากงานพิมพ์อาจแตกต่างจากหน้าจอ เนื่องจากระบบสีที่แตกต่างกันค่ะ ใช้กับทั้งงานพิมพ์รูปและงานสติ๊กเกอร์เหมือนกันนะคะ</div>
+    <img src="https://i.ibb.co/jZxy8SQ5/Untitled-1-Recovered.png" style="width:100%;border-radius:8px;display:block;cursor:pointer;" onclick="event.stopPropagation();openLightbox(this.src)" alt="สีบนหน้าจอ ≠ สีงานพิมพ์">
+  </div>
 </div>
-<img src="https://i.ibb.co/jZxy8SQ5/Untitled-1-Recovered.png" style="width:100%;border-radius:10px;display:block;margin-bottom:12px;cursor:pointer;" onclick="openLightbox(this.src)" alt="สีบนหน้าจอ ≠ สีงานพิมพ์">
 <!-- เนื้อกระดาษ -->
   <div class="paper-info-box" style="padding:0;overflow:hidden;">
     <div onclick="var b=this.nextElementSibling;var open=b.style.display==='block';b.style.display=open?'none':'block';this.querySelector('.paper-arrow').textContent=open?'▼':'▲';" style="display:flex;align-items:center;justify-content:space-between;padding:12px 14px;cursor:pointer;">
@@ -398,12 +408,6 @@ select{flex:1;min-width:100px;font-size:12px;padding:6px 8px;border-radius:8px;b
 </div>
 
 <div id="tab-extra" style="display:none;">
-<!-- ── แถบแจ้งเตือนสีงานพิมพ์ ── -->
-<div style="background:#fff;border:1.5px solid #e8e8e8;border-radius:10px;padding:10px 14px;margin-bottom:12px;display:flex;align-items:center;gap:8px;">
-  <span style="font-size:16px;">📱</span>
-  <span style="font-size:12px;color:#92400e;font-weight:600;line-height:1.5;">สีบนหน้าจอ ≠ สีงานพิมพ์<br><span style="font-weight:400;">สีที่ได้จากงานพิมพ์อาจแตกต่างจากหน้าจอ เนื่องจากระบบสีที่แตกต่างกันค่ะ</span></span>
-</div>
-<img src="https://i.ibb.co/jZxy8SQ5/Untitled-1-Recovered.png" style="width:100%;border-radius:10px;display:block;margin-bottom:12px;cursor:pointer;" onclick="openLightbox(this.src)" alt="สีบนหน้าจอ ≠ สีงานพิมพ์">
 
   <!-- Photocard accordion -->
   <div class="print-acc-hd" onclick="toggleExtraAcc('pc')" id="acc-hd-pc">
@@ -522,12 +526,6 @@ select{flex:1;min-width:100px;font-size:12px;padding:6px 8px;border-radius:8px;b
 </div>
 
 <div id="tab-diecut" style="display:none;">
-<!-- ── แถบแจ้งเตือนสีงานพิมพ์ ── -->
-<div style="background:#fff;border:1.5px solid #e8e8e8;border-radius:10px;padding:10px 14px;margin-bottom:12px;display:flex;align-items:center;gap:8px;">
-  <span style="font-size:16px;">📱</span>
-  <span style="font-size:12px;color:#92400e;font-weight:600;line-height:1.5;">สีบนหน้าจอ ≠ สีงานพิมพ์<br><span style="font-weight:400;">สีที่ได้จากงานพิมพ์อาจแตกต่างจากหน้าจอ เนื่องจากระบบสีที่แตกต่างกันค่ะ</span></span>
-</div>
-<img src="https://i.ibb.co/jZxy8SQ5/Untitled-1-Recovered.png" style="width:100%;border-radius:10px;display:block;margin-bottom:12px;cursor:pointer;" onclick="openLightbox(this.src)" alt="สีบนหน้าจอ ≠ สีงานพิมพ์">
 
   <div class="sec-title">✂️ STICKER DIE-CUT</div>
   <div class="section">
@@ -624,12 +622,6 @@ select{flex:1;min-width:100px;font-size:12px;padding:6px 8px;border-radius:8px;b
 </div>
 
 <div id="tab-sset" style="display:none;">
-<!-- ── แถบแจ้งเตือนสีงานพิมพ์ ── -->
-<div style="background:#fff;border:1.5px solid #e8e8e8;border-radius:10px;padding:10px 14px;margin-bottom:12px;display:flex;align-items:center;gap:8px;">
-  <span style="font-size:16px;">📱</span>
-  <span style="font-size:12px;color:#92400e;font-weight:600;line-height:1.5;">สีบนหน้าจอ ≠ สีงานพิมพ์<br><span style="font-weight:400;">สีที่ได้จากงานพิมพ์อาจแตกต่างจากหน้าจอ เนื่องจากระบบสีที่แตกต่างกันค่ะ</span></span>
-</div>
-<img src="https://i.ibb.co/jZxy8SQ5/Untitled-1-Recovered.png" style="width:100%;border-radius:10px;display:block;margin-bottom:12px;cursor:pointer;" onclick="openLightbox(this.src)" alt="สีบนหน้าจอ ≠ สีงานพิมพ์">
 <div class="section">
     <div class="sec-title">Sticker Set (ราคาต่อชิ้น)</div>
     <div class="gallery-slider" style="position:relative;margin-bottom:10px;">
@@ -667,12 +659,6 @@ select{flex:1;min-width:100px;font-size:12px;padding:6px 8px;border-radius:8px;b
 </div>
 
 <div id="tab-gift" style="display:none;">
-<!-- ── แถบแจ้งเตือนสีงานพิมพ์ ── -->
-<div style="background:#fff;border:1.5px solid #e8e8e8;border-radius:10px;padding:10px 14px;margin-bottom:12px;display:flex;align-items:center;gap:8px;">
-  <span style="font-size:16px;">📱</span>
-  <span style="font-size:12px;color:#92400e;font-weight:600;line-height:1.5;">สีบนหน้าจอ ≠ สีงานพิมพ์<br><span style="font-weight:400;">สีที่ได้จากงานพิมพ์อาจแตกต่างจากหน้าจอ เนื่องจากระบบสีที่แตกต่างกันค่ะ</span></span>
-</div>
-<img src="https://i.ibb.co/jZxy8SQ5/Untitled-1-Recovered.png" style="width:100%;border-radius:10px;display:block;margin-bottom:12px;cursor:pointer;" onclick="openLightbox(this.src)" alt="สีบนหน้าจอ ≠ สีงานพิมพ์">
 <div class="section">
     <div class="sec-title">เซ็ตกิ๊ฟอะเวย์</div>
     <div class="gallery-slider" style="position:relative;margin-bottom:6px;">
