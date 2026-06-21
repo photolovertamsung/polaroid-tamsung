@@ -272,7 +272,7 @@ select{flex:1;min-width:100px;font-size:12px;padding:6px 8px;border-radius:8px;b
   <div class="gsearch-label">🔍 หาสินค้าไม่เจอ? ค้นที่นี่ได้เลย</div>
   <div class="gsearch-box">
     <span class="gsearch-icon">🔍</span>
-    <input type="text" id="gsearch-input" placeholder="เช่น 4x6, พวงกุญแจ, จัดเซ็ต" oninput="renderGSearch(this.value)" onfocus="if(this.value)renderGSearch(this.value)">
+    <input type="text" id="gsearch-input" placeholder="เช่น 4x6, พวงกุญแจ, จัดเซ็ต" oninput="renderGSearch(this.value)" onfocus="if(this.value)renderGSearch(this.value)" onkeydown="gsearchKeydown(event)">
   </div>
   <div class="gsearch-panel" id="gsearch-panel"></div>
 </div>
@@ -1571,6 +1571,20 @@ document.addEventListener('click',function(e){
   var panel=document.getElementById('gsearch-panel');
   if(wrap&&panel&&!wrap.contains(e.target))panel.classList.remove('open');
 });
+function gsearchKeydown(e){
+  var panel=document.getElementById('gsearch-panel');
+  if(e.key==='Escape'){
+    panel.classList.remove('open');
+    e.target.blur();
+    return;
+  }
+  if(e.key==='Enter'){
+    e.preventDefault();
+    var prodM=panel._prodM||[],catM=panel._catM||[];
+    if(prodM.length){gsearchPick('prod',0);}
+    else if(catM.length){gsearchPick('cat',0);}
+  }
+}
 
 function switchTab(tab){
   ['print','extra','diecut','sset','gift','info','checkdel'].forEach(function(x){
