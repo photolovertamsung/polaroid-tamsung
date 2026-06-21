@@ -94,6 +94,22 @@ select{flex:1;min-width:100px;font-size:12px;padding:6px 8px;border-radius:8px;b
 .rm-btn{font-size:11px;color:#e53935;background:none;border:none;cursor:pointer;}
 .inner-box{background:#f8f8f8;border:1px solid #e8e8e8;border-radius:10px;padding:11px;margin-top:4px;}
 .sub-box{background:#fff;border:1px solid #e8e8e8;border-radius:8px;padding:8px;margin-bottom:6px;}
+.gsearch-wrap{position:relative;margin:14px 0 16px;}
+.gsearch-label{font-size:12px;font-weight:700;color:#666;margin-bottom:6px;padding-left:2px;}
+.gsearch-box{display:flex;align-items:center;gap:8px;background:#fff;border:2px solid #1a1a1a;border-radius:14px;padding:12px 16px;}
+.gsearch-box input{flex:1;border:none;outline:none;font-size:14px;background:transparent;color:#1a1a1a;}
+.gsearch-box input::placeholder{color:#bbb;}
+.gsearch-icon{font-size:16px;color:#1a1a1a;}
+.gsearch-panel{display:none;position:absolute;top:calc(100% + 6px);left:0;right:0;background:#fff;border:1.5px solid #e0e0e0;border-radius:12px;z-index:50;max-height:300px;overflow-y:auto;box-shadow:0 6px 20px rgba(0,0,0,.08);}
+.gsearch-panel.open{display:block;}
+.gsearch-group{font-size:11px;font-weight:700;color:#bbb;text-transform:uppercase;letter-spacing:0.5px;padding:10px 14px 4px;}
+.gsearch-row{padding:10px 14px;cursor:pointer;display:flex;flex-direction:column;gap:2px;}
+.gsearch-row:active{background:#f8f8f8;}
+.gsearch-row-main{display:flex;justify-content:space-between;align-items:baseline;gap:8px;}
+.gsearch-row-name{font-size:13px;color:#1a1a1a;font-weight:600;}
+.gsearch-row-tag{font-size:11px;color:#bbb;white-space:nowrap;}
+.gsearch-row-hint{font-size:11px;color:#aaa;}
+.gsearch-empty{padding:16px 14px;font-size:13px;color:#bbb;text-align:center;}
 .ship-opt{display:flex;align-items:flex-start;gap:10px;padding:11px;border-radius:10px;border:1px solid #e8e8e8;cursor:pointer;margin-bottom:8px;}
 .ship-opt:last-child{margin-bottom:0;}
 .ship-opt.sel{border-color:#1a1a1a;background:#f8f8f8;}
@@ -251,11 +267,21 @@ select{flex:1;min-width:100px;font-size:12px;padding:6px 8px;border-radius:8px;b
 </div>
 <div id="tab-desc" style="font-size:11px;color:#888;text-align:center;padding:6px 12px;margin-bottom:4px;"></div>
 
+<!-- ── ช่องค้นหากลาง (อยู่นอก tab-print เพื่อให้แสดงทุกแท็บ) ── -->
+<div class="gsearch-wrap">
+  <div class="gsearch-label">🔍 หาสินค้าไม่เจอ? ค้นที่นี่ได้เลย</div>
+  <div class="gsearch-box">
+    <span class="gsearch-icon">🔍</span>
+    <input type="text" id="gsearch-input" placeholder="เช่น 4x6, พวงกุญแจ, จัดเซ็ต" oninput="renderGSearch(this.value)" onfocus="if(this.value)renderGSearch(this.value)">
+  </div>
+  <div class="gsearch-panel" id="gsearch-panel"></div>
+</div>
+
 <!-- tab-checkdel ย้ายเป็น accordion แล้ว -->
 
 <div id="tab-print">
 <!-- ── แถบแจ้งเตือนสีงานพิมพ์ ── -->
-<div style="background:#fff8e1;border:1.5px solid #fcd34d;border-radius:10px;padding:10px 14px;margin-bottom:12px;display:flex;align-items:center;gap:8px;">
+<div style="background:#fff;border:1.5px solid #e8e8e8;border-radius:10px;padding:10px 14px;margin-bottom:12px;display:flex;align-items:center;gap:8px;">
   <span style="font-size:16px;">📱</span>
   <span style="font-size:12px;color:#92400e;font-weight:600;line-height:1.5;">สีบนหน้าจอ ≠ สีงานพิมพ์<br><span style="font-weight:400;">สีที่ได้จากงานพิมพ์อาจแตกต่างจากหน้าจอ เนื่องจากระบบสีที่แตกต่างกันค่ะ</span></span>
 </div>
@@ -373,7 +399,7 @@ select{flex:1;min-width:100px;font-size:12px;padding:6px 8px;border-radius:8px;b
 
 <div id="tab-extra" style="display:none;">
 <!-- ── แถบแจ้งเตือนสีงานพิมพ์ ── -->
-<div style="background:#fff8e1;border:1.5px solid #fcd34d;border-radius:10px;padding:10px 14px;margin-bottom:12px;display:flex;align-items:center;gap:8px;">
+<div style="background:#fff;border:1.5px solid #e8e8e8;border-radius:10px;padding:10px 14px;margin-bottom:12px;display:flex;align-items:center;gap:8px;">
   <span style="font-size:16px;">📱</span>
   <span style="font-size:12px;color:#92400e;font-weight:600;line-height:1.5;">สีบนหน้าจอ ≠ สีงานพิมพ์<br><span style="font-weight:400;">สีที่ได้จากงานพิมพ์อาจแตกต่างจากหน้าจอ เนื่องจากระบบสีที่แตกต่างกันค่ะ</span></span>
 </div>
@@ -497,7 +523,7 @@ select{flex:1;min-width:100px;font-size:12px;padding:6px 8px;border-radius:8px;b
 
 <div id="tab-diecut" style="display:none;">
 <!-- ── แถบแจ้งเตือนสีงานพิมพ์ ── -->
-<div style="background:#fff8e1;border:1.5px solid #fcd34d;border-radius:10px;padding:10px 14px;margin-bottom:12px;display:flex;align-items:center;gap:8px;">
+<div style="background:#fff;border:1.5px solid #e8e8e8;border-radius:10px;padding:10px 14px;margin-bottom:12px;display:flex;align-items:center;gap:8px;">
   <span style="font-size:16px;">📱</span>
   <span style="font-size:12px;color:#92400e;font-weight:600;line-height:1.5;">สีบนหน้าจอ ≠ สีงานพิมพ์<br><span style="font-weight:400;">สีที่ได้จากงานพิมพ์อาจแตกต่างจากหน้าจอ เนื่องจากระบบสีที่แตกต่างกันค่ะ</span></span>
 </div>
@@ -599,7 +625,7 @@ select{flex:1;min-width:100px;font-size:12px;padding:6px 8px;border-radius:8px;b
 
 <div id="tab-sset" style="display:none;">
 <!-- ── แถบแจ้งเตือนสีงานพิมพ์ ── -->
-<div style="background:#fff8e1;border:1.5px solid #fcd34d;border-radius:10px;padding:10px 14px;margin-bottom:12px;display:flex;align-items:center;gap:8px;">
+<div style="background:#fff;border:1.5px solid #e8e8e8;border-radius:10px;padding:10px 14px;margin-bottom:12px;display:flex;align-items:center;gap:8px;">
   <span style="font-size:16px;">📱</span>
   <span style="font-size:12px;color:#92400e;font-weight:600;line-height:1.5;">สีบนหน้าจอ ≠ สีงานพิมพ์<br><span style="font-weight:400;">สีที่ได้จากงานพิมพ์อาจแตกต่างจากหน้าจอ เนื่องจากระบบสีที่แตกต่างกันค่ะ</span></span>
 </div>
@@ -642,7 +668,7 @@ select{flex:1;min-width:100px;font-size:12px;padding:6px 8px;border-radius:8px;b
 
 <div id="tab-gift" style="display:none;">
 <!-- ── แถบแจ้งเตือนสีงานพิมพ์ ── -->
-<div style="background:#fff8e1;border:1.5px solid #fcd34d;border-radius:10px;padding:10px 14px;margin-bottom:12px;display:flex;align-items:center;gap:8px;">
+<div style="background:#fff;border:1.5px solid #e8e8e8;border-radius:10px;padding:10px 14px;margin-bottom:12px;display:flex;align-items:center;gap:8px;">
   <span style="font-size:16px;">📱</span>
   <span style="font-size:12px;color:#92400e;font-weight:600;line-height:1.5;">สีบนหน้าจอ ≠ สีงานพิมพ์<br><span style="font-weight:400;">สีที่ได้จากงานพิมพ์อาจแตกต่างจากหน้าจอ เนื่องจากระบบสีที่แตกต่างกันค่ะ</span></span>
 </div>
@@ -1132,7 +1158,7 @@ var giftItems=[];
 function newGift(){
   return {
     setQty:0,
-    prints:[{printIdx:0,printCoat:'ไม่เคลือบ',printQty:0}],
+    prints:[{printIdx:0,printCoat:'ไม่เคลือบ',printFrame:'กรอบขาว',printQty:0}],
     stickers:[{stickerSizeIdx:0,stickerCoat:'เคลือบใสเงา',stickerQty:0}],
     hasDc50:false,dc50SizeIdx:0,dc50Coat:'เคลือบใสเงา',dc50Qty:0,
     hasPC:false,pcTypeIdx:0,pcCoat:'เคลือบใสเงา',pcQty:0,
@@ -1449,6 +1475,103 @@ function toggleCheckDel(){
   }
 }
 
+// ===== GLOBAL SEARCH =====
+var GSEARCH_PRODUCTS=[
+  {name:'รูปติดบัตร 1 นิ้ว',tab:'print',accFn:'togglePrintAcc',accKey:'id',aliases:['ไอดี','id','id photo']},
+  {name:'รูปติดบัตร 1.5 นิ้ว',tab:'print',accFn:'togglePrintAcc',accKey:'id',aliases:['ไอดี','id','id photo']},
+  {name:'รูปติดบัตร 2 นิ้ว',tab:'print',accFn:'togglePrintAcc',accKey:'id',aliases:['ไอดี','id','id photo']},
+  {name:'มินิโฟโต้บูธ (ใส่หลังเคสได้)',tab:'print',accFn:'togglePrintAcc',accKey:'mini',aliases:['โฟโต้บูธ','มินิโฟโต้บูธ']},
+  {name:'ไอดี 4 ช่อง',tab:'print',accFn:'togglePrintAcc',accKey:'mini',aliases:['ไอดี','id','id photo','4ช่อง']},
+  {name:'รูปอัด 2x2 นิ้ว',tab:'print',accFn:'togglePrintAcc',accKey:'std',aliases:['2x2']},
+  {name:'รูปอัด 2x3 นิ้ว',tab:'print',accFn:'togglePrintAcc',accKey:'std',aliases:['2x3']},
+  {name:'รูปอัด 2x4 นิ้ว',tab:'print',accFn:'togglePrintAcc',accKey:'std',aliases:['2x4']},
+  {name:'รูปอัด 2x6 นิ้ว',tab:'print',accFn:'togglePrintAcc',accKey:'std',aliases:['2x6']},
+  {name:'รูปอัด 2.5x3.5 นิ้ว (เท่าบัตรประชาชน)',tab:'print',accFn:'togglePrintAcc',accKey:'std',aliases:['2.5x3.5','บัตรประชาชน']},
+  {name:'รูปอัด 2.5x5 นิ้ว (เท่าล็อตตารี่)',tab:'print',accFn:'togglePrintAcc',accKey:'std',aliases:['2.5x5','ล็อตตารี่','ลอตเตอรี่']},
+  {name:'รูปอัด 3x3 นิ้ว',tab:'print',accFn:'togglePrintAcc',accKey:'std',aliases:['3x3']},
+  {name:'รูปอัด 3x4 นิ้ว',tab:'print',accFn:'togglePrintAcc',accKey:'std',aliases:['3x4']},
+  {name:'รูปอัด 4x4 นิ้ว',tab:'print',accFn:'togglePrintAcc',accKey:'std',aliases:['4x4']},
+  {name:'รูปอัด 3.5x5 นิ้ว',tab:'print',accFn:'togglePrintAcc',accKey:'std',aliases:['3.5x5']},
+  {name:'รูปอัด 4x6 นิ้ว',tab:'print',accFn:'togglePrintAcc',accKey:'std',aliases:['4x6']},
+  {name:'รูปอัด 5x7 นิ้ว',tab:'print',accFn:'togglePrintAcc',accKey:'std',aliases:['5x7']},
+  {name:'รูปอัด 6x8 นิ้ว',tab:'print',accFn:'togglePrintAcc',accKey:'std',aliases:['6x8']},
+  {name:'รูปอัด A5',tab:'print',accFn:'togglePrintAcc',accKey:'std',aliases:['a5']},
+  {name:'รูปอัด A4',tab:'print',accFn:'togglePrintAcc',accKey:'std',aliases:['a4']},
+  {name:'รูปอัด A3',tab:'print',accFn:'togglePrintAcc',accKey:'std',aliases:['a3']},
+  {name:'Custom ขนาด',tab:'print',accFn:'togglePrintAcc',accKey:'custom',aliases:['คัสตอม','กำหนดขนาดเอง','custom']},
+  {name:'Photocard',tab:'extra',accFn:'toggleExtraAcc',accKey:'pc',aliases:['การ์ด','โฟโต้การ์ด','photo card']},
+  {name:'Memo Pad',tab:'extra',accFn:'toggleExtraAcc',accKey:'memo',aliases:['เมโม','เมโม่','เมมโม่','memo']},
+  {name:'เมมโมแพดไดคัท',tab:'extra',accFn:'toggleExtraAcc',accKey:'memodc',aliases:['เมโม','เมโม่ไดคัท','เมมโม่ไดคัท']},
+  {name:'พวงกุญแจรูป 2×2 นิ้ว',tab:'extra',accFn:'toggleExtraAcc',accKey:'kp',aliases:['พวงกุญแจ','keychain']},
+  {name:'พวงกุญแจ Die-cut',tab:'extra',accFn:'toggleExtraAcc',accKey:'kd',aliases:['พวงกุญแจ','พวงกุญแจสตก','พวงกุญแจไดคัท']},
+  {name:'Die-cut 50%',tab:'diecut',accFn:'toggleDiecutAcc',accKey:'dc50',aliases:['สตกไดคัท50','สตกไดคัต50','ไดคัท50','ไดคัต50','die cut 50']},
+  {name:'Die-cut 100% A4',tab:'diecut',accFn:'toggleDiecutAcc',accKey:'dc100',aliases:['สตกไดคัท100','สตกไดคัต100','ไดคัท100','ไดคัต100','die cut 100']}
+];
+var GSEARCH_CATEGORIES=[
+  {name:'จัดเซ็ต STICKER',tab:'sset',hint:'จัดเซ็ตสติ๊กเกอร์ไดคัทอย่างเดียว',aliases:['sticker','สติ๊กเกอร์','สตก','ไดคัท','ไดคัต','die cut','diecut']},
+  {name:'จัดเซ็ต Giveaway',tab:'gift',hint:'รวมรูปอัด + สติ๊กเกอร์ + ของอื่นๆ ไว้ในเซ็ตเดียวกันได้',aliases:['giveaway','กิ๊ฟ','กิ๊ฟอะเวย์','ของแจก','จัดเซ็ตรูป','รูป+สตก','รูปบวกสติ๊กเกอร์','จัดเซ็ตรวม','รวมหลายอย่าง','เซ็ตรวม']}
+];
+var GSEARCH_TAB_LABEL={print:'งานพิมพ์รูป',extra:'การ์ด เมโม & พวงกุญแจ',diecut:'สต๊ก Die-cut',sset:'จัดเซ็ต STICKER',gift:'จัดเซ็ต Giveaway'};
+
+function gsearchNorm(s){return (s||'').toLowerCase().replace(/[\s+]/g,'');}
+function gsearchMatch(item,f){
+  if(gsearchNorm(item.name).indexOf(f)>=0)return true;
+  var al=item.aliases||[];
+  for(var i=0;i<al.length;i++){var a=gsearchNorm(al[i]);if(a.indexOf(f)>=0||f.indexOf(a)>=0)return true;}
+  return false;
+}
+function renderGSearch(q){
+  var panel=document.getElementById('gsearch-panel');
+  var f=gsearchNorm(q);
+  if(!f){panel.classList.remove('open');panel.innerHTML='';return;}
+  var catM=GSEARCH_CATEGORIES.filter(function(d){return gsearchMatch(d,f);});
+  var prodM=GSEARCH_PRODUCTS.filter(function(d){return gsearchMatch(d,f);});
+  var html='';
+  if(catM.length===0&&prodM.length===0){
+    html='<div class="gsearch-empty">ไม่พบรายการที่ตรงกัน</div>';
+  } else {
+    if(prodM.length){
+      html+='<div class="gsearch-group">สินค้า</div>';
+      prodM.forEach(function(m,i){
+        html+='<div class="gsearch-row" onclick="gsearchPick(\'prod\','+i+')"><div class="gsearch-row-main"><span class="gsearch-row-name">'+m.name+'</span><span class="gsearch-row-tag">'+GSEARCH_TAB_LABEL[m.tab]+'</span></div></div>';
+      });
+    }
+    if(catM.length){
+      html+='<div class="gsearch-group">หมวดหมู่</div>';
+      catM.forEach(function(m,i){
+        html+='<div class="gsearch-row" onclick="gsearchPick(\'cat\','+i+')"><div class="gsearch-row-main"><span class="gsearch-row-name">'+m.name+'</span><span class="gsearch-row-tag">'+GSEARCH_TAB_LABEL[m.tab]+'</span></div><span class="gsearch-row-hint">'+m.hint+'</span></div>';
+      });
+    }
+  }
+  panel.innerHTML=html;
+  panel.classList.add('open');
+  panel._catM=catM;panel._prodM=prodM;
+}
+function gsearchPick(kind,i){
+  var panel=document.getElementById('gsearch-panel');
+  var item=kind==='cat'?panel._catM[i]:panel._prodM[i];
+  if(!item)return;
+  switchTab(item.tab);
+  panel.classList.remove('open');
+  panel.innerHTML='';
+  document.getElementById('gsearch-input').value='';
+  if(item.accFn&&item.accKey){
+    setTimeout(function(){
+      var hd=document.getElementById('acc-hd-'+item.accKey);
+      if(!hd)return;
+      if(!hd.classList.contains('open')){
+        window[item.accFn](item.accKey);
+      }
+      hd.scrollIntoView({behavior:'smooth',block:'start'});
+    },80);
+  }
+}
+document.addEventListener('click',function(e){
+  var wrap=document.querySelector('.gsearch-wrap');
+  var panel=document.getElementById('gsearch-panel');
+  if(wrap&&panel&&!wrap.contains(e.target))panel.classList.remove('open');
+});
+
 function switchTab(tab){
   ['print','extra','diecut','sset','gift','info','checkdel'].forEach(function(x){
     var el=document.getElementById('tab-'+x);
@@ -1635,10 +1758,11 @@ function addSsetItem(si){
 function setPkg(i,v){pkgSel[i].include=v;renderSset();}
 function setGiftQty(gi,v){v=+v||1;giftItems[gi].setQty=v;renderGift();}
 function rmGift(gi){giftItems.splice(gi,1);renderGift();}
-function addGiftPrint(gi){giftItems[gi].prints.push({printIdx:0,printCoat:'ไม่เคลือบ',printQty:0});renderGift();}
+function addGiftPrint(gi){giftItems[gi].prints.push({printIdx:0,printCoat:'ไม่เคลือบ',printFrame:'กรอบขาว',printQty:0});renderGift();}
 function rmGiftPrint(gi,pi){giftItems[gi].prints.splice(pi,1);renderGift();}
 function setGiftPrintIdx(gi,pi,v){giftItems[gi].prints[pi].printIdx=+v;renderGift();}
 function setGiftPrintCoat(gi,pi,v){giftItems[gi].prints[pi].printCoat=v;renderGift();}
+function setGiftPrintFrame(gi,pi,v){giftItems[gi].prints[pi].printFrame=v;renderGift();}
 function setGiftPrintQty(gi,pi,v){giftItems[gi].prints[pi].printQty=+v;renderGift();}
 function addGiftSticker(gi){giftItems[gi].stickers.push({stickerSizeIdx:0,stickerCoat:'เคลือบใสเงา',stickerQty:0});renderGift();}
 function rmGiftSticker(gi,si){giftItems[gi].stickers.splice(si,1);renderGift();}
@@ -2143,6 +2267,7 @@ function renderGift(){
       var pOpts='';for(var k=0;k<GIFT_PRINT_ITEMS.length;k++)pOpts+='<option value="'+k+'"'+(p.printIdx===k?' selected':'')+'>'+GIFT_PRINT_ITEMS[k].label+'</option>';
       var pcOpts='<option value="ไม่เคลือบ"'+(p.printCoat==='ไม่เคลือบ'?' selected':'')+'>ไม่เคลือบ</option>';
       for(var k=0;k<COATS.length;k++)pcOpts+='<option value="'+COATS[k]+'"'+(p.printCoat===COATS[k]?' selected':'')+'>'+COATS[k]+'</option>';
+      var pfOpts='';for(var k=0;k<FRAMES_ID.length;k++)pfOpts+='<option value="'+FRAMES_ID[k]+'"'+((p.printFrame||FRAMES_ID[0])===FRAMES_ID[k]?' selected':'')+'>'+FRAMES_ID[k]+'</option>';
       html+='<div class="sub-box">';
       html+='<div style="display:flex;justify-content:space-between;margin-bottom:6px;">';
       html+='<span style="font-size:12px;color:#aaa;">รูปที่ '+(pi2+1)+'</span>';
@@ -2150,7 +2275,8 @@ function renderGift(){
       html+='</div>';
       html+='<select style="width:100%;margin-bottom:6px;" onchange="setGiftPrintIdx('+gi+','+pi2+',this.value)">'+pOpts+'</select>';
       html+='<div class="sel-row"><select onchange="setGiftPrintCoat('+gi+','+pi2+',this.value)">'+pcOpts+'</select>';
-      html+='<input class="qty-inp" type="number" min="0" max="999" value="'+p.printQty+'" onchange="setGiftPrintQty('+gi+','+pi2+',this.value)">';
+      html+='<select onchange="setGiftPrintFrame('+gi+','+pi2+',this.value)">'+pfOpts+'</select></div>';
+      html+='<div class="qty-row"><input class="qty-inp" type="number" min="0" max="999" value="'+p.printQty+'" onchange="setGiftPrintQty('+gi+','+pi2+',this.value)">';
       html+='<span class="qty-lbl">ใบ</span></div></div>';
     }
     html+='<button class="add-btn" style="margin-top:6px;" onclick="addGiftPrint('+gi+')">+ เพิ่มรูปอัด</button>';
@@ -2499,7 +2625,7 @@ function copyOrder(){
     });
   });
   for(var gi=0;gi<giftItems.length;gi++){var g=giftItems[gi];var res=calcGiftTotal(g);if(res.t<=0)continue;giftL.push('• เซ็ตที่'+(gi+1)+' ('+g.setQty+'เซ็ต) รวม '+(res.t*g.setQty).toFixed(2)+'฿');
-    for(var pi2=0;pi2<g.prints.length;pi2++){var p=g.prints[pi2];if(p.printQty>0&&GIFT_PRINT_ITEMS[p.printIdx])giftL.push('  - รูป: '+GIFT_PRINT_ITEMS[p.printIdx].label+' | '+p.printCoat+' x'+p.printQty);}
+    for(var pi2=0;pi2<g.prints.length;pi2++){var p=g.prints[pi2];if(p.printQty>0&&GIFT_PRINT_ITEMS[p.printIdx])giftL.push('  - รูป: '+GIFT_PRINT_ITEMS[p.printIdx].label+' | '+p.printCoat+' | '+(p.printFrame||'กรอบขาว')+' x'+p.printQty);}
     for(var si2=0;si2<g.stickers.length;si2++){var s2=g.stickers[si2];if(s2.stickerQty>0&&SSET[s2.stickerSizeIdx])giftL.push('  - Sticker: '+SSET[s2.stickerSizeIdx].size+' | '+s2.stickerCoat+' x'+s2.stickerQty);}
     if(g.dc50Qty>0&&GIFT_DC50[g.dc50SizeIdx]){var dc=GIFT_DC50[g.dc50SizeIdx];var dcU=SPECIAL.indexOf(g.dc50Coat)>=0?dc.special:dc.clear;giftL.push('  - Die-cut 50%: '+dc.size+' | '+g.dc50Coat+' x'+g.dc50Qty+' ('+dcU+'฿/แผ่น)');}
     if(g.pcQty>0){var pt=PC_TYPES[g.pcTypeIdx];giftL.push('  - Photocard: '+pt.label+' | '+g.pcCoat+' x'+g.pcQty+' ('+pt.price+'฿/ใบ)');}
