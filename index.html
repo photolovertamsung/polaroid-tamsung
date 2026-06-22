@@ -138,6 +138,8 @@ select{flex:1;min-width:100px;font-size:12px;padding:6px 8px;border-radius:8px;b
 .copy-msg{font-size:12px;color:#3B6D11;text-align:center;margin-top:8px;min-height:18px;}
 .bag-lbl{display:flex;align-items:center;gap:4px;font-size:12px;cursor:pointer;padding:5px 10px;border-radius:8px;border:1px solid #e0e0e0;background:#f8f8f8;transition:all 0.15s;}
 .bag-lbl.sel{border-color:#1a1a1a;background:#f0f0f0;color:#1a1a1a;font-weight:600;}
+.bag-lbl.disabled{cursor:not-allowed;opacity:0.5;background:#f0f0f0;border-color:#e8e8e8;color:#999;}
+.pkg-lbl.disabled{cursor:not-allowed;opacity:0.5;background:#f5f5f5;border-color:#e8e8e8;color:#999;}
 /* Print Accordion */
 .print-acc-hd{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;border-radius:12px;border:1px solid #e8e8e8;background:#fff;cursor:pointer;margin-bottom:8px;user-select:none;-webkit-tap-highlight-color:transparent;transition:background 0.15s;}
 .print-acc-hd:active{background:#f5f5f5;}
@@ -1742,6 +1744,32 @@ function setBagIdx(k){
   else{bagChoice=BAG_OPTS[k];bagSelected=true;}
   renderSset();
 }
+function updateSsetDisable(si){
+  var set=ssetSets[si];
+  var hasBag=set.bagSelected;
+  var hasPkg=set.pkg&&(set.pkg[0]||set.pkg[1]);
+  
+  // disable bag checkbox ถ้าเลือก pkg
+  for(var k=0;k<3;k++){
+    var bagChk=document.getElementById('bag-'+si+'-'+k);
+    var bagLbl=bagChk?bagChk.parentElement:null;
+    if(bagChk){
+      bagChk.disabled=hasPkg;
+      if(bagLbl) bagLbl.classList.toggle('disabled',hasPkg);
+    }
+  }
+  
+  // disable pkg checkbox ถ้าเลือก bag
+  for(var idx=0;idx<2;idx++){
+    var pkgChk=document.getElementById('pkg-'+si+'-'+idx);
+    var pkgLbl=document.getElementById('pkg-lbl-'+si+'-'+idx);
+    if(pkgChk){
+      pkgChk.disabled=hasBag;
+      if(pkgLbl) pkgLbl.classList.toggle('disabled',hasBag);
+    }
+  }
+}
+
 function addSset(){
   var scrollY=window.scrollY;
   var scrollY=window.scrollY;
@@ -2110,17 +2138,18 @@ function renderSset(){
     box.appendChild(pkgTitle);
 
     // ถุง
-    var bagRow2=document.createElement('div');bagRow2.style.cssText='display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px;';
+    var bagRow2=document.createElement('div');bagRow2.id='bag-row-'+si;bagRow2.style.cssText='display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px;';
     var setPerItem=0;
     set.items.forEach(function(s){var sz=SSET[s.sizeIdx];setPerItem+=(s.coat==='เคลือบใสเงา'?sz.clear:sz.special);});
     BAG_OPTS.forEach(function(opt,k){
       var lbl=document.createElement('label');
       lbl.className='bag-lbl'+(set.bagSelected&&set.bagChoice===opt?' sel':'');
       lbl.style.cursor='pointer';
-      var inp=document.createElement('input');inp.type='checkbox';inp.checked=(set.bagSelected&&set.bagChoice===opt);inp.style.marginRight='2px';
+      var inp=document.createElement('input');inp.type='checkbox';inp.id='bag-'+si+'-'+k;inp.checked=(set.bagSelected&&set.bagChoice===opt);inp.style.marginRight='2px';
       (function(si2,ki){inp.addEventListener('change',function(){
         if(ssetSets[si2].bagSelected&&ssetSets[si2].bagChoice===BAG_OPTS[ki]){ssetSets[si2].bagSelected=false;}
         else{ssetSets[si2].bagChoice=BAG_OPTS[ki];ssetSets[si2].bagSelected=true;}
+        updateSsetDisable(si2);
         renderSset();
       });})(si,k);
       var txt=opt;
@@ -2146,13 +2175,14 @@ function renderSset(){
     PKG_ITEMS.forEach(function(item,idx){
       var p=item.price*set.setQty;
       var pkgRow=document.createElement('div');pkgRow.style.cssText='display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;';
-      var lbl=document.createElement('label');lbl.style.cssText='display:flex;align-items:center;gap:6px;cursor:pointer;font-size:13px;';
-      var chk=document.createElement('input');chk.type='checkbox';
+      var lbl=document.createElement('label');lbl.id='pkg-lbl-'+si+'-'+idx;lbl.className='pkg-lbl';lbl.style.cssText='display:flex;align-items:center;gap:6px;cursor:pointer;font-size:13px;';
+      var chk=document.createElement('input');chk.type='checkbox';chk.id='pkg-'+si+'-'+idx;
       if(!set.pkg)set.pkg=[false,false];
       chk.checked=set.pkg[idx]||false;
       (function(si2,ii){chk.addEventListener('change',function(){
         if(!ssetSets[si2].pkg)ssetSets[si2].pkg=[false,false];
         ssetSets[si2].pkg[ii]=this.checked;
+        updateSsetDisable(si2);
         renderSset();
       });})(si,idx);
       lbl.appendChild(chk);lbl.appendChild(document.createTextNode(item.label+' (เซ็ตที่'+(si+1)+') ('+item.price+'฿/เซ็ต)'));
@@ -2206,6 +2236,7 @@ function renderSset(){
     box.appendChild(grandRow);
 
     wrap.appendChild(box);
+    updateSsetDisable(si);
   });
 
   // pkg section - แสดงใต้ sset-rows
