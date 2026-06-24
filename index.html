@@ -589,31 +589,27 @@ select{flex:1;min-width:100px;font-size:12px;padding:6px 8px;border-radius:8px;b
       </div>
     </div>
     <div class="section" style="background:#f8f8f8;margin-bottom:10px;">
-      <div class="sec-title" style="color:#666;">คำนวณจำนวนชิ้นที่ได้ต่อแผ่น</div>
-      <div style="font-size:12px;color:#3B6D11;margin-bottom:10px;line-height:1.6;">ถ้าไม่แน่ใจความกว้าง กรอกแค่ความยาว ระบบจะแสดงตัวเลือกให้ค่ะ</div>
+      <div class="sec-title" style="color:#666;">ระบุจำนวนชิ้นสติ๊กเกอร์ → คำนวณจำนวนแผ่น</div>
+      <div style="font-size:12px;color:#3B6D11;margin-bottom:10px;line-height:1.6;">วัดจากด้านที่ยาวที่สุดของชิ้นงาน แล้วกรอกจำนวนที่ต้องการ ระบบจะคำนวณจำนวนแผ่นที่ต้องกดสั่งให้ค่ะ</div>
       <img src="https://i.ibb.co/HTXWtfrW/2.png" alt="ตารางจำนวนชิ้นต่อแผ่น" style="width:60%;display:block;margin:0 auto 12px;border-radius:10px;">
       <div style="display:flex;gap:8px;margin-bottom:10px;">
         <div style="flex:1;display:flex;flex-direction:column;gap:4px;">
-          <label style="font-size:11px;color:#888;">กว้าง (cm) — ไม่บังคับ</label>
-          <input type="number" id="sc-w" placeholder="เช่น 2" min="1.5" step="0.1" oninput="sCalc()"
+          <label style="font-size:11px;color:#888;">ยาวที่สุดของชิ้นงาน (cm)</label>
+          <input type="number" id="sc-h" placeholder="เช่น 4" min="1.5" max="18" step="0.1" oninput="sCalc()"
             style="border:1px solid #e0e0e0;border-radius:8px;padding:8px 10px;font-size:14px;width:100%;background:#fff;">
         </div>
         <div style="flex:1;display:flex;flex-direction:column;gap:4px;">
-          <label style="font-size:11px;color:#888;">ยาว (cm)</label>
-          <input type="number" id="sc-h" placeholder="เช่น 4" min="1.5" step="0.1" oninput="sCalc()"
+          <label style="font-size:11px;color:#888;">จำนวนที่ต้องการ (ชิ้น)</label>
+          <input type="number" id="sc-qty" placeholder="เช่น 50" min="1" step="1" oninput="sCalc()"
             style="border:1px solid #e0e0e0;border-radius:8px;padding:8px 10px;font-size:14px;width:100%;background:#fff;">
         </div>
       </div>
       <div id="sc-err" style="font-size:12px;color:#c0392b;margin-bottom:8px;min-height:16px;"></div>
       <div id="sc-exact" style="display:none;background:#fff;border:1px solid #e0e0e0;border-radius:8px;padding:10px 12px;">
         <div style="display:flex;justify-content:space-between;align-items:center;">
-          <span style="font-size:12px;color:#888;">จำนวนชิ้นที่ได้ต่อแผ่น</span>
+          <span style="font-size:12px;color:#888;">จำนวนแผ่นที่ต้องสั่ง</span>
           <span id="sc-exact-val" style="font-size:20px;font-weight:700;color:#1a1a1a;"></span>
         </div>
-      </div>
-      <div id="sc-table" style="display:none;background:#fff;border:1px solid #e0e0e0;border-radius:8px;overflow:hidden;">
-        <div style="padding:8px 12px;border-bottom:1px solid #f0f0f0;font-size:12px;font-weight:600;">เปรียบเทียบตามขนาดกว้าง — ยาว <span id="sc-h-lbl"></span> cm</div>
-        <table id="sc-tbl" style="width:100%;border-collapse:collapse;"></table>
       </div>
       <div id="calc-result" style="display:none;"></div>
     </div>
@@ -1095,7 +1091,7 @@ var KP_BASE=3,KP_COAT=3,KP_MIN=10;
 var KD_PRICE=5,KD_MIN=15;
 
 var DC50_PER_SHEET={
-  '1.5':100,'2':80,'2.5':50,'3':48,'3.5':35,'4':24,'4.5':20,'5':15,'5.5':12,'6':12,'7':8,'8':6,'9':6,'10':4
+  '1.5':100,'2':80,'2.5':50,'3':48,'3.5':35,'4':24,'4.5':20,'5':15,'5.5':12,'6':8,'7':8,'8':6,'9':6,'10':4
 };
 var DC50=[
   {size:'A7',clear:10,special:15},
@@ -1373,35 +1369,25 @@ function addDaysNoSunday(days){
   return 'วัน'+thaiDays[d.getDay()]+'ที่ '+dd+' '+thaiMonths[mm-1]+' '+(yy+543);
 }
 function sCalc(){
-  var w=parseFloat(document.getElementById('sc-w').value)||0;
   var h=parseFloat(document.getElementById('sc-h').value)||0;
+  var qty=parseInt(document.getElementById('sc-qty').value)||0;
   var ex=document.getElementById('sc-exact');
-  var tb=document.getElementById('sc-table');
   var err=document.getElementById('sc-err');
   var PW=210,PH=297,MG=12,SP=5;
-  var WIDTHS=[1.5,2,2.5];
   function fitN(sw,sh){var uw=PW-MG*2,uh=PH-MG*2;var c=Math.max(0,Math.floor((uw+SP)/(sw+SP)));var r=Math.max(0,Math.floor((uh+SP)/(sh+SP)));return c*r;}
-  function best(wmm,hmm){return Math.max(fitN(wmm,hmm),fitN(hmm,wmm));}
-  function plusMinus(n,ww,hh){var small=(ww<3&&hh<3);return small?'~'+n+' ชิ้น (±5)':n+' ชิ้น';}
-  ex.style.display='none';tb.style.display='none';err.textContent='';
-  if(!h&&!w)return;
-  var checkVal=function(v){
-    if(v>0&&v<1.5){err.textContent='ขนาดไม่ต่ำกว่า 1.5 cm';return false;}
-    if(v>20){err.textContent='ขนาดไม่เกิน 20 cm';return false;}
-    return true;
-  };
-  if(w&&!checkVal(w))return;
-  if(h&&!checkVal(h))return;
-  if(w&&h){
-    ex.style.display='block';
-    document.getElementById('sc-exact-val').textContent=plusMinus(best(w*10,h*10),w,h);
-  } else if(h){
-    tb.style.display='block';
-    document.getElementById('sc-h-lbl').textContent=h;
-    var rows='';
-    WIDTHS.forEach(function(ww){rows+='<tr style="border-bottom:1px solid #f0f0f0;"><td style="font-size:12px;color:#888;padding:7px 12px;">'+ww+'×'+h+' cm</td><td style="font-size:13px;font-weight:600;text-align:right;padding:7px 12px;">'+plusMinus(best(ww*10,h*10),ww,h)+'</td></tr>';});
-    document.getElementById('sc-tbl').innerHTML=rows;
-  }
+  ex.style.display='none';err.textContent='';
+  if(!h&&!qty)return;
+  if(h>0&&h<1.5){err.textContent='ขนาดไม่ต่ำกว่า 1.5 cm';return;}
+  if(h>18){err.textContent='ขนาดไม่เกิน 18 cm';return;}
+  if(!h||!qty)return;
+  // ใช้ตารางอ้างอิงจริงก่อนถ้าขนาดตรงกับ key ในตาราง ไม่ตรง -> คำนวณแบบจัตุรัส (กว้าง=ยาว=ขนาดที่กรอก)
+  var key=String(h);
+  var perSheet=DC50_PER_SHEET[key];
+  if(!perSheet){perSheet=fitN(h*10,h*10);}
+  if(!perSheet||perSheet<=0){err.textContent='ไม่สามารถคำนวณได้ ลองใหม่อีกครั้งนะคะ';return;}
+  var sheets=Math.ceil(qty/perSheet);
+  ex.style.display='block';
+  document.getElementById('sc-exact-val').textContent=sheets+' แผ่น';
 }
 function calcSheets(){
   var sz=document.getElementById('calc-size')?document.getElementById('calc-size').value:'';
