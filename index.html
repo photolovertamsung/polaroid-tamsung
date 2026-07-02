@@ -258,6 +258,7 @@ select{flex:1;min-width:100px;font-size:12px;padding:6px 8px;border-radius:8px;b
     <div id="cd-result" style="display:none;background:#f0fdf4;border:2px solid #86efac;border-radius:10px;padding:12px 14px;text-align:center;">
       <div style="font-size:11px;color:#166534;font-weight:600;margin-bottom:4px;">📦 รอบจัดส่งของคุณ</div>
       <div id="cd-result-date" style="font-size:20px;font-weight:700;color:#15803d;margin-bottom:4px;"></div>
+      <div id="cd-result-detail" style="font-size:12px;color:#166534;"></div>
     </div>
   </div>
 </div>
@@ -490,7 +491,7 @@ select{flex:1;min-width:100px;font-size:12px;padding:6px 8px;border-radius:8px;b
   </div>
   <div class="print-acc-body" id="acc-body-kp">
     <div class="section" style="margin-bottom:0;">
-      <div class="info-box">5 ฿/ชิ้น • เคลือบ +3 ฿ • เคลือบขั้นต่ำ 10 ชิ้น/ลาย</div>
+      <div class="info-box">3 ฿/ชิ้น • เคลือบ +3 ฿ • เคลือบขั้นต่ำ 10 ชิ้น/ลาย</div>
       <div class="gallery-body open" id="gallery-body-kp">
         <div class="gallery-slider" style="position:relative;">
           <div class="gallery-track" id="gallery-track-kp"></div>
@@ -500,7 +501,7 @@ select{flex:1;min-width:100px;font-size:12px;padding:6px 8px;border-radius:8px;b
         <div class="gallery-dots" id="gallery-dots-kp"></div>
       </div>
       <div id="kp-rows"></div>
-      <button class="add-btn" onclick="kpItems.push({coat:'เคลือบใสเงา',qty:0});renderExtra()">+ เพิ่มรายการ</button>
+      <button class="add-btn" onclick="kpItems.push({coat:'ไม่เคลือบ',qty:0});renderExtra()">+ เพิ่มรายการ</button>
     </div>
   </div>
 
@@ -511,7 +512,7 @@ select{flex:1;min-width:100px;font-size:12px;padding:6px 8px;border-radius:8px;b
   </div>
   <div class="print-acc-body" id="acc-body-kd">
     <div class="section" style="margin-bottom:0;">
-      <div class="info-box">เป็นวัสดุกระดาษอาร์ตมัน 260 แกรม / โซ่สีเงิน</div>
+      <div class="info-box">5 ฿/ชิ้น • เคลือบ 8 แบบ • ขั้นต่ำ 15 ชิ้น/ลาย • กระดาษรองหลัง +3 ฿/ชิ้น</div>
       <div class="gallery-body open" id="gallery-body-kd">
         <div class="gallery-slider" style="position:relative;">
           <div class="gallery-track" id="gallery-track-kd"></div>
@@ -587,8 +588,33 @@ select{flex:1;min-width:100px;font-size:12px;padding:6px 8px;border-radius:8px;b
         </div>
       </div>
     </div>
+    <div class="section" style="background:#f8f8f8;margin-bottom:10px;">
+      <div class="sec-title" style="color:#666;">ระบุจำนวนชิ้นสติ๊กเกอร์ → คำนวณจำนวนแผ่น</div>
+      <div style="font-size:12px;color:#3B6D11;margin-bottom:10px;line-height:1.6;">วัดจากด้านที่ยาวที่สุดของชิ้นงาน แล้วกรอกจำนวนที่ต้องการ ระบบจะคำนวณจำนวนแผ่นที่ต้องกดสั่งให้ค่ะ</div>
+      <img src="https://i.ibb.co/HTXWtfrW/2.png" alt="ตารางจำนวนชิ้นต่อแผ่น" style="width:60%;display:block;margin:0 auto 12px;border-radius:10px;">
+      <div style="display:flex;gap:8px;margin-bottom:10px;">
+        <div style="flex:1;display:flex;flex-direction:column;gap:4px;">
+          <label style="font-size:11px;color:#888;">ยาวที่สุดของชิ้นงาน (cm)</label>
+          <input type="number" id="sc-h" placeholder="เช่น 4" min="1.5" max="18" step="0.1" oninput="sCalc()"
+            style="border:1px solid #e0e0e0;border-radius:8px;padding:8px 10px;font-size:14px;width:100%;background:#fff;">
+        </div>
+        <div style="flex:1;display:flex;flex-direction:column;gap:4px;">
+          <label style="font-size:11px;color:#888;">จำนวนที่ต้องการ (ชิ้น)</label>
+          <input type="number" id="sc-qty" placeholder="เช่น 50" min="1" step="1" oninput="sCalc()"
+            style="border:1px solid #e0e0e0;border-radius:8px;padding:8px 10px;font-size:14px;width:100%;background:#fff;">
+        </div>
+      </div>
+      <div id="sc-err" style="font-size:12px;color:#c0392b;margin-bottom:8px;min-height:16px;"></div>
+      <div id="sc-exact" style="display:none;background:#fff;border:1px solid #e0e0e0;border-radius:8px;padding:10px 12px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <span style="font-size:12px;color:#888;">จำนวนแผ่นที่ต้องสั่ง</span>
+          <span id="sc-exact-val" style="font-size:20px;font-weight:700;color:#1a1a1a;"></span>
+        </div>
+      </div>
+      <div id="calc-result" style="display:none;"></div>
+    </div>
     <div id="dc100-rows"></div>
-    <button class="add-btn" onclick="dc100Items.push({sizeIdx:0,customCm:'',coat:'เคลือบใสเงา',qty:0});renderDiecut()">+ เพิ่มสินค้า</button>
+    <button class="add-btn" onclick="dc100Items.push({coat:'เคลือบใสเงา',sheets:0});renderDiecut()">+ เพิ่มรายการ</button>
     </div><!-- /acc-body-dc100 -->
   </div><!-- /section dc100 -->
 </div>
@@ -1061,11 +1087,11 @@ var MEMO_OPTS=[{sheets:10,price:7},{sheets:15,price:10},{sheets:20,price:15}];
 var MEMO_DC_SIZES=['7 cm','8 cm','9 cm'];
 var MEMO_DC_OPTS=[{sheets:10,price:20},{sheets:15,price:15},{sheets:20,price:40}];
 var MEMO_DC_MIN=4;
-var KP_BASE=5,KP_COAT=3,KP_MIN=10;
-var KD_PRICE=5,KD_MIN=15,KD_COAT=8;
+var KP_BASE=3,KP_COAT=3,KP_MIN=10;
+var KD_PRICE=5,KD_MIN=15;
 
 var DC50_PER_SHEET={
-  '1.5':100,'2':80,'2.5':50,'3':48,'3.5':35,'4':24,'4.5':20,'5':15,'5.5':12,'6':12,'7':8,'8':6,'9':6,'10':4
+  '1.5':100,'2':80,'2.5':50,'3':48,'3.5':35,'4':24,'4.5':20,'5':15,'5.5':12,'6':8,'7':8,'8':6,'9':6,'10':4
 };
 var DC50=[
   {size:'A7',clear:10,special:15},
@@ -1075,31 +1101,6 @@ var DC50=[
 ];
 var DC100_CLEAR=40,DC100_SPECIAL=50;
 var DC100_SIZES=['1.5 cm','2 cm','2.5 cm','3 cm','3.5 cm','4 cm','5 cm','6 cm','7 cm','8 cm','9 cm','10 cm','อื่นๆ'];
-function dc100GetCm(item){
-  if(item.sizeIdx==null||item.sizeIdx==='')return 0;
-  var lbl=DC100_SIZES[item.sizeIdx];
-  if(lbl==='อื่นๆ')return parseFloat(item.customCm)||0;
-  return parseFloat(lbl)||0;
-}
-function dc100PerSheet(cm){
-  if(!cm||cm<=0)return 0;
-  var key=String(cm);
-  var perSheet=DC50_PER_SHEET[key];
-  if(!perSheet){
-    var PW=210,PH=297,MG=12,SP=5,sw=cm*10,sh=cm*10;
-    var uw=PW-MG*2,uh=PH-MG*2;
-    var c=Math.max(0,Math.floor((uw+SP)/(sw+SP)));
-    var r=Math.max(0,Math.floor((uh+SP)/(sh+SP)));
-    perSheet=c*r;
-  }
-  return perSheet;
-}
-function dc100Sheets(item){
-  var cm=dc100GetCm(item);
-  var perSheet=dc100PerSheet(cm);
-  if(!perSheet||!item.qty)return 0;
-  return Math.ceil(item.qty/perSheet);
-}
 
 var SSET=[
   {size:'3 cm',clear:1,special:1},
@@ -1123,14 +1124,14 @@ var customItems=[];
 var pcItems=[{typeIdx:0,coat:'เคลือบใสเงา',qty:0}];
 var memoItems=[{optIdx:0,qty:0}];
 var memoDcItems=[{sizeIdx:0,optIdx:0,qty:0}];
-var kpItems=[{coat:'เคลือบใสเงา',qty:0}];
+var kpItems=[{coat:'ไม่เคลือบ',qty:0}];
 var MINI_PRICE=10;
 var MINI_MIN_CUSTOM=20;
 var miniItems=[{stkType:'ลายร้าน',qty:0}];
 function miniStkLabel(t){return t==='ออกแบบเอง'?'สตก.ลายลูกค้า':'สตก.ลายร้าน';}
 var kdItems=[{coat:'เคลือบใสเงา',qty:0}];
 var dc50Items=[{sizeIdx:3,coat:'เคลือบใสเงา',sheets:0}];
-var dc100Items=[{sizeIdx:0,customCm:'',coat:'เคลือบใสเงา',qty:0}];
+var dc100Items=[{sizeIdx:0,coat:'เคลือบใสเงา',sheets:0}];
 var ssetSets=[{setQty:0,items:[{sizeIdx:0,coat:'เคลือบใสเงา',qty:0}],bagSelected:false,bagChoice:'ซอง PVC ใส',pkg:[false,false],packOption:'แพ็กให้'}];
 var pkgSel=PKG_ITEMS.map(function(){return {include:false};});
 var bagChoice='ซอง PVC ใส';
@@ -1146,7 +1147,7 @@ function newGift(){
     hasDc50:false,dc50SizeIdx:0,dc50Coat:'เคลือบใสเงา',dc50Qty:0,
     hasPC:false,pcTypeIdx:0,pcCoat:'เคลือบใสเงา',pcQty:0,
     hasMemo:false,memoOptIdx:0,memoQty:0,
-    hasKP:false,kpCoat:'เคลือบใสเงา',kpQty:0,
+    hasKP:false,kpCoat:'ไม่เคลือบ',kpQty:0,
     hasKD:false,kdCoat:'เคลือบใสเงา',kdQty:0,
     pkgHead:false,pkgLabel:false,
     packOption:'แพ็กให้'
@@ -1175,8 +1176,8 @@ function calcGiftTotal(g){
   if(g.dc50Qty>0){var dc=GIFT_DC50[g.dc50SizeIdx];if(dc)t+=(SPECIAL.indexOf(g.dc50Coat)>=0?dc.special:dc.clear)*g.dc50Qty;}
   if(g.pcQty>0)t+=PC_TYPES[g.pcTypeIdx].price*g.pcQty;
   if(g.memoQty>0)t+=MEMO_OPTS[g.memoOptIdx].price*g.memoQty;
-  if(g.kpQty>0)t+=(KP_BASE+(SPECIAL.indexOf(g.kpCoat)>=0?KP_COAT:0))*g.kpQty;
-  if(g.kdQty>0)t+=(KD_PRICE+(SPECIAL.indexOf(g.kdCoat)>=0?KD_COAT:0))*g.kdQty;
+  if(g.kpQty>0)t+=(KP_BASE+(g.kpCoat!=='ไม่เคลือบ'?KP_COAT:0))*g.kpQty;
+  if(g.kdQty>0)t+=KD_PRICE*g.kdQty;
   if(g.pkgHead){
     // ID_ITEMS = index 0-2 (≤2 นิ้ว), STD_ITEMS เริ่มที่ index 3
     // STD_ITEMS index 0-12 (ถึง 4x6 นิ้ว) = GIFT_PRINT_ITEMS index 3-15 → ≤4×6 นิ้ว
@@ -1195,8 +1196,7 @@ var SHEET_TAB='วันหยุด';
 var QUEUE_TAB='คิว';
 var _cachedHolidays=null;
 var _holidaysLoaded=false;
-var _cachedFullDatesPhoto=null;
-var _cachedFullDatesSticker=null;
+var _cachedFullDates=null;
 var _fullDatesLoaded=false;
 
 function loadHolidaysFromSheet(){
@@ -1230,13 +1230,12 @@ function loadFullDatesFromSheet(){
     try{
       var json=JSON.parse(txt.replace(/^[^(]+\(|\);?\s*$/g,''));
       var rows=json.table.rows||[];
-      _cachedFullDatesPhoto=[];
-      _cachedFullDatesSticker=[];
+      _cachedFullDates=[];
       console.log('[Queue] rows:', rows.length);
       rows.forEach(function(row){
         if(!row.c||!row.c[0]||!row.c[0].v)return;
         var v=row.c[0].v;
-        console.log('[Queue] raw value:', v, 'col1(รูป):', row.c[1]&&row.c[1].v, 'col2(สติ๊กเกอร์):', row.c[2]&&row.c[2].v);
+        console.log('[Queue] raw value:', v, 'col1:', row.c[1]&&row.c[1].v);
         var key='';
         var m=String(v).match(/Date\((\d+),(\d+),(\d+)\)/);
         if(m){
@@ -1249,27 +1248,23 @@ function loadFullDatesFromSheet(){
           }
         }
         if(key){
-          var statusPhoto=row.c[1]&&row.c[1].v?String(row.c[1].v).trim():'';
-          var statusSticker=row.c[2]&&row.c[2].v?String(row.c[2].v).trim():'';
-          console.log('[Queue] key:', key, 'statusPhoto:', statusPhoto, 'statusSticker:', statusSticker);
-          if(statusPhoto==='รอบเต็ม') _cachedFullDatesPhoto.push(key);
-          if(statusSticker==='รอบเต็ม') _cachedFullDatesSticker.push(key);
+          var status=row.c[1]&&row.c[1].v?String(row.c[1].v).trim():'';
+          console.log('[Queue] key:', key, 'status:', status);
+          if(status==='รอบเต็ม') _cachedFullDates.push(key);
         }
       });
       _fullDatesLoaded=true;
-      console.log('[Queue] fullDates(รูป) loaded:', _cachedFullDatesPhoto);
-      console.log('[Queue] fullDates(สติ๊กเกอร์) loaded:', _cachedFullDatesSticker);
+      console.log('[Queue] fullDates loaded:', _cachedFullDates);
       recalc();
       if(typeof calcDelivery==='function') calcDelivery();
-    }catch(e){_cachedFullDatesPhoto=[];_cachedFullDatesSticker=[];_fullDatesLoaded=true;}
-  }).catch(function(){_cachedFullDatesPhoto=[];_cachedFullDatesSticker=[];_fullDatesLoaded=true;});
+    }catch(e){_cachedFullDates=[];_fullDatesLoaded=true;}
+  }).catch(function(){_cachedFullDates=[];_fullDatesLoaded=true;});
 }
 
-function isFullDate(d,isSticker){
-  var arr=isSticker?_cachedFullDatesSticker:_cachedFullDatesPhoto;
-  if(!arr||!arr.length)return false;
+function isFullDate(d){
+  if(!_cachedFullDates||!_cachedFullDates.length)return false;
   var key=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
-  return arr.indexOf(key)>=0;
+  return _cachedFullDates.indexOf(key)>=0;
 }
 
 function loadHolidays(){
@@ -1350,7 +1345,7 @@ function updateHolidayBanners(deliveryDate){
 }
 
 // ===== HELPERS =====
-function addDaysNoSunday(days,isSticker){
+function addDaysNoSunday(days){
   var base=new Date();
   base.setHours(0,0,0,0);
   // เช็ค cutoff 20:00 น.
@@ -1367,13 +1362,69 @@ function addDaysNoSunday(days,isSticker){
   while(!isWorkday(d)){d.setDate(d.getDate()+1);}
   // ข้ามวันรอบเต็ม
   var safety=0;
-  while(isFullDate(d,isSticker)&&safety<30){d.setDate(d.getDate()+1);while(!isWorkday(d))d.setDate(d.getDate()+1);safety++;}
+  while(isFullDate(d)&&safety<30){d.setDate(d.getDate()+1);while(!isWorkday(d))d.setDate(d.getDate()+1);safety++;}
   var dd=d.getDate(),mm=d.getMonth()+1,yy=d.getFullYear();
   var thaiMonths=['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'];
   var thaiDays=['อาทิตย์','จันทร์','อังคาร','พุธ','พฤหัสบดี','ศุกร์','เสาร์'];
   return 'วัน'+thaiDays[d.getDay()]+'ที่ '+dd+' '+thaiMonths[mm-1]+' '+(yy+543);
 }
+function sCalc(){
+  var h=parseFloat(document.getElementById('sc-h').value)||0;
+  var qty=parseInt(document.getElementById('sc-qty').value)||0;
+  var ex=document.getElementById('sc-exact');
+  var err=document.getElementById('sc-err');
+  var PW=210,PH=297,MG=12,SP=5;
+  function fitN(sw,sh){var uw=PW-MG*2,uh=PH-MG*2;var c=Math.max(0,Math.floor((uw+SP)/(sw+SP)));var r=Math.max(0,Math.floor((uh+SP)/(sh+SP)));return c*r;}
+  ex.style.display='none';err.textContent='';
+  if(!h&&!qty)return;
+  if(h>0&&h<1.5){err.textContent='ขนาดไม่ต่ำกว่า 1.5 cm';return;}
+  if(h>18){err.textContent='ขนาดไม่เกิน 18 cm';return;}
+  if(!h||!qty)return;
+  // ใช้ตารางอ้างอิงจริงก่อนถ้าขนาดตรงกับ key ในตาราง ไม่ตรง -> คำนวณแบบจัตุรัส (กว้าง=ยาว=ขนาดที่กรอก)
+  var key=String(h);
+  var perSheet=DC50_PER_SHEET[key];
+  if(!perSheet){perSheet=fitN(h*10,h*10);}
+  if(!perSheet||perSheet<=0){err.textContent='ไม่สามารถคำนวณได้ ลองใหม่อีกครั้งนะคะ';return;}
+  var sheets=Math.ceil(qty/perSheet);
+  ex.style.display='block';
+  document.getElementById('sc-exact-val').textContent=sheets+' แผ่น';
+}
+function calcSheets(){
+  var sz=document.getElementById('calc-size')?document.getElementById('calc-size').value:'';
+  var qty=parseInt(document.getElementById('calc-qty')?document.getElementById('calc-qty').value:0)||0;
+  var res=document.getElementById('calc-result');
+  var shapeRow=document.getElementById('calc-shape-row');
+  var shapeEl=document.getElementById('calc-shape');
 
+  // แสดง/ซ่อน shape selector
+  if(sz==='4'||sz==='5'){
+    shapeRow.style.display='block';
+    // อัปเดต hint text
+    var hintMap={'4':'3.5 cm','5':'4 cm','7':'6 cm'};
+    shapeRow.querySelector('option[value="other"]').textContent=
+      'ทรงอื่นๆ (กว้าง < '+hintMap[sz]+')';
+  } else {
+    shapeRow.style.display='none';
+    shapeEl.value='';
+  }
+
+  if(!sz||!qty){res.textContent='';return;}
+
+  // คำนวณ perSheet
+  var perSheet=DC50_PER_SHEET[sz]||1;
+  if(sz==='4'){
+    if(shapeEl.value==='square') perSheet=24;
+    else if(shapeEl.value==='other') perSheet=30;
+    else {res.textContent='กรุณาเลือกรูปทรงก่อนนะคะ';return;}
+  } else if(sz==='5'){
+    if(shapeEl.value==='square') perSheet=15;
+    else if(shapeEl.value==='other') perSheet=25;
+    else {res.textContent='กรุณาเลือกรูปทรงก่อนนะคะ';return;}
+  }
+
+  var sheets=Math.ceil(qty/perSheet);
+  res.innerHTML='ต้องการ <span style="color:#c0533a;font-size:16px;">'+sheets+'</span> แผ่น ('+perSheet+' ชิ้น/แผ่น × '+sheets+' แผ่น = '+(perSheet*sheets)+' ชิ้น)';
+}
 function toggleCheckDel(){
   var body=document.getElementById('checkdel-body');
   var arrow=document.getElementById('checkdel-arrow');
@@ -1542,6 +1593,7 @@ function calcDelivery(){
   var dateEl=document.getElementById('cd-date');
   var resultEl=document.getElementById('cd-result');
   var resultDate=document.getElementById('cd-result-date');
+  var resultDetail=document.getElementById('cd-result-detail');
   if(!dateEl||!dateEl.value){if(resultEl)resultEl.style.display='none';return;}
 
   var parts=dateEl.value.split('-');
@@ -1575,7 +1627,7 @@ function calcDelivery(){
   // วันส่งต้องไม่ใช่วันหยุดและไม่รอบเต็ม
   while(!isWorkday(cur)){cur.setDate(cur.getDate()+1);}
   var safety2=0;
-  while(isFullDate(cur,isSlow)&&safety2<30){cur.setDate(cur.getDate()+1);while(!isWorkday(cur))cur.setDate(cur.getDate()+1);safety2++;}
+  while(isFullDate(cur)&&safety2<30){cur.setDate(cur.getDate()+1);while(!isWorkday(cur))cur.setDate(cur.getDate()+1);safety2++;}
 
   var days=['อาทิตย์','จันทร์','อังคาร','พุธ','พฤหัสบดี','ศุกร์','เสาร์'];
   var months=['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'];
@@ -1583,6 +1635,7 @@ function calcDelivery(){
   var dateStr='วัน'+dayName+'ที่ '+cur.getDate()+' '+months[cur.getMonth()]+' '+(cur.getFullYear()+543);
 
   resultDate.textContent=dateStr;
+  resultDetail.textContent=(isSlow?'งานผลิต 7 วัน':'งานผลิต 2 วัน')+' • 🏠 เสาร์-อาทิตย์ร้านหยุด';
   resultEl.style.display='block';
 }
 function selShip(v){
@@ -1640,10 +1693,10 @@ function setMemoDcSize(i,v){memoDcItems[i].sizeIdx=+v;renderExtra();}
 function setMemoDcOpt(i,v){memoDcItems[i].optIdx=+v;renderExtra();}
 function setMemoDcQty(i,v){v=+v;memoDcItems[i].qty=v>0?Math.max(MEMO_DC_MIN,v):0;renderExtra();}
 function rmMemoDc(i){memoDcItems.splice(i,1);renderExtra();}
-function setKpCoat(i,v){kpItems[i].coat=v;if(SPECIAL.indexOf(v)>=0&&kpItems[i].qty>0&&kpItems[i].qty<KP_MIN)kpItems[i].qty=KP_MIN;renderExtra();}
-function setKpQty(i,v){v=+v;kpItems[i].qty=v>0?(SPECIAL.indexOf(kpItems[i].coat)>=0?Math.max(KP_MIN,v):v):0;renderExtra();}
+function setKpCoat(i,v){kpItems[i].coat=v;if(v!=='ไม่เคลือบ'&&kpItems[i].qty>0&&kpItems[i].qty<KP_MIN)kpItems[i].qty=KP_MIN;renderExtra();}
+function setKpQty(i,v){v=+v;kpItems[i].qty=v>0?(kpItems[i].coat!=='ไม่เคลือบ'?Math.max(KP_MIN,v):v):0;renderExtra();}
 function rmKp(i){kpItems.splice(i,1);renderExtra();}
-function setKdCoat(i,v){kdItems[i].coat=v||'เคลือบใสเงา';renderExtra();}
+function setKdCoat(i,v){kdItems[i].coat=v;renderExtra();}
 function setKdQty(i,v){v=+v;kdItems[i].qty=v>0?Math.max(KD_MIN,v):0;renderExtra();}
 function setKdBacking(i,v){kdItems[i].backing=v;renderExtra();}
 function rmKd(i){kdItems.splice(i,1);renderExtra();}
@@ -1651,10 +1704,9 @@ function setDc50Size(i,v){dc50Items[i].sizeIdx=+v;renderDiecut();}
 function setDc50Coat(i,v){dc50Items[i].coat=v;renderDiecut();}
 function setDc50Sheets(i,v){dc50Items[i].sheets=+v;renderDiecut();}
 function rmDc50(i){dc50Items.splice(i,1);renderDiecut();}
-function setDc100Size(i,v){dc100Items[i].sizeIdx=+v;dc100Items[i].customCm='';renderDiecut();}
+function setDc100Size(i,v){dc100Items[i].sizeIdx=+v;renderDiecut();}
 function setDc100Coat(i,v){dc100Items[i].coat=v;renderDiecut();}
-function setDc100CustomCm(i,v){dc100Items[i].customCm=v;renderDiecut();}
-function setDc100Qty(i,v){v=+v;dc100Items[i].qty=v>0?v:0;renderDiecut();}
+function setDc100Sheets(i,v){dc100Items[i].sheets=+v;renderDiecut();}
 function rmDc100(i){dc100Items.splice(i,1);renderDiecut();}
 function setSsetSize(si,i,v){ssetSets[si].items[i].sizeIdx=+v;var sy=window.scrollY;renderSset();window.scrollTo(0,sy);}
 function setSsetCoat(si,i,v){ssetSets[si].items[i].coat=v;var sy=window.scrollY;renderSset();window.scrollTo(0,sy);}
@@ -1876,25 +1928,23 @@ function renderExtra(){
   }}
   var ck=document.getElementById('kp-rows');ck.innerHTML='';
   for(var i=0;i<kpItems.length;i++){
-    var s=kpItems[i],unitP=KP_BASE+(SPECIAL.indexOf(s.coat)>=0?KP_COAT:0),price=unitP*s.qty;
-    var cOpts='<option value="เคลือบใสเงา"'+(s.coat==='เคลือบใสเงา'?' selected':'')+'>เคลือบใสเงา ('+KP_BASE+'฿/ชิ้น)</option>';
-    for(var k=0;k<SPECIAL.length;k++)cOpts+='<option value="'+SPECIAL[k]+'"'+(s.coat===SPECIAL[k]?' selected':'')+'>'+SPECIAL[k]+' ('+(KP_BASE+KP_COAT)+'฿/ชิ้น)</option>';
+    var s=kpItems[i],unitP=KP_BASE+(s.coat!=='ไม่เคลือบ'?KP_COAT:0),price=unitP*s.qty;
+    var cOpts='<option value="ไม่เคลือบ"'+(s.coat==='ไม่เคลือบ'?' selected':'')+'>ไม่เคลือบ ('+KP_BASE+'฿/ชิ้น)</option>';
+    for(var k=0;k<COATS.length;k++)cOpts+='<option value="'+COATS[k]+'"'+(s.coat===COATS[k]?' selected':'')+'>'+COATS[k]+' ('+(KP_BASE+KP_COAT)+'฿/ชิ้น)</option>';
     var row=document.createElement('div');row.className='item-row';
-    row.innerHTML='<span class="i-num">'+(i+1)+'</span><div class="i-inner"><div style="display:flex;justify-content:space-between;"><div class="i-name">พวงกุญแจรูป 2×2 นิ้ว</div>'+(kpItems.length>1?'<button class="rm-btn" onclick="rmKp('+i+')">ลบ</button>':'')+'</div><select onchange="setKpCoat('+i+',this.value)">'+cOpts+'</select><div class="qty-row"><span class="qty-lbl">จำนวน</span><input class="qty-inp" type="number" min="0" max="999" value="'+s.qty+'" onchange="setKpQty('+i+',this.value)"><span class="qty-lbl">ชิ้น</span></div>'+(SPECIAL.indexOf(s.coat)>=0?'<span class="warn">⚠️ เคลือบขั้นต่ำ '+KP_MIN+' ชิ้น/ลาย</span>':'')+'</div><span class="p-badge'+(price>0?' on':'')+'">'+( price>0?price.toFixed(2)+' ฿':'-')+'</span>';
+    row.innerHTML='<span class="i-num">'+(i+1)+'</span><div class="i-inner"><div style="display:flex;justify-content:space-between;"><div class="i-name">พวงกุญแจรูป 2×2 นิ้ว</div>'+(kpItems.length>1?'<button class="rm-btn" onclick="rmKp('+i+')">ลบ</button>':'')+'</div><select onchange="setKpCoat('+i+',this.value)">'+cOpts+'</select><div class="qty-row"><span class="qty-lbl">จำนวน</span><input class="qty-inp" type="number" min="0" max="999" value="'+s.qty+'" onchange="setKpQty('+i+',this.value)"><span class="qty-lbl">ชิ้น</span></div>'+(s.coat!=='ไม่เคลือบ'?'<span class="warn">⚠️ เคลือบขั้นต่ำ '+KP_MIN+' ชิ้น/ลาย</span>':'')+'</div><span class="p-badge'+(price>0?' on':'')+'">'+( price>0?price.toFixed(2)+' ฿':'-')+'</span>';
     ck.appendChild(row);
   }
   var kd=document.getElementById('kd-rows');kd.innerHTML='';
   for(var i=0;i<kdItems.length;i++){
     var s=kdItems[i];
     var backingPrice=s.backing?3:0;
-    var coatPrice=SPECIAL.indexOf(s.coat)>=0?KD_COAT:0;
-    var unitP=KD_PRICE+backingPrice+coatPrice;
+    var unitP=KD_PRICE+backingPrice;
     var price=unitP*s.qty;
-    var coatVal=SPECIAL.indexOf(s.coat)>=0?s.coat:'';
-    var cOpts='<option value=""'+(coatVal===''?' selected':'')+'>ไม่เพิ่มพิเศษ</option>';
-    for(var k=0;k<SPECIAL.length;k++)cOpts+='<option value="'+SPECIAL[k]+'"'+(coatVal===SPECIAL[k]?' selected':'')+'>'+SPECIAL[k]+' (+'+KD_COAT+'฿/ชิ้น)</option>';
+    var cOpts='';
+    for(var k=0;k<COATS.length;k++)cOpts+='<option value="'+COATS[k]+'"'+(s.coat===COATS[k]?' selected':'')+'>'+COATS[k]+'</option>';
     var row=document.createElement('div');row.className='item-row';
-    row.innerHTML='<span class="i-num">'+(i+1)+'</span><div class="i-inner"><div style="display:flex;justify-content:space-between;"><div class="i-name">พวงกุญแจ Die-cut</div>'+(kdItems.length>1?'<button class="rm-btn" onclick="rmKd('+i+')">ลบ</button>':'')+'</div><div style="font-size:11px;color:#3B6D11;font-weight:600;margin-bottom:4px;">✨ เคลือบใสเงาฟรี</div><select onchange="setKdCoat('+i+',this.value)">'+cOpts+'</select><label style="display:flex;align-items:center;gap:7px;margin-top:6px;margin-bottom:2px;cursor:pointer;font-size:12px;color:#1a1a1a;background:#f8f8f8;border:1px solid #e0e0e0;border-radius:8px;padding:7px 10px;"><input type="checkbox" '+(s.backing?'checked':'')+' onchange="setKdBacking('+i+',this.checked)" style="width:15px;height:15px;accent-color:#c2185b;cursor:pointer;"> กระดาษรองหลัง <span style="color:#c2185b;font-weight:600;">+3 ฿/ชิ้น</span></label><div class="qty-row"><span class="qty-lbl">จำนวน (ขั้นต่ำ '+KD_MIN+')</span><input class="qty-inp" type="number" min="0" max="9999" value="'+s.qty+'" onchange="setKdQty('+i+',this.value)"><span class="qty-lbl">ชิ้น × '+unitP+' ฿</span></div>'+(s.qty>0?'<span class="warn">⚠️ ขั้นต่ำ '+KD_MIN+' ชิ้น/ลาย</span>':'')+'</div><span class="p-badge'+(price>0?' on':'')+'">'+( price>0?price.toFixed(2)+' ฿':'-')+'</span>';
+    row.innerHTML='<span class="i-num">'+(i+1)+'</span><div class="i-inner"><div style="display:flex;justify-content:space-between;"><div class="i-name">พวงกุญแจ Die-cut</div>'+(kdItems.length>1?'<button class="rm-btn" onclick="rmKd('+i+')">ลบ</button>':'')+'</div><select onchange="setKdCoat('+i+',this.value)">'+cOpts+'</select><label style="display:flex;align-items:center;gap:7px;margin-top:6px;margin-bottom:2px;cursor:pointer;font-size:12px;color:#1a1a1a;background:#f8f8f8;border:1px solid #e0e0e0;border-radius:8px;padding:7px 10px;"><input type="checkbox" '+(s.backing?'checked':'')+' onchange="setKdBacking('+i+',this.checked)" style="width:15px;height:15px;accent-color:#c2185b;cursor:pointer;"> กระดาษรองหลัง <span style="color:#c2185b;font-weight:600;">+3 ฿/ชิ้น</span></label><div class="qty-row"><span class="qty-lbl">จำนวน (ขั้นต่ำ '+KD_MIN+')</span><input class="qty-inp" type="number" min="0" max="9999" value="'+s.qty+'" onchange="setKdQty('+i+',this.value)"><span class="qty-lbl">ชิ้น × '+unitP+' ฿</span></div>'+(s.qty>0?'<span class="warn">⚠️ ขั้นต่ำ '+KD_MIN+' ชิ้น/ลาย</span>':'')+'</div><span class="p-badge'+(price>0?' on':'')+'">'+( price>0?price.toFixed(2)+' ฿':'-')+'</span>';
     kd.appendChild(row);
   }
   recalc();
@@ -1920,24 +1970,16 @@ function renderDiecut(){
     var s=dc100Items[i];
     var isSpec=SPECIAL.indexOf(s.coat)>=0;
     var unitP=isSpec?DC100_SPECIAL:DC100_CLEAR;
-    var cm=dc100GetCm(s);
-    var perSheet=dc100PerSheet(cm);
-    var sheets=dc100Sheets(s);
-    var price=unitP*sheets;
+    var price=unitP*s.sheets;
     var szOpts='<option value="" disabled'+(s.sizeIdx==null?' selected':'')+'>-- เลือกขนาด --</option>';
     for(var k=0;k<DC100_SIZES.length;k++)szOpts+='<option value="'+k+'"'+(s.sizeIdx===k?' selected':'')+'>'+DC100_SIZES[k]+'</option>';
     var cOpts='<option value="เคลือบใสเงา"'+(s.coat==='เคลือบใสเงา'?' selected':'')+'>เคลือบใสเงา ('+DC100_CLEAR+' ฿/แผ่น)</option>';
     for(var k=0;k<SPECIAL.length;k++)cOpts+='<option value="'+SPECIAL[k]+'"'+(s.coat===SPECIAL[k]?' selected':'')+'>'+SPECIAL[k]+' ('+DC100_SPECIAL+' ฿/แผ่น)</option>';
-    var isOther=s.sizeIdx!=null&&s.sizeIdx!==''&&DC100_SIZES[s.sizeIdx]==='อื่นๆ';
-    var customInput=isOther?'<input class="qty-inp" type="number" min="1.5" max="18" step="0.1" placeholder="ระบุขนาด (cm)" value="'+(s.customCm||'')+'" oninput="setDc100CustomCm('+i+',this.value)" style="margin-top:6px;width:100%;">':'';
-    var breakdown='';
-    if(cm>0&&perSheet>0){
-      breakdown='<div class="i-sub" style="margin-top:6px;line-height:1.7;">ขนาด '+cm+' cm ได้ <b>'+perSheet+' ชิ้น/แผ่น</b><br>เคลือบแบบ'+s.coat+' แผ่นละ '+unitP+' บาท'+(s.qty>0&&sheets>0?'<br>ใช้ทั้งหมด <b>'+sheets+' แผ่น</b> = '+(unitP*sheets).toFixed(2)+' บาท':'')+'</div>';
-    } else if(cm>0&&perSheet<=0){
-      breakdown='<span class="warn" style="display:block;margin-top:6px;">⚠️ ไม่สามารถคำนวณขนาดนี้ได้ ลองใหม่อีกครั้งนะคะ</span>';
-    }
     var row=document.createElement('div');row.className='item-row';
-    row.innerHTML='<span class="i-num">'+(i+1)+'</span><div class="i-inner"><div style="display:flex;justify-content:space-between;"><div class="i-name">Die-cut 100% A4</div>'+(dc100Items.length>1?'<button class="rm-btn" onclick="rmDc100('+i+')">ลบ</button>':'')+'</div><select onchange="setDc100Size('+i+',this.value)" style="margin-bottom:4px;">'+szOpts+'</select>'+customInput+'<select onchange="setDc100Coat('+i+',this.value)" style="margin-top:4px;">'+cOpts+'</select><div class="qty-row" style="margin-top:6px;"><span class="qty-lbl">จำนวนที่ต้องการ</span><input class="qty-inp" type="number" min="0" max="9999" value="'+s.qty+'" onchange="setDc100Qty('+i+',this.value)"><span class="qty-lbl">ชิ้น</span></div>'+breakdown+'<div class="i-sub">คละได้ 2 ลาย/แผ่น</div></div><span class="p-badge'+(price>0?' on':'')+'">'+( price>0?price.toFixed(2)+' ฿':'-')+'</span>';
+    var sizeLabel=s.sizeIdx!=null&&s.sizeIdx!==''?DC100_SIZES[s.sizeIdx]:'';
+    var isOther=s.sizeIdx!=null&&s.sizeIdx!==''&&DC100_SIZES[s.sizeIdx]==='อื่นๆ';
+    var otherMsg=isOther?'<div style="margin-top:6px;background:#fff3e0;border:1px solid #ffcc80;border-radius:8px;padding:7px 10px;font-size:12px;color:#e65100;">📐 กรุณาแจ้งขนาดในไฟล์งานที่แนบ</div>':'';
+    row.innerHTML='<span class="i-num">'+(i+1)+'</span><div class="i-inner"><div style="display:flex;justify-content:space-between;"><div class="i-name">Die-cut 100% A4</div>'+(dc100Items.length>1?'<button class="rm-btn" onclick="rmDc100('+i+')">ลบ</button>':'')+'</div><select onchange="setDc100Size('+i+',this.value)" style="margin-bottom:4px;">'+szOpts+'</select>'+otherMsg+'<select onchange="setDc100Coat('+i+',this.value)" style="margin-top:4px;">'+cOpts+'</select><div class="qty-row"><span class="qty-lbl">จำนวน</span><input class="qty-inp" type="number" min="0" max="99" value="'+s.sheets+'" onchange="setDc100Sheets('+i+',this.value)"><span class="qty-lbl">แผ่น × '+unitP+' ฿</span></div><div class="i-sub">คละได้ 2 ลาย/แผ่น</div></div><span class="p-badge'+(price>0?' on':'')+'">'+( price>0?price.toFixed(2)+' ฿':'-')+'</span>';
     c100.appendChild(row);
   }
   recalc();
@@ -2322,8 +2364,8 @@ function renderGift(){
 
     // ── 6. พวงกุญแจรูป ──
     var openKP=isGiftOpen(gi,'kp');
-    var kpOpts2='<option value="เคลือบใสเงา"'+(g.kpCoat==='เคลือบใสเงา'?' selected':'')+'>เคลือบใสเงา ('+KP_BASE+'฿)</option>';
-    for(var k=0;k<SPECIAL.length;k++)kpOpts2+='<option value="'+SPECIAL[k]+'"'+(g.kpCoat===SPECIAL[k]?' selected':'')+'>'+SPECIAL[k]+' ('+(KP_BASE+KP_COAT)+'฿)</option>';
+    var kpOpts2='<option value="ไม่เคลือบ"'+(g.kpCoat==='ไม่เคลือบ'?' selected':'')+'>ไม่เคลือบ ('+KP_BASE+'฿)</option>';
+    for(var k=0;k<COATS.length;k++)kpOpts2+='<option value="'+COATS[k]+'"'+(g.kpCoat===COATS[k]?' selected':'')+'>'+COATS[k]+' ('+(KP_BASE+KP_COAT)+'฿)</option>';
     html+='<div class="gift-acc-hd'+(openKP?' open':'')+'" onclick="toggleGiftAcc('+gi+',\'kp\')">';
     html+='<span class="gift-acc-label">🔑 พวงกุญแจรูป</span><span class="gift-acc-arrow">▼</span></div>';
     html+='<div class="gift-acc-body'+(openKP?' open':'')+'">';
@@ -2334,16 +2376,13 @@ function renderGift(){
 
     // ── 7. พวงกุญแจ Die-cut ──
     var openKD=isGiftOpen(gi,'kd');
-    var kdCoatVal2=SPECIAL.indexOf(g.kdCoat)>=0?g.kdCoat:'';
-    var kdOpts2='<option value=""'+(kdCoatVal2===''?' selected':'')+'>ไม่เพิ่มพิเศษ</option>';
-    for(var k=0;k<SPECIAL.length;k++)kdOpts2+='<option value="'+SPECIAL[k]+'"'+(kdCoatVal2===SPECIAL[k]?' selected':'')+'>'+SPECIAL[k]+' (+'+KD_COAT+'฿/ชิ้น)</option>';
+    var kdOpts2='';for(var k=0;k<COATS.length;k++)kdOpts2+='<option value="'+COATS[k]+'"'+(g.kdCoat===COATS[k]?' selected':'')+'>'+COATS[k]+'</option>';
     html+='<div class="gift-acc-hd'+(openKD?' open':'')+'" onclick="toggleGiftAcc('+gi+',\'kd\')">';
     html+='<span class="gift-acc-label">🔑 พวงกุญแจ Die-cut</span><span class="gift-acc-arrow">▼</span></div>';
     html+='<div class="gift-acc-body'+(openKD?' open':'')+'">';
-    html+='<div style="font-size:11px;color:#3B6D11;font-weight:600;margin-bottom:4px;">✨ เคลือบใสเงาฟรี</div>';
-    html+='<div class="sel-row"><select onchange="setGiftField('+gi+',\'kdCoat\',this.value||\'เคลือบใสเงา\')">'+kdOpts2+'</select>';
+    html+='<div class="sel-row"><select onchange="setGiftField('+gi+',\'kdCoat\',this.value)">'+kdOpts2+'</select>';
     html+='<input class="qty-inp" type="number" min="0" max="999" value="'+g.kdQty+'" onchange="setGiftField('+gi+',\'kdQty\',this.value)">';
-    html+='<span class="qty-lbl">ชิ้น×'+(KD_PRICE+(SPECIAL.indexOf(g.kdCoat)>=0?KD_COAT:0))+'฿</span></div>';
+    html+='<span class="qty-lbl">ชิ้น×'+KD_PRICE+'฿</span></div>';
     html+='</div>';
 
     // ── 8. แพ็กเกจจิ้ง ──
@@ -2389,11 +2428,11 @@ function recalc(){
   for(var i=0;i<pcItems.length;i++){if(pcItems[i].qty>0){sub+=PC_TYPES[pcItems[i].typeIdx].price*pcItems[i].qty;hasPC=true;}}
   for(var i=0;i<memoItems.length;i++){if(memoItems[i].qty>0){sub+=MEMO_OPTS[memoItems[i].optIdx].price*memoItems[i].qty;hasSlow=true;}}
   for(var i=0;i<memoDcItems.length;i++){if(memoDcItems[i].qty>0){sub+=MEMO_DC_OPTS[memoDcItems[i].optIdx].price*memoDcItems[i].qty;hasSlow=true;}}
-  for(var i=0;i<kpItems.length;i++){var s=kpItems[i];if(s.qty>0){sub+=(KP_BASE+(SPECIAL.indexOf(kpItems[i].coat)>=0?KP_COAT:0))*kpItems[i].qty;hasPrint=true;}}
+  for(var i=0;i<kpItems.length;i++){var s=kpItems[i];if(s.qty>0){sub+=(KP_BASE+(kpItems[i].coat!=='ไม่เคลือบ'?KP_COAT:0))*kpItems[i].qty;hasPrint=true;}}
   for(var i=0;i<miniItems.length;i++){if(miniItems[i].qty>0){sub+=MINI_PRICE*miniItems[i].qty;hasPrint=true;}}
-  for(var i=0;i<kdItems.length;i++){if(kdItems[i].qty>0){sub+=(KD_PRICE+(kdItems[i].backing?3:0)+(SPECIAL.indexOf(kdItems[i].coat)>=0?KD_COAT:0))*kdItems[i].qty;hasSlow=true;}}
+  for(var i=0;i<kdItems.length;i++){if(kdItems[i].qty>0){sub+=(KD_PRICE+(kdItems[i].backing?3:0))*kdItems[i].qty;hasSlow=true;}}
   for(var i=0;i<dc50Items.length;i++){if(dc50Items[i].sheets>0){var sz=DC50[dc50Items[i].sizeIdx];sub+=(SPECIAL.indexOf(dc50Items[i].coat)>=0?sz.special:sz.clear)*dc50Items[i].sheets;hasSlow=true;}}
-  for(var i=0;i<dc100Items.length;i++){var _dcSh=dc100Sheets(dc100Items[i]);if(_dcSh>0){sub+=(SPECIAL.indexOf(dc100Items[i].coat)>=0?DC100_SPECIAL:DC100_CLEAR)*_dcSh;hasSlow=true;}}
+  for(var i=0;i<dc100Items.length;i++){if(dc100Items[i].sheets>0){sub+=(SPECIAL.indexOf(dc100Items[i].coat)>=0?DC100_SPECIAL:DC100_CLEAR)*dc100Items[i].sheets;hasSlow=true;}}
   ssetSets.forEach(function(set){
     if(set.setQty<=0)return;
     var per=0;
@@ -2425,14 +2464,14 @@ function recalc(){
   var dTxt,dSub;
   var delDays2=hasSlow?7:((hasPC||giftHasPC2)?3:(hasPrint?2:7));
   if(!hasPrint&&!hasSlow&&!hasPC&&!giftHasPC2){dTxt='กรุณาเลือกสินค้าก่อน';dSub='ระยะเวลาจะแสดงหลังเลือกรายการ';}
-  else{dTxt='📅 จัดส่งงานภายใน: '+addDaysNoSunday(delDays2,hasSlow);dSub='';}
+  else{dTxt='📅 จัดส่งงานภายใน: '+addDaysNoSunday(delDays2);dSub='';}
   var delTxtEl=document.getElementById('del-txt');
   var delSubEl=document.getElementById('del-sub');
   if(delTxtEl) delTxtEl.textContent=dTxt;
   if(delSubEl) delSubEl.textContent=dSub;
   // อัป sticky date
   var stickyDate=document.getElementById('sticky-date');
-  if(stickyDate) stickyDate.textContent=hasPrint||hasSlow||hasPC||giftHasPC2?addDaysNoSunday(delDays2,hasSlow):'📅 เลือกสินค้าก่อนนะคะ';
+  if(stickyDate) stickyDate.textContent=hasPrint||hasSlow||hasPC||giftHasPC2?addDaysNoSunday(delDays2):'📅 เลือกสินค้าก่อนนะคะ';
   if(typeof calcDelivery==='function') calcDelivery();
   // คำนวณ deliveryDate สำหรับ banner
   var _delDate=null;
@@ -2469,15 +2508,15 @@ function renderSummary(){
   for(var i=0;i<memoItems.length;i++){if(memoItems[i].qty>0){var opt=MEMO_OPTS[memoItems[i].optIdx];var p=opt.price*memoItems[i].qty;items.push({name:'Memo Pad '+opt.sheets+' แผ่น/ก้อน',detail:'× '+memoItems[i].qty+' ก้อน',price:p});sub+=p;}}
   for(var i=0;i<memoDcItems.length;i++){if(memoDcItems[i].qty>0){var opt=MEMO_DC_OPTS[memoDcItems[i].optIdx];var sz=MEMO_DC_SIZES[memoDcItems[i].sizeIdx];var p=opt.price*memoDcItems[i].qty;items.push({name:'เมมโมแพดไดคัท '+sz+' '+opt.sheets+' แผ่น/ก้อน',detail:'× '+memoDcItems[i].qty+' ก้อน',price:p});sub+=p;}}
   // KP
-  for(var i=0;i<kpItems.length;i++){if(kpItems[i].qty>0){var u=KP_BASE+(SPECIAL.indexOf(kpItems[i].coat)>=0?KP_COAT:0);var p=u*kpItems[i].qty;items.push({name:'พวงกุญแจรูป 2×2 นิ้ว',detail:kpItems[i].coat+' × '+kpItems[i].qty+' ชิ้น',price:p});sub+=p;}}
+  for(var i=0;i<kpItems.length;i++){if(kpItems[i].qty>0){var u=KP_BASE+(kpItems[i].coat!=='ไม่เคลือบ'?KP_COAT:0);var p=u*kpItems[i].qty;items.push({name:'พวงกุญแจรูป 2×2 นิ้ว',detail:kpItems[i].coat+' × '+kpItems[i].qty+' ชิ้น',price:p});sub+=p;}}
   // MINI
   for(var i=0;i<miniItems.length;i++){if(miniItems[i].qty>0){var p=MINI_PRICE*miniItems[i].qty;items.push({name:'SET MINI',detail:miniStkLabel(miniItems[i].stkType)+' × '+miniItems[i].qty+' เซ็ต',price:p});sub+=p;}}
   // KD
-  for(var i=0;i<kdItems.length;i++){if(kdItems[i].qty>0){var kdUnit=KD_PRICE+(kdItems[i].backing?3:0)+(SPECIAL.indexOf(kdItems[i].coat)>=0?KD_COAT:0);var p=kdUnit*kdItems[i].qty;var kdDetail=kdItems[i].coat+(kdItems[i].backing?' + กระดาษรองหลัง':'')+' × '+kdItems[i].qty+' ชิ้น';items.push({name:'พวงกุญแจ Die-cut',detail:kdDetail,price:p});sub+=p;}}
+  for(var i=0;i<kdItems.length;i++){if(kdItems[i].qty>0){var kdUnit=KD_PRICE+(kdItems[i].backing?3:0);var p=kdUnit*kdItems[i].qty;var kdDetail=kdItems[i].coat+(kdItems[i].backing?' + กระดาษรองหลัง':'')+' × '+kdItems[i].qty+' ชิ้น';items.push({name:'พวงกุญแจ Die-cut',detail:kdDetail,price:p});sub+=p;}}
   // DC50
   for(var i=0;i<dc50Items.length;i++){if(dc50Items[i].sheets>0){var sz=DC50[dc50Items[i].sizeIdx];var u=SPECIAL.indexOf(dc50Items[i].coat)>=0?sz.special:sz.clear;var p=u*dc50Items[i].sheets;items.push({name:'Die-cut 50% '+sz.size,detail:dc50Items[i].coat+' × '+dc50Items[i].sheets+' แผ่น',price:p});sub+=p;}}
   // DC100
-  for(var i=0;i<dc100Items.length;i++){var _dcSh2=dc100Sheets(dc100Items[i]);if(_dcSh2>0){var u=SPECIAL.indexOf(dc100Items[i].coat)>=0?DC100_SPECIAL:DC100_CLEAR;var p=u*_dcSh2;var szLabel=dc100Items[i].sizeIdx!=null?(' ขนาด '+DC100_SIZES[dc100Items[i].sizeIdx]):'';items.push({name:'Die-cut 100% A4'+szLabel,detail:dc100Items[i].coat+' × '+_dcSh2+' แผ่น ('+dc100Items[i].qty+' ชิ้น)',price:p});sub+=p;}}
+  for(var i=0;i<dc100Items.length;i++){if(dc100Items[i].sheets>0){var u=SPECIAL.indexOf(dc100Items[i].coat)>=0?DC100_SPECIAL:DC100_CLEAR;var p=u*dc100Items[i].sheets;var szLabel=dc100Items[i].sizeIdx!=null?(' ขนาด '+DC100_SIZES[dc100Items[i].sizeIdx]):'';items.push({name:'Die-cut 100% A4'+szLabel,detail:dc100Items[i].coat+' × '+dc100Items[i].sheets+' แผ่น',price:p});sub+=p;}}
   // Sset
   var ssetPer=0;
   ssetSets.forEach(function(set,si){
@@ -2574,11 +2613,11 @@ function copyOrder(){
   for(var i=0;i<pcItems.length;i++){if(pcItems[i].qty<=0)continue;var p=PC_TYPES[pcItems[i].typeIdx].price*pcItems[i].qty;pcL.push('• '+PC_TYPES[pcItems[i].typeIdx].label+' | '+pcItems[i].coat+' x'+pcItems[i].qty+' = '+p.toFixed(2)+'฿');sub+=p;hasPC=true;}
   for(var i=0;i<memoItems.length;i++){if(memoItems[i].qty<=0)continue;var opt=MEMO_OPTS[memoItems[i].optIdx];var p=opt.price*memoItems[i].qty;memoL.push('• Memo Pad '+opt.sheets+'แผ่น/ก้อน x'+memoItems[i].qty+'ก้อน = '+p.toFixed(2)+'฿');sub+=p;hasSlow=true;}
   for(var i=0;i<memoDcItems.length;i++){if(memoDcItems[i].qty<=0)continue;var opt=MEMO_DC_OPTS[memoDcItems[i].optIdx];var sz=MEMO_DC_SIZES[memoDcItems[i].sizeIdx];var p=opt.price*memoDcItems[i].qty;memoL.push('• เมมโมแพดไดคัท '+sz+' '+opt.sheets+'แผ่น/ก้อน x'+memoDcItems[i].qty+'ก้อน = '+p.toFixed(2)+'฿');sub+=p;hasSlow=true;}
-  for(var i=0;i<kpItems.length;i++){if(kpItems[i].qty<=0)continue;var u=KP_BASE+(SPECIAL.indexOf(kpItems[i].coat)>=0?KP_COAT:0);var p=u*kpItems[i].qty;kpL.push('• พวงกุญแจรูป | '+kpItems[i].coat+' x'+kpItems[i].qty+' = '+p.toFixed(2)+'฿');sub+=p;hasPrint=true;}
+  for(var i=0;i<kpItems.length;i++){if(kpItems[i].qty<=0)continue;var u=KP_BASE+(kpItems[i].coat!=='ไม่เคลือบ'?KP_COAT:0);var p=u*kpItems[i].qty;kpL.push('• พวงกุญแจรูป | '+kpItems[i].coat+' x'+kpItems[i].qty+' = '+p.toFixed(2)+'฿');sub+=p;hasPrint=true;}
   for(var i=0;i<miniItems.length;i++){if(miniItems[i].qty<=0)continue;var p=MINI_PRICE*miniItems[i].qty;miniL.push('• SET MINI | '+miniStkLabel(miniItems[i].stkType)+' x'+miniItems[i].qty+' เซ็ต = '+p.toFixed(2)+'฿');sub+=p;hasPrint=true;}
-  for(var i=0;i<kdItems.length;i++){if(kdItems[i].qty<=0)continue;var kdU=KD_PRICE+(kdItems[i].backing?3:0)+(SPECIAL.indexOf(kdItems[i].coat)>=0?KD_COAT:0);var p=kdU*kdItems[i].qty;var kdBackStr=kdItems[i].backing?' + กระดาษรองหลัง':'';kdL.push('• พวงกุญแจ Die-cut | '+kdItems[i].coat+kdBackStr+' x'+kdItems[i].qty+' = '+p.toFixed(2)+'฿');sub+=p;hasSlow=true;}
+  for(var i=0;i<kdItems.length;i++){if(kdItems[i].qty<=0)continue;var kdU=KD_PRICE+(kdItems[i].backing?3:0);var p=kdU*kdItems[i].qty;var kdBackStr=kdItems[i].backing?' + กระดาษรองหลัง':'';kdL.push('• พวงกุญแจ Die-cut | '+kdItems[i].coat+kdBackStr+' x'+kdItems[i].qty+' = '+p.toFixed(2)+'฿');sub+=p;hasSlow=true;}
   for(var i=0;i<dc50Items.length;i++){if(dc50Items[i].sheets<=0)continue;var sz=DC50[dc50Items[i].sizeIdx];var u=SPECIAL.indexOf(dc50Items[i].coat)>=0?sz.special:sz.clear;var p=u*dc50Items[i].sheets;dc50L.push('• Die-cut 50% '+sz.size+' | '+dc50Items[i].coat+' x'+dc50Items[i].sheets+'แผ่น = '+p.toFixed(2)+'฿');sub+=p;hasSlow=true;}
-  for(var i=0;i<dc100Items.length;i++){var _dcSh3=dc100Sheets(dc100Items[i]);if(_dcSh3<=0)continue;var u=SPECIAL.indexOf(dc100Items[i].coat)>=0?DC100_SPECIAL:DC100_CLEAR;var p=u*_dcSh3;var szLbl=dc100Items[i].sizeIdx!=null?' ขนาด '+DC100_SIZES[dc100Items[i].sizeIdx]:'';dc100L.push('• Die-cut 100% A4'+szLbl+' | '+dc100Items[i].coat+' x'+_dcSh3+'แผ่น ('+dc100Items[i].qty+' ชิ้น) = '+p.toFixed(2)+'฿');sub+=p;hasSlow=true;}
+  for(var i=0;i<dc100Items.length;i++){if(dc100Items[i].sheets<=0)continue;var u=SPECIAL.indexOf(dc100Items[i].coat)>=0?DC100_SPECIAL:DC100_CLEAR;var p=u*dc100Items[i].sheets;var szLbl=dc100Items[i].sizeIdx!=null?' ขนาด '+DC100_SIZES[dc100Items[i].sizeIdx]:'';dc100L.push('• Die-cut 100% A4'+szLbl+' | '+dc100Items[i].coat+' x'+dc100Items[i].sheets+'แผ่น = '+p.toFixed(2)+'฿');sub+=p;hasSlow=true;}
     ssetSets.forEach(function(set,si){
     if(set.setQty<=0)return;
     var per=0;
@@ -2608,8 +2647,8 @@ function copyOrder(){
     if(g.dc50Qty>0&&GIFT_DC50[g.dc50SizeIdx]){var dc=GIFT_DC50[g.dc50SizeIdx];var dcU=SPECIAL.indexOf(g.dc50Coat)>=0?dc.special:dc.clear;giftL.push('  - Die-cut 50%: '+dc.size+' | '+g.dc50Coat+' x'+g.dc50Qty+' ('+dcU+'฿/แผ่น)');}
     if(g.pcQty>0){var pt=PC_TYPES[g.pcTypeIdx];giftL.push('  - Photocard: '+pt.label+' | '+g.pcCoat+' x'+g.pcQty+' ('+pt.price+'฿/ใบ)');}
     if(g.memoQty>0){var mo=MEMO_OPTS[g.memoOptIdx];giftL.push('  - Memo Pad: '+mo.sheets+'แผ่น/ก้อน x'+g.memoQty+'ก้อน ('+mo.price+'฿/ก้อน)');}
-    if(g.kpQty>0){var kpU=KP_BASE+(SPECIAL.indexOf(g.kpCoat)>=0?KP_COAT:0);giftL.push('  - พวงกุญแจรูป: '+g.kpCoat+' x'+g.kpQty+' ('+kpU+'฿/ชิ้น)');}
-    if(g.kdQty>0)giftL.push('  - พวงกุญแจ Die-cut: '+g.kdCoat+' x'+g.kdQty+' ('+(KD_PRICE+(SPECIAL.indexOf(g.kdCoat)>=0?KD_COAT:0))+'฿/ชิ้น)');
+    if(g.kpQty>0){var kpU=KP_BASE+(g.kpCoat!=='ไม่เคลือบ'?KP_COAT:0);giftL.push('  - พวงกุญแจรูป: '+g.kpCoat+' x'+g.kpQty+' ('+kpU+'฿/ชิ้น)');}
+    if(g.kdQty>0)giftL.push('  - พวงกุญแจ Die-cut: '+g.kdCoat+' x'+g.kdQty+' ('+KD_PRICE+'฿/ชิ้น)');
     if(g.pkgHead)giftL.push('  - หัวแพ็ก');
     if(g.pkgLabel)giftL.push('  - Sticker Label 4×6 cm');
     giftL.push('  📦 การแพ็ก: '+(g.packOption||'แพ็กให้'));
@@ -2643,7 +2682,7 @@ function copyOrder(){
   lines.push('2. แจ้งสลิป / ชื่อ / ที่อยู่ / เบอร์');
   lines.push('━━━━━━━━━━');
   var delDays=hasSlow?7:((hasPC||giftHasPC)?3:(hasPrint?2:7));
-  var delDate=addDaysNoSunday(delDays,hasSlow);
+  var delDate=addDaysNoSunday(delDays);
   lines.push('📅 รอบจัดส่ง: '+delDate);
   lines.push('🕙 คอนเฟิร์มไฟล์ทุกวัน 22:00 น.');
   lines.push('⚠️ กรุณาตรวจสอบรายละเอียดก่อนยืนยันนะคะ');
@@ -2668,11 +2707,11 @@ function resetOrder(){
   pcItems=[{typeIdx:0,coat:'ไม่เคลือบ',qty:0}];
   memoItems=[{optIdx:0,qty:0}];
   memoDcItems=[{sizeIdx:0,optIdx:0,qty:0}];
-  kpItems=[{coat:'เคลือบใสเงา',qty:0}];
+  kpItems=[{coat:'ไม่เคลือบ',qty:0}];
   kdItems=[{coat:'เคลือบใสเงา',qty:0}];
   miniItems=[{stkType:'ลายร้าน',qty:0}];
   dc50Items=[{sizeIdx:0,coat:'เคลือบใสเงา',sheets:0}];
-  dc100Items=[{sizeIdx:0,customCm:'',coat:'เคลือบใสเงา',qty:0}];
+  dc100Items=[{sizeIdx:0,coat:'เคลือบใสเงา',sheets:0}];
   ssetSets=[{setQty:0,items:[{sizeIdx:0,coat:'เคลือบใสเงา',qty:0}],bagSelected:false,bagChoice:'ซอง PVC ใส',pkg:[false,false],packOption:'แพ็กให้'}];
   bagChoice='ซอง PVC ใส';bagSelected=false;
   pkgSel=PKG_ITEMS.map(function(){return {include:false};});
